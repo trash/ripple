@@ -7,7 +7,7 @@ import {TestSelect as TestSelectComponent} from '../../views/test-select';
 
 export class TestSelectState implements State {
 	manager: StateManager;
-	component: any;
+	component: TestSelectComponent;
 
 	create () {
 		var TestSelect = React.createFactory(TestSelectComponent);
@@ -15,7 +15,7 @@ export class TestSelectState implements State {
 		this.component = ReactDOM.render(TestSelect({
 			mainMenu: this.mainMenu.bind(this),
 			startTest: this.startTest.bind(this)
-		}), this.manager.element);
+		}), this.manager.element) as TestSelectComponent;
 
 		this.component.show();
 	}

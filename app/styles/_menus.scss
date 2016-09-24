@@ -43,15 +43,6 @@
 	}
 }
 
-.test-group {
-	.tutorial-level {
-		display: none;
-	}
-	&.expanded .tutorial-level {
-		display: block;
-	}
-}
-
 .progress {
 	position: relative;
 }
@@ -170,18 +161,22 @@ h3 {
 	}
 }
 
-// @import 'main-menu',
-// 		'escape-menu',
-// 		'fixed-menu',
-// 		'top-bar',
-// 		'trade-menu',
-// 		'farm-menu',
-// 		'info-box',
-// 		'minimap',
-// 		'buildings-list',
-// 		'notifications-panel',
-// 		'town-overview',
-// 		'professions',
-// 		'tutorial-select',
-// 		'citizens-list',
-// 		'starting-supplies';
+.menu-block {
+	.menu-block-inner {
+		display: none;
+	}
+	&.expanded .menu-block-inner {
+		display: block;
+	}
+}
+
+.menu-block-inner {
+	border: 1em solid #444;
+	padding: 1em;
+	text-align: left;
+
+	button {
+		font-size: 1em;
+		margin: 0;
+	}
+}
