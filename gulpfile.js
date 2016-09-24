@@ -17,8 +17,7 @@ var files = [
 // var testFiles = files.concat(['test/map.spec.js']);//files.concat(['test/**/*.spec.js']);
 
 gulp.task('sass', function () {
-	gulp.src('app/styles/**/*.scss')
-		.pipe(sass())
+	return sass('app/styles/**/*.scss')
 		.pipe(gulp.dest('./.tmp/styles'));
 });
 

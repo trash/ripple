@@ -1,0 +1,51 @@
+@import 'normalize',
+    'skeleton';
+
+@import 'menus';
+
+body {
+    font-family: 'Lora', serif;
+}
+
+canvas {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+button {
+    padding: 0.5em 0.75em;
+}
+
+.ripple {
+    background: #ccc;
+}
+.capitalize {
+	text-transform: capitalize;
+}
+
+* {
+	cursor: url('/sprites/ui/cursors/standard.png'), move !important;
+}
+
+.hand-cursor * {
+	cursor: url('/sprites/ui/cursors/select.png'), move !important;
+}
+.attack-cursor * {
+	cursor: url('/sprites/ui/cursors/attack.png'), move !important;
+}
+.harvest-cursor * {
+	cursor: url('/sprites/ui/cursors/harvest.png'), move !important;
+}
+.cancel-harvest-cursor * {
+	cursor: url('/sprites/ui/cursors/cancel-harvest.png'), move !important;
+}
+
+.game-header {
+	font-size: 5em;
+	color: #fff;
+	background: rgba(0,0,0,0.5);
+	font-family: 'Redressed', cursive;
+}
