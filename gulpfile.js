@@ -1,12 +1,9 @@
 var gulp = require('gulp'),
-	karma = require('karma').server,
 	fs = require('fs'),
 	path = require('path'),
 	sass = require('gulp-ruby-sass'),
 	shell = require('gulp-shell'),
 	eslint = require('gulp-eslint'),
-	madge = require('madge'),
-	colors = require('colors'),
 	sass = require('gulp-ruby-sass');
 
 var files = [
@@ -16,37 +13,13 @@ var files = [
 		'!app/src/b3/b3.js',
 		'!app/src/vendor/**/*',
 		'app/views/tooltips/**/*.js'
-	],
-	testFiles = files.concat(['test/map.spec.js']);//files.concat(['test/**/*.spec.js']);
+	];
+// var testFiles = files.concat(['test/map.spec.js']);//files.concat(['test/**/*.spec.js']);
 
 gulp.task('sass', function () {
 	gulp.src('app/styles/**/*.scss')
 		.pipe(sass())
 		.pipe(gulp.dest('./.tmp/styles'));
-});
-
-/**
- * Run test once and exit
- */
-gulp.task('test', function () {
-	karma.start({
-		configFile: __dirname + '/karma.conf.js',
-		singleRun: true,
-		autoWatch: false
-	});
-});
-
-/**
- * Run test once and exit
- */
-gulp.task('test-watcher', function (done) {
-	karma.start({
-		configFile: __dirname + '/karma.conf.js',
-	}, done);
-});
-
-gulp.task('test-watch', function() {
-	gulp.watch(testFiles, ['test-watcher']);
 });
 
 gulp.task('watch', function() {
@@ -55,11 +28,11 @@ gulp.task('watch', function() {
 		gulp.run('sass');
 	});
 
-	gulp.watch(files, ['eslint', 'circular-dependencies-check']);
+	gulp.watch(files, ['eslint']);
 });
 
 
-var folders = require('./app/sprites/directory'),
+var folders = require('./app/sprites/directory').list,
 	spriteDirectory = 'app/sprites/',
 	spriteProcesses = folders.map(function (folderName) {
 		return 'TexturePacker --data ' + spriteDirectory + folderName + '.json --format json --sheet ' + spriteDirectory + folderName + '.png ' +
@@ -103,13 +76,6 @@ gulp.task('eslint', function () {
 		.pipe(eslint())
 		.pipe(eslint.format());
 });
-gulp.task('circular-dependencies-check', function () {
-	var circular = madge('app/src').circular().getArray();
-	if (circular.length) {
-		console.log('Oh no we got circular dependencies!'.red);
-		console.log(colors.blue(circular));
-	}
-});
 
-gulp.task('default', ['sass', 'test', 'watch']);
-gulp.task('sprites', ['sprites-run', 'sprites-watch']);
+gulp.task('default', ['sass', 'watch']);
+gulp.task('sprites', ['sprites-run']);

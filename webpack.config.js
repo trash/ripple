@@ -1,4 +1,5 @@
-const webpack = require('webpack');
+const webpack = require('webpack'),
+  DashboardPlugin = require('webpack-dashboard/plugin');
 // const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 
@@ -11,8 +12,13 @@ module.exports = {
       'moment',
       'react-dom',
       'classnames',
+      'pixi.js',
       'tween.js'
     ]
+  },
+
+  node: {
+    fs: 'empty'
   },
 
   plugins: [
@@ -23,6 +29,9 @@ module.exports = {
             /vendor\/.+\.js/
         ]
     }),
+    new DashboardPlugin(),
+    // Stop the infinite locales from being loaded
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     // new CircularDependencyPlugin({
     //   exclude: /a\.js/
     // })
@@ -30,7 +39,8 @@ module.exports = {
   devtool: 'eval',
   output: {
     path: 'app/build/src/',
-    filename: '[name]-bundle.js'
+    filename: '[name]-bundle.js',
+    publicPath: '/assets/'
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
