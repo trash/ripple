@@ -1,5 +1,5 @@
-const webpack = require('webpack'),
-  CircularDependencyPlugin = require('circular-dependency-plugin');
+const webpack = require('webpack');
+// const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 
 module.exports = {
@@ -17,6 +17,12 @@ module.exports = {
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-bundle.js', Infinity),
+    new webpack.SourceMapDevToolPlugin({
+        filename: '[file].map',
+        exclude: [
+            /vendor\/.+\.js/
+        ]
+    }),
     // new CircularDependencyPlugin({
     //   exclude: /a\.js/
     // })
@@ -39,6 +45,7 @@ module.exports = {
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
         query: {
           presets: ['es2015', 'react']
         }
