@@ -1,6 +1,5 @@
 import _ = require('lodash');
 import {util} from '../../util';
-import {gameManager} from '../../game/game-manager';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IRenderableState} from '../components/renderable';
@@ -9,10 +8,11 @@ import {IHealthBarState} from '../components/health-bar';
 import {IConstructibleState} from '../components/constructible';
 import {IHealthState} from '../components/health';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
-import {professionsEnum} from '../../data/professions';
+import {professions} from '../../data/professions';
 import {ResourceRequirements} from '../../resource-requirements';
-import {IItemSearchResult} from '../../services/item-manager';
+import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';
+import {spriteManager} from '../../services/sprite-manager';
 
 export class ConstructibleSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -69,12 +69,12 @@ export class ConstructibleSystem extends EntitySystem {
     ) {
 		const coords = this.getFloatSpriteCoords(renderableState),
             itemState = itemSearchResult.state,
-			sprite = gameManager.sprites.create(itemState.spriteName,
+			sprite = spriteManager.create(itemState.spriteName,
                 positionState.tile.column, positionState.tile.row, true);
 
 		renderableState.spriteGroup.addChild(sprite);
 
-        const textNode = gameManager.sprites.createText('+1', {
+        const textNode = spriteManager.createText('+1', {
             font: 'bold 16px Lora',
 			fill: '#00B200',
 			stroke: '#000',
@@ -93,7 +93,7 @@ export class ConstructibleSystem extends EntitySystem {
 	}
 
     createTask (id: number) {
-        const builderTaskQueue = taskQueueManager.professionTaskQueue(professionsEnum.builder);
+        const builderTaskQueue = taskQueueManager.professionTaskQueue(professions.builder);
 		// Add the build job to the task queue
 		builderTaskQueue.push(id);
     }

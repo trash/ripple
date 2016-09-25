@@ -6,6 +6,13 @@ import {IAgentState} from '../components/agent';
 import {IVillagerState} from '../components/villager';
 import {IStatusBubbleState} from '../components/status-bubble';
 import {Blackboard} from '../../b3/core/blackboard';
+import {events} from '../../events';
+import {GameMap} from '../../map';
+
+let map: GameMap;
+events.on('map-update', (map: GameMap) => {
+    map = map;
+});
 
 export interface IBehaviorTreeTickTarget {
     id: number;
@@ -15,6 +22,7 @@ export interface IBehaviorTreeTickTarget {
     agent: IAgentState;
     statusBubble: IStatusBubbleState;
     turn: number;
+    map: GameMap;
 }
 
 export class BehaviorTreeSystem extends EntitySystem {
@@ -40,7 +48,7 @@ export class BehaviorTreeSystem extends EntitySystem {
                 behaviorTreeState.blackboard = new Blackboard();
             }
             const agentsNextTurn = agentState.lastTurn + agentState.speed,
-                currentTurn = gameManager.getCurrentTurn();
+                currentTurn = turn;
             if (currentTurn >= agentsNextTurn) {
                 agentState.lastTurn = currentTurn;
                 behaviorTreeState.tree.tick({
@@ -50,7 +58,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     villager: villagerState,
                     agent: agentState,
                     statusBubble: statusBubbleState,
-                    turn: turn
+                    turn: turn,
+                    map: map
                 }, behaviorTreeState.blackboard);
             }
         });

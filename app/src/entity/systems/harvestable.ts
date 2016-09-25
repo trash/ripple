@@ -23,15 +23,16 @@ export class HarvestableSystem extends EntitySystem {
             if (healthState.currentHealth <= 0) {
                 console.info('should be spawning items dropped by harvestable');
                 events.emit(['trigger-sound', 'harvestResource']);
-                itemManager.spawnFromList(harvestableState.drops, positionState.tile, {
-                    claimed: true
-                }).forEach(entityId => {
-                    const itemState = this.manager.getComponentDataForEntity(
-                        ComponentEnum.Item, entityId) as IItemState;
-                    const itemName = itemState.name;
+                console.error('Reimplement itemManager functionality.');
+                // itemManager.spawnFromList(harvestableState.drops, positionState.tile, {
+                //     claimed: true
+                // }).forEach(entityId => {
+                //     const itemState = this.manager.getComponentDataForEntity(
+                //         ComponentEnum.Item, entityId) as IItemState;
+                //     const itemName = itemState.name;
 
-                    events.emit(['stats', 'harvest-' + itemName]);
-                });
+                //     events.emit(['stats', 'harvest-' + itemName]);
+                // });
                 console.log('removing entity', id);
                 this.manager.removeEntity(id);
             }

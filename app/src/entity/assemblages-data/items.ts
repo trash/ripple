@@ -1,7 +1,7 @@
 import {IResourceState} from '../components/resource';
 import {IEntityComponentData, IAssemblageDataMap, ItemProperties} from '../../interfaces';
 import {util} from '../../util';
-import {config} from '../../config';
+import {config} from '../../data/config';
 
 const dataList: IEntityComponentData[] = [{
         item: {
@@ -14,7 +14,8 @@ const dataList: IEntityComponentData[] = [{
             shouldBeSpawned: null,
             claimed: null,
             toBeStored: null,
-            hasBeenSpawned: null
+            hasBeenSpawned: null,
+            stored: null
         },
     },
     {
@@ -28,7 +29,8 @@ const dataList: IEntityComponentData[] = [{
             shouldBeSpawned: null,
             claimed: null,
             toBeStored: null,
-            hasBeenSpawned: null
+            hasBeenSpawned: null,
+            stored: null
         },
     }
 ];

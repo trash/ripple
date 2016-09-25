@@ -4,6 +4,7 @@ import {Tile} from '../map/tile';
 import {INearestTile, ICoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {ComponentEnum} from '../entity/component-enum';
+import {positionUtil} from '../entity/util/position';
 
 // This is 1 minute of real time at regular speed
 var ticksPerHour = constants.TICKS_PER_HOUR;
@@ -338,7 +339,7 @@ export class Util {
 	 */
 	getTileFromTarget (target, startTile?: Tile): Tile {
 		if (_.isNumber(target)) {
-			return this.getTileFromEntityId(target);
+			return positionUtil.getTileFromEntityId(target);
 		}
 		if (_.isNumber(target.column) && _.isNumber(target.row)) {
 			return target;
@@ -350,7 +351,7 @@ export class Util {
 			return target.getEntranceTile(startTile);
 		}
 		if (target.id) {
-			return this.getTileFromEntityId(target.id);
+			return positionUtil.getTileFromEntityId(target.id);
 		}
 		return target.tile;
 	}
@@ -361,30 +362,30 @@ export class Util {
 	 * @param {Object[]} itemList
 	 * @return {[type]} [description]
 	 */
-	itemListString (itemList: Item[], toBeStored: boolean): string {
-		var map = {},
-			toBeStoredMap = {};
-		itemList.forEach(item => {
-			if (!map[item.name]) {
-				map[item.name] = 0;
-				toBeStoredMap[item.name] = 0;
-			}
-			map[item.name]++;
-			if (item.toBeStored) {
-				toBeStoredMap[item.name]++;
-			}
-		});
-		var returnString = '';
-		Object.keys(map).forEach(name => {
-			let fragment = `${name} (${map[name]}`;
-			if (toBeStored && toBeStoredMap[name]) {
-				fragment += `; not yet stored: ${ toBeStoredMap[name] }`;
-			}
-			fragment += ') ';
-			returnString += fragment;
-		});
-		return returnString;
-	}
+	// itemListString (itemList: number[], toBeStored: boolean): string {
+	// 	var map = {},
+	// 		toBeStoredMap = {};
+	// 	itemList.forEach(item => {
+	// 		if (!map[item.name]) {
+	// 			map[item.name] = 0;
+	// 			toBeStoredMap[item.name] = 0;
+	// 		}
+	// 		map[item.name]++;
+	// 		if (item.toBeStored) {
+	// 			toBeStoredMap[item.name]++;
+	// 		}
+	// 	});
+	// 	var returnString = '';
+	// 	Object.keys(map).forEach(name => {
+	// 		let fragment = `${name} (${map[name]}`;
+	// 		if (toBeStored && toBeStoredMap[name]) {
+	// 			fragment += `; not yet stored: ${ toBeStoredMap[name] }`;
+	// 		}
+	// 		fragment += ') ';
+	// 		returnString += fragment;
+	// 	});
+	// 	return returnString;
+	// }
 
 	itemsToList (list: any[]): string[] {
 		let totals = {};

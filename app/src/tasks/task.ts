@@ -274,7 +274,8 @@ export class Task {
 	* @param {Citizen} citizen The citizen to add experience to.
 	* @param {integer} contribution The amount of work contributed by the citizen.
 	*/
-	addExperience (citizen: Citizen, contribution: number) {
-		citizen.addExperience(this.taskType, contribution);
+	addExperience (villager: number, contribution: number) {
+		// citizen.addExperience(this.taskType, contribution);
+		console.info('reimplement villager experience')
 	};
 };

@@ -1,4 +1,5 @@
 // import {behaviorTree as villagerTree} from '../agents/villager-tree';
+import {deerTree as villagerTree} from '../b3/trees/deer';
 import {IEntityComponentData} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {agentsAssemblageData} from '../entity/assemblages-data/agents';
@@ -23,7 +24,7 @@ import {GameMap} from '../map';
 export class EntitySpawner {
     entityManager: EntityManager;
     map: GameMap;
-    itemManager: ItemManager;
+    // itemManager: ItemManager;
 
     constructor (entityManager: EntityManager, map: GameMap) {
         this.entityManager = entityManager;
@@ -144,7 +145,7 @@ export class EntitySpawner {
 		positionState.tile = this.map.getNearestEmptyTile(this.map.getTile(0, 0), tile => !!tile.accessible);
 		itemState.shouldBeSpawned = true;
 
-		this.itemManager.addItem(entityId);
+		// this.itemManager.addItem(entityId);
 
 		return entityId;
 	}
@@ -172,7 +173,7 @@ export class EntitySpawner {
 
 		// var tile = options.tile || this.map.getTile(options.position[0], options.position[1]);
 		// Make sure to construct building and pass in gameManager instance
-		buildings.newBuilding(entityId);
+		// buildings.newBuilding(entityId);
 
 		return entityId;
 	}

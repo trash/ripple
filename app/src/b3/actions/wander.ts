@@ -16,7 +16,7 @@ export class WanderAction extends BaseNode {
 	}
 
 	open (tick: Tick) {
-		let randomTile = gameManager.map.getRandomTile({
+		let randomTile = tick.target.map.getRandomTile({
 			accessible: true,
 			range: 1,
 			baseTile: tick.target.position.tile

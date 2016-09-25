@@ -2,8 +2,8 @@ import {b3} from '../index';
 import {Decorator, IDecoratorOptions} from './decorator';
 import {Inverter} from './inverter';
 import {Tick} from './tick';
-import {gameManager} from '../../core/game/game-manager';
-import {util} from '../../core/util';
+import {util} from '../../util';
+import {gameClock} from '../../game/game-clock';
 
 var timerKey = 'timer:hours-passed';
 
@@ -33,7 +33,7 @@ export class Timer extends Decorator {
 	}
 	open (tick: Tick) {
 		util.blackboardSet(tick, timerKey, false);
-		gameManager.clock.timer(this.hours, () => {
+		gameClock.timer(this.hours, () => {
 			util.blackboardSet(tick, timerKey, true);
 		});
 	}

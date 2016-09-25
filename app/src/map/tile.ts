@@ -5,6 +5,7 @@ import {events} from '../events';
 import {Direction, ICoordinates} from '../interfaces';
 import {professions} from '../data/professions';
 import {config} from '../data/config';
+import {canvasService} from '../ui/canvas-service';
 
 interface StringCoordinates {
 	x: string;
@@ -29,7 +30,8 @@ export class Tile {
 	tilemapData: any;
 	_accessible: boolean;
 	water: boolean;
-	hill: boolean;
+	hill: string;
+	wall: boolean;
 	bridge: boolean;
 	zoneNumber: number;
 	borderWater: boolean;
@@ -186,7 +188,7 @@ export class Tile {
 	makeLand () {
 		this.tilemapData = 'empty';
 		this.water = false;
-		this.hill = false;
+		this.hill = null;
 
 		// Update the grid if previously inaccessible tile become accessible
 		var updateGrid = false;
@@ -202,7 +204,7 @@ export class Tile {
 
 	makeHill () {
 		this.tilemapData = 'empty';
-		this.hill = true;
+		this.hill = '';
 		this.accessible = false;
 	}
 
@@ -270,7 +272,7 @@ export class Tile {
 	 * @return {String} coords.y The y coordinates as a string of the form "X px"
 	 */
 	getPixelCoordinates (): StringCoordinates  {
-		var canvasOffset = this.map.getCanvasOffset();
+		var canvasOffset = canvasService.getCanvasOffset();
 		return {
 			x: canvasOffset.x + this.column * this.map.scaledTileSize() + 'px',
 			y: canvasOffset.y + this.row * this.map.scaledTileSize() + 'px'

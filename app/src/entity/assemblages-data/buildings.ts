@@ -1,6 +1,6 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components/behavior-tree';
-import {deerTree} from '../../agents/deer-tree';
+import {deerTree} from '../../b3/trees/deer';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 
 const hutEntrance = {

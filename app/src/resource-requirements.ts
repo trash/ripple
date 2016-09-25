@@ -1,5 +1,6 @@
 import {events} from './events';
-import {IResourceRequirementsMap, IResourceRequirementsMapEntry, IRequiredResources, IItemSearchResult} from './interfaces';
+import {IResourceRequirementsMap, IResourceRequirementsMapEntry, IRequiredResources,
+	IItemSearchResult} from './interfaces';
 import {EventEmitter2} from 'eventemitter2';
 
 /**
@@ -72,11 +73,13 @@ export class ResourceRequirements extends EventEmitter2 {
 		// Since this returns true if there ISNT the proper amount, we want to return the opposite
 		return !Object.keys(this.map).some(resourceType => {
 			let amountLeft = this.map[resourceType].required - this.map[resourceType].gathered;
+			debugger;
 			// Basically check if the required amount of resource exists and if it doesn't then return true
 			// NOTE: make sure to take into account the amount that have already been gathered
-			if (!gameManager.itemManager.claimedResourceExists(resourceType, amountLeft)) {
-				return true;
-			}
+			// if (!gameManager.itemManager.claimedResourceExists(resourceType, amountLeft)) {
+			// 	return true;
+			// }
+			return false;
 		});
 	};
 

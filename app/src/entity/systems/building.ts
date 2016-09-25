@@ -1,6 +1,5 @@
 import _ = require('lodash');
 import {util} from '../../util';
-import {gameManager} from '../../game/game-manager';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IBuildingState} from '../components/building';
@@ -8,6 +7,7 @@ import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {IConstructibleState} from '../components/constructible';
 import {IHealthState} from '../components/health';
+import {mapUtil} from '../util/map';
 
 export class BuildingSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -28,7 +28,7 @@ export class BuildingSystem extends EntitySystem {
             }
             const tile = positionState.tile;
             if (!buildingState.entranceTile && tile) {
-                buildingState.entranceTile = gameManager.map.getTile(
+                buildingState.entranceTile = mapUtil.getTile(
                     tile.row + buildingState.entrancePosition.y,
 			        tile.column + buildingState.entrancePosition.x);
             }

@@ -1,6 +1,5 @@
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {Position, IPositionState} from '../components/position';
-import {gameManager} from '../../game/game-manager';
 
 export class PositionSystem extends EntitySystem {
     update (entityIds: number[]) {

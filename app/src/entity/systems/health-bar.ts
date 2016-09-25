@@ -4,10 +4,9 @@ import {ComponentEnum} from '../component-enum';
 import {IHealthState} from '../components/health';
 import {IHealthBarState} from '../components/health-bar';
 import {IRenderableState} from '../components/renderable';
-import {gameManager} from '../../game/game-manager';
 import {util} from '../../util';
 import {events} from '../../events';
-import {constants} from '../../constants';
+import {constants} from '../../data/constants';
 
 
 export class HealthBarSystem extends EntitySystem {

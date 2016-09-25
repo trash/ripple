@@ -4,11 +4,11 @@ import {ComponentEnum} from '../component-enum';
 import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
-import {gameManager} from '../../game/game-manager';
 import {util} from '../../util';
 import {events} from '../../events';
-import {constants} from '../../constants';
+import {constants} from '../../data/constants';
 import {Tile} from '../../map/tile';
+import {spriteManager} from '../../services/sprite-manager';
 
 export class ItemSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -21,7 +21,7 @@ export class ItemSystem extends EntitySystem {
                     ComponentEnum.Position, id) as IPositionState;
 
             if (renderableState.spriteGroup && !renderableState.sprite) {
-                renderableState.spriteGroup = gameManager.sprites.createContainer(0, 0);
+                renderableState.spriteGroup = spriteManager.createContainer(0, 0);
                 renderableState.sprite = this.createSprite(itemState);
             }
             if (renderableState.sprite && itemState.shouldBeSpawned && !itemState.hasBeenSpawned) {
@@ -32,7 +32,7 @@ export class ItemSystem extends EntitySystem {
 
     getNearestEmptyTile (tile: Tile): Tile {
         return tile.map.getNearestEmptyTile(tile, checkTile =>
-			!checkTile.item && checkTile.accessible && !checkTile.resource
+            checkTile.accessible && !checkTile.resource
         );
     }
 
@@ -43,13 +43,13 @@ export class ItemSystem extends EntitySystem {
     ) {
         var nearestEmptyTile = this.getNearestEmptyTile(positionState.tile);
 
-		nearestEmptyTile.addItem(this);
+		// nearestEmptyTile.addItem(this);
 
 		// Create a new hauler task for this item if there is storage space available and it's storable
 		events.emit(['item', 'spawn'], this);
 
         const sprite = renderableState.sprite;
-        gameManager.sprites.changePosition(sprite, nearestEmptyTile.column, nearestEmptyTile.row);
+        spriteManager.changePosition(sprite, nearestEmptyTile.column, nearestEmptyTile.row);
         sprite.visible = true;
 
         itemState.hasBeenSpawned = true;
@@ -61,7 +61,7 @@ export class ItemSystem extends EntitySystem {
 
     createSprite (itemState: IItemState) {
         // Just default to first row initially
-		const sprite = gameManager.sprites.create(itemState.spriteName, 0, 0);
+		const sprite = spriteManager.create(itemState.spriteName, 0, 0);
 
 		sprite.visible = false;
 		// for tooltips

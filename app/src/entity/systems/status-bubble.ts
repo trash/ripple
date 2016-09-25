@@ -1,6 +1,5 @@
 import _ = require('lodash');
 import {util} from '../../util';
-import {gameManager} from '../../game/game-manager';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IRenderableState} from '../components/renderable';

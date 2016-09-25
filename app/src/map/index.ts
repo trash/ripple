@@ -1406,7 +1406,7 @@ export class GameMap {
 					return;
 				}
 				let i = coords[0] * this.dimension + coords[1];
-				this.tiles[i].makeWall();
+				this.tiles[i].wall = true;
 			});
 		}
 
@@ -1424,12 +1424,12 @@ export class GameMap {
 					var tile = this.tiles[bridgeTile.index + i * this.dimension + j];
 					if (tile && tile.hill) {
 						tile.makeLand();
-						tile.hill = false;
+						tile.hill = null;
 					}
 					tile = this.tiles[bridgeTile.index - i * this.dimension - j];
 					if (tile && tile.hill) {
 						tile.makeLand();
-						tile.hill = false;
+						tile.hill = null;
 					}
 				}
 			}
