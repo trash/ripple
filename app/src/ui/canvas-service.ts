@@ -1,12 +1,14 @@
 import {ICoordinates} from '../interfaces';
+import {EventEmitter2} from 'eventemitter2';
 
-export class CanvasService {
+export class CanvasService extends EventEmitter2 {
     canvas: HTMLCanvasElement;
 
     instantiateCanvas (canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.canvas.style['float'] = 'left';
         document.body.appendChild(this.canvas);
+		this.emit('canvas-set');
     }
 
     /**

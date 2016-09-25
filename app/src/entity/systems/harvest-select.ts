@@ -10,8 +10,16 @@ import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
 import {HoverElement} from '../../ui/hover-element';
 import {dragSelect} from '../../ui/drag-select';
+import {cursorManager} from '../../ui/cursor-manager';
 import {EventEmitter2} from 'eventemitter2';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
+import {GameMap} from '../../map';
+
+let map: GameMap;
+events.on('map-update', (map: GameMap) => {
+	map = map;
+});
+
 
 export class HarvestSelectSystem extends EntitySystem {
     harvestTypes: HarvestTypesEnum[];
@@ -113,16 +121,13 @@ export class HarvestSelectSystem extends EntitySystem {
 	}
 
     turnOn (destroy: boolean, cancelHarvest: boolean): boolean {
-		// Update ui to show button activated
-		// this.update(true);
-
-		gameManager.cursorManager.showCursor(cancelHarvest ? 'cancelHarvest' : 'harvest');
+		cursorManager.showCursor(cancelHarvest ? 'cancelHarvest' : 'harvest');
 
 		this.tileHoverElement.show();
 
 		// Highlight the currrently hovered over tile
-		this.hoverListener = gameManager.map.addTileHoverListener(tile => {
-			gameManager.map.setElementToTilePosition(this.tileHoverElement.element, tile);
+		this.hoverListener = map.addTileHoverListener(tile => {
+			map.setElementToTilePosition(this.tileHoverElement.element, tile);
 		});
 
 		// Start the drag select
@@ -140,9 +145,8 @@ export class HarvestSelectSystem extends EntitySystem {
     turnOff (): boolean {
 		this.cancel();
 		this.cancel = null;
-		// this.update(false);
 
-		gameManager.cursorManager.hideCursor();
+		cursorManager.hideCursor();
 
 		// Hide the element when we this.cancel it
 		this.tileHoverElement.hide();

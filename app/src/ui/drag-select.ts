@@ -1,23 +1,25 @@
 import _ = require('lodash');
+import {events} from '../events';
 import {HoverDimensionsElement} from './hover-dimensions-element';
 import {HoverElement} from './hover-element';
 import {Tile} from '../map/tile';
 import {IDimensions} from '../interfaces';
 import {canvasService} from './canvas-service';
+import {GameMap} from '../map';
+
+let map: GameMap;
+
+events.on('map-update', (map: GameMap) => {
+	map = map;
+});
 
 let canvas,
 	canvasOffset;
 
-// Repeatedly check for the canvas because god dammit angular
-if (!canvasOffset || !canvas) {
-	var getOffset = setInterval(function () {
-		canvasOffset = canvasService.getCanvasOffset();
-		canvas = canvasService.canvas;
-		if (canvasOffset && canvas) {
-			clearInterval(getOffset);
-		}
-	});
-}
+canvasService.on('canvas-set', () => {
+	canvasOffset = canvasService.getCanvasOffset();
+	canvas = canvasService.canvas;
+});
 
 // Gets the position relative to the canvas
 let relativePosition;
@@ -55,7 +57,7 @@ let getTilesAndDimensions = function (startPosition, endPosition): {
 	dimensions.base = base;
 
 	return {
-		tiles: gameManager.map.getTilesBetween(startPosition, endPosition),
+		tiles: map.getTilesBetween(startPosition, endPosition),
 		dimensions: dimensions
 	};
 };
@@ -64,13 +66,13 @@ let selectBoxElement = new HoverElement(),
 	dimensionsElement = new HoverDimensionsElement();
 
 let drawSelectBox = function (dimensions: IDimensions) {
-	gameManager.map.setElementToTilePosition(selectBoxElement.element, gameManager.map.getTile(dimensions.base.y, dimensions.base.x));
+	map.setElementToTilePosition(selectBoxElement.element, map.getTile(dimensions.base.y, dimensions.base.x));
 
 	// Update the text for the dimensions element
 	dimensionsElement.setText(dimensions.width + 'x' + dimensions.height);
-	gameManager.map.setElementToTilePosition(dimensionsElement.element, gameManager.map.getTile(dimensions.base.y, dimensions.base.x));
+	map.setElementToTilePosition(dimensionsElement.element, map.getTile(dimensions.base.y, dimensions.base.x));
 
-	var tileSize = gameManager.map.scaledTileSize();
+	var tileSize = map.scaledTileSize();
 
 	// Expand its size
 	selectBoxElement.element.style.width = dimensions.width * tileSize + 'px';
@@ -88,7 +90,7 @@ export function dragSelect (
 	var dragEndPosition = {};
 
 	if (!relativePosition) {
-		relativePosition = gameManager.map.positionToTile.bind(gameManager.map);
+		relativePosition = map.positionToTile.bind(map);
 	}
 
 	// Allow optional class to be given to select box
@@ -149,13 +151,13 @@ export function dragSelect (
 			selectBoxElement.show();
 			dimensionsElement.show();
 			// Move the select box element to the click start
-			gameManager.map.setElementToTilePosition(
+			map.setElementToTilePosition(
 				selectBoxElement.element,
-				gameManager.map.getTile(dragStartPosition.y, dragStartPosition.x)
+				map.getTile(dragStartPosition.y, dragStartPosition.x)
 			);
-			gameManager.map.setElementToTilePosition(
+			map.setElementToTilePosition(
 				dimensionsElement.element,
-				gameManager.map.getTile(dragStartPosition.y, dragStartPosition.x)
+				map.getTile(dragStartPosition.y, dragStartPosition.x)
 			);
 		}
 

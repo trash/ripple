@@ -71,6 +71,228 @@ export interface PathCoordinates {
 	row: number;
 };
 
+const wallSprites = {
+		'wall-top-left': [
+			{
+				left: false,
+				right: true,
+				top: false,
+				bottom: true,
+			}
+		],
+		'wall-top-right': [
+			{
+				left: true,
+				right: false,
+				top: false,
+				bottom: true,
+			}
+		],
+		'wall-bottom-left': [
+			{
+				left: false,
+				right: true,
+				top: true,
+				bottom: false,
+			}
+		],
+		'wall-bottom-right': [
+			{
+				left: true,
+				right: false,
+				top: true,
+				bottom: false,
+			}
+		],
+
+		'wall-middle-left': [
+			{
+				left: false,
+				right: false,
+				top: true,
+				bottom: true
+			},
+			{
+				left: false,
+				right: false,
+				top: true,
+				bottom: true,
+				topLeft: false,
+				topRight: true,
+				bottomLeft: false,
+				bottomRight: true,
+			},
+			{
+				left: false,
+				right: false,
+				top: true,
+				bottom: true,
+				topLeft: true,
+				topRight: false,
+				bottomLeft: true,
+				bottomRight: false
+			},
+			{
+				left: false,
+				right: false,
+				top: true,
+				bottom: true,
+			},
+			{
+				left: false,
+				right: false,
+				top: true,
+				bottom: true,
+				topLeft: true,
+				topRight: true,
+				bottomLeft: true,
+				bottomRight: true
+			}
+		],
+		'wall-center': [
+			{
+			// Center
+				left: true,
+				right: true,
+				top: true,
+				bottom: true,
+			},
+		],
+		'wall-three-left-top-bottom': [
+			{
+				left: true,
+				right: false,
+				top: true,
+				bottom: true
+			}
+		],
+		'wall-three-right-top-bottom': [
+			{
+				left: false,
+				right: true,
+				top: true,
+				bottom: true
+			}
+		],
+		'wall-three-left-right-top': [
+			{
+				left: true,
+				right: true,
+				top: true,
+				bottom: false
+			}
+		],
+		'wall-three-left-right-bottom': [
+			{
+				left: true,
+				right: true,
+				top: false,
+				bottom: true
+			}
+		],
+		'wall-horizontal': [
+			{
+				left: true,
+				right: true,
+				top: false,
+				bottom: false
+			},
+			{
+				left: true,
+				right: false,
+				top: false,
+				bottom: false,
+				topLeft: false,
+				topRight: false,
+				bottomLeft: false,
+				bottomRight: false
+			},
+			{
+				left: false,
+				right: true,
+				top: false,
+				bottom: false,
+				topLeft: false,
+				topRight: false,
+				bottomLeft: false,
+				bottomRight: false
+			}, {
+				left: false,
+				right: false,
+				top: false,
+				bottom: false,
+				topLeft: false,
+				topRight: false,
+				bottomLeft: false,
+				bottomRight: false
+			},
+			{
+				left: false,
+				right: true,
+				top: false,
+				bottom: false,
+				topLeft: false,
+				topRight: false,
+				bottomLeft: false,
+				bottomRight: true
+			},
+			{
+				left: true,
+				right: false,
+				top: false,
+				bottom: false,
+				topLeft: true,
+				topRight: false,
+				bottomLeft: false,
+				bottomRight: false
+			},
+			{
+				left: true,
+				right: true,
+				top: false,
+				bottom: true,
+				topLeft: false,
+				topRight: false,
+				bottomLeft: true,
+				bottomRight: true
+			},
+			{
+				left: false,
+				right: true,
+				top: false,
+				bottom: false,
+				topLeft: false,
+				topRight: true,
+				bottomLeft: false,
+				bottomRight: false
+			},
+		],
+		'wall-vertical-top': [
+			{
+				left: false,
+				right: false,
+				top: false,
+				bottom: true,
+				topLeft: false,
+				topRight: false,
+			},
+			{
+				left: false,
+				right: false,
+				top: false,
+				bottom: true
+			}
+		],
+		'wall-vertical-bottom': [
+			{
+				left: false,
+				right: false,
+				top: true,
+				bottom: false
+			}
+		],
+	};
+
 /**
 * Creates a new GameMap object.
 *
@@ -1085,228 +1307,8 @@ export class GameMap {
 	}
 
 	normalizeWallTile (tile: Tile): string {
-		let sprites = {
-			'wall-top-left': [
-				{
-					left: false,
-					right: true,
-					top: false,
-					bottom: true,
-				}
-			],
-			'wall-top-right': [
-				{
-					left: true,
-					right: false,
-					top: false,
-					bottom: true,
-				}
-			],
-			'wall-bottom-left': [
-				{
-					left: false,
-					right: true,
-					top: true,
-					bottom: false,
-				}
-			],
-			'wall-bottom-right': [
-				{
-					left: true,
-					right: false,
-					top: true,
-					bottom: false,
-				}
-			],
-
-			'wall-middle-left': [
-				{
-					left: false,
-					right: false,
-					top: true,
-					bottom: true
-				},
-				{
-					left: false,
-					right: false,
-					top: true,
-					bottom: true,
-					topLeft: false,
-					topRight: true,
-					bottomLeft: false,
-					bottomRight: true,
-				},
-				{
-					left: false,
-					right: false,
-					top: true,
-					bottom: true,
-					topLeft: true,
-					topRight: false,
-					bottomLeft: true,
-					bottomRight: false
-				},
-				{
-					left: false,
-					right: false,
-					top: true,
-					bottom: true,
-				},
-				{
-					left: false,
-					right: false,
-					top: true,
-					bottom: true,
-					topLeft: true,
-					topRight: true,
-					bottomLeft: true,
-					bottomRight: true
-				}
-			],
-			'wall-center': [
-				{
-				// Center
-					left: true,
-					right: true,
-					top: true,
-					bottom: true,
-				},
-			],
-			'wall-three-left-top-bottom': [
-				{
-					left: true,
-					right: false,
-					top: true,
-					bottom: true
-				}
-			],
-			'wall-three-right-top-bottom': [
-				{
-					left: false,
-					right: true,
-					top: true,
-					bottom: true
-				}
-			],
-			'wall-three-left-right-top': [
-				{
-					left: true,
-					right: true,
-					top: true,
-					bottom: false
-				}
-			],
-			'wall-three-left-right-bottom': [
-				{
-					left: true,
-					right: true,
-					top: false,
-					bottom: true
-				}
-			],
-			'wall-horizontal': [
-				{
-					left: true,
-					right: true,
-					top: false,
-					bottom: false
-				},
-				{
-					left: true,
-					right: false,
-					top: false,
-					bottom: false,
-					topLeft: false,
-					topRight: false,
-					bottomLeft: false,
-					bottomRight: false
-				},
-				{
-					left: false,
-					right: true,
-					top: false,
-					bottom: false,
-					topLeft: false,
-					topRight: false,
-					bottomLeft: false,
-					bottomRight: false
-				}, {
-					left: false,
-					right: false,
-					top: false,
-					bottom: false,
-					topLeft: false,
-					topRight: false,
-					bottomLeft: false,
-					bottomRight: false
-				},
-				{
-					left: false,
-					right: true,
-					top: false,
-					bottom: false,
-					topLeft: false,
-					topRight: false,
-					bottomLeft: false,
-					bottomRight: true
-				},
-				{
-					left: true,
-					right: false,
-					top: false,
-					bottom: false,
-					topLeft: true,
-					topRight: false,
-					bottomLeft: false,
-					bottomRight: false
-				},
-				{
-					left: true,
-					right: true,
-					top: false,
-					bottom: true,
-					topLeft: false,
-					topRight: false,
-					bottomLeft: true,
-					bottomRight: true
-				},
-				{
-					left: false,
-					right: true,
-					top: false,
-					bottom: false,
-					topLeft: false,
-					topRight: true,
-					bottomLeft: false,
-					bottomRight: false
-				},
-			],
-			'wall-vertical-top': [
-				{
-					left: false,
-					right: false,
-					top: false,
-					bottom: true,
-					topLeft: false,
-					topRight: false,
-				},
-				{
-					left: false,
-					right: false,
-					top: false,
-					bottom: true
-				}
-			],
-			'wall-vertical-bottom': [
-				{
-					left: false,
-					right: false,
-					top: true,
-					bottom: false
-				}
-			],
-		};
-		let index = tile.index,
+		const sprites = wallSprites,
+			index = tile.index,
 			neighborMap = this.getTileNeighborMap(this.tiles, index, wallCheckFunction);
 
 		let allDirections = ['left', 'right', 'top', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight'];

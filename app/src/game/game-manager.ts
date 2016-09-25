@@ -98,6 +98,7 @@ export class GameManager {
     start () {
         console.info('Start the game.');
         this.map = this.createMap(this.level.gameMap);
+        events.emit('map-update', this.map);
 
         this.entitySpawner = new EntitySpawner(this.entityManager, this.map);
 
@@ -149,6 +150,7 @@ export class GameManager {
 			dimension: mapData.dimension,
 			seed: mapData.seed || this.seed,
 			allLand: mapData.allLand,
+            noResources: mapData.noResources
 		});
     }
 

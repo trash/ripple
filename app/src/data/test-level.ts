@@ -19,6 +19,7 @@ export interface ITestGameMapOptions {
     dimension: number;
     seed: number;
     allLand?: boolean;
+    noResources?: boolean;
 }
 
 export interface ITestItemsMap {
