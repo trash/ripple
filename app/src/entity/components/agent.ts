@@ -1,7 +1,6 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {Tile} from '../../map/tile';
-import {Inventory} from '../../agents/inventory';
 import {AgentTraits} from '../../interfaces';
 
 export interface IAgentState {
@@ -15,7 +14,7 @@ export interface IAgentState {
     spriteCount?: number;
     defaultSpriteFrame?: number;
     spriteIndex?: number;
-    inventory?: Inventory;
+    inventory?: number[];
     dead?: boolean;
     traits?: AgentTraits[];
     corpseSprite?: PIXI.Sprite;

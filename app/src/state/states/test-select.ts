@@ -23,7 +23,7 @@ export class TestSelectState implements State {
 	startTest (level) {
 		return () => {
 			events.emit(['trigger-sound', 'uiClick']);
-			events.emit('start-game', level);
+			events.emit('level-selected', level);
 		};
 	}
 

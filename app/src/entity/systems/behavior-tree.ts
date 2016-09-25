@@ -5,8 +5,7 @@ import {IPositionState} from '../components/position';
 import {IAgentState} from '../components/agent';
 import {IVillagerState} from '../components/villager';
 import {IStatusBubbleState} from '../components/status-bubble';
-import {gameManager} from '../../game/game-manager';
-import {Blackboard} from '../../../b3/core/blackboard';
+import {Blackboard} from '../../b3/core/blackboard';
 
 export interface IBehaviorTreeTickTarget {
     id: number;

@@ -4,7 +4,6 @@ import {ComponentEnum} from '../component-enum';
 import {IHarvestableState, HarvestTypesEnum} from '../components/harvestable';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
-import {gameManager} from '../../game/game-manager';
 import {util} from '../../util';
 import {Tile} from '../../map/tile';
 import {events} from '../../events';
@@ -13,7 +12,6 @@ import {HoverElement} from '../../ui/hover-element';
 import {dragSelect} from '../../ui/drag-select';
 import {EventEmitter2} from 'eventemitter2';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
-import {professionsEnum} from '../../data/professions';
 
 export class HarvestSelectSystem extends EntitySystem {
     harvestTypes: HarvestTypesEnum[];

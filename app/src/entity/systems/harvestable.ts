@@ -5,11 +5,10 @@ import {IHealthState} from '../components/health';
 import {IItemState} from '../components/item';
 import {IHarvestableState} from '../components/harvestable';
 import {IPositionState} from '../components/position';
-import {gameManager} from '../../game/game-manager';
 import {util} from '../../util';
-import {constants} from '../../constants';
+import {constants} from '../../data/constants';
 import {events} from '../../events';
-import {itemManager} from '../../services/item-manager';
+// import {itemManager} from '../../services/item-manager';
 
 export class HarvestableSystem extends EntitySystem {
     update (entityIds: number[]) {

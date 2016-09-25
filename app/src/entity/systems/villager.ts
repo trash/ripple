@@ -1,6 +1,5 @@
 import _ = require('lodash');
 import {util} from '../../util';
-import {gameManager} from '../../game/game-manager';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IVillagerState} from '../components/villager';
@@ -10,10 +9,10 @@ import {IPositionState} from '../components/position';
 import {IStatusBubbleState} from '../components/status-bubble';
 import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
-import {professions, professionsEnum} from '../../data/professions';
-import {villagerJobs} from '../../data/villager-jobs';
+import {professionsList, professions} from '../../data/professions';
+import {villagerJobs, villagerJobsMap} from '../../data/villager-jobs';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
-import {statusBubbleUtil} from '../utils/status-bubble';
+import {statusBubbleUtil} from '../util/status-bubble';
 
 export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -54,23 +53,23 @@ export class VillagerSystem extends EntitySystem {
 		if (task && task.isReady() && !task.isComplete()) {
 			return task;
 		}
-		task = this.getTaskFromProfessions(id, villagerState);
+		task = this.getTaskFromprofessionsList(id, villagerState);
 		if (task) {
 			return task;
 		}
 		return null;
     }
 
-    hasProfession (villagerState: IVillagerState, profession: professionsEnum): boolean {
-        const job = villagerJobs[villagerState.job];
+    hasProfession (villagerState: IVillagerState, profession: professions): boolean {
+        const job = villagerJobsMap[villagerState.job];
         return job.professions.includes(profession);
     }
 
-    getTaskFromProfessions (id: number, villagerState: IVillagerState): Instance {
+    getTaskFromprofessionsList (id: number, villagerState: IVillagerState): Instance {
         let match = null;
 
-		// Count over professions in order
-		professions.some(profession => {
+		// Count over professionsList in order
+		professionsList.some(profession => {
 			// Make sure they have the profession
 			if (this.hasProfession(villagerState, profession)) {
 				var taskQueue = taskQueueManager.professionTaskQueue(profession);

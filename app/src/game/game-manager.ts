@@ -1,28 +1,152 @@
 import {events} from '../events';
+import TWEEN = require('tween.js');
 import {StateManager} from '../state/state-manager';
 import {PreloaderState} from '../state/states/preload';
 import {MainMenuState} from '../state/states/main-menu';
 import {TestSelectState} from '../state/states/test-select';
-import {ITestLevel} from '../data/test-level';
+import {GameState} from '../state/states/game';
+import {ITestLevel, ITestGameMapOptions} from '../data/test-level';
+import {EntityManager} from '../entity/entity-manager';
+import {Tile} from '../map/tile';
+import {GameMap, IMapOptions} from '../map';
+import {canvasService} from '../ui/canvas-service';
+import {util} from '../util';
+import {GameLoop} from './game-loop';
+import {GameCamera} from './game-camera';
+import {gameClock} from './game-clock';
+import {Tilemap} from '../tilemap';
+import {spriteManager} from '../services/sprite-manager';
+
+const windowSize = {
+	width: document.body.clientWidth,
+	height: document.body.clientHeight
+};
 
 export class GameManager {
     state: StateManager;
+    entityManager: EntityManager;
+    level: ITestLevel;
+    map: GameMap;
+    renderer: PIXI.WebGLRenderer;
+    seed: number;
+    loop: GameLoop;
+    camera: GameCamera;
+    stage: PIXI.Container;
+    tilemap: Tilemap;
 
     constructor (rootElement: Element) {
         console.info('GameManager initialized.');
 
-        events.on('start-game', (level: ITestLevel) => {
-            console.info(`Should be starting a game with: ${level}`);
+        events.on('level-selected', (level: ITestLevel) => {
+            this.level = level;
+            this.state.start('Game');
         });
+        events.on('game-start', this.start.bind(this));
+        events.on('game-destroy', this.destroy.bind(this));
+        events.on(['spawn', '*'], this.handleSpawnEvent.bind(this));
 
         this.state = new StateManager(rootElement);
         this.bootstrapGameStates();
+
+        this.entityManager = new EntityManager();
+
+        // create a renderer instance.
+		this.renderer = new PIXI.WebGLRenderer(windowSize.width, windowSize.height, {
+			antialias: false
+		});
+        canvasService.instantiateCanvas(this.renderer.view);
+        this.stage = new PIXI.Container();
+
+        var seeds = [0.663345, 0.8908902304];
+		seeds = [0.8908902304];
+
+		this.seed = util.randomFromList(seeds) || Math.random();
+
+        this.loop = new GameLoop();
+		this.loop.on('update', this.update.bind(this));
+
+        this.camera = new GameCamera();
+
+        this.startRenderer();
+    }
+
+    update (turn: number, stopped: boolean) {
+		gameClock.update();
+
+		this.entityManager.update(turn, stopped);
+    }
+
+    startRenderer () {
+		var animate = (time?: number) => {
+			window.requestAnimationFrame(animate);
+
+			this.camera.update();
+
+			// render the stage
+			this.renderer.render(this.stage);
+
+			TWEEN.update(time);
+		};
+		animate();
+	}
+
+    start () {
+        console.info('Start the game.');
+        this.map = this.createMap(this.level.gameMap);
+
+        this.updateTilemap();
+
+		this.map.initializeTiles();
+
+        const startTile = this.map.getRandomTile({
+            accessible: true
+        });
+		this.camera.setToTile(startTile);
+    }
+
+    updateTilemap () {
+		let tilemapData = this.map.getTilemap(),
+			tilemap = new Tilemap(tilemapData, this.renderer);
+
+		this.stage.removeChildren();
+		if (this.tilemap) {
+			tilemap.position.x = this.tilemap.position.x;
+			tilemap.position.y = this.tilemap.position.y;
+			this.tilemap.destroy(true);
+		}
+
+		spriteManager.setTilemap(tilemap);
+		this.camera.setTilemap(tilemap);
+
+		this.tilemap = tilemap;
+
+		this.stage.addChild(tilemap);
+
+		return tilemap;
+	};
+
+    handleSpawnEvent (entityType: string, tile: Tile) {
+        console.info(`Should be spawning an entity of type: ${entityType}`);
+    }
+
+    createMap (mapData: ITestGameMapOptions) {
+        return new GameMap({
+			gameManager: this,
+			dimension: mapData.dimension,
+			seed: mapData.seed || this.seed,
+			allLand: mapData.allLand,
+		});
+    }
+
+    destroy () {
+        console.info('Destroy the current game.');
+        this.entityManager.destroy();
     }
 
     bootstrapGameStates () {
 		this.state.add('Preload', PreloaderState);
 		this.state.add('MainMenu', MainMenuState);
-		// this.state.add('Game', GameState);
+		this.state.add('Game', GameState);
 		this.state.add('TestSelect', TestSelectState);
 
 		this.state.start('Preload');

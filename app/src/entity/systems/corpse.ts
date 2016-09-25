@@ -3,11 +3,10 @@ import {EntitySystem, EntityManager} from '../entity-manager';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {ICorpseState} from '../components/corpse';
-import {gameManager} from '../../game/game-manager';
 import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
-import {constants} from '../../constants';
+import {constants} from '../../data/constants';
 import {ComponentEnum} from '../component-enum';
 import {gameClock} from '../../game/game-clock';
 

@@ -6,9 +6,8 @@ import {IHarvestableState} from '../components/harvestable';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {IHealthState} from '../components/health';
-import {gameManager} from '../../game/game-manager';
 import {util} from '../../util';
-import {constants} from '../../constants';
+import {constants} from '../../data/constants';
 import {TilemapSprite} from '../../tilemap';
 
 export class ResourceSystem extends EntitySystem {

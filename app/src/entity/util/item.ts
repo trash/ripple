@@ -1,18 +1,15 @@
-import {gameManager} from '../../game/game-manager';
 import {ComponentEnum} from '../component-enum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
+import {BaseUtil} from './base';
 
-export class ItemUtil {
+export class ItemUtil extends BaseUtil {
     removeFromTile (id: number) {
-        const positionState = gameManager.entityManager.getComponentDataForEntity(
-                ComponentEnum.Position, id) as IPositionState,
-            itemState = gameManager.entityManager.getComponentDataForEntity(
-                ComponentEnum.Item, id) as IItemState,
-            renderableState = gameManager.entityManager.getComponentDataForEntity(
-                ComponentEnum.Renderable, id) as IRenderableState,
+        const positionState = this._getPositionState(id),
+            itemState = this._getItemState(id),
+            renderableState = this._getRenderableState(id),
             tile = positionState.tile;
 
         // Free up storage space

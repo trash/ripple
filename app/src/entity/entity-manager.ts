@@ -5,6 +5,10 @@ import {componentsList} from './components/components-list';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems/systems-list';
 import {EventEmitter2} from 'eventemitter2';
+import {BaseUtil} from './util/base';
+import {agentUtil} from './util/agent';
+import {itemUtil} from './util/item';
+import {statusBubbleUtil} from './util/status-bubble';
 
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;
@@ -24,6 +28,12 @@ export interface IComponent {
     name: string;
     state: {[key: string]: any;}
 }
+
+const utilList: BaseUtil[] = [
+    agentUtil,
+    itemUtil,
+    statusBubbleUtil
+];
 
 type EntityComponentDataMapEntry = any;
 // A map of entities to their component data entries
@@ -65,6 +75,9 @@ export class EntityManager {
             const System = SystemComponentPair[0],
                 componentEnum = SystemComponentPair[1];
             this.addSystem(new System(this, componentEnum));
+        });
+        utilList.forEach(util => {
+            util.intialize(this);
         });
     }
 

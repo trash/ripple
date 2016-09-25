@@ -1,4 +1,3 @@
-import {gameManager} from '../../game/game-manager';
 import {ComponentEnum} from '../component-enum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';

@@ -1,6 +1,7 @@
+import {BaseUtil} from './base';
 import {IStatusBubbleState} from '../components/status-bubble';
 
-export class StatusBubbleUtil {
+export class StatusBubbleUtil extends BaseUtil {
     addStatusBubble (statusBubbleState, bubbleName) {
         statusBubbleState.activeBubbles.push(bubbleName);
     }

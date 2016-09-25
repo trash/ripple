@@ -6,9 +6,7 @@ import {IRenderableState} from '../components/renderable';
 import {IHealthState} from '../components/health';
 import {IHealthBarState} from '../components/health-bar';
 import {IPositionState} from '../components/position';
-import {gameManager} from '../../game/game-manager';
-import {IAgentSprite} from '../../agents/agent';
-import {Inventory} from '../../agents/inventory';
+import {IAgentSprite} from '../../interfaces';
 import {util} from '../../util';
 import {events} from '../../events';
 
@@ -34,7 +32,7 @@ export class AgentSystem extends EntitySystem {
                     this.getSpriteName(agentState, positionState.direction));
             }
             if (!agentState.inventory) {
-                agentState.inventory = new Inventory();
+                agentState.inventory = [];
             }
             if (healthBarState.sprites) {
                 healthBarState.sprites.forEach(healthBar => {
@@ -66,7 +64,7 @@ export class AgentSystem extends EntitySystem {
     spawnCorpse (agentState: IAgentState, positionState: IPositionState) {
         const tile = positionState.tile,
             baseSpriteName = this.getBaseSpriteName(agentState);
-        gameManager.spawnCorpse({
+        events.emit(['spawn', 'corpse'], {
             corpse: {
                 agentBaseSpriteName: baseSpriteName
             },
