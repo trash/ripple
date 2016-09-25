@@ -9,6 +9,7 @@ import {IHealthState} from '../components/health';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {TilemapSprite} from '../../tilemap';
+import {spriteManager} from '../../services/sprite-manager';
 
 export class ResourceSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -32,7 +33,7 @@ export class ResourceSystem extends EntitySystem {
 
             if (healthState.currentHealth <= 0) {
                 console.info('Should be getting rid of resource sprites', id);
-                gameManager.sprites.destroy(renderableState.spriteGroup as TilemapSprite);
+                spriteManager.destroy(renderableState.spriteGroup as TilemapSprite);
             }
         });
     }
@@ -56,7 +57,7 @@ export class ResourceSystem extends EntitySystem {
     ) {
         // Init sprites
         if (!renderableState.spriteGroup) {
-            const spriteGroup = gameManager.sprites.createContainer(
+            const spriteGroup = spriteManager.createContainer(
                     positionState.tile.column,
                     positionState.tile.row),
                 sprite = PIXI.Sprite.fromFrame(this.getSpriteName(resourceState));

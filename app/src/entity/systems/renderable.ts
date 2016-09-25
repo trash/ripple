@@ -2,12 +2,12 @@ import TWEEN = require('tween.js');
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
-import {gameManager} from '../../game/game-manager';
 import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
-import {constants} from '../../constants';
+import {constants} from '../../data/constants';
 import {ComponentEnum} from '../component-enum';
+import {spriteManager} from '../../services/sprite-manager';
 
 export class RenderableSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {
@@ -18,7 +18,7 @@ export class RenderableSystem extends EntitySystem {
 					ComponentEnum.Position, id) as IPositionState;
 
 			if (!renderableState.spriteGroup) {
-				renderableState.spriteGroup = gameManager.sprites.createContainer(
+				renderableState.spriteGroup = spriteManager.createContainer(
 					positionState.tile.column, positionState.tile.row);
 			}
 
@@ -32,23 +32,23 @@ export class RenderableSystem extends EntitySystem {
 				return;
 			}
 
-			let lastPosition = gameManager.sprites.positionFromTile(
+			let lastPosition = spriteManager.positionFromTile(
 					positionState.previousTile.column, positionState.previousTile.row),
-				newPosition = gameManager.sprites.positionFromTile(
+				newPosition = spriteManager.positionFromTile(
 					positionState.tile.column, positionState.tile.row);
 
 			// This was an optimization that may no longer be needed
-			// if (gameManager.sprites.subContainerWillUpdate(renderableState.spriteGroup as TilemapSprite,
+			// if (spriteManager.subContainerWillUpdate(renderableState.spriteGroup as TilemapSprite,
 			// 	positionState.tile.column, positionState.tile.row
 			// )) {
-			const changedSubContainer = gameManager.sprites.changePosition(renderableState.spriteGroup,
+			const changedSubContainer = spriteManager.changePosition(renderableState.spriteGroup,
 				positionState.tile.column, positionState.tile.row, true);
 			// If the sprite changed subcontainers we need to manually update the spritegroup position so it tweens properly from one subcontainer to the next
 			// Otherwise we have jumping sprites
 			if (changedSubContainer) {
 				const direction = positionState.previousTile.directionToTile(positionState.tile);
 
-				const tileSize = gameManager.sprites.getTileSize();
+				const tileSize = spriteManager.getTileSize();
 
 				switch (direction) {
 					case 'left':
@@ -99,6 +99,6 @@ export class RenderableSystem extends EntitySystem {
 		const renderableState = this.manager.getComponentDataForEntity(
 			ComponentEnum.Renderable, id) as IRenderableState;
 
-		gameManager.sprites.destroy(renderableState.spriteGroup as TilemapSprite);
+		spriteManager.destroy(renderableState.spriteGroup as TilemapSprite);
 	}
 }

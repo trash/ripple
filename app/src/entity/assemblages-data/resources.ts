@@ -3,8 +3,8 @@ import {IHarvestableState, HarvestTypesEnum} from '../components/harvestable';
 import {IHealthState} from '../components/health';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
-import {config} from '../../config';
-import {professionsEnum} from '../../data/professions';
+import {config} from '../../data/config';
+import {professions} from '../../data/professions';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,
     rockHealth = 200,
@@ -25,7 +25,7 @@ const resourcesList: IEntityComponentData[] = [{
             }
         },
         harvestable: {
-            profession: professionsEnum.woodcutter,
+            profession: professions.woodcutter,
             highlighted: false,
             queued: false,
             task: null,
@@ -49,7 +49,7 @@ const resourcesList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: professionsEnum.miner,
+            profession: professions.miner,
             highlighted: false,
             queued: false,
             task: null,
@@ -74,7 +74,7 @@ const resourcesList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: professionsEnum.gatherer,
+            profession: professions.gatherer,
             highlighted: false,
             queued: false,
             task: null,
@@ -100,7 +100,7 @@ const resourcesList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: professionsEnum.gatherer,
+            profession: professions.gatherer,
             highlighted: false,
             queued: false,
             task: null,

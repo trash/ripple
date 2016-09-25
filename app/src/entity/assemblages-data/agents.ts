@@ -1,8 +1,8 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components/behavior-tree';
-import {deerTree} from '../../agents/deer-tree';
-import {zombieTree} from '../../agents/zombie-tree';
-import {wolfTree} from '../../agents/wolf-tree';
+import {deerTree} from '../../b3/trees/deer';
+// import {zombieTree} from '../../b3/trees/zombie';
+// import {wolfTree} from '../../b3/trees/wolf';
 import {IEntityComponentData, IAssemblageDataMap, AgentTraits} from '../../interfaces';
 
 const maxHealth = 100,
@@ -22,7 +22,8 @@ const dataList: IEntityComponentData[] = [{
             strength: 10
         },
         behaviorTree: {
-            tree: zombieTree,
+            // tree: zombieTree,
+            tree: deerTree
         },
         health: defaultHealthState
     },
@@ -37,7 +38,8 @@ const dataList: IEntityComponentData[] = [{
             strength: 5
         },
         behaviorTree: {
-            tree: wolfTree,
+            // tree: wolfTree,
+            tree: deerTree
         },
         health: defaultHealthState
     },

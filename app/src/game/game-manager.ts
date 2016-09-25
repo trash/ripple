@@ -16,6 +16,7 @@ import {GameCamera} from './game-camera';
 import {gameClock} from './game-clock';
 import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/sprite-manager';
+import {EntitySpawner} from '../entity/entity-spawner';
 
 const windowSize = {
 	width: document.body.clientWidth,
@@ -25,6 +26,7 @@ const windowSize = {
 export class GameManager {
     state: StateManager;
     entityManager: EntityManager;
+    entitySpawner: EntitySpawner;
     level: ITestLevel;
     map: GameMap;
     renderer: PIXI.WebGLRenderer;
@@ -36,6 +38,7 @@ export class GameManager {
 
     constructor (rootElement: Element) {
         console.info('GameManager initialized.');
+        const gameManager = this;
 
         events.on('level-selected', (level: ITestLevel) => {
             this.level = level;
@@ -43,7 +46,9 @@ export class GameManager {
         });
         events.on('game-start', this.start.bind(this));
         events.on('game-destroy', this.destroy.bind(this));
-        events.on(['spawn', '*'], this.handleSpawnEvent.bind(this));
+        events.on(['spawn', '*'], function (entityName: string, tile: Tile) {
+            gameManager.handleSpawnEvent(this.event[1], entityName, tile);
+        });
 
         this.state = new StateManager(rootElement);
         this.bootstrapGameStates();
@@ -94,6 +99,8 @@ export class GameManager {
         console.info('Start the game.');
         this.map = this.createMap(this.level.gameMap);
 
+        this.entitySpawner = new EntitySpawner(this.entityManager, this.map);
+
         this.updateTilemap();
 
 		this.map.initializeTiles();
@@ -102,6 +109,8 @@ export class GameManager {
             accessible: true
         });
 		this.camera.setToTile(startTile);
+
+        this.loop.start();
     }
 
     updateTilemap () {
@@ -125,8 +134,13 @@ export class GameManager {
 		return tilemap;
 	};
 
-    handleSpawnEvent (entityType: string, tile: Tile) {
+    handleSpawnEvent (entityType: string, entityName: string, tile: Tile) {
         console.info(`Should be spawning an entity of type: ${entityType}`);
+        switch (entityType) {
+            case 'resource':
+                this.entitySpawner.spawnResource(entityName, tile);
+                break;
+        }
     }
 
     createMap (mapData: ITestGameMapOptions) {
