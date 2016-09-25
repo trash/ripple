@@ -4,6 +4,8 @@ import {IHealthBarState} from '../components/health-bar';
 import {IAgentState} from '../components/agent';
 import {IItemState} from '../components/item';
 import {IPositionState} from '../components/position';
+import {IConstructibleState} from '../components/constructible';
+import {IBuildingState} from '../components/building';
 import {IRenderableState} from '../components/renderable';
 import {EntityManager} from '../entity-manager';
 
@@ -34,8 +36,18 @@ export class BaseUtil {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Renderable, id) as IRenderableState;
     }
+    _getConstructibleState (id): IConstructibleState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.Constructible, id) as IConstructibleState;
+    }
+    _getBuildingState (id): IBuildingState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.Building, id) as IBuildingState;
+    }
     _getHealthBarState (id): IHealthBarState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.HealthBar, id) as IHealthBarState;
     }
 }
+
+export const baseUtil = new BaseUtil();

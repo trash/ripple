@@ -2,17 +2,11 @@ import {events} from '../events';
 import {Task} from './task';
 import {TaskQueue} from './task-queue';
 
-let BuilderTask = Task,
-	WoodcutterTask = Task,
-	HaulerTask = Task,
-	MinerTask = Task,
-	GathererTask = Task;
-
-// import {BuilderTask} from './builder-task';
-// import {GathererTask} from './gatherer-task';
-// import {WoodcutterTask} from './woodcutter-task';
-// import {HaulerTask} from './hauler-task';
-// import {MinerTask} from './miner-task';
+import {BuilderTask} from './builder-task';
+import {GathererTask} from './gatherer-task';
+import {WoodcutterTask} from './woodcutter-task';
+import {HaulerTask} from './hauler-task';
+import {MinerTask} from './miner-task';
 
 import {professions} from '../data/professions';
 
