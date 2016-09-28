@@ -1,9 +1,18 @@
+import {Direction} from '../interfaces';
+
 export class MapGenTile {
     zoneNumber: number;
     data: string;
     index: number;
     borderWater: boolean;
     dimension: number;
+
+    static copyTile (tile: MapGenTile): MapGenTile {
+        const copy = new MapGenTile(tile.data, tile.index, tile.dimension);
+        copy.borderWater = tile.borderWater;
+        copy.zoneNumber = tile.zoneNumber;
+        return copy;
+    }
 
     constructor (data: string, index: number, dimension: number) {
         this.data = data;
@@ -22,6 +31,9 @@ export class MapGenTile {
         return Math.floor(this.index / this.dimension);
     }
 
+	get isBridge () {
+		return this.data.includes('bridge');
+	}
     get isWater () {
         return this.data.includes('water');
     }
@@ -32,6 +44,35 @@ export class MapGenTile {
     _columnFromIndex (index: number) {
         return index % this.dimension;
     }
+
+	directionToTile (nextTile: MapGenTile): Direction {
+		const rowDiff = nextTile.row - this.row,
+			columnDiff = nextTile.column - this.column;
+
+		// Vertical
+		if (rowDiff) {
+			// Down
+			if (rowDiff > 0) {
+				return 'down';
+			}
+			// Up
+			else {
+				return 'up';
+			}
+		}
+		// Horizontal
+		else if (columnDiff) {
+			// Right
+			if (columnDiff > 0) {
+				return 'right';
+			}
+			// Left
+			else {
+				return 'left';
+			}
+		}
+		return null;
+	}
 
     /**
 	 * Return the euclidian distance from this tile to another.

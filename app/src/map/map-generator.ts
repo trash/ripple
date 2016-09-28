@@ -5,6 +5,9 @@ import {NDArray} from '../interfaces';
 import ndarray = require('ndarray');
 import {MapGenTile} from './map-gen-tile';
 import Immutable = require('immutable');
+import {MapUtil} from './map-util';
+import {constants} from '../data/constants';
+import {util} from '../util';
 
 type NeighborCheckFunction = (neighbor: string) => boolean;
 
@@ -28,7 +31,7 @@ type NeighborMap = {
     bottomRight: string;
 }
 
-let zoneNumber = 10,
+let zoneNumberStart = 10,
 	zoneNumberCount;
 
 export class MapGenerator {
@@ -84,6 +87,10 @@ export class MapGenerator {
 		this.updateTilemapData();
     }
 
+	/**
+	 * Returns the list of tiles with the borderWater property properly marked
+	 * for each.
+	 */
 	markBorderWaterTiles (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		const markedSiblings = [];
 		tiles.forEach(tile => {
@@ -101,7 +108,7 @@ export class MapGenerator {
 			tiles.forEach((tile, i) => {
 				if (markedSiblings.includes(i)) {
 					tiles.update(i, tile => {
-						const copy = _.extend({}, tile);
+						const copy = MapGenTile.copyTile(tile);
 						copy.borderWater = true;
 						return copy;
 					});
@@ -131,17 +138,17 @@ export class MapGenerator {
 	 */
 	fill (
 		tiles: Immutable.List<MapGenTile>,
-		array: NDArray<number>,
 		tile: MapGenTile,
 		mark: number
 	) {
+		const array = this.getFillArray(tiles);
 		floodfill(array, tile.row, tile.column, mark);
 
 		// Mark the tiles themselves with the island number
 		tiles = tiles.withMutations(tiles => {
 			for (var i=0; i < array.data.length; i++) {
 				if (array.data[i] === mark) {
-					const copy = _.extend({}, tiles[i]);
+					const copy = MapGenTile.copyTile(tiles.get(i));
 					copy.zoneNumber = mark;
 					tiles.set(i, copy);
 				}
@@ -157,50 +164,86 @@ export class MapGenerator {
 
     /**
 	 * Marks all zones based on accessibility and returns
-	 * the floodfilled map
-	 *
-	 * @returns {View2darray}
+	 * the floodfilled map.
 	 */
 	markZones (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		const zoneNumberMap = [];
 
 		let landTiles = this.getUnmarkedLandTiles(tiles);
-		zoneNumberCount = zoneNumber;
+		zoneNumberCount = zoneNumberStart;
 
 		// Create nxn array of water vs. non-water tiles
 		const array = this.getFillArray(tiles);
 
 		while (landTiles.size) {
-			console.log(landTiles.size);
-			tiles = this.fill(tiles, array, landTiles.get(0), zoneNumberCount);
+			tiles = this.fill(tiles, landTiles.get(0), zoneNumberCount);
 			zoneNumberCount++;
 			landTiles = this.getUnmarkedLandTiles(tiles);
 		}
+		console.log(tiles.some(tile => tile.borderWater));
 
 		return tiles;
 	}
 
-    /**
+	_tilesToGrid (tiles: Immutable.List<MapGenTile>, ignoreAccessible: boolean = false): number[][] {
+		const grid = [],
+			dimension = tiles.get(0).dimension;
+		for (let i = 0; i < dimension; i++) {
+			grid.push([]);
+			for (let j = 0; j < dimension; j++) {
+				let value;
+				if (ignoreAccessible) {
+					value = constants.ACCESSIBLE;
+				} else {
+					value = tiles.get(i * dimension + j).accessible ?
+						constants.ACCESSIBLE :
+						constants.INACCESSIBLE
+				}
+				grid[i].push(value);
+			}
+		}
+		return grid;
+	}
+
+	/**
+	 * Makes a tile a bridge tile by updating its data attribute.
+	 * This method does not modify the input object but returns a copy of
+	 * the object with the property modified.
+	 */
+	_makeBridge (tile: MapGenTile, firstBridgeTile: boolean): MapGenTile {
+		// Don't do anything if it's not water
+		if (!tile.isWater) {
+			return tile;
+		}
+		const copy = MapGenTile.copyTile(tile);
+		copy.data = firstBridgeTile ?
+			'water-bridge-base' :
+			util.randomFromList(['water-bridge-1', 'water-bridge-2', 'water-bridge-3']);
+		return copy;
+	}
+
+	/**
 	 * Flood fill the different land regions after placing water to determine the islands on the map.
 	 */
-	bridgeIslands (tiles: Immutable.List<MapGenTile>): MapGenTile[] {
+	bridgeIslands (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		tiles = this.markZones(tiles);
 
-		// List of all land tiles created as bridge
-		const bridgedTiles = [];
+		// Only one/two zones means no separated land masses. Nothing to do.
+		if (zoneNumberCount <= zoneNumberStart + 1) {
+			return tiles;
+		}
+		const bridgedTiles: ([MapGenTile, boolean])[] = [];
 
 		// We've marked all the islands now we need to form bridges
-		for (let x=0; x < zoneNumberCount - zoneNumber - 1; x++) {
-			// Get all island tiles for first island, and find closest point of all tiles of other islands
-			var islandTiles = tiles.filter(function (tile) {
-					return tile.zoneNumber === zoneNumber && tile.borderWater;
-				}),
-				otherTiles = tiles.filter(function (tile) {
-					return tile.zoneNumber && tile.zoneNumber !== zoneNumber && tile.borderWater;
-				});
+		for (let x = 0; x < zoneNumberCount - zoneNumberStart - 1; x++) {
+			const borderTiles = tiles.filter(tile => tile.zoneNumber && tile.borderWater);
+			// Get all border tiles for first island
+			const islandTiles = borderTiles.filter(tile => tile.zoneNumber === zoneNumberStart),
+			// Get border tiles for the rest of the tiles
+				otherTiles = borderTiles.filter(tile => tile.zoneNumber !== zoneNumberStart);
 
 			// We're done
-			if (!otherTiles.length) {
+			if (!otherTiles.size) {
 				break;
 			}
 
@@ -210,32 +253,34 @@ export class MapGenerator {
 					first: null,
 					second: null
 				}, i;
-			for (i=0; i < islandTiles.length; i++) {
-				for (var j=0; j < otherTiles.length; j++) {
-					var distance = Math.ceil(islandTiles[i].distanceTo(otherTiles[j]));
+			for (i = 0; i < islandTiles.size; i++) {
+				for (var j=0; j < otherTiles.size; j++) {
+					var distance = Math.ceil(islandTiles.get(i).distanceTo(otherTiles.get(j)));
 					if (distance < closest.distance) {
 						closest = {
 							distance: distance,
-							first: islandTiles[i],
-							second: otherTiles[j]
+							first: islandTiles.get(i),
+							second: otherTiles.get(j)
 						};
 					}
 				}
 			}
 			// Now form a bridge between the two island
 			// First get a path from the first tile to the second
-			var path = this.getPath(closest.first, closest.second);
+			const path = MapUtil.getPath(this._tilesToGrid(tiles, true), closest.first, closest.second);
 			// Last tile is land we don't want it
 			path.pop();
 
-			var direction;
+			let direction;
 
 			// Now create the bridge for the path
 			for (i=0; i < path.length; i++) {
 				// Grab the neighboring tiles based on direction
-				var tile = tiles[path[i].row * this.dimension + path[i].column],
-					nextTile = i < path.length-1 ? tiles[path[i+1].row * this.dimension + path[i+1].column] : null,
-					firstOrLast = i === 0 || i === path.length-1;
+				const tile = tiles.get(path[i].row * this.dimension + path[i].column),
+					nextTile = i < path.length - 1 ?
+						tiles.get(path[i + 1].row * this.dimension + path[i + 1].column) :
+						null,
+					firstOrLast = i === 0 || i === path.length - 1;
 
 				direction = nextTile ? tile.directionToTile(nextTile) : direction;
 
@@ -244,48 +289,52 @@ export class MapGenerator {
 					case 'left':
 						/* falls through */
 					case 'right':
-						var up = tiles[(tile.row-1)*this.dimension + tile.column],
-							down = tiles[(tile.row+1)*this.dimension + tile.column];
+						const up = tiles.get((tile.row - 1) * this.dimension + tile.column),
+							down = tiles.get((tile.row + 1) * this.dimension + tile.column);
 
 						if (up) {
-							this.makeBridge(up, firstOrLast);
-							bridgedTiles.push(up);
+							bridgedTiles.push([up, firstOrLast]);
 						}
 						if (down) {
-							this.makeBridge(down, firstOrLast);
-							bridgedTiles.push(down);
+							bridgedTiles.push([down, firstOrLast]);
 						}
 						break;
 					// We're going up or down so mark the tiles left and right
 					case 'up':
 						/* falls through */
 					case 'down':
-						var left = tiles[tile.row*this.dimension + tile.column-1],
-							right = tiles[tile.row*this.dimension + tile.column+1];
+						var left = tiles.get(tile.row * this.dimension + tile.column - 1),
+							right = tiles.get(tile.row * this.dimension + tile.column + 1);
 
 						if (left) {
-							this.makeBridge(left, firstOrLast);
-							bridgedTiles.push(left);
+							bridgedTiles.push([left, firstOrLast]);
 						}
 						if (right) {
-							this.makeBridge(right, firstOrLast);
-							bridgedTiles.push(right);
+							bridgedTiles.push([right, firstOrLast]);
 						}
 						break;
 				}
 
-				this.makeBridge(tile, firstOrLast);
-				bridgedTiles.push(tile);
+				bridgedTiles.push([tile, firstOrLast]);
 			}
 
 			// And fill in the second island as a member of the first
-			this.fill(this.getFillArray(), closest.second, zoneNumber);
+			tiles = this.fill(tiles, closest.second, zoneNumberStart);
 		}
 
-		// Get rid of nubs
-		this.getRidOfBridgeNubs(bridgedTiles);
+		// Update the tiles and create a new list with the modified tiles
+		tiles = tiles.withMutations(tiles => {
+			bridgedTiles.forEach(pair => {
+				const tile = pair[0],
+					firstOrLast = pair[1];
+				tiles.set(tile.index, this._makeBridge(tile, firstOrLast));
+			});
+		});
 
-		return bridgedTiles;
+		// Get rid of nubs
+		this.getRidOfBridgeNubs(bridgedTiles.map(pair => pair[0]));
+
+		return tiles;
 	}
 
     generateWater (data: string[]): string[] {

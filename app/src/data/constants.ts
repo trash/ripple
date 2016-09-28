@@ -27,9 +27,13 @@ interface IConstants {
 	foodValue: number;
 	SCALE_FACTOR: number;
 	SCALED_TILE_HEIGHT: number;
+	ACCESSIBLE: number;
+	INACCESSIBLE: number;
 }
 
 export let constants = {
+	ACCESSIBLE: 0,
+	INACCESSIBLE: 1,
 	colors: {
 		BLUE_GREEN: 0x218C8D,
 		WHITE: 0xFFFFFF,
