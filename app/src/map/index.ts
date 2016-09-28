@@ -15,8 +15,7 @@ import {constants} from '../data/constants';
 import {util} from '../util';
 import {ResourceCluster} from './resource-cluster';
 import {GameManager} from '../game/game-manager';
-
-declare let ndarray: NDArray<boolean>;
+import {MapGenerator} from './map-generator';
 
 type TileCoordinates = [number, number];
 
@@ -31,8 +30,7 @@ var waterCheckFunction = (neighbor: string): boolean => {
 		// then just act like the water continues off the map
 		return neighbor.indexOf('water') !== -1 && neighbor.indexOf('bridge') === -1;
 	},
-	hillCheckFunction = (neighbor: Tile): boolean => neighbor && !!neighbor.hill,
-	wallCheckFunction = (neighbor: Tile): boolean => neighbor && !!neighbor.wall;
+	hillCheckFunction = (neighbor: Tile): boolean => neighbor && !!neighbor.hill;
 
 export interface IMapOptions {
 	gameManager: GameManager;
@@ -40,7 +38,6 @@ export interface IMapOptions {
 	dimension?: number;
 	seed?: number;
 	hills?: any;
-	walls?: any;
 	noHills?: boolean;
 	allLand?: boolean;
 	saveData?: any
@@ -70,228 +67,6 @@ export interface PathCoordinates {
 	column: number;
 	row: number;
 };
-
-const wallSprites = {
-		'wall-top-left': [
-			{
-				left: false,
-				right: true,
-				top: false,
-				bottom: true,
-			}
-		],
-		'wall-top-right': [
-			{
-				left: true,
-				right: false,
-				top: false,
-				bottom: true,
-			}
-		],
-		'wall-bottom-left': [
-			{
-				left: false,
-				right: true,
-				top: true,
-				bottom: false,
-			}
-		],
-		'wall-bottom-right': [
-			{
-				left: true,
-				right: false,
-				top: true,
-				bottom: false,
-			}
-		],
-
-		'wall-middle-left': [
-			{
-				left: false,
-				right: false,
-				top: true,
-				bottom: true
-			},
-			{
-				left: false,
-				right: false,
-				top: true,
-				bottom: true,
-				topLeft: false,
-				topRight: true,
-				bottomLeft: false,
-				bottomRight: true,
-			},
-			{
-				left: false,
-				right: false,
-				top: true,
-				bottom: true,
-				topLeft: true,
-				topRight: false,
-				bottomLeft: true,
-				bottomRight: false
-			},
-			{
-				left: false,
-				right: false,
-				top: true,
-				bottom: true,
-			},
-			{
-				left: false,
-				right: false,
-				top: true,
-				bottom: true,
-				topLeft: true,
-				topRight: true,
-				bottomLeft: true,
-				bottomRight: true
-			}
-		],
-		'wall-center': [
-			{
-			// Center
-				left: true,
-				right: true,
-				top: true,
-				bottom: true,
-			},
-		],
-		'wall-three-left-top-bottom': [
-			{
-				left: true,
-				right: false,
-				top: true,
-				bottom: true
-			}
-		],
-		'wall-three-right-top-bottom': [
-			{
-				left: false,
-				right: true,
-				top: true,
-				bottom: true
-			}
-		],
-		'wall-three-left-right-top': [
-			{
-				left: true,
-				right: true,
-				top: true,
-				bottom: false
-			}
-		],
-		'wall-three-left-right-bottom': [
-			{
-				left: true,
-				right: true,
-				top: false,
-				bottom: true
-			}
-		],
-		'wall-horizontal': [
-			{
-				left: true,
-				right: true,
-				top: false,
-				bottom: false
-			},
-			{
-				left: true,
-				right: false,
-				top: false,
-				bottom: false,
-				topLeft: false,
-				topRight: false,
-				bottomLeft: false,
-				bottomRight: false
-			},
-			{
-				left: false,
-				right: true,
-				top: false,
-				bottom: false,
-				topLeft: false,
-				topRight: false,
-				bottomLeft: false,
-				bottomRight: false
-			}, {
-				left: false,
-				right: false,
-				top: false,
-				bottom: false,
-				topLeft: false,
-				topRight: false,
-				bottomLeft: false,
-				bottomRight: false
-			},
-			{
-				left: false,
-				right: true,
-				top: false,
-				bottom: false,
-				topLeft: false,
-				topRight: false,
-				bottomLeft: false,
-				bottomRight: true
-			},
-			{
-				left: true,
-				right: false,
-				top: false,
-				bottom: false,
-				topLeft: true,
-				topRight: false,
-				bottomLeft: false,
-				bottomRight: false
-			},
-			{
-				left: true,
-				right: true,
-				top: false,
-				bottom: true,
-				topLeft: false,
-				topRight: false,
-				bottomLeft: true,
-				bottomRight: true
-			},
-			{
-				left: false,
-				right: true,
-				top: false,
-				bottom: false,
-				topLeft: false,
-				topRight: true,
-				bottomLeft: false,
-				bottomRight: false
-			},
-		],
-		'wall-vertical-top': [
-			{
-				left: false,
-				right: false,
-				top: false,
-				bottom: true,
-				topLeft: false,
-				topRight: false,
-			},
-			{
-				left: false,
-				right: false,
-				top: false,
-				bottom: true
-			}
-		],
-		'wall-vertical-bottom': [
-			{
-				left: false,
-				right: false,
-				top: true,
-				bottom: false
-			}
-		],
-	};
 
 /**
 * Creates a new GameMap object.
@@ -344,7 +119,6 @@ export class GameMap {
 			this.bottomTilemap = saveData.bottomTilemap;
 			this.tilemapData = saveData.tilemapData;
 			this.generateTiles(this.tilemapData, saveData.resources);
-			this.generateWalls(saveData.walls);
 			console.log(this);
 			console.log(this.getTilemap());
 		} else {
@@ -360,6 +134,10 @@ export class GameMap {
 	}
 
 	generate (allLand: boolean, options) {
+		const generator = new MapGenerator(this.dimension, this.seed, 'full-grass', allLand);
+		generator.generate();
+		return;
+
 		let start = performance.now(),
 			timePassed = () => {
 				return performance.now() - start;
@@ -388,9 +166,6 @@ export class GameMap {
 
 		mapGenUpdate('generating hills');
 		this.generateHills(bridgedTiles, options.hills, options.noHills);
-
-		mapGenUpdate('generating walls');
-		this.generateWalls(options.walls);
 
 		mapGenUpdate('generating resources');
 		this.generateResources(options);
@@ -547,8 +322,8 @@ export class GameMap {
 	 * @returns {View2darray}
 	 */
 	getFillArray (): any {
-		return ndarray(this.tiles.map(function (tile) {
-			return !!(tile.water || tile.wall);
+		return new ndarray(this.tiles.map(function (tile) {
+			return tile.water ? 0 : 1;
 		}), [this.dimension, this.dimension]);
 	}
 
@@ -1306,38 +1081,6 @@ export class GameMap {
 		return normalized;
 	}
 
-	normalizeWallTile (tile: Tile): string {
-		const sprites = wallSprites,
-			index = tile.index,
-			neighborMap = this.getTileNeighborMap(this.tiles, index, wallCheckFunction);
-
-		let allDirections = ['left', 'right', 'top', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
-
-		let neighborsCheck = function (indexCheckDirections) {
-			return allDirections.reduce((previous, next) => {
-				return previous &&
-					// If it's undefined let it be true or false
-					(indexCheckDirections[next] === undefined ||
-					// Otherwise make sure they equal
-					!!indexCheckDirections[next] === !!neighborMap[next]);
-			}, true);
-		};
-
-		let spriteNames = Object.keys(sprites);
-
-		for (let i=0; i < spriteNames.length; i++) {
-			let spriteName = spriteNames[i],
-				spriteMatches = sprites[spriteName];
-			for (let j=0; j < spriteMatches.length; j++) {
-				if (neighborsCheck(spriteMatches[j])) {
-					return spriteName;
-				}
-			}
-		}
-
-		return 'wall-horizontal';
-	}
-
 	generateHills (bridgedTiles: Tile[], hillsData: TileCoordinates, noHills: boolean) {
 		if (noHills) {
 			return;
@@ -1387,31 +1130,6 @@ export class GameMap {
 				tile.tilemapData = 'empty';
 			}
 		}
-	}
-
-	normalizeWallTiles () {
-		for (let i=0; i < this.tiles.length; i++) {
-			var tile = this.tiles[i];
-
-			if (tile.wall) {
-				tile.tilemapData = this.normalizeWallTile(tile);
-			}
-		}
-	}
-
-	generateWalls (wallsData: TileCoordinates) {
-		if (wallsData) {
-			wallsData.forEach(coords => {
-				if (!coords) {
-					return;
-				}
-				let i = coords[0] * this.dimension + coords[1];
-				this.tiles[i].wall = true;
-			});
-		}
-
-		// Normalize the hill sprites
-		this.normalizeWallTiles();
 	}
 
 	getRidOfHillsNearBridges (bridgedTiles: Tile[]) {

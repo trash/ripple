@@ -31,7 +31,6 @@ export class Tile {
 	_accessible: boolean;
 	water: boolean;
 	hill: string;
-	wall: boolean;
 	bridge: boolean;
 	zoneNumber: number;
 	borderWater: boolean;
@@ -100,10 +99,6 @@ export class Tile {
 			.filter(tile => this.map.pathExists(tile, fromTile))
 			.sort((a, b) => a.distanceTo(fromTile) - b.distanceTo(fromTile))
 			[0];
-	}
-
-	getWallSprite (): string {
-		return this.map.normalizeWallTile(this);
 	}
 
 	serializePosition (): [number, number] {

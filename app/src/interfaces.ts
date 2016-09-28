@@ -127,6 +127,11 @@ export interface IPosition {
 	bottom?: number;
 }
 
+export interface NDArray<T> {
+	data: T[];
+	shape: [number, number];
+}
+
 export interface INamesDefinition {
 	surnamePrefix: string[];
 	surnameSuffix: string[];
@@ -140,12 +145,6 @@ export interface INamesDefinition {
 export interface IBuildingNamesDefinition {
 	adjectives: string[];
 	nouns: string[];
-}
-
-export type NDArray<T> = (data: T[], options: [number, number]) => NDArray<T>;
-
-export type NDArrayData = {
-	data: number[][];
 }
 
 export type Direction = 'left' | 'right' | 'up' | 'down';
