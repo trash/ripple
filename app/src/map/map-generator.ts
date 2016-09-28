@@ -223,6 +223,60 @@ export class MapGenerator {
 	}
 
 	/**
+	 * Returns a copy of the tile modified to have its data be land.
+	 */
+	_makeLand (tile: MapGenTile): MapGenTile {
+		const copy = MapGenTile.copyTile(tile);
+		copy.data = 'empty';
+		return copy;
+	}
+
+	/**
+	 * Gets rid of the little single tile inlets created by the bridge code
+	 * @return {[type]} [description]
+	 */
+	getRidOfBridgeNubs (
+		tiles: Immutable.List<MapGenTile>,
+		bridgedTiles: MapGenTile[]
+	): Immutable.List<MapGenTile> {
+		const tilesToMakeLand: MapGenTile[] = [];
+		// Only check the bridged tiles
+		bridgedTiles.forEach(tile => {
+			// Check the siblings because those will be the tiles affected
+			tile.getSiblings().forEach(siblingIndex => {
+				const sibling = tiles.get(siblingIndex);
+				if (sibling.isWater) {
+					const neighborMap = this.getTileNeighborMap(
+						tiles.toArray().map(tile => tile.data),
+						siblingIndex,
+						neighbor => !!neighbor);
+					let total = 0;
+
+					for (let direction in neighborMap) {
+						if (neighborMap[direction]) {
+							total++;
+						}
+						if (total > 1) {
+							return;
+						}
+					}
+					if (total === 1 &&
+						// Edge case when tiles are on the edge of the map, don't touch them
+						sibling.row !== 0 && sibling.column !== 0
+					) {
+						tilesToMakeLand.push(sibling);
+					}
+				}
+			});
+		});
+		return tiles.withMutations(tiles => {
+			tilesToMakeLand.forEach(tile => {
+				tiles.set(tile.index, this._makeLand(tile));
+			});
+		});
+	}
+
+	/**
 	 * Flood fill the different land regions after placing water to determine the islands on the map.
 	 */
 	bridgeIslands (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
@@ -332,9 +386,7 @@ export class MapGenerator {
 		});
 
 		// Get rid of nubs
-		this.getRidOfBridgeNubs(bridgedTiles.map(pair => pair[0]));
-
-		return tiles;
+		return this.getRidOfBridgeNubs(tiles, bridgedTiles.map(pair => pair[0]));
 	}
 
     generateWater (data: string[]): string[] {
@@ -370,7 +422,7 @@ export class MapGenerator {
         index: number,
         checkFunction: NeighborCheckFunction
     ): NeighborMap {
-		let tileFromRowColumn = (row, column) => {
+		const tileFromRowColumn = (row, column) => {
 			return data[row * this.dimension + column];
 		};
 
@@ -517,7 +569,7 @@ export class MapGenerator {
 	 * @param {[type]} index [description]
 	 * @return {[type]} [description]
 	 */
-	normalizeWaterTile (data: string[], tile: string, index: number) {
+	normalizeWaterTile (data: string[], tile: string, index: number): string {
 		if (tile.indexOf('water') !== -1) {
 			return this.normalizeTile(data, index, tile, [
 				'water-top-left',
