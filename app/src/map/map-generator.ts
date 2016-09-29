@@ -1,7 +1,7 @@
 /// <reference path="ndarray.d.ts" />
 import {perlin} from '../vendor/perlin';
 import {floodfill} from '../vendor/flood-fill';
-import {NDArray} from '../interfaces';
+import {NDArray, ICoordinates} from '../interfaces';
 import ndarray = require('ndarray');
 import {MapGenTile} from './map-gen-tile';
 import Immutable = require('immutable');
@@ -9,26 +9,27 @@ import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
 import {util} from '../util';
 
-type NeighborCheckFunction = (neighbor: string) => boolean;
+type NeighborCheckFunction<T> = (neighbor: T) => boolean;
 
-const waterCheckFunction: NeighborCheckFunction = (neighbor: string): boolean => {
+const waterCheckFunction: NeighborCheckFunction<string> = (neighbor: string): boolean => {
 		if (!neighbor) {
 			return true;
 		}
 		// Check if they're water tiles. If they're at the edge of the map (no neighbor)
 		// then just act like the water continues off the map
 		return neighbor.indexOf('water') !== -1 && neighbor.indexOf('bridge') === -1;
-	};
+	},
+	hillCheckFunction: NeighborCheckFunction<MapGenTile> = (tile: MapGenTile) => tile && tile.isHill;
 
-type NeighborMap = {
-    left: string;
-    right: string;
-    top: string;
-    bottom: string;
-    topLeft: string;
-    topRight: string;
-    bottomLeft: string;
-    bottomRight: string;
+type NeighborMap<T> = {
+    left: T;
+    right: T;
+    top: T;
+    bottom: T;
+    topLeft: T;
+    topRight: T;
+    bottomLeft: T;
+    bottomRight: T;
 }
 
 let zoneNumberStart = 10,
@@ -73,12 +74,18 @@ export class MapGenerator {
 		// let tiles = baseTilemap.map((tile, index) => new MapGenTile(tile, index, this.dimension));
 		tiles = this.markBorderWaterTiles(tiles);
 
+
 		this.logUpdate('bridging islands');
 		// Create bridges between islands√
-        tiles = this.bridgeIslands(tiles);
+        const returned = this.bridgeIslands(tiles);
+		let bridgedTiles = returned.bridgedTiles;
+		tiles = returned.tiles;
 
 		this.logUpdate('generating hills');
-		this.generateHills(bridgedTiles, options.hills, options.noHills);
+		tiles = this.generateHills(tiles);
+
+		this.logUpdate('cleaning up hills');
+		this.cleanupHills(tiles, bridgedTiles);
 
 		this.logUpdate('generating resources');
 		this.generateResources(options);
@@ -86,6 +93,128 @@ export class MapGenerator {
 		this.logUpdate('updatetilemapdata');
 		this.updateTilemapData();
     }
+
+	// Not sure if this helps
+	getRidOfHillNubs (
+		tiles: Immutable.List<MapGenTile>
+	): Immutable.List<MapGenTile> {
+		const hillTiles = tiles.filter(tile => tile.isHill),
+			tilesToMakeLand: MapGenTile[] = [];
+
+		// Only check the bridged tiles
+		hillTiles.forEach(tile => {
+			var siblings = tile.getSiblings();
+
+			// Check the siblings because those will be the tiles affected
+			siblings.forEach(siblingIndex => {
+				const sibling = tiles.get(siblingIndex);
+				if (sibling.isHill) {
+					const neighborMap = this.getTileNeighborMap(tiles.toArray(),
+							sibling.index, hillCheckFunction);
+					let total = 0;
+
+					for (let direction in neighborMap) {
+						if (neighborMap[direction]) {
+							total++;
+						}
+						if (total > 1) {
+							return;
+						}
+					}
+					// console.log(sibling);
+					// Edge case when tiles are on the edge of the map, don't touch them
+					if (total === 1 && sibling.row !== 0 && sibling.column !== 0) {
+						tilesToMakeLand.push(sibling);
+					}
+				}
+			});
+		});
+		return tiles.withMutations(tiles => {
+			tilesToMakeLand.forEach(tile => {
+				tiles.set(tile.index, this._makeLand(tile));
+			});
+		});
+	}
+
+	cleanupHills (
+		tiles: Immutable.List<MapGenTile>,
+		bridgedTiles: MapGenTile[]
+	): Immutable.List<MapGenTile> {
+		tiles = this.getRidOfHillNubs(tiles);
+
+		this.getRidOfHillsNearBridges(bridgedTiles);
+
+		// Normalize the hill sprites
+		for (i = 0; i < this.tiles.length; i++) {
+			var tile = this.tiles[i];
+
+			let hillTilemapData = (tile => {
+				if (tile.hill) {
+					return this.normalizeHillTile(tile);
+				}
+				return null;
+			})(tile);
+			// console.log(tile.hill, hillTilemapData);
+			if (hillTilemapData) {
+				tile.hill = hillTilemapData;
+				tile.tilemapData = 'empty';
+			}
+		}
+	}
+
+	/**
+	 * Makes a tile a hill and returns a copy of it with the necessary
+	 * changes. Does not modify the original tile.
+	 */
+	_makeTileHill (tile: MapGenTile): MapGenTile {
+		// Making it land will wipe out the tilemap data and give us a copy
+		const copy = this._makeLand(tile);
+		copy.isHill = true;
+		return copy;
+	}
+
+	generateHills (
+		tiles: Immutable.List<MapGenTile>,
+		hillsData?: ICoordinates[],
+		noHills: boolean = false
+	) {
+		if (noHills) {
+			return;
+		}
+
+		const tilesToMakeHills: number[] = [];
+		if (hillsData) {
+			hillsData.forEach(coords => {
+				let i = coords.y * this.dimension + coords.x;
+				tilesToMakeHills.push(i);
+			});
+
+		// Randomize
+		} else {
+			// Hill seed
+			perlin.seed(this.seed/3);
+
+			var fragment = 0.5,
+				i;
+
+			for (i=0; i < tiles.size; i++) {
+				var row = Math.floor(i / this.dimension),
+					column = i % this.dimension,
+					value = Math.abs(perlin.simplex2(column / 50 * fragment, row / 50 * fragment) * 40);
+				if (value > 30 && util.validTiles.resource([tiles.get(i)]).length) {
+					tilesToMakeHills.push(i);
+				}
+			}
+		}
+
+		// Create the hills and return the modified tiles
+		return tiles.withMutations(tiles => {
+			tilesToMakeHills.forEach(tileIndex => {
+				const tile = tiles.get(tileIndex);
+				tiles.set(tileIndex, this._makeTileHill(tile));
+			});
+		});
+	}
 
 	/**
 	 * Returns the list of tiles with the borderWater property properly marked
@@ -180,7 +309,6 @@ export class MapGenerator {
 			zoneNumberCount++;
 			landTiles = this.getUnmarkedLandTiles(tiles);
 		}
-		console.log(tiles.some(tile => tile.borderWater));
 
 		return tiles;
 	}
@@ -238,7 +366,10 @@ export class MapGenerator {
 	getRidOfBridgeNubs (
 		tiles: Immutable.List<MapGenTile>,
 		bridgedTiles: MapGenTile[]
-	): Immutable.List<MapGenTile> {
+	): {
+		tiles: Immutable.List<MapGenTile>,
+		bridgedTiles: MapGenTile[]
+	} {
 		const tilesToMakeLand: MapGenTile[] = [];
 		// Only check the bridged tiles
 		bridgedTiles.forEach(tile => {
@@ -269,17 +400,23 @@ export class MapGenerator {
 				}
 			});
 		});
-		return tiles.withMutations(tiles => {
-			tilesToMakeLand.forEach(tile => {
-				tiles.set(tile.index, this._makeLand(tile));
-			});
-		});
+		return {
+			tiles: tiles.withMutations(tiles => {
+				tilesToMakeLand.forEach(tile => {
+					tiles.set(tile.index, this._makeLand(tile));
+				});
+			}),
+			bridgedTiles: bridgedTiles
+		};
 	}
 
 	/**
 	 * Flood fill the different land regions after placing water to determine the islands on the map.
 	 */
-	bridgeIslands (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
+	bridgeIslands (tiles: Immutable.List<MapGenTile>): {
+		tiles: Immutable.List<MapGenTile>,
+		bridgedTiles: MapGenTile[]
+	} {
 		tiles = this.markZones(tiles);
 
 		// Only one/two zones means no separated land masses. Nothing to do.
@@ -417,11 +554,11 @@ export class MapGenerator {
 	 * @param {Number} index [description]
 	 * @return {Function} [description]
 	 */
-	getTileNeighborMap (
-        data: string[],
+	getTileNeighborMap<T> (
+        data: T[],
         index: number,
-        checkFunction: NeighborCheckFunction
-    ): NeighborMap {
+        checkFunction: NeighborCheckFunction<T>
+    ): NeighborMap<T> {
 		const tileFromRowColumn = (row, column) => {
 			return data[row * this.dimension + column];
 		};
@@ -463,7 +600,7 @@ export class MapGenerator {
         index: number,
         tile: string,
 		sprites: string[],
-        checkFunction: NeighborCheckFunction
+        checkFunction: NeighborCheckFunction<string>
     ): string {
 		var row = Math.floor(index / this.dimension),
 			column = index % this.dimension,

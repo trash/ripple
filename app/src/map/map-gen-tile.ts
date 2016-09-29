@@ -6,11 +6,13 @@ export class MapGenTile {
     index: number;
     borderWater: boolean;
     dimension: number;
+	isHill: boolean;
 
     static copyTile (tile: MapGenTile): MapGenTile {
         const copy = new MapGenTile(tile.data, tile.index, tile.dimension);
         copy.borderWater = tile.borderWater;
         copy.zoneNumber = tile.zoneNumber;
+        copy.isHill = tile.isHill;
         return copy;
     }
 
@@ -19,6 +21,7 @@ export class MapGenTile {
         this.index = index;
         this.borderWater = false;
         this.dimension = dimension;
+		this.isHill = false;
     }
 
     get accessible () {
@@ -99,7 +102,11 @@ export class MapGenTile {
 			siblings.push(this.topLeftSibling(), this.topRightSibling(), this.bottomLeftSibling(), this.bottomRightSibling());
 		}
 		return siblings.filter(index => {
-			return index !== null;
+			return index !== null &&
+				// Upper bound
+				index !== Math.pow(this.dimension, 2) &&
+				// Lower bound
+				index > -1;
 		});
 	}
 
