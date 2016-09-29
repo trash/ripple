@@ -7,6 +7,7 @@ export class MapGenTile {
     borderWater: boolean;
     dimension: number;
 	isHill: boolean;
+	hillData: string;
 
     static copyTile (tile: MapGenTile): MapGenTile {
         const copy = new MapGenTile(tile.data, tile.index, tile.dimension);

@@ -94,6 +94,99 @@ export class MapGenerator {
 		this.updateTilemapData();
     }
 
+	/**
+	 * Makes a tile a hill and returns a copy of it with the necessary
+	 * changes. Does not modify the original tile.
+	 */
+	_makeTileHill (tile: MapGenTile, hillTilemapData?: string): MapGenTile {
+		// Making it land will wipe out the tilemap data and give us a copy
+		const copy = this._makeTileLand(tile);
+		copy.isHill = true;
+		copy.hillData = hillTilemapData;
+		return copy;
+	}
+
+	/**
+	 * Makes a tile a bridge tile by updating its data attribute.
+	 * This method does not modify the input object but returns a copy of
+	 * the object with the property modified.
+	 */
+	_makeTileBridge (tile: MapGenTile, firstBridgeTile: boolean): MapGenTile {
+		// Don't do anything if it's not water
+		if (!tile.isWater) {
+			return tile;
+		}
+		const copy = MapGenTile.copyTile(tile);
+		copy.data = firstBridgeTile ?
+			'water-bridge-base' :
+			util.randomFromList(['water-bridge-1', 'water-bridge-2', 'water-bridge-3']);
+		return copy;
+	}
+
+	/**
+	 * Returns a copy of the tile modified to have its data be land.
+	 */
+	_makeTileLand (tile: MapGenTile): MapGenTile {
+		const copy = MapGenTile.copyTile(tile);
+		copy.data = 'empty';
+		copy.isHill = false;
+		return copy;
+	}
+
+	_clearZoneNumbers (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
+		return tiles.withMutations(tiles => {
+			tiles.forEach(tile => {
+				const copy = MapGenTile.copyTile(tile);
+				copy.zoneNumber = null;
+				tiles.set(tile.index, copy);
+			});
+		})
+	}
+
+	getRidOfHillsNearBridges (
+		tiles: Immutable.List<MapGenTile>,
+		bridgedTiles: MapGenTile[]
+	): Immutable.List<MapGenTile> {
+		// Clear this many tiles in each direction
+		const range = 5,
+			tilesToMakeLand: MapGenTile[] = [];
+
+		bridgedTiles.forEach(bridgeTile => {
+			for (var i=0; i < range; i++) {
+				for (var j=0; j < range; j++) {
+					[
+						tiles.get(bridgeTile.index + i * this.dimension + j),
+						tiles.get(bridgeTile.index - i * this.dimension - j)
+					].forEach(tile => {
+						if (tile && tile.isHill) {
+							tilesToMakeLand.push(tile);
+						}
+					});
+				}
+			}
+		});
+
+		tiles = tiles.withMutations(tiles => {
+			tilesToMakeLand.forEach(tile => {
+				tiles.set(tile.index, this._makeTileLand(tile));
+			});
+		});
+		// Removing some hills might have caused some bugs with islands???
+		// tiles = this._clearZoneNumbers(tiles);
+
+		// this.markZones();
+		// var islandsLeft = zoneNumberCount - zoneNumber;
+		// if (islandsLeft > 1) {
+		// 	console.error('Woops we got inaccessbile tiles', islandsLeft);
+		// }
+		// Now we need to calc a path between the islands left and then make a land bridge
+		// IE turning hills to land or water to land or whatever.
+		// Depending on what is changed that will determine the type of bridge.
+		// If water then water-bridge if hill then just land
+
+		return tiles;
+	}
+
 	// Not sure if this helps
 	getRidOfHillNubs (
 		tiles: Immutable.List<MapGenTile>
@@ -131,7 +224,7 @@ export class MapGenerator {
 		});
 		return tiles.withMutations(tiles => {
 			tilesToMakeLand.forEach(tile => {
-				tiles.set(tile.index, this._makeLand(tile));
+				tiles.set(tile.index, this._makeTileLand(tile));
 			});
 		});
 	}
@@ -142,35 +235,23 @@ export class MapGenerator {
 	): Immutable.List<MapGenTile> {
 		tiles = this.getRidOfHillNubs(tiles);
 
-		this.getRidOfHillsNearBridges(bridgedTiles);
+		tiles = this.getRidOfHillsNearBridges(tiles, bridgedTiles);
+
+		const tilesToMakeHills: [MapGenTile, string][] = [];
 
 		// Normalize the hill sprites
-		for (i = 0; i < this.tiles.length; i++) {
-			var tile = this.tiles[i];
+		tiles.filter(hillCheckFunction).forEach(tile => {
+			const hillTilemapData = this.normalizeHillTile(tiles, tile);
+			tilesToMakeHills.push([tile, hillTilemapData]);
+		});
 
-			let hillTilemapData = (tile => {
-				if (tile.hill) {
-					return this.normalizeHillTile(tile);
-				}
-				return null;
-			})(tile);
-			// console.log(tile.hill, hillTilemapData);
-			if (hillTilemapData) {
-				tile.hill = hillTilemapData;
-				tile.tilemapData = 'empty';
-			}
-		}
-	}
-
-	/**
-	 * Makes a tile a hill and returns a copy of it with the necessary
-	 * changes. Does not modify the original tile.
-	 */
-	_makeTileHill (tile: MapGenTile): MapGenTile {
-		// Making it land will wipe out the tilemap data and give us a copy
-		const copy = this._makeLand(tile);
-		copy.isHill = true;
-		return copy;
+		return tiles.withMutations(tiles => {
+			tilesToMakeHills.forEach(pair => {
+				const tile = pair[0],
+					hillTilemapData = pair[1];
+				tiles.set(tile.index, this._makeTileHill(tile, hillTilemapData));
+			});
+		});
 	}
 
 	generateHills (
@@ -200,7 +281,8 @@ export class MapGenerator {
 			for (i=0; i < tiles.size; i++) {
 				var row = Math.floor(i / this.dimension),
 					column = i % this.dimension,
-					value = Math.abs(perlin.simplex2(column / 50 * fragment, row / 50 * fragment) * 40);
+					value = Math.abs(perlin.simplex2(
+						column / 50 * fragment, row / 50 * fragment) * 40);
 				if (value > 30 && util.validTiles.resource([tiles.get(i)]).length) {
 					tilesToMakeHills.push(i);
 				}
@@ -313,7 +395,10 @@ export class MapGenerator {
 		return tiles;
 	}
 
-	_tilesToGrid (tiles: Immutable.List<MapGenTile>, ignoreAccessible: boolean = false): number[][] {
+	_tilesToGrid (
+		tiles: Immutable.List<MapGenTile>,
+		ignoreAccessible: boolean = false
+	): number[][] {
 		const grid = [],
 			dimension = tiles.get(0).dimension;
 		for (let i = 0; i < dimension; i++) {
@@ -331,32 +416,6 @@ export class MapGenerator {
 			}
 		}
 		return grid;
-	}
-
-	/**
-	 * Makes a tile a bridge tile by updating its data attribute.
-	 * This method does not modify the input object but returns a copy of
-	 * the object with the property modified.
-	 */
-	_makeBridge (tile: MapGenTile, firstBridgeTile: boolean): MapGenTile {
-		// Don't do anything if it's not water
-		if (!tile.isWater) {
-			return tile;
-		}
-		const copy = MapGenTile.copyTile(tile);
-		copy.data = firstBridgeTile ?
-			'water-bridge-base' :
-			util.randomFromList(['water-bridge-1', 'water-bridge-2', 'water-bridge-3']);
-		return copy;
-	}
-
-	/**
-	 * Returns a copy of the tile modified to have its data be land.
-	 */
-	_makeLand (tile: MapGenTile): MapGenTile {
-		const copy = MapGenTile.copyTile(tile);
-		copy.data = 'empty';
-		return copy;
 	}
 
 	/**
@@ -403,7 +462,7 @@ export class MapGenerator {
 		return {
 			tiles: tiles.withMutations(tiles => {
 				tilesToMakeLand.forEach(tile => {
-					tiles.set(tile.index, this._makeLand(tile));
+					tiles.set(tile.index, this._makeTileLand(tile));
 				});
 			}),
 			bridgedTiles: bridgedTiles
@@ -518,7 +577,7 @@ export class MapGenerator {
 			bridgedTiles.forEach(pair => {
 				const tile = pair[0],
 					firstOrLast = pair[1];
-				tiles.set(tile.index, this._makeBridge(tile, firstOrLast));
+				tiles.set(tile.index, this._makeTileBridge(tile, firstOrLast));
 			});
 		});
 
@@ -595,12 +654,12 @@ export class MapGenerator {
 		return neighborMap;
 	}
 
-    normalizeTile (
-        data: string[],
+    normalizeTile<T> (
+        data: T[],
         index: number,
         tile: string,
 		sprites: string[],
-        checkFunction: NeighborCheckFunction<string>
+        checkFunction: NeighborCheckFunction<T>
     ): string {
 		var row = Math.floor(index / this.dimension),
 			column = index % this.dimension,
@@ -655,10 +714,18 @@ export class MapGenerator {
 				right: null,
 				top: null,
 				bottom: null,
-				topLeft: column > 0 && row > 0 ? data[(row-1) * this.dimension + column-1] : null,
-				topRight: column < this.dimension-1 && row > 0 ? data[(row-1) * this.dimension + column+1] : null,
-				bottomLeft: column > 0 && row < this.dimension-1 ? data[(row+1) * this.dimension + column-1] : null,
-				bottomRight: column < this.dimension-1 && row < this.dimension-1 ? data[(row+1) * this.dimension + column+1] : null,
+				topLeft: column > 0 && row > 0 ?
+					data[(row-1) * this.dimension + column-1] :
+					null,
+				topRight: column < this.dimension-1 && row > 0 ?
+					data[(row-1) * this.dimension + column+1] :
+					null,
+				bottomLeft: column > 0 && row < this.dimension-1 ?
+					data[(row+1) * this.dimension + column-1] :
+					null,
+				bottomRight: column < this.dimension-1 && row < this.dimension-1 ?
+					data[(row+1) * this.dimension + column+1] :
+					null,
 			};
 			for (var direction in neighborMap) {
 				var neighbor = neighborMap[direction];
@@ -668,16 +735,24 @@ export class MapGenerator {
 			// First check for the hill nub stuff
 			if (sprites.length > 12) {
 				// Top nub neighbor
-				if (!neighborMap.topLeft && !neighborMap.topRight && neighborMap.bottomLeft && neighborMap.bottomRight) {
+				if (!neighborMap.topLeft && !neighborMap.topRight && neighborMap.bottomLeft
+					&& neighborMap.bottomRight
+				) {
 					return sprites[16];
 				// Bottom nub neighbor
-				} else if (neighborMap.topLeft && neighborMap.topRight && !neighborMap.bottomLeft && !neighborMap.bottomRight) {
+				} else if (neighborMap.topLeft && neighborMap.topRight && !neighborMap.bottomLeft
+					&& !neighborMap.bottomRight
+				) {
 					return sprites[17];
 				// Left nub neighbor
-				} else if (neighborMap.topLeft && !neighborMap.topRight && neighborMap.bottomLeft && !neighborMap.bottomRight) {
+				} else if (neighborMap.topLeft && !neighborMap.topRight && neighborMap.bottomLeft
+					&& !neighborMap.bottomRight
+				) {
 					return sprites[18];
 				// Right nub neighbor
-				} else if (!neighborMap.topLeft && neighborMap.topRight && !neighborMap.bottomLeft && neighborMap.bottomRight) {
+				} else if (!neighborMap.topLeft && neighborMap.topRight && !neighborMap.bottomLeft
+					&& neighborMap.bottomRight
+				) {
 					return sprites[19];
 				}
 			}
@@ -724,6 +799,38 @@ export class MapGenerator {
 			], waterCheckFunction);
 		}
 		return tile;
+	}
+
+	normalizeHillTile (
+		tiles: Immutable.List<MapGenTile>,
+		tile: MapGenTile
+	): string {
+		return this.normalizeTile(
+			tiles.toArray(),
+			tile.index,
+			tile.data,
+			[
+				'hill-top-left',
+				'hill-top-middle',
+				'hill-top-right',
+				'hill-middle-left',
+				'hill-middle-right',
+				'hill-bottom-left',
+				'hill-bottom-middle',
+				'hill-bottom-right',
+				'hill-corner-top-left',
+				'hill-corner-top-right',
+				'hill-corner-bottom-left',
+				'hill-corner-bottom-right',
+				'hill-nub-top',
+				'hill-nub-bottom',
+				'hill-nub-left',
+				'hill-nub-right',
+				'hill-nub-top-neighbor',
+				'hill-nub-bottom-neighbor',
+				'hill-nub-left-neighbor',
+				'hill-nub-right-neighbor',
+			], hillCheckFunction);
 	}
 
     /**
