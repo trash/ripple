@@ -8,12 +8,14 @@ export class MapGenTile {
     dimension: number;
 	isHill: boolean;
 	hillData: string;
+	resource: string;
 
     static copyTile (tile: MapGenTile): MapGenTile {
         const copy = new MapGenTile(tile.data, tile.index, tile.dimension);
         copy.borderWater = tile.borderWater;
         copy.zoneNumber = tile.zoneNumber;
         copy.isHill = tile.isHill;
+		copy.resource = tile.resource;
         return copy;
     }
 
@@ -26,7 +28,7 @@ export class MapGenTile {
     }
 
     get accessible () {
-        return !this.isWater;
+        return !this.isWater && !this.isHill;
     }
     get column () {
         return this.index % this.dimension;

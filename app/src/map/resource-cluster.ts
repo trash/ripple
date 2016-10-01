@@ -1,4 +1,4 @@
-import {util} from '../util';
+import {util, Util} from '../util';
 import {Tile} from '../map/tile';
 
 /**
@@ -12,7 +12,7 @@ import {Tile} from '../map/tile';
 export class ResourceCluster {
 	constructor (type: string, size: number, tile: Tile) {
 		// Hack to make sure trees aren't being spawned on water
-		if (size === 1 && !util.validTiles.resource([tile]).length) {
+		if (size === 1 && !Util.validTiles.resource([tile]).length) {
 			return;
 		}
 
@@ -26,7 +26,7 @@ export class ResourceCluster {
 		for (var i=0; i < size-1; i++) {
 			// Give me the next closest tile without a resource and without water
 			var nextTile = map.getNearestEmptyTile(tile, checkTile => {
-				return !checkTile.resource && util.validTiles.resource([checkTile]).length;
+				return !checkTile.resource && Util.validTiles.resource([checkTile]).length;
 			});
 			// No more free tiles?
 			if (!nextTile) {

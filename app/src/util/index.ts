@@ -1,6 +1,7 @@
 import _ = require('lodash');
 import {constants} from '../data/constants';
 import {Tile} from '../map/tile';
+import {MapGenTile} from '../map/map-gen-tile';
 import {INearestTile, ICoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {ComponentEnum} from '../entity/component-enum';
@@ -15,19 +16,18 @@ var ticksPerHour = constants.TICKS_PER_HOUR;
  * @param {Function} checkFunction Should return true if the tile is valid
  * @return {Function} Returns the filter function
  */
-const validTilesCheck = (checkFunction: (tile: Tile) => boolean) => {
-	return (tiles: Tile[]) => {
+const validTilesCheck = (checkFunction: (tile: MapGenTile) => boolean) => {
+	return (tiles: MapGenTile[]) => {
 		return tiles.filter(tile => checkFunction(tile));
 	};
 };
 
 const defaultValidTilesCheck = validTilesCheck(tile =>
-	!tile.resource && tile.accessible && !tile.water && !tile.bridge && !tile.hill
+	!tile.resource && tile.accessible && !tile.isWater && !tile.isBridge && !tile.isHill
 );
 
 export class Util {
 	canvas: any;
-	validTiles: any;
 
 	/**
 	 * Helper to filter a set of tiles down to valid ones for placing a farm
@@ -38,14 +38,8 @@ export class Util {
 	 * @return {Boolean} The subset of tiles that are valid
 	 */
 	static validTiles = {
-		item: defaultValidTilesCheck,
-		farm: defaultValidTilesCheck,
 		resource: defaultValidTilesCheck
 	};
-
-	constructor () {
-		this.validTiles = Util.validTiles;
-	}
 
 	saveToFile (data) {
 		var url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
@@ -57,8 +51,14 @@ export class Util {
 		if (color.match('0x')) {
 			color = color.slice(2);
 		}
-		var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-		var shaded = '#'+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+		const f = parseInt(color.slice(1), 16),
+			t = percent < 0 ? 0 : 255,
+			p = percent < 0 ? percent * -1 : percent,
+			R = f>>16,
+			G = f>>8&0x00FF,
+			B = f&0x0000FF;
+		let shaded = '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+			(Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
 		shaded = '0x' + shaded.slice(1).toUpperCase();
 		return shaded;
 	}

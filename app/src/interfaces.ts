@@ -1,6 +1,12 @@
 import {Tile} from './map/tile';
 import {professions} from './data/professions';
 
+export interface IRandomTileOptions {
+	accessible?: boolean;
+	range?: number;
+	baseTile?: Tile;
+}
+
 export interface IAgentSprite extends PIXI.Sprite {
 	frame?: number;
 }

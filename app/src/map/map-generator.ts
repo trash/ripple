@@ -7,7 +7,8 @@ import {MapGenTile} from './map-gen-tile';
 import Immutable = require('immutable');
 import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
-import {util} from '../util';
+import {util, Util} from '../util';
+import {ResourceCluster} from './resource-cluster';
 
 type NeighborCheckFunction<T> = (neighbor: T) => boolean;
 
@@ -31,6 +32,14 @@ type NeighborMap<T> = {
     bottomLeft: T;
     bottomRight: T;
 }
+
+interface IClearTilesInput {
+	position: ICoordinates;
+	size: {
+		width: number;
+		height: number;
+	};
+};
 
 let zoneNumberStart = 10,
 	zoneNumberCount;
@@ -88,10 +97,17 @@ export class MapGenerator {
 		this.cleanupHills(tiles, bridgedTiles);
 
 		this.logUpdate('generating resources');
-		this.generateResources(options);
+		tiles = this.generateResources(tiles);
 
 		this.logUpdate('updatetilemapdata');
-		this.updateTilemapData();
+		const tilemapData = tiles.map(tile => tile.data).toArray();
+		console.log(tilemapData);
+
+		this.logUpdate('complete');
+		return {
+			tilemapData: tilemapData,
+			baseTilemap: baseTilemap
+		};
     }
 
 	/**
@@ -141,6 +157,168 @@ export class MapGenerator {
 				tiles.set(tile.index, copy);
 			});
 		})
+	}
+
+	_getResourceCluster (
+		tiles: Immutable.List<MapGenTile>,
+		size: number,
+		tile: MapGenTile
+	): MapGenTile[] {
+		const clusterTiles: MapGenTile[] = [];
+
+		for (let i = 0; i < size - 1; i++) {
+			// Give me the next closest tile without a resource and without water
+			const nextTile = MapUtil.getNearestEmptyTile(tiles.toArray(), tile, (checkTile) => {
+				return !(checkTile as MapGenTile).resource &&
+					!!Util.validTiles.resource([checkTile as MapGenTile]).length;
+			}) as MapGenTile;
+			// No more free tiles?
+			if (!nextTile) {
+				break;
+			}
+
+			clusterTiles.push(nextTile);
+		}
+		console.info('we should be clearing tiles here?');
+		return clusterTiles;
+	}
+
+	/**
+	 * Generates clusters of the given resource type.
+	 *
+	 * @param {String} type The type of resource
+	 * @param {Number} amount Creates clusters with that total up to 'amount'.
+	 * @param {Number[]} clusterBounds Cluster bounds determines the ranges of size for each cluster.
+	 */
+	generateResourceClusters (
+		tiles: Immutable.List<MapGenTile>,
+		type: string,
+		amount: number,
+		clusterBounds: [number, number],
+		filteredTiles: MapGenTile[]
+	): MapGenTile[] {
+		while (amount > 0) {
+			const clusterSize = util.randomInRange(clusterBounds[0], clusterBounds[1]);
+			amount -= clusterSize;
+
+			// Pick the starting tile for cluster from all filtered tiles
+			const tileIndex = util.randomInRange(0 ,filteredTiles.length, false, false),
+				randomTile = filteredTiles[tileIndex];
+
+			// Generate the cluster
+			const clusterTiles = this._getResourceCluster(tiles, clusterSize, randomTile);
+			console.log('we need to be generating resources somehow with these clusterTiles');
+
+			// Remove the tile from the filtered list
+			filteredTiles.splice(tileIndex, 1);
+		}
+		return filteredTiles;
+	}
+
+	/**
+	 * Clears a rectangular area of all resources
+	 *
+	 * @param {Object} data
+	 * @param {Object} data.position x,y coords to start clear
+	 * @param {Object} data.size width, height integer dimensions of clear space
+	 */
+	clearTiles (tiles: Immutable.List<MapGenTile>, data: IClearTilesInput) {
+		const tileStart = data.position,
+			clearDimensions = data.size,
+			tileEnd = {
+				x: tileStart.x + clearDimensions.width,
+				y: tileStart.y + clearDimensions.height
+			};
+		const tilesToClear = [];
+		for (let x = tileStart.x; x < tileEnd.x; x++) {
+			for (let y = tileStart.y; y < tileEnd.y; y++) {
+				const tile = MapUtil.getTile(tiles.toArray(), y, x);
+				if (tile) {
+					tilesToClear.push(tile);
+				}
+			}
+		}
+		return tiles.withMutations(tiles => {
+			tilesToClear.forEach(tile => {
+				const copy = MapGenTile.copyTile(tile);
+				copy.resource = null;
+				tiles.set(tile.index, copy);
+			});
+		});
+	}
+
+	/**
+	 * This method should determine the required amount of resources for a given map size
+	 * And then iterate through and generate clusters of resources on the map
+	 */
+	generateResources (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
+		perlin.seed(this.seed);
+		const fragment = 2;
+
+		var clearTiles: MapGenTile[] = [];
+
+		tiles.filter(tile => !tile.isHill).forEach(tile => {
+			let value = perlin.simplex2(tile.column / 50 * fragment, tile.row / 50 * fragment);
+			value *= 40;
+			value = Math.floor(Math.abs(value));
+
+			// Trees 10%
+			if (value > 15) {
+				const treeTiles = this._getResourceCluster(tiles, 1, tile);
+				tiles = tiles.withMutations(tiles => {
+					treeTiles.forEach(tile => {
+						const copy = MapGenTile.copyTile(tile);
+						copy.resource = 'tree';
+						tiles.set(tile.index, copy);
+					});
+				});
+			// Rocks 2.5%
+			} else if (value === 28) {
+				// new ResourceCluster('rock', 1, tile);
+			// Bushes 2.5%
+			} else if (value === 27) {
+				// new ResourceCluster('bush', 1, tile);
+			} else if (value < 2) {
+				clearTiles.push(tile);
+			}
+		});
+
+		const tilesCount = tiles.size,
+			// We want 20% of the tiles to be trees
+			// treesCount = Math.floor(tilesCount * 0.20),
+			// 2.5% to be rocks
+			rocksCount = Math.floor(tilesCount * 0.025),
+			// 2.0% to be shrooms
+			shroomCount = Math.floor(tilesCount * 0.02),
+			// 2.5% to be bushes
+			bushesCount = Math.floor(tilesCount * 0.025);
+
+		let filteredTiles = Util.validTiles.resource(tiles.toArray());
+
+		// Tree clusters between 6 - 10
+		// this.generateResourceClusters('tree', treesCount, [5, 40]);
+		// Rock clusters between 10 - 15
+		filteredTiles = this.generateResourceClusters(tiles, 'rock', rocksCount, [10, 15], filteredTiles);
+		// Bush clusters between 2 - 5
+		filteredTiles = this.generateResourceClusters(tiles, 'bush', bushesCount, [2, 5], filteredTiles);
+		// Shroom clusters between 3-5
+		this.generateResourceClusters(tiles, 'mushroom', shroomCount, [3, 5], filteredTiles);
+
+		// Create some random clearings
+		clearTiles.forEach(tile => {
+			tiles = this.clearTiles(tiles, {
+				position: {
+					x: tile.column,
+					y: tile.row
+				},
+				size: {
+					width: 8 - fragment,
+					height: 8 - fragment
+				}
+			});
+		});
+
+		return tiles;
 	}
 
 	getRidOfHillsNearBridges (
@@ -283,7 +461,7 @@ export class MapGenerator {
 					column = i % this.dimension,
 					value = Math.abs(perlin.simplex2(
 						column / 50 * fragment, row / 50 * fragment) * 40);
-				if (value > 30 && util.validTiles.resource([tiles.get(i)]).length) {
+				if (value > 30 && Util.validTiles.resource([tiles.get(i)]).length) {
 					tilesToMakeHills.push(i);
 				}
 			}
