@@ -87,16 +87,15 @@ export class MapGenerator {
 		// Create bridges between islands√
         tiles = this.bridgeIslands(tiles);
 
-		this.logUpdate('generating hills');
-		tiles = this.generateHills(tiles);
+		let resourceList = Immutable.List<string>(new Array(tiles.size).fill(null));
 
-		this.logUpdate('cleaning up hills');
-		// this.cleanupHills(tiles, bridgedTiles);
+		this.logUpdate('generating hills');
+		resourceList = this.generateHills(tiles, resourceList);
 
 		this.logUpdate('generating resources');
 		// tiles = this.generateResources(tiles);
-		const resources = this.generateResources(tiles);
-		console.log(resources);
+		resourceList = this.generateResources(resourceList);
+		console.log(resourceList.toArray());
 
 		this.logUpdate('updatetilemapdata');
 		const upperTilemap = tiles.map(tile => tile.data).toArray();
@@ -106,7 +105,7 @@ export class MapGenerator {
 		return {
 			upperTilemap: upperTilemap,
 			baseTilemap: baseTilemap,
-			resources: resources
+			resources: resourceList
 		};
     }
 
@@ -247,12 +246,19 @@ export class MapGenerator {
 		});
 	}
 
-	generateResources (tiles: Immutable.List<MapGenTile>): Immutable.List<string> {
+	generateResources (
+		resourceList: Immutable.List<string>
+	): Immutable.List<string> {
 		perlin.seed(this.seed);
 		const fragment = 2;
 
-		return Immutable.List<string>(tiles.map((tile, i) => {
-			let value = perlin.simplex2(tile.column / 50 * fragment, tile.row / 50 * fragment);
+		return resourceList.toSeq().map((resource, i) => {
+			if (resource) {
+				return resource;
+			}
+			const column = i % this.dimension,
+				row = Math.floor(i / this.dimension);
+			let value = perlin.simplex2(column / 50 * fragment, row / 50 * fragment);
 			value *= 40;
 			value = Math.floor(Math.abs(value));
 
@@ -270,236 +276,33 @@ export class MapGenerator {
 				return null;
 			}
 			return null;
-		}));
-	}
-
-	/**
-	 * This method should determine the required amount of resources for a given map size
-	 * And then iterate through and generate clusters of resources on the map
-	 */
-	generateResourcesOLD (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
-		perlin.seed(this.seed);
-		const fragment = 2;
-
-		var clearTiles: MapGenTile[] = [];
-
-		tiles.filter(tile => !tile.isHill).forEach(tile => {
-			let value = perlin.simplex2(tile.column / 50 * fragment, tile.row / 50 * fragment);
-			value *= 40;
-			value = Math.floor(Math.abs(value));
-
-			// Trees 10%
-			if (value > 15) {
-				const treeTiles = this._getResourceCluster(tiles, 1, tile);
-				tiles = tiles.withMutations(tiles => {
-					treeTiles.forEach(tile => {
-						const copy = MapGenTile.copyTile(tile);
-						copy.resource = 'tree';
-						tiles.set(tile.index, copy);
-					});
-				});
-			// Rocks 2.5%
-			} else if (value === 28) {
-				// new ResourceCluster('rock', 1, tile);
-			// Bushes 2.5%
-			} else if (value === 27) {
-				// new ResourceCluster('bush', 1, tile);
-			} else if (value < 2) {
-				clearTiles.push(tile);
-			}
-		});
-
-		const tilesCount = tiles.size,
-			// We want 20% of the tiles to be trees
-			// treesCount = Math.floor(tilesCount * 0.20),
-			// 2.5% to be rocks
-			rocksCount = Math.floor(tilesCount * 0.025),
-			// 2.0% to be shrooms
-			shroomCount = Math.floor(tilesCount * 0.02),
-			// 2.5% to be bushes
-			bushesCount = Math.floor(tilesCount * 0.025);
-
-		let filteredTiles = Util.validTiles.resource(tiles.toArray());
-
-		// Tree clusters between 6 - 10
-		// this.generateResourceClusters('tree', treesCount, [5, 40]);
-		// Rock clusters between 10 - 15
-		filteredTiles = this.generateResourceClusters(tiles, 'rock', rocksCount, [10, 15], filteredTiles);
-		// Bush clusters between 2 - 5
-		filteredTiles = this.generateResourceClusters(tiles, 'bush', bushesCount, [2, 5], filteredTiles);
-		// Shroom clusters between 3-5
-		this.generateResourceClusters(tiles, 'mushroom', shroomCount, [3, 5], filteredTiles);
-
-		// Create some random clearings
-		clearTiles.forEach(tile => {
-			tiles = this.clearTiles(tiles, {
-				position: {
-					x: tile.column,
-					y: tile.row
-				},
-				size: {
-					width: 8 - fragment,
-					height: 8 - fragment
-				}
-			});
-		});
-
-		return tiles;
-	}
-
-	getRidOfHillsNearBridges (
-		tiles: Immutable.List<MapGenTile>,
-		bridgedTiles: MapGenTile[]
-	): Immutable.List<MapGenTile> {
-		// Clear this many tiles in each direction
-		const range = 5,
-			tilesToMakeLand: MapGenTile[] = [];
-
-		bridgedTiles.forEach(bridgeTile => {
-			for (var i=0; i < range; i++) {
-				for (var j=0; j < range; j++) {
-					[
-						tiles.get(bridgeTile.index + i * this.dimension + j),
-						tiles.get(bridgeTile.index - i * this.dimension - j)
-					].forEach(tile => {
-						if (tile && tile.isHill) {
-							tilesToMakeLand.push(tile);
-						}
-					});
-				}
-			}
-		});
-
-		tiles = tiles.withMutations(tiles => {
-			tilesToMakeLand.forEach(tile => {
-				tiles.set(tile.index, this._makeTileLand(tile));
-			});
-		});
-		// Removing some hills might have caused some bugs with islands???
-		// tiles = this._clearZoneNumbers(tiles);
-
-		// this.markZones();
-		// var islandsLeft = zoneNumberCount - zoneNumber;
-		// if (islandsLeft > 1) {
-		// 	console.error('Woops we got inaccessbile tiles', islandsLeft);
-		// }
-		// Now we need to calc a path between the islands left and then make a land bridge
-		// IE turning hills to land or water to land or whatever.
-		// Depending on what is changed that will determine the type of bridge.
-		// If water then water-bridge if hill then just land
-
-		return tiles;
-	}
-
-	// Not sure if this helps
-	getRidOfHillNubs (
-		tiles: Immutable.List<MapGenTile>
-	): Immutable.List<MapGenTile> {
-		const hillTiles = tiles.filter(tile => tile.isHill),
-			tilesToMakeLand: MapGenTile[] = [];
-
-		// Only check the bridged tiles
-		hillTiles.forEach(tile => {
-			var siblings = tile.getSiblings();
-
-			// Check the siblings because those will be the tiles affected
-			siblings.forEach(siblingIndex => {
-				const sibling = tiles.get(siblingIndex);
-				if (sibling.isHill) {
-					const neighborMap = this.getTileNeighborMap(tiles.toArray(),
-							sibling.index, hillCheckFunction);
-					let total = 0;
-
-					for (let direction in neighborMap) {
-						if (neighborMap[direction]) {
-							total++;
-						}
-						if (total > 1) {
-							return;
-						}
-					}
-					// console.log(sibling);
-					// Edge case when tiles are on the edge of the map, don't touch them
-					if (total === 1 && sibling.row !== 0 && sibling.column !== 0) {
-						tilesToMakeLand.push(sibling);
-					}
-				}
-			});
-		});
-		return tiles.withMutations(tiles => {
-			tilesToMakeLand.forEach(tile => {
-				tiles.set(tile.index, this._makeTileLand(tile));
-			});
-		});
-	}
-
-	cleanupHills (
-		tiles: Immutable.List<MapGenTile>,
-		bridgedTiles: MapGenTile[]
-	): Immutable.List<MapGenTile> {
-		tiles = this.getRidOfHillNubs(tiles);
-
-		tiles = this.getRidOfHillsNearBridges(tiles, bridgedTiles);
-
-		const tilesToMakeHills: [MapGenTile, string][] = [];
-
-		// Normalize the hill sprites
-		tiles.filter(hillCheckFunction).forEach(tile => {
-			const hillTilemapData = this.normalizeHillTile(tiles, tile);
-			tilesToMakeHills.push([tile, hillTilemapData]);
-		});
-
-		return tiles.withMutations(tiles => {
-			tilesToMakeHills.forEach(pair => {
-				const tile = pair[0],
-					hillTilemapData = pair[1];
-				tiles.set(tile.index, this._makeTileHill(tile, hillTilemapData));
-			});
-		});
+		}).toList();
 	}
 
 	generateHills (
 		tiles: Immutable.List<MapGenTile>,
-		hillsData?: ICoordinates[],
+		resourceList: Immutable.List<string>,
 		noHills: boolean = false
-	) {
+	): Immutable.List<string> {
 		if (noHills) {
 			return;
 		}
+		// Hill seed
+		perlin.seed(this.seed / 3);
 
-		const tilesToMakeHills: number[] = [];
-		if (hillsData) {
-			hillsData.forEach(coords => {
-				let i = coords.y * this.dimension + coords.x;
-				tilesToMakeHills.push(i);
-			});
+		const fragment = 0.5;
+		let i;
 
-		// Randomize
-		} else {
-			// Hill seed
-			perlin.seed(this.seed/3);
-
-			var fragment = 0.5,
-				i;
-
-			for (i=0; i < tiles.size; i++) {
-				var row = Math.floor(i / this.dimension),
-					column = i % this.dimension,
-					value = Math.abs(perlin.simplex2(
-						column / 50 * fragment, row / 50 * fragment) * 40);
-				if (value > 30 && Util.validTiles.resource([tiles.get(i)]).length) {
-					tilesToMakeHills.push(i);
-				}
+		for (i = 0; i < tiles.size; i++) {
+			const row = Math.floor(i / this.dimension),
+				column = i % this.dimension,
+				value = Math.abs(perlin.simplex2(
+					column / 50 * fragment, row / 50 * fragment) * 40);
+			if (value > 30 && Util.validTiles.resource([tiles.get(i)]).length) {
+				resourceList = resourceList.set(i, 'hill');
 			}
 		}
-
-		// Create the hills and return the modified tiles
-		return tiles.withMutations(tiles => {
-			tilesToMakeHills.forEach(tileIndex => {
-				const tile = tiles.get(tileIndex);
-				tiles.set(tileIndex, this._makeTileHill(tile));
-			});
-		});
+		return resourceList;
 	}
 
 	/**
