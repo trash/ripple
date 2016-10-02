@@ -13,8 +13,6 @@ import {MapUtil} from './map-util';
 import {MapGenTile} from './map-gen-tile';
 import {MapTile} from './tile';
 
-type TileCoordinates = [number, number];
-
 var zoneNumber = 10,
 	zoneNumberCount;
 
@@ -27,13 +25,17 @@ export interface IMapOptions {
 	noHills?: boolean;
 	allLand?: boolean;
 	saveData?: SerializedMapData
-};
+}
 
-interface SerializedMapData {
+export interface IGeneratedMapData {
+	baseTilemap: string[];
+	upperTilemap: string[];
+	resourceList: string[];
+}
+
+interface SerializedMapData extends IGeneratedMapData {
 	dimension: number,
-	baseTilemap: string[],
-	upperTilemap: string[],
-};
+}
 
 interface ClearTilesInput {
 	position: ICoordinates;
@@ -41,16 +43,6 @@ interface ClearTilesInput {
 		width: number;
 		height: number;
 	};
-};
-
-export interface PathCoordinates {
-	column: number;
-	row: number;
-};
-
-export interface IGeneratedMapData {
-	baseTilemap: string[];
-	upperTilemap: string[];
 }
 
 export class GameMap {
@@ -61,6 +53,7 @@ export class GameMap {
 	dimension: number;
 	baseTilemap: string[];
 	upperTilemap: string[];
+	resourceList: string[];
 	targetCursor: any;
 	_grid: number[][];
 	_tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
@@ -99,17 +92,12 @@ export class GameMap {
 			// 10: dirt on grass 3
 			ratios: {
 				'empty': 40, //effectively 'full-grass'
-				// '1': 1,
 				'grass': 20,
-				// '3': 8,
+				// 'grass2': 8,
 				'grass3': 2,
-				// '5': 2,
-				// '6': 2,
+				// 'grass4': 2,
+				// 'grass5': 2,
 				'grass6': 2,
-				// 'water-full': 2
-				// '8': 1,
-				// '9': 0,
-				// '10': 0,
 				// 'dirt1': 2
 
 			}
@@ -135,6 +123,7 @@ export class GameMap {
 	_loadGeneratedMapData (mapData: IGeneratedMapData) {
 		this.baseTilemap = mapData.baseTilemap;
 		this.upperTilemap = mapData.upperTilemap;
+		this.resourceList = mapData.resourceList;
 
 		console.log(this.baseTilemap, this.upperTilemap);
 
@@ -484,7 +473,7 @@ export class GameMap {
 	getPath (
 		fromTile: IRowColumnCoordinates,
 		toTile: IRowColumnCoordinates
-	): PathCoordinates[] {
+	): IRowColumnCoordinates[] {
 		return MapUtil.getPath(this.grid(), fromTile, toTile);
 	}
 
@@ -499,5 +488,9 @@ export class GameMap {
 	*/
 	getTile (row: number, column: number): MapTile {
 		return MapUtil.getTile(this.tiles, row, column);
+	}
+
+	getTileByIndex (index: number) {
+		return this.getTile(Math.floor(index / this.dimension), index % this.dimension);
 	}
 }

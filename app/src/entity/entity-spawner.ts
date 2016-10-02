@@ -1,6 +1,6 @@
 // import {behaviorTree as villagerTree} from '../agents/villager-tree';
 import {deerTree as villagerTree} from '../b3/trees/deer';
-import {IEntityComponentData} from '../interfaces';
+import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {agentsAssemblageData} from '../entity/assemblages-data/agents';
 import {resourcesAssemblageData} from '../entity/assemblages-data/resources';
@@ -18,7 +18,6 @@ import {IAgentAssemblageTestData} from '../data/test-level';
 // import {buildings} from '../services/buildings';
 // import {AgentsService} from '../services/agents-service';
 // import {ItemManager} from '../services/item-manager';
-import {Tile} from '../map/tile';
 import {GameMap} from '../map';
 
 export class EntitySpawner {
@@ -112,7 +111,7 @@ export class EntitySpawner {
 
 	spawnResource (
         resourceName: string,
-        tile: Tile,
+        tile: IRowColumnCoordinates,
         entityComponentData: IEntityComponentData = {}
     ): number {
 		const assemblageData = _.extend({}, resourcesAssemblageData[resourceName]);
@@ -121,6 +120,10 @@ export class EntitySpawner {
 		entityComponentData.position = {
 			tile: tile
 		};
+
+		if (tile.isWater) {
+			console.error('this shouldnt happen');
+		}
 
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Resource);
 

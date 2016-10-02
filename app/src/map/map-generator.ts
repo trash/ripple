@@ -150,16 +150,6 @@ export class MapGenerator {
 		return copy;
 	}
 
-	/**
-	 * Returns a copy of the tile modified to have its data be land.
-	 */
-	_makeTileLand (tile: MapGenTile): MapGenTile {
-		const copy = MapGenTile.copyTile(tile);
-		copy.data = 'empty';
-		copy.isHill = false;
-		return copy;
-	}
-
 	_clearZoneNumbers (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		return tiles.withMutations(tiles => {
 			tiles.forEach(tile => {

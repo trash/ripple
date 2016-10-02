@@ -107,6 +107,13 @@ export class GameManager {
 
 		this.map.initialize();
 
+        // Spawn resources
+        this.map.resourceList.forEach((resourceName, i) => {
+            if (resourceName && resourceName !== 'hill') {
+                this.entitySpawner.spawnResource(resourceName, this.map.getTileByIndex(i));
+            }
+        });
+
         const startTile = this.map.getRandomTile({
             accessible: true
         });
