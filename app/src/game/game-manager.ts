@@ -62,10 +62,11 @@ export class GameManager {
         canvasService.instantiateCanvas(this.renderer.view);
         this.stage = new PIXI.Container();
 
-        var seeds = [0.663345, 0.8908902304];
+        let seeds = [0.663345, 0.8908902304];
 		seeds = [0.8908902304];
 
-		this.seed = util.randomFromList(seeds) || Math.random();
+        this.seed = Math.random();
+		// this.seed = util.randomFromList(seeds) || Math.random();
 
         this.loop = new GameLoop();
 		this.loop.on('update', this.update.bind(this));

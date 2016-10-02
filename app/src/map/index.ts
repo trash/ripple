@@ -102,13 +102,9 @@ export class GameMap {
 			this.baseTilemap = saveData.bottomTilemap;
 			this.upperTilemap = saveData.tilemapData;
 			this.generateTiles(this.upperTilemap, saveData.resources);
-			console.log(this);
-			console.log(this.getTilemap());
 		} else {
 			this.generate(allLand, options);
 		}
-
-		this.generateTiles(this.upperTilemap, null);
 
 		this._tileHoverListenerCallbacks = [];
 

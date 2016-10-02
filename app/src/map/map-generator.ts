@@ -624,57 +624,6 @@ export class MapGenerator {
 	}
 
 	/**
-	 * Gets rid of the little single tile inlets created by the bridge code
-	 * @return {[type]} [description]
-	 */
-	getRidOfBridgeNubs (
-		tiles: Immutable.List<MapGenTile>,
-		bridgedTiles: MapGenTile[]
-	): {
-		tiles: Immutable.List<MapGenTile>,
-		bridgedTiles: MapGenTile[]
-	} {
-		const tilesToMakeLand: MapGenTile[] = [];
-		// Only check the bridged tiles
-		bridgedTiles.forEach(tile => {
-			// Check the siblings because those will be the tiles affected
-			tile.getSiblings().forEach(siblingIndex => {
-				const sibling = tiles.get(siblingIndex);
-				if (sibling.isWater) {
-					const neighborMap = this.getTileNeighborMap(
-						tiles.toArray().map(tile => tile.data),
-						siblingIndex,
-						neighbor => !!neighbor);
-					let total = 0;
-
-					for (let direction in neighborMap) {
-						if (neighborMap[direction]) {
-							total++;
-						}
-						if (total > 1) {
-							return;
-						}
-					}
-					if (total === 1 &&
-						// Edge case when tiles are on the edge of the map, don't touch them
-						sibling.row !== 0 && sibling.column !== 0
-					) {
-						tilesToMakeLand.push(sibling);
-					}
-				}
-			});
-		});
-		return {
-			tiles: tiles.withMutations(tiles => {
-				tilesToMakeLand.forEach(tile => {
-					tiles.set(tile.index, this._makeTileLand(tile));
-				});
-			}),
-			bridgedTiles: bridgedTiles
-		};
-	}
-
-	/**
 	 * Flood fill the different land regions after placing water to determine the islands on the map.
 	 */
 	bridgeIslands (tiles: Immutable.List<MapGenTile>): {
@@ -685,7 +634,10 @@ export class MapGenerator {
 
 		// Only one/two zones means no separated land masses. Nothing to do.
 		if (zoneNumberCount <= zoneNumberStart + 1) {
-			return tiles;
+			return {
+				tiles: tiles,
+				bridgedTiles: []
+			};
 		}
 		const bridgedTiles: ([MapGenTile, boolean])[] = [];
 
@@ -708,7 +660,7 @@ export class MapGenerator {
 					first: null,
 					second: null
 				}, i;
-			for (i = 0; i < islandTiles.size; i++) {
+			for (i=0; i < islandTiles.size; i++) {
 				for (var j=0; j < otherTiles.size; j++) {
 					var distance = Math.ceil(islandTiles.get(i).distanceTo(otherTiles.get(j)));
 					if (distance < closest.distance) {
@@ -720,6 +672,7 @@ export class MapGenerator {
 					}
 				}
 			}
+
 			// Now form a bridge between the two island
 			// First get a path from the first tile to the second
 			const path = MapUtil.getPath(this._tilesToGrid(tiles, true), closest.first, closest.second);
@@ -786,8 +739,10 @@ export class MapGenerator {
 			});
 		});
 
-		// Get rid of nubs
-		return this.getRidOfBridgeNubs(tiles, bridgedTiles.map(pair => pair[0]));
+		return {
+			tiles: tiles,
+			bridgedTiles: []
+		};
 	}
 
     generateWater (data: string[]): string[] {
@@ -818,10 +773,10 @@ export class MapGenerator {
 	 * @param {Number} index [description]
 	 * @return {Function} [description]
 	 */
-	getTileNeighborMap<T> (
+	getTileNeighborMap<T, R> (
         data: T[],
         index: number,
-        checkFunction: NeighborCheckFunction<T>
+        checkFunction: NeighborCheckFunction<R>
     ): NeighborMap<T> {
 		const tileFromRowColumn = (row, column) => {
 			return data[row * this.dimension + column];
