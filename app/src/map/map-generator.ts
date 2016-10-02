@@ -12,6 +12,12 @@ import {ResourceCluster} from './resource-cluster';
 
 type NeighborCheckFunction<T> = (neighbor: T) => boolean;
 
+export interface IMapGenReturn {
+	baseTilemap: string[],
+	upperTilemap: string[],
+	resourceList: string[]
+};
+
 const waterCheckFunction: NeighborCheckFunction<string> = (neighbor: string): boolean => {
 		if (!neighbor) {
 			return true;
@@ -41,6 +47,16 @@ interface IClearTilesInput {
 	};
 };
 
+interface IBiomeRatiosMap {
+	[key: string]: number;
+}
+
+interface IBiome {
+	name: string;
+	baseTile: string;
+	ratios: IBiomeRatiosMap
+}
+
 let zoneNumberStart = 10,
 	zoneNumberCount;
 
@@ -49,25 +65,25 @@ export class MapGenerator {
     dimension: number;
     seed: number;
     allLand: boolean;
-    baseTile: string;
+    biome: IBiome;
 
     constructor (
         dimension: number,
         seed: number,
-        baseTile: string,
+        biome: IBiome,
         allLand: boolean = false
     ) {
         this.startTime = performance.now();
         this.dimension = dimension;
         this.seed = seed;
         this.allLand = allLand;
-        this.baseTile = baseTile;
+        this.biome = biome;
     }
 
-    generate () {
+    generate (): IMapGenReturn {
         // Generate a flat map of the biome's base tile
         let baseTilemap: string[] = _.range(0, (this.dimension * this.dimension))
-            .map(() => this.baseTile);
+            .map(() => this.biome.baseTile);
 
 		this.logUpdate('generating water');
 		// Generate water on the bottom tilemap
@@ -78,7 +94,12 @@ export class MapGenerator {
 		baseTilemap = this.normalizeWaterTiles(baseTilemap);
 
 		let tiles = Immutable.List<MapGenTile>(
-			baseTilemap.map((tile, index) => new MapGenTile(tile, index, this.dimension)));
+			baseTilemap.map((tile, index) => {
+				const isWater = tile.includes('water');
+				return new MapGenTile(
+					isWater ? 'empty' : util.randomFromRatios(this.biome.ratios),
+					index, this.dimension, isWater);
+			}));
 
 		this.logUpdate('marking border water tiles');
 		tiles = this.markBorderWaterTiles(tiles);
@@ -87,38 +108,29 @@ export class MapGenerator {
 		// Create bridges between islands√
         tiles = this.bridgeIslands(tiles);
 
+		const resourceList = this.generateResourceList(tiles);
+
+		const upperTilemap = tiles.map(tile => tile.data);
+
+		this.logUpdate('complete');
+		return {
+			upperTilemap: upperTilemap.toArray(),
+			baseTilemap: baseTilemap,
+			resourceList: resourceList.toArray()
+		};
+    }
+
+	generateResourceList (tiles: Immutable.List<MapGenTile>): Immutable.List<string> {
 		let resourceList = Immutable.List<string>(new Array(tiles.size).fill(null));
 
 		this.logUpdate('generating hills');
 		resourceList = this.generateHills(tiles, resourceList);
 
 		this.logUpdate('generating resources');
-		// tiles = this.generateResources(tiles);
 		resourceList = this.generateResources(resourceList);
 		console.log(resourceList.toArray());
 
-		this.logUpdate('updatetilemapdata');
-		const upperTilemap = tiles.map(tile => tile.data).toArray();
-		console.log(upperTilemap);
-
-		this.logUpdate('complete');
-		return {
-			upperTilemap: upperTilemap,
-			baseTilemap: baseTilemap,
-			resources: resourceList
-		};
-    }
-
-	/**
-	 * Makes a tile a hill and returns a copy of it with the necessary
-	 * changes. Does not modify the original tile.
-	 */
-	_makeTileHill (tile: MapGenTile, hillTilemapData?: string): MapGenTile {
-		// Making it land will wipe out the tilemap data and give us a copy
-		const copy = this._makeTileLand(tile);
-		copy.isHill = true;
-		copy.hillData = hillTilemapData;
-		return copy;
+		return resourceList;
 	}
 
 	/**
@@ -252,7 +264,7 @@ export class MapGenerator {
 		perlin.seed(this.seed);
 		const fragment = 2;
 
-		return resourceList.toSeq().map((resource, i) => {
+		return resourceList.map((resource, i) => {
 			if (resource) {
 				return resource;
 			}
@@ -543,9 +555,9 @@ export class MapGenerator {
 			// Use different seed from main map
 			perlin.seed(this.seed/2);
 
-			var fragment = 0.45;
+			const fragment = 0.45;
 			data = data.map((tile, index) => {
-				var row = Math.floor(index / this.dimension),
+				const row = Math.floor(index / this.dimension),
 					column = index % this.dimension,
 					value = Math.abs(perlin.simplex2(column / 50 * fragment, row / 50 * fragment) * 40);
 				if (value < 5) {
@@ -792,7 +804,7 @@ export class MapGenerator {
 	 *
 	 * @return {[type]} [description]
 	 */
-	normalizeWaterTiles (data: string[]): any[] {
+	normalizeWaterTiles (data: string[]): string[] {
 		// Make sure the water tiles have the proper corner displayed based on neighbors
 		return data.map((tile, index) => this.normalizeWaterTile(data, tile, index));
 	}

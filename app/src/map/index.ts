@@ -8,7 +8,7 @@ import {constants} from '../data/constants';
 import {util, Util} from '../util';
 import {ResourceCluster} from './resource-cluster';
 import {GameManager} from '../game/game-manager';
-import {MapGenerator} from './map-generator';
+import {MapGenerator, IMapGenReturn} from './map-generator';
 import {MapUtil} from './map-util';
 import {MapGenTile} from './map-gen-tile';
 import {MapTile} from './tile';
@@ -85,7 +85,34 @@ export class GameMap {
 		// Should be getting a biome from somewhere but right now we'll hardcode it as forest
 		this.biome = {
 			name: 'forest',
-			baseTile: 'full-grass'
+			baseTile: 'full-grass',
+			// full-grass: background
+			// 1: background
+			// grass: grass
+			// 3: grass rock top right
+			// grass3: grass rock top left
+			// 5: grass multiple rocks
+			// 6: grass multiple rocks 2
+			// grass6: grass with mushrooms
+			// 8: dirt on grass 1
+			// 9: dirt on grass 2
+			// 10: dirt on grass 3
+			ratios: {
+				'empty': 40, //effectively 'full-grass'
+				// '1': 1,
+				'grass': 20,
+				// '3': 8,
+				'grass3': 2,
+				// '5': 2,
+				// '6': 2,
+				'grass6': 2,
+				// 'water-full': 2
+				// '8': 1,
+				// '9': 0,
+				// '10': 0,
+				// 'dirt1': 2
+
+			}
 		};
 
 		// The height/width of the grid
@@ -95,7 +122,7 @@ export class GameMap {
 		if (saveData) {
 			dimension = saveData.dimension;
 		}
-		this.loadGeneratedMapData(saveData || this.generate(allLand, options));
+		this._loadGeneratedMapData(saveData || this.generate(allLand, options));
 
 		this._tileHoverListenerCallbacks = [];
 
@@ -105,9 +132,11 @@ export class GameMap {
 		window.addEventListener('mousemove', this._onMouseMoveListener);
 	}
 
-	loadGeneratedMapData (mapData: IGeneratedMapData) {
+	_loadGeneratedMapData (mapData: IGeneratedMapData) {
 		this.baseTilemap = mapData.baseTilemap;
 		this.upperTilemap = mapData.upperTilemap;
+
+		console.log(this.baseTilemap, this.upperTilemap);
 
 		this.tiles = [];
 		for (let i=0; i < this.dimension; i++) {
@@ -118,8 +147,8 @@ export class GameMap {
 		}
 	}
 
-	generate (allLand: boolean, options) {
-		const generator = new MapGenerator(this.dimension, this.seed, 'full-grass', allLand);
+	generate (allLand: boolean, options): IMapGenReturn {
+		const generator = new MapGenerator(this.dimension, this.seed, this.biome, allLand);
 		return generator.generate();
 	}
 
@@ -354,47 +383,6 @@ export class GameMap {
 
 	scaledTileSize (): number {
 		return constants.TILE_HEIGHT * this.gameManager.camera.scale;
-	}
-
-	/**
-	 * Given the biome returns a tile based on the given ratios associated with that biome
-	 *
-	 * @param {String} biome Biome name
-	 * @return {String} The tile data corresponding to the tilemap
-	 */
-	getTileForBiome (biome: string): string {
-		var ratios;
-		if (biome === 'forest') {
-			// full-grass: background
-			// 1: background
-			// grass: grass
-			// 3: grass rock top right
-			// grass3: grass rock top left
-			// 5: grass multiple rocks
-			// 6: grass multiple rocks 2
-			// grass6: grass with mushrooms
-			// 8: dirt on grass 1
-			// 9: dirt on grass 2
-			// 10: dirt on grass 3
-			ratios = {
-				'empty': 40, //effectively 'full-grass'
-				// '1': 1,
-				'grass': 20,
-				// '3': 8,
-				'grass3': 2,
-				// '5': 2,
-				// '6': 2,
-				'grass6': 2,
-				// 'water-full': 2
-				// '8': 1,
-				// '9': 0,
-				// '10': 0,
-				// 'dirt1': 2
-
-			};
-		}
-
-		return util.randomFromRatios(ratios);
 	}
 
 	serialize (): SerializedMapData {

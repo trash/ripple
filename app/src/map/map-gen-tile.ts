@@ -6,29 +6,27 @@ export class MapGenTile {
     index: number;
     borderWater: boolean;
     dimension: number;
-	isHill: boolean;
-	hillData: string;
 	resource: string;
+	isWater: boolean;
 
     static copyTile (tile: MapGenTile): MapGenTile {
         const copy = new MapGenTile(tile.data, tile.index, tile.dimension);
         copy.borderWater = tile.borderWater;
         copy.zoneNumber = tile.zoneNumber;
-        copy.isHill = tile.isHill;
 		copy.resource = tile.resource;
         return copy;
     }
 
-    constructor (data: string, index: number, dimension: number) {
+    constructor (data: string, index: number, dimension: number, isWater: boolean) {
         this.data = data;
         this.index = index;
+		this.isWater = isWater;
         this.borderWater = false;
         this.dimension = dimension;
-		this.isHill = false;
     }
 
     get accessible () {
-        return !this.isWater && !this.isHill;
+        return !this.isWater;
     }
     get column () {
         return this.index % this.dimension;
@@ -37,12 +35,9 @@ export class MapGenTile {
         return Math.floor(this.index / this.dimension);
     }
 
-	get isBridge () {
+	get isBridge (): boolean {
 		return this.data.includes('bridge');
 	}
-    get isWater () {
-        return this.data.includes('water');
-    }
 
     _rowFromIndex (index: number) {
         return Math.floor(index / this.dimension);
