@@ -37,44 +37,44 @@ export class RenderableSystem extends EntitySystem {
 				newPosition = spriteManager.positionFromTile(
 					positionState.tile.column, positionState.tile.row);
 
-			// This was an optimization that may no longer be needed
-			// if (spriteManager.subContainerWillUpdate(renderableState.spriteGroup as TilemapSprite,
-			// 	positionState.tile.column, positionState.tile.row
-			// )) {
-			const changedSubContainer = spriteManager.changePosition(renderableState.spriteGroup,
-				positionState.tile.column, positionState.tile.row, true);
-			// If the sprite changed subcontainers we need to manually update the spritegroup position so it tweens properly from one subcontainer to the next
-			// Otherwise we have jumping sprites
-			if (changedSubContainer) {
-				const direction = positionState.previousTile.directionToTile(positionState.tile);
+			// Don't re-render thousands of things on the map that don't move (like resources)
+			if (spriteManager.subContainerWillUpdate(renderableState.spriteGroup as TilemapSprite,
+				positionState.tile.column, positionState.tile.row
+			)) {
+				const changedSubContainer = spriteManager.changePosition(renderableState.spriteGroup,
+					positionState.tile.column, positionState.tile.row, true);
+				// If the sprite changed subcontainers we need to manually update the spritegroup position so it tweens properly from one subcontainer to the next
+				// Otherwise we have jumping sprites
+				if (changedSubContainer) {
+					const direction = positionState.previousTile.directionToTile(positionState.tile);
 
-				const tileSize = spriteManager.getTileSize();
+					const tileSize = spriteManager.getTileSize();
 
-				switch (direction) {
-					case 'left':
-						// at left side of container moving to right isde of new container
-						renderableState.spriteGroup.position.x = newPosition.x + tileSize;
-						break;
-					case 'right':
-						// at right side of container moving to left side of new container
-						renderableState.spriteGroup.position.x = newPosition.x - tileSize;
-						break;
-					case 'down':
-						// at the bottom of last container moving to top of new one
-						renderableState.spriteGroup.position.y = newPosition.y - tileSize;
-						break;
-					case 'up':
-						// at the top of last container moving up to bottom of new container
-						renderableState.spriteGroup.position.y = newPosition.y + tileSize;
-						break;
+					switch (direction) {
+						case 'left':
+							// at left side of container moving to right isde of new container
+							renderableState.spriteGroup.position.x = newPosition.x + tileSize;
+							break;
+						case 'right':
+							// at right side of container moving to left side of new container
+							renderableState.spriteGroup.position.x = newPosition.x - tileSize;
+							break;
+						case 'down':
+							// at the bottom of last container moving to top of new one
+							renderableState.spriteGroup.position.y = newPosition.y - tileSize;
+							break;
+						case 'up':
+							// at the top of last container moving up to bottom of new container
+							renderableState.spriteGroup.position.y = newPosition.y + tileSize;
+							break;
+					}
+
+					lastPosition = {
+						x: renderableState.spriteGroup.position.x,
+						y: renderableState.spriteGroup.position.y
+					};
 				}
-
-				lastPosition = {
-					x: renderableState.spriteGroup.position.x,
-					y: renderableState.spriteGroup.position.y
-				};
 			}
-			// }
 
 			if (util.coordinatesAreEqual(lastPosition, newPosition) ||
 				(newPosition.x === renderableState.spriteGroup.position.x &&
