@@ -83,7 +83,6 @@ export class MapGenerator {
 		// let tiles = baseTilemap.map((tile, index) => new MapGenTile(tile, index, this.dimension));
 		tiles = this.markBorderWaterTiles(tiles);
 
-
 		this.logUpdate('bridging islands');
 		// Create bridges between islands√
         const returned = this.bridgeIslands(tiles);
@@ -94,10 +93,12 @@ export class MapGenerator {
 		tiles = this.generateHills(tiles);
 
 		this.logUpdate('cleaning up hills');
-		this.cleanupHills(tiles, bridgedTiles);
+		// this.cleanupHills(tiles, bridgedTiles);
 
 		this.logUpdate('generating resources');
-		tiles = this.generateResources(tiles);
+		// tiles = this.generateResources(tiles);
+		const resources = this.generateResources(tiles);
+		console.log(resources);
 
 		this.logUpdate('updatetilemapdata');
 		const tilemapData = tiles.map(tile => tile.data).toArray();
@@ -247,11 +248,37 @@ export class MapGenerator {
 		});
 	}
 
+	generateResources (tiles: Immutable.List<MapGenTile>): Immutable.List<string> {
+		perlin.seed(this.seed);
+		const fragment = 2;
+
+		return Immutable.List<string>(tiles.map((tile, i) => {
+			let value = perlin.simplex2(tile.column / 50 * fragment, tile.row / 50 * fragment);
+			value *= 40;
+			value = Math.floor(Math.abs(value));
+
+			// Trees 10%
+			if (value > 15) {
+				return 'tree';
+			// Rocks 2.5%
+			} else if (value === 28) {
+				return 'rock';
+			// Bushes 2.5%
+			} else if (value === 27) {
+				return 'bush';
+			} else if (value < 2) {
+				// clearTiles.push(tile);
+				return null;
+			}
+			return null;
+		}));
+	}
+
 	/**
 	 * This method should determine the required amount of resources for a given map size
 	 * And then iterate through and generate clusters of resources on the map
 	 */
-	generateResources (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
+	generateResourcesOLD (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		perlin.seed(this.seed);
 		const fragment = 2;
 

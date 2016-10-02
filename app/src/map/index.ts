@@ -1,9 +1,3 @@
-/**
- * map.js
- *
- * Author: Stefan Valentin
- */
-
 import _ = require('lodash');
 import {NDArray, Direction, ICoordinates, IRandomTileOptions} from '../interfaces';
 import ndarray = require('ndarray');
@@ -47,8 +41,8 @@ export interface IMapOptions {
 
 interface SerializedMapData {
 	dimension: number,
-	bottomTilemap: string[],
-	tilemapData: string[],
+	baseTilemap: string[],
+	upperTilemap: string[],
 };
 
 interface ClearTilesInput {
@@ -64,21 +58,14 @@ export interface PathCoordinates {
 	row: number;
 };
 
-/**
-* Creates a new GameMap object.
-*
-* @classdesc A map made up of Tiles that is used to generate a map.
-*
-* @constructor
-*/
 export class GameMap {
 	seed: number;
 	gameManager: GameManager;
 	biome: any;
 	tiles: Tile[];
 	dimension: number;
-	bottomTilemap: string[];
-	tilemapData: string[];
+	baseTilemap: string[];
+	upperTilemap: string[];
 	targetCursor: any;
 	__edgeTiles: Tile[];
 	_grid: number[];
@@ -112,14 +99,16 @@ export class GameMap {
 
 		if (saveData) {
 			dimension = saveData.dimension;
-			this.bottomTilemap = saveData.bottomTilemap;
-			this.tilemapData = saveData.tilemapData;
-			this.generateTiles(this.tilemapData, saveData.resources);
+			this.baseTilemap = saveData.bottomTilemap;
+			this.upperTilemap = saveData.tilemapData;
+			this.generateTiles(this.upperTilemap, saveData.resources);
 			console.log(this);
 			console.log(this.getTilemap());
 		} else {
 			this.generate(allLand, options);
 		}
+
+		this.generateTiles(this.upperTilemap, null);
 
 		this._tileHoverListenerCallbacks = [];
 
@@ -129,12 +118,34 @@ export class GameMap {
 		window.addEventListener('mousemove', this._onMouseMoveListener);
 	}
 
+	generateTiles (tileData: string[], resourcesSaveData) {
+		for (var i=0; i < tileData.length; i++) {
+			var tile = new Tile(this, i, {
+				data: tileData[i],
+				water: this.baseTilemap[i].indexOf('water') !== -1 ? true : false,
+				resource: resourcesSaveData && resourcesSaveData[i]
+			});
+
+			// If water mark the neighboring land nodes as 'borderWater'
+			if (tile.water) {
+				var siblings = tile.getSiblings();
+				siblings.forEach(function (sibling) {
+					if (sibling && !sibling.water) {
+						sibling.borderWater = true;
+					}
+				});
+			}
+
+			this.tiles.push(tile);
+		}
+	}
+
 	generate (allLand: boolean, options) {
 		const generator = new MapGenerator(this.dimension, this.seed, 'full-grass', allLand);
 		const generated = generator.generate();
 
-		this.bottomTilemap = generated.baseTilemap;
-		this.tilemapData = generated.tilemapData;
+		this.baseTilemap = generated.baseTilemap;
+		this.upperTilemap = generated.tilemapData;
 	}
 
 	_onLoopUpdate () {
@@ -152,7 +163,7 @@ export class GameMap {
 	}
 
 	updateTilemapData () {
-		this.tilemapData = this.tiles.map(tile => tile.tilemapData);
+		this.upperTilemap = this.tiles.map(tile => tile.tilemapData);
 	}
 
 	destroy () {
@@ -202,7 +213,7 @@ export class GameMap {
 			layers: [
 				{
 					name: 'Forest Layer 1',
-					data: this.bottomTilemap,
+					data: this.baseTilemap,
 					width: this.dimension,
 					height: this.dimension,
 					opacity: 1,
@@ -213,7 +224,7 @@ export class GameMap {
 				},
 				{
 					name: 'Forest Layer 2',
-					data: this.tilemapData,
+					data: this.upperTilemap,
 					width: this.dimension,
 					height: this.dimension,
 					opacity: 1,
@@ -413,8 +424,8 @@ export class GameMap {
 	serialize (): SerializedMapData {
 		let data = {
 			dimension: this.dimension,
-			bottomTilemap: this.bottomTilemap,
-			tilemapData: this.tilemapData
+			baseTilemap: this.baseTilemap,
+			upperTilemap: this.upperTilemap
 		};
 		return data;
 	}
