@@ -7,7 +7,6 @@ import {TestSelectState} from '../state/states/test-select';
 import {GameState} from '../state/states/game';
 import {ITestLevel, ITestGameMapOptions} from '../data/test-level';
 import {EntityManager} from '../entity/entity-manager';
-import {Tile} from '../map/tile';
 import {GameMap, IMapOptions} from '../map';
 import {canvasService} from '../ui/canvas-service';
 import {util} from '../util';
@@ -17,6 +16,7 @@ import {gameClock} from './game-clock';
 import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/sprite-manager';
 import {EntitySpawner} from '../entity/entity-spawner';
+import {IRowColumnCoordinates} from '../interfaces';
 
 const windowSize = {
 	width: document.body.clientWidth,
@@ -46,7 +46,7 @@ export class GameManager {
         });
         events.on('game-start', this.start.bind(this));
         events.on('game-destroy', this.destroy.bind(this));
-        events.on(['spawn', '*'], function (entityName: string, tile: Tile) {
+        events.on(['spawn', '*'], function (entityName: string, tile: IRowColumnCoordinates) {
             gameManager.handleSpawnEvent(this.event[1], entityName, tile);
         });
 
@@ -105,7 +105,7 @@ export class GameManager {
 
         this.updateTilemap();
 
-		this.map.initializeTiles();
+		this.map.initialize();
 
         const startTile = this.map.getRandomTile({
             accessible: true
@@ -136,7 +136,7 @@ export class GameManager {
 		return tilemap;
 	};
 
-    handleSpawnEvent (entityType: string, entityName: string, tile: Tile) {
+    handleSpawnEvent (entityType: string, entityName: string, tile: IRowColumnCoordinates) {
         console.info(`Should be spawning an entity of type: ${entityType}`);
         switch (entityType) {
             case 'resource':

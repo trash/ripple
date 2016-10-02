@@ -1,10 +1,9 @@
 import _ = require('lodash');
-import {NDArray, Direction, ICoordinates, IRandomTileOptions} from '../interfaces';
+import {NDArray, Direction, ICoordinates, IRandomTileOptions, IRowColumnCoordinates} from '../interfaces';
 import ndarray = require('ndarray');
 import {floodfill} from '../vendor/flood-fill';
 import {AStar as aStar} from '../vendor/astar';
 import {perlin} from '../vendor/perlin';
-import {Tile} from './tile';
 import {constants} from '../data/constants';
 import {util, Util} from '../util';
 import {ResourceCluster} from './resource-cluster';
@@ -12,21 +11,12 @@ import {GameManager} from '../game/game-manager';
 import {MapGenerator} from './map-generator';
 import {MapUtil} from './map-util';
 import {MapGenTile} from './map-gen-tile';
+import {MapTile} from './tile';
 
 type TileCoordinates = [number, number];
 
 var zoneNumber = 10,
 	zoneNumberCount;
-
-var waterCheckFunction = (neighbor: string): boolean => {
-		if (!neighbor) {
-			return true;
-		}
-		// Check if they're water tiles. If they're at the edge of the map (no neighbor)
-		// then just act like the water continues off the map
-		return neighbor.indexOf('water') !== -1 && neighbor.indexOf('bridge') === -1;
-	},
-	hillCheckFunction = (neighbor: Tile): boolean => neighbor && !!neighbor.hill;
 
 export interface IMapOptions {
 	gameManager: GameManager;
@@ -36,7 +26,7 @@ export interface IMapOptions {
 	hills?: any;
 	noHills?: boolean;
 	allLand?: boolean;
-	saveData?: any
+	saveData?: SerializedMapData
 };
 
 interface SerializedMapData {
@@ -58,21 +48,25 @@ export interface PathCoordinates {
 	row: number;
 };
 
+export interface IGeneratedMapData {
+	baseTilemap: string[];
+	upperTilemap: string[];
+}
+
 export class GameMap {
 	seed: number;
 	gameManager: GameManager;
 	biome: any;
-	tiles: Tile[];
+	tiles: MapTile[];
 	dimension: number;
 	baseTilemap: string[];
 	upperTilemap: string[];
 	targetCursor: any;
-	__edgeTiles: Tile[];
-	_grid: number[];
-	_tileHoverListenerCallbacks: ((tile: Tile) => void)[]
+	_grid: number[][];
+	_tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
 	_tileHoverListenerInterval: number;
 	_hoverCoords: ICoordinates;
-	_hoverTile: Tile;
+	_hoverTile: MapTile;
 
 	constructor (options: IMapOptions) {
 		let gameManager = options.gameManager,
@@ -97,14 +91,11 @@ export class GameMap {
 		// The height/width of the grid
 		this.dimension = saveData && saveData.dimension || dimension || 120;
 
+
 		if (saveData) {
 			dimension = saveData.dimension;
-			this.baseTilemap = saveData.bottomTilemap;
-			this.upperTilemap = saveData.tilemapData;
-			this.generateTiles(this.upperTilemap, saveData.resources);
-		} else {
-			this.generate(allLand, options);
 		}
+		this.loadGeneratedMapData(saveData || this.generate(allLand, options));
 
 		this._tileHoverListenerCallbacks = [];
 
@@ -114,34 +105,22 @@ export class GameMap {
 		window.addEventListener('mousemove', this._onMouseMoveListener);
 	}
 
-	generateTiles (tileData: string[], resourcesSaveData) {
-		for (var i=0; i < tileData.length; i++) {
-			var tile = new Tile(this, i, {
-				data: tileData[i],
-				water: this.baseTilemap[i].indexOf('water') !== -1 ? true : false,
-				resource: resourcesSaveData && resourcesSaveData[i]
-			});
+	loadGeneratedMapData (mapData: IGeneratedMapData) {
+		this.baseTilemap = mapData.baseTilemap;
+		this.upperTilemap = mapData.upperTilemap;
 
-			// If water mark the neighboring land nodes as 'borderWater'
-			if (tile.water) {
-				var siblings = tile.getSiblings();
-				siblings.forEach(function (sibling) {
-					if (sibling && !sibling.water) {
-						sibling.borderWater = true;
-					}
-				});
+		this.tiles = [];
+		for (let i=0; i < this.dimension; i++) {
+			for (let j=0; j < this.dimension; j++) {
+				this.tiles.push(new MapTile(j, i, this.dimension,
+					this.upperTilemap[j * this.dimension + i]));
 			}
-
-			this.tiles.push(tile);
 		}
 	}
 
 	generate (allLand: boolean, options) {
 		const generator = new MapGenerator(this.dimension, this.seed, 'full-grass', allLand);
-		const generated = generator.generate();
-
-		this.baseTilemap = generated.baseTilemap;
-		this.upperTilemap = generated.tilemapData;
+		return generator.generate();
 	}
 
 	_onLoopUpdate () {
@@ -158,10 +137,6 @@ export class GameMap {
 		this._hoverTile = this.getTile(this._hoverCoords.y, this._hoverCoords.x);
 	}
 
-	updateTilemapData () {
-		this.upperTilemap = this.tiles.map(tile => tile.tilemapData);
-	}
-
 	destroy () {
 		window.removeEventListener('mousemove', this._onMouseMoveListener);
 	}
@@ -169,8 +144,7 @@ export class GameMap {
 	/**
 	 * Calls the initialize method on all the tiles associated with this map
 	 */
-	initializeTiles () {
-		this.tiles.forEach(tile => tile.initialize());
+	initialize () {
 		// Update the grid
 		this.grid(true);
 	}
@@ -243,12 +217,16 @@ export class GameMap {
 	*
 	* @return {Tile} The random tile
 	*/
-	getRandomTile (options: IRandomTileOptions = {}): Tile {
-		return MapUtil.getRandomTile(this.tiles, options) as Tile;
+	getRandomTile (options: IRandomTileOptions = {}): MapTile {
+		return MapUtil.getRandomTile(this.tiles, options);
 	}
 
-	getFarthestTile (baseTile: Tile, limit: number, direction: Direction): Tile {
-		return MapUtil.getFarthestTile(this.tiles, baseTile, limit, direction) as Tile;
+	getFarthestTile (
+		baseTile: MapTile,
+		limit: number,
+		direction: Direction
+	): MapTile {
+		return MapUtil.getFarthestTile(this.tiles, baseTile, limit, direction);
 	}
 
 	/**
@@ -283,10 +261,10 @@ export class GameMap {
 	 *                            that gets passed the tile that got clicked
 	 * @returns {Function} Removes the event listener from the canvas when called.
 	 */
-	addTileClickListener (callback: (event: any) => void): () => void {
+	addTileClickListener (callback: (tile: MapTile) => void): () => void {
 		var canvasClick = event => {
-			var clickCoords = this.positionToTile(event.x, event.y);
-			var clickedTile = this.getTile(clickCoords.y, clickCoords.x);
+			const clickCoords = this.positionToTile(event.x, event.y),
+				clickedTile = this.getTile(clickCoords.y, clickCoords.x);
 			if (!clickedTile) {
 				return;
 			}
@@ -309,7 +287,7 @@ export class GameMap {
 	 *                            that gets passed the tile that is currently hovered over
 	 * @returns {Function} Removes the event listener from the canvas when called.
 	 */
-	addTileHoverListener (callback: (tile: Tile) => void): () => void {
+	addTileHoverListener (callback: (tile: IRowColumnCoordinates) => void): () => void {
 		this._tileHoverListenerCallbacks.push(callback);
 
 		return () => {
@@ -317,12 +295,14 @@ export class GameMap {
 		};
 	}
 
-	removeTileHoverListener (callback: (tile: Tile) => void) {
+	removeTileHoverListener (callback: (tile: IRowColumnCoordinates) => void) {
 		let index = this._tileHoverListenerCallbacks.indexOf(callback);
 		this._tileHoverListenerCallbacks.splice(index, 1);
 	}
 
-	getElementPositionFromTile (tile: Tile): { left: number, top: number } {
+	getElementPositionFromTile (
+		tile: IRowColumnCoordinates
+	): { left: number, top: number } {
 		if (!tile) {
 			console.error('Invalid tile. Your coords are probably out of bounds. Cannot set element position.');
 			return;
@@ -352,7 +332,7 @@ export class GameMap {
 	 * @param {Element} element The element to change the position of
 	 * @param {Tile} tile The tile to match the element to
 	 */
-	setElementToTilePosition (element: HTMLElement, tile: Tile) {
+	setElementToTilePosition (element: HTMLElement, tile: IRowColumnCoordinates) {
 		if (!tile) {
 			return;
 		}
@@ -367,7 +347,7 @@ export class GameMap {
 	 * @param {PIXI.Sprite} sprite The sprite to change the position of
 	 * @param {Tile} tile The tile to take the position from
 	 */
-	setSpriteToTilePosition (sprite: any, tile: Tile) {
+	setSpriteToTilePosition (sprite: any, tile: IRowColumnCoordinates) {
 		sprite.x = tile.column * constants.TILE_HEIGHT;
 		sprite.y = tile.row * constants.TILE_HEIGHT;
 	}
@@ -435,8 +415,8 @@ export class GameMap {
 	* @todo Handle edges cases. Currently if the spiral starts on the left edge it has some unpredictable
 	* 		behavior.
 	*/
-	getNearestEmptyTile (tile: Tile, checkMethod: (tile: Tile) => boolean): Tile {
-		return MapUtil.getNearestEmptyTile(this.tiles, tile, checkMethod) as Tile;
+	getNearestEmptyTile (tile: MapTile, checkMethod: (tile: MapTile) => boolean): MapTile {
+		return MapUtil.getNearestEmptyTile(this.tiles, tile, checkMethod);
 	}
 
 	/**
@@ -450,7 +430,7 @@ export class GameMap {
 		tiles: MapGenTile[],
 		startTile: MapGenTile
 	): MapGenTile {
-		const sorted = MapUtil.getNearestEdgeTiles(tiles, startTile) as MapGenTile[];
+		const sorted = MapUtil.getNearestEdgeTiles(tiles, startTile);
 
 		return sorted.filter(tile => {
 			return tile.accessible;
@@ -474,7 +454,7 @@ export class GameMap {
 	* @param {boolean} [skipCache] Whether or not to skip the cache
 	* @returns {Array[]} A matrix representing whether tiles are valid to enter
 	*/
-	grid (skipCache?: boolean): number[] {
+	grid (skipCache: boolean = false): number[][] {
 		if (this._grid && !skipCache) {
 			return this._grid;
 		}
@@ -482,16 +462,16 @@ export class GameMap {
 		return this._grid;
 	}
 
-	_getGrid (accessible?: boolean): number[] {
-		var grid = [];
-		for (var i=0; i < this.dimension; i++) {
+	_getGrid (ignoreAccessible: boolean = false): number[][] {
+		const grid = [];
+		for (let i=0; i < this.dimension; i++) {
 			grid.push([]);
-			for (var j=0; j < this.dimension; j++) {
-				var tile = this.getTile(i, j);
-				if (!accessible) {
-					grid[i].push(tile.accessible ? 0 : 1);
-				} else {
+			for (let j=0; j < this.dimension; j++) {
+				if (ignoreAccessible) {
 					grid[i].push(0);
+				} else {
+					const tile = this.getTile(i, j);
+					grid[i].push(tile.accessible ? 0 : 1);
 				}
 			}
 		}
@@ -502,7 +482,7 @@ export class GameMap {
 		return this._getGrid(true);
 	}
 
-	pathExists (fromTile: Tile, toTile: Tile): boolean {
+	pathExists (fromTile: IRowColumnCoordinates, toTile: IRowColumnCoordinates): boolean {
 		return !!this.getPath(fromTile, toTile).length;
 	}
 
@@ -513,7 +493,10 @@ export class GameMap {
 	* @param {Tile} toTile The tile to path to
 	* @return {PathCoordinates[]}
 	*/
-	getPath (fromTile: Tile, toTile: Tile): PathCoordinates[] {
+	getPath (
+		fromTile: IRowColumnCoordinates,
+		toTile: IRowColumnCoordinates
+	): PathCoordinates[] {
 		return MapUtil.getPath(this.grid(), fromTile, toTile);
 	}
 
@@ -526,7 +509,7 @@ export class GameMap {
 	* @param {int} column The column of the tile
 	* @returns {Tile} The tile that matches these coords
 	*/
-	getTile (row: number, column: number): Tile {
-		return MapUtil.getTile(this.tiles, row, column) as Tile;
+	getTile (row: number, column: number): MapTile {
+		return MapUtil.getTile(this.tiles, row, column);
 	}
 }

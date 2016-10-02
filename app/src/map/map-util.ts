@@ -1,6 +1,7 @@
 import {IRowColumnCoordinates, ICoordinates, IRandomTileOptions, Direction} from '../interfaces';
 import {AStar as aStar} from '../vendor/astar';
 import {constants} from '../data/constants';
+import {MapTile} from './tile';
 
 export class MapUtil {
     /**
@@ -65,15 +66,15 @@ export class MapUtil {
 	* @return {Tile} The random tile
 	*/
 	static getRandomTile (
-		inputTiles: IRowColumnCoordinates[],
+		inputTiles: MapTile[],
 		options: IRandomTileOptions = {}
-	): IRowColumnCoordinates {
+	): MapTile {
 		const dimension = Math.sqrt(inputTiles.length);
-		let accessible = options.accessible,
+		const accessible = options.accessible,
 			range = options.range,
 			baseTile = options.baseTile;
 
-		let tiles: IRowColumnCoordinates[] = baseTile ? [] : [].concat(inputTiles);
+		let tiles: MapTile[] = baseTile ? [] : [].concat(inputTiles);
 
 		// Get the set of random tiles to choose from in the given range
 		if (range && baseTile) {
@@ -107,11 +108,11 @@ export class MapUtil {
 	 *
 	 * @return {Tile[]} The list of tiles that fall inside the rectangular area
 	 */
-	static getTilesBetween (
-		inputTiles: IRowColumnCoordinates[],
+	static getTilesBetween<T extends IRowColumnCoordinates> (
+		inputTiles: T[],
 		startPosition: ICoordinates,
 		endPosition: ICoordinates
-	): IRowColumnCoordinates[] {
+	): T[] {
 		const tiles = [];
 		let startX, startY, endX, endY;
 		// Return an empty list if either the x or the y has no width
@@ -151,10 +152,10 @@ export class MapUtil {
 	 * @param {Tile} startTile
 	 * @return Tile
 	 */
-	static getNearestEdgeTiles (
-		tiles: IRowColumnCoordinates[],
-		startTile: IRowColumnCoordinates
-	): IRowColumnCoordinates[] {
+	static getNearestEdgeTiles<T extends IRowColumnCoordinates> (
+		tiles: T[],
+		startTile: T
+	): T[] {
 		const dimension = Math.sqrt(tiles.length),
 			 leftMostTile = tiles[startTile.row * dimension + 0],
 			rightMostTile = tiles[startTile.row * dimension + dimension - 1],
@@ -176,11 +177,11 @@ export class MapUtil {
 	* @param {int} column The column of the tile
 	* @returns {Tile} The tile that matches these coords
 	*/
-	static getTile (
-		tiles: IRowColumnCoordinates[],
+	static getTile<T extends IRowColumnCoordinates> (
+		tiles: T[],
 		row: number,
 		column: number
-	): IRowColumnCoordinates {
+	): T {
 		const dimension = Math.sqrt(tiles.length);
 		// Watch bounds
 		if ((row < 0 || column < 0) || row >= dimension || column >= dimension) {
@@ -190,12 +191,12 @@ export class MapUtil {
 		return tiles[index];
 	}
 
-	static getFarthestTile (
-		tiles: IRowColumnCoordinates[],
-		baseTile: IRowColumnCoordinates,
+	static getFarthestTile<T extends IRowColumnCoordinates> (
+		tiles: T[],
+		baseTile: T,
 		limit: number,
 		direction: Direction
-	): IRowColumnCoordinates {
+	): T {
 		let i, tile;
 		const dimension = Math.sqrt(tiles.length),
 			baseTileIndex = baseTile.row * dimension + baseTile.column;
@@ -258,11 +259,11 @@ export class MapUtil {
 	* @todo Handle edges cases. Currently if the spiral starts on the left edge it has some unpredictable
 	* 		behavior.
 	*/
-	static getNearestEmptyTile (
-		tiles: IRowColumnCoordinates[],
-		tile: IRowColumnCoordinates,
-		checkMethod: (tile: IRowColumnCoordinates) => boolean
-	): IRowColumnCoordinates {
+	static getNearestEmptyTile<T extends IRowColumnCoordinates> (
+		tiles: T[],
+		tile: T,
+		checkMethod: (tile: T) => boolean
+	): T {
 		// If the tile passes the checkMethod
 		if (checkMethod(tile)) {
 			return tile;

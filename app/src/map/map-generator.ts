@@ -80,14 +80,12 @@ export class MapGenerator {
 		let tiles = Immutable.List<MapGenTile>(
 			baseTilemap.map((tile, index) => new MapGenTile(tile, index, this.dimension)));
 
-		// let tiles = baseTilemap.map((tile, index) => new MapGenTile(tile, index, this.dimension));
+		this.logUpdate('marking border water tiles');
 		tiles = this.markBorderWaterTiles(tiles);
 
 		this.logUpdate('bridging islands');
 		// Create bridges between islands√
-        const returned = this.bridgeIslands(tiles);
-		let bridgedTiles = returned.bridgedTiles;
-		tiles = returned.tiles;
+        tiles = this.bridgeIslands(tiles);
 
 		this.logUpdate('generating hills');
 		tiles = this.generateHills(tiles);
@@ -101,13 +99,14 @@ export class MapGenerator {
 		console.log(resources);
 
 		this.logUpdate('updatetilemapdata');
-		const tilemapData = tiles.map(tile => tile.data).toArray();
-		console.log(tilemapData);
+		const upperTilemap = tiles.map(tile => tile.data).toArray();
+		console.log(upperTilemap);
 
 		this.logUpdate('complete');
 		return {
-			tilemapData: tilemapData,
-			baseTilemap: baseTilemap
+			upperTilemap: upperTilemap,
+			baseTilemap: baseTilemap,
+			resources: resources
 		};
     }
 
@@ -626,18 +625,12 @@ export class MapGenerator {
 	/**
 	 * Flood fill the different land regions after placing water to determine the islands on the map.
 	 */
-	bridgeIslands (tiles: Immutable.List<MapGenTile>): {
-		tiles: Immutable.List<MapGenTile>,
-		bridgedTiles: MapGenTile[]
-	} {
+	bridgeIslands (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		tiles = this.markZones(tiles);
 
 		// Only one/two zones means no separated land masses. Nothing to do.
 		if (zoneNumberCount <= zoneNumberStart + 1) {
-			return {
-				tiles: tiles,
-				bridgedTiles: []
-			};
+			return tiles;
 		}
 		const bridgedTiles: ([MapGenTile, boolean])[] = [];
 
@@ -739,10 +732,7 @@ export class MapGenerator {
 			});
 		});
 
-		return {
-			tiles: tiles,
-			bridgedTiles: []
-		};
+		return tiles;
 	}
 
     generateWater (data: string[]): string[] {
