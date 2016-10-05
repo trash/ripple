@@ -1,6 +1,5 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {Tile} from '../../map/tile';
 import {AgentTraits} from '../../interfaces';
 
 export interface IAgentState {

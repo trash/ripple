@@ -1,5 +1,5 @@
 import _ = require('lodash');
-import {NDArray, Direction, ICoordinates, IRandomTileOptions, IRowColumnCoordinates} from '../interfaces';
+import {NDArray, Direction, ICoordinates, IRandomTileOptions, IRowColumnCoordinates, ITilemapData} from '../interfaces';
 import ndarray = require('ndarray');
 import {floodfill} from '../vendor/flood-fill';
 import {AStar as aStar} from '../vendor/astar';
@@ -131,7 +131,8 @@ export class GameMap {
 		for (let i=0; i < this.dimension; i++) {
 			for (let j=0; j < this.dimension; j++) {
 				this.tiles.push(new MapTile(j, i, this.dimension,
-					this.upperTilemap[j * this.dimension + i]));
+					this.upperTilemap[j * this.dimension + i],
+					this.baseTilemap[i].includes('water')));
 			}
 		}
 	}
@@ -172,7 +173,7 @@ export class GameMap {
 	 *
 	 * @return {Object} The tilemap data. Look at Tiled's output for an example
 	 */
-	getTilemap () {
+	getTilemap (): ITilemapData {
 		// 12 : flat green
 		// 65 : regular grass
 		// 66 : tufty grass
@@ -490,7 +491,7 @@ export class GameMap {
 		return MapUtil.getTile(this.tiles, row, column);
 	}
 
-	getTileByIndex (index: number) {
+	getTileByIndex (index: number): MapTile {
 		return this.getTile(Math.floor(index / this.dimension), index % this.dimension);
 	}
 }

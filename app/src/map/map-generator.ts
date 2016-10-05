@@ -127,8 +127,9 @@ export class MapGenerator {
 		resourceList = this.generateHills(tiles, resourceList);
 
 		this.logUpdate('generating resources');
-		resourceList = this.generateResources(resourceList);
-		console.log(resourceList.toArray());
+		resourceList = this.generateResources(tiles, resourceList);
+		const array = resourceList.toArray();
+		console.log(array, array[20]);
 
 		return resourceList;
 	}
@@ -249,13 +250,17 @@ export class MapGenerator {
 	}
 
 	generateResources (
+		tiles: Immutable.List<MapGenTile>,
 		resourceList: Immutable.List<string>
 	): Immutable.List<string> {
 		perlin.seed(this.seed);
 		const fragment = 2;
 
+		window.noResourceCauseWaterTiles = [];
+
 		return resourceList.map((resource, i) => {
-			if (resource) {
+			if (resource || tiles.get(i).isWater) {
+				window.noResourceCauseWaterTiles.push(i);
 				return resource;
 			}
 			const column = i % this.dimension,

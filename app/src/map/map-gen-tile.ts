@@ -10,7 +10,7 @@ export class MapGenTile {
 	isWater: boolean;
 
     static copyTile (tile: MapGenTile): MapGenTile {
-        const copy = new MapGenTile(tile.data, tile.index, tile.dimension);
+        const copy = new MapGenTile(tile.data, tile.index, tile.dimension, tile.isWater);
         copy.borderWater = tile.borderWater;
         copy.zoneNumber = tile.zoneNumber;
 		copy.resource = tile.resource;

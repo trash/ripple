@@ -31,7 +31,7 @@ const regularLevel: ITestLevel = {
 const testLevel: ITestLevel = {
 	name: 'Test Level',
 	gameMap: {
-		dimension: 100,
+		dimension: 20,
 		seed: 666,
 		// allLand: true
 	},

@@ -1,12 +1,12 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {ICoordinates} from '../../interfaces';
-import {Tile} from '../../map/tile';
+import {MapTile} from '../../map/tile';
 
 export interface IBuildingState {
     name: string;
     entrancePosition: ICoordinates;
-    entranceTile?: Tile;
+    entranceTile?: MapTile;
 }
 
 export interface IBuildingComponent extends IComponent {

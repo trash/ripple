@@ -1,7 +1,7 @@
 import {IRowColumnCoordinates} from '../interfaces';
 
 export class MapTile implements IRowColumnCoordinates {
-    accessible: boolean;
+    isWater: boolean;
     row: number;
     column: number;
     index: number;
@@ -11,15 +11,17 @@ export class MapTile implements IRowColumnCoordinates {
         row: number,
         column: number,
         dimension: number,
-        data: string
+        data: string,
+        isWater: boolean
     ) {
         this.index = row * dimension + column;
         this.row = row;
         this.column = column;
         this.data = data;
+        this.isWater = isWater;
     }
 
-    get isWater (): boolean {
-        return this.data.includes('water');
+    get accessible (): boolean {
+        return this.isWater;
     }
 }

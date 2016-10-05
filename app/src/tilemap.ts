@@ -1,5 +1,5 @@
 import {constants} from './data/constants';
-import {ICoordinates} from './interfaces';
+import {ICoordinates, ITilemapData} from './interfaces';
 
 const tileSize = constants.TILE_HEIGHT,
 	defaultSubContainerLayer = 1;
@@ -36,8 +36,14 @@ export class Tilemap extends PIXI.Container {
 	finalLayer: any;
 	children: PIXI.Container[];
 
-	constructor (data, renderer, test = false) {
+	constructor (
+		data: ITilemapData,
+		renderer: PIXI.WebGLRenderer,
+		test: boolean = false
+	) {
 		super();
+		console.log(data.layers[0].data);
+		console.log(data.layers[0].data.indexOf('full-grass'));
 
 		this.renderer = renderer;
 

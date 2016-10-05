@@ -162,7 +162,6 @@ export class EntityManager {
         // This means you prolly forgot to add the component to the componentlist
         if (!entities) {
             console.error(`getEntitiesWithComponent failed componentName: ${componentName}`);
-            debugger;
         }
         return entities;
     }

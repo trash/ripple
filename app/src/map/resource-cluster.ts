@@ -1,5 +1,5 @@
 import {util, Util} from '../util';
-import {Tile} from '../map/tile';
+import {MapTile} from '../map/tile';
 
 /**
  * Generates a resource cluster of a given resource.
@@ -10,7 +10,7 @@ import {Tile} from '../map/tile';
  * @param {Tile} tile The tile to start the search from
  */
 export class ResourceCluster {
-	constructor (type: string, size: number, tile: Tile) {
+	constructor (type: string, size: number, tile: MapTile) {
 		// Hack to make sure trees aren't being spawned on water
 		if (size === 1 && !Util.validTiles.resource([tile]).length) {
 			return;
@@ -18,7 +18,7 @@ export class ResourceCluster {
 
 		let map = tile.map;
 
-		const tiles: Tile[] = [tile];
+		const tiles: MapTile[] = [tile];
 
 		// Do the first tile
 		tile.resource = type;
@@ -39,7 +39,7 @@ export class ResourceCluster {
 		}
 		this.clearTiles(tiles);
 	}
-	clearTiles (tiles: Tile[]) {
+	clearTiles (tiles: MapTile[]) {
 		// Clear the stuff underneath the resources
 		tiles.forEach(tile => {
 			// Don't touch water tiles

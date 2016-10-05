@@ -1,10 +1,47 @@
-import {Tile} from './map/tile';
+import {MapTile} from './map/tile';
 import {professions} from './data/professions';
+
+export interface ITileset {
+	name: string;
+	firstgid: number;
+	imageheight: number;
+	imagewidth: number;
+	tilewidth: number;
+	tileheight: number;
+	margin: number;
+	spacing: number;
+	properties: any;
+	image: string;
+}
+
+export interface ILayerData {
+	name: string;
+	data: string[];
+	width: number;
+	height: number;
+	opacity: number;
+	type: string;
+	visible: boolean;
+	x: number;
+	y: number;
+}
+
+export interface ITilemapData {
+	version: number;
+	width: number;
+	height: number;
+	tilewidth: number;
+	tileheight: number;
+	tilesets: ITileset[];
+	layers: ILayerData[];
+	orientation: string;
+	properties: any;
+}
 
 export interface IRandomTileOptions {
 	accessible?: boolean;
 	range?: number;
-	baseTile?: Tile;
+	baseTile?: MapTile;
 }
 
 export interface IAgentSprite extends PIXI.Sprite {
@@ -109,7 +146,7 @@ export interface IStorageOptions {
 }
 
 export interface INearestTile {
-	tile: Tile,
+	tile: MapTile,
 	distance: number
 };
 

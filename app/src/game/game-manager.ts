@@ -110,7 +110,11 @@ export class GameManager {
         // Spawn resources
         this.map.resourceList.forEach((resourceName, i) => {
             if (resourceName && resourceName !== 'hill') {
-                this.entitySpawner.spawnResource(resourceName, this.map.getTileByIndex(i));
+                const tile = this.map.getTileByIndex(i);
+                if (tile.isWater) {
+                    debugger;
+                }
+                this.entitySpawner.spawnResource(resourceName, tile);
             }
         });
 

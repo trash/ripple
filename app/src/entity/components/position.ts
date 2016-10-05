@@ -1,10 +1,10 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {Tile} from '../../map/tile';
+import {MapTile} from '../../map/tile';
 
 export interface IPositionState {
-    tile: Tile;
-    previousTile?: Tile;
+    tile: MapTile;
+    previousTile?: MapTile;
     direction?: string;
     hasDirection?: boolean;
     turnUpdated?: number; // Turn the position was changed

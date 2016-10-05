@@ -1,6 +1,6 @@
 import _ = require('lodash');
 import {constants} from '../data/constants';
-import {Tile} from '../map/tile';
+import {MapTile} from '../map/tile';
 import {MapGenTile} from '../map/map-gen-tile';
 import {INearestTile, ICoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
@@ -337,7 +337,7 @@ export class Util {
 	 * @param {Object} [startTile] Optional tile to use in case of wall pathing
 	 * @return {Tile}
 	 */
-	getTileFromTarget (target, startTile?: Tile): Tile {
+	getTileFromTarget (target, startTile?: MapTile): MapTile {
 		if (_.isNumber(target)) {
 			return positionUtil.getTileFromEntityId(target);
 		}
@@ -444,7 +444,7 @@ export class Util {
 		return tick.blackboard.set(blackboardKey + ':' + tick.target.id, value, tick.tree.id);
 	}
 
-	setTile (positionState: IPositionState, tile: Tile, turn: number, speed: number) {
+	setTile (positionState: IPositionState, tile: MapTile, turn: number, speed: number) {
 		positionState.previousTile = positionState.tile;
 		positionState.tile = tile;
 		positionState.turnUpdated = turn;
