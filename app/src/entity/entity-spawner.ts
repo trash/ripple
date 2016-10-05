@@ -121,10 +121,6 @@ export class EntitySpawner {
 			tile: tile
 		};
 
-		if (tile.isWater) {
-			console.error('this shouldnt happen');
-		}
-
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Resource);
 
 		return entityId;

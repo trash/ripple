@@ -42,7 +42,6 @@ export class Tilemap extends PIXI.Container {
 		test: boolean = false
 	) {
 		super();
-		console.log(data.layers[0].data);
 		console.log(data.layers[0].data.indexOf('full-grass'));
 
 		this.renderer = renderer;

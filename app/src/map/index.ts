@@ -125,14 +125,16 @@ export class GameMap {
 		this.upperTilemap = mapData.upperTilemap;
 		this.resourceList = mapData.resourceList;
 
-		console.log(this.baseTilemap, this.upperTilemap);
+		// console.log(this.baseTilemap, this.upperTilemap);
 
 		this.tiles = [];
 		for (let i=0; i < this.dimension; i++) {
 			for (let j=0; j < this.dimension; j++) {
-				this.tiles.push(new MapTile(j, i, this.dimension,
-					this.upperTilemap[j * this.dimension + i],
-					this.baseTilemap[i].includes('water')));
+				const index = i * this.dimension + j,
+					tile = new MapTile(i, j, this.dimension,
+						this.upperTilemap[index],
+						this.baseTilemap[index].includes('water'));
+				this.tiles.push(tile);
 			}
 		}
 	}
@@ -379,7 +381,8 @@ export class GameMap {
 		let data = {
 			dimension: this.dimension,
 			baseTilemap: this.baseTilemap,
-			upperTilemap: this.upperTilemap
+			upperTilemap: this.upperTilemap,
+			resourceList: this.resourceList
 		};
 		return data;
 	}

@@ -17,7 +17,12 @@ export class MapGenTile {
         return copy;
     }
 
-    constructor (data: string, index: number, dimension: number, isWater: boolean) {
+    constructor (
+		data: string,
+		index: number,
+		dimension: number,
+		isWater: boolean
+	) {
         this.data = data;
         this.index = index;
 		this.isWater = isWater;

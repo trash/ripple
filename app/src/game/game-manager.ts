@@ -113,6 +113,7 @@ export class GameManager {
                 const tile = this.map.getTileByIndex(i);
                 if (tile.isWater) {
                     debugger;
+                    this.map.getTileByIndex(i);
                 }
                 this.entitySpawner.spawnResource(resourceName, tile);
             }
