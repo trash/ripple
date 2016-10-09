@@ -6,6 +6,7 @@ export class MapTile implements IRowColumnCoordinates {
     column: number;
     index: number;
     data: string;
+    collision: boolean; // Whether something that causes a collision occupies it
 
     constructor (
         row: number,
@@ -22,6 +23,6 @@ export class MapTile implements IRowColumnCoordinates {
     }
 
     get accessible (): boolean {
-        return this.isWater;
+        return this.isWater || this.collision;
     }
 }

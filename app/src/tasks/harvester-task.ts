@@ -1,10 +1,10 @@
 import _ = require('lodash');
 import {Task, ITaskOptions} from './task';
 import {HarvesterTask as HarvesterTaskAction} from '../b3/actions/tasks/harvester-task';
-import {Tile} from '../map/tile';
 import {ComponentEnum} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';
 import {baseUtil} from '../entity/util/base';
+import {IRowColumnCoordinates} from '../interfaces';
 
 interface IHarvesterTaskOptions extends ITaskOptions {
 	bubble: string;
@@ -21,7 +21,7 @@ interface IHarvesterTaskOptions extends ITaskOptions {
 * @param {Resource} resource The resource on the map to be harvested.
 */
 export abstract class HarvesterTask extends Task {
-	destinationTile: Tile;
+	destinationTile: IRowColumnCoordinates;
 	resourceEntityId: number;
 
 	constructor (options: IHarvesterTaskOptions, resourceEntityId: number) {
@@ -45,7 +45,7 @@ export abstract class HarvesterTask extends Task {
 			this.destinationTile.row + '.';
 	}
 
-	getTileFromResource (resourceEntityId: number): Tile {
+	getTileFromResource (resourceEntityId: number): IRowColumnCoordinates {
 		const positionState = baseUtil._getPositionState(resourceEntityId);
 		return positionState.tile;
 		// return resource.getAccessibleTile() || resource.tile;

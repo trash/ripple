@@ -22,7 +22,7 @@ export class CollisionSystem extends EntitySystem {
                 for (var x=tile.column; x < tile.column + collisionState.size.x; x++) {
                     for (var y=tile.row; y < tile.row + collisionState.size.y; y++) {
                         const occupiedTile = mapUtil.getTile(y, x);
-                        occupiedTile.accessible = !collisionState.activeState;
+                        occupiedTile.collision = !collisionState.activeState;
                     }
                 }
                 // Make sure to always make entrances are accessible
@@ -30,7 +30,7 @@ export class CollisionSystem extends EntitySystem {
                     const entranceTile = mapUtil.getTile(
                         tile.row + collisionState.entrance.y,
                         tile.column + collisionState.entrance.x);
-                    entranceTile.accessible = true;
+                    entranceTile.collision = true;
                 }
                 collisionState.previousActiveState = collisionState.activeState;
             }

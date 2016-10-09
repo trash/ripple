@@ -2,10 +2,10 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 import {MainMenu as MainMenuComponent} from '../../views/main-menu';
 let MainMenuComponentFactory = React.createFactory(MainMenuComponent);
-import {State} from './state';
+import {IState} from './state';
 import {StateManager} from '../state-manager';
 
-export class MainMenuState implements State {
+export class MainMenuState implements IState {
 	component: any;
 	manager: StateManager;
 

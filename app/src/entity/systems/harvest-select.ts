@@ -5,7 +5,6 @@ import {IHarvestableState, HarvestTypesEnum} from '../components/harvestable';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {util} from '../../util';
-import {Tile} from '../../map/tile';
 import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
 import {HoverElement} from '../../ui/hover-element';
@@ -14,6 +13,7 @@ import {cursorManager} from '../../ui/cursor-manager';
 import {EventEmitter2} from 'eventemitter2';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
 import {GameMap} from '../../map';
+import {IRowColumnCoordinates} from '../../interfaces';
 
 let map: GameMap;
 events.on('map-update', (map: GameMap) => {
@@ -26,7 +26,7 @@ export class HarvestSelectSystem extends EntitySystem {
     hoverListener: Function;
     cancel: Function;
     tileHoverElement: HoverElement;
-    tiles: Tile[];
+    tiles: IRowColumnCoordinates[];
 	highlighted: IHarvestableState[];
     active: boolean;
 

@@ -1,7 +1,6 @@
 import {Task} from './task';
 import {BuilderTask as BuilderTaskAction} from '../b3/actions/tasks/builder-task';
 import {ResourceRequirements} from '../resource-requirements';
-import {Tile} from '../map/tile';
 import {professions} from '../data/professions';
 import {ComponentEnum} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';
@@ -9,6 +8,7 @@ import {IBuildingState} from '../entity/components/building';
 import {IConstructibleState} from '../entity/components/constructible';
 import {IHealthState} from '../entity/components/health';
 import {baseUtil} from '../entity/util/base';
+import {IRowColumnCoordinates} from '../interfaces';
 
 /**
 * Creates a new BuilderTask object.
@@ -23,7 +23,7 @@ import {baseUtil} from '../entity/util/base';
 export class BuilderTask extends Task {
 	building: number;
 	requiredResources: ResourceRequirements;
-	destinationTile: Tile;
+	destinationTile: IRowColumnCoordinates;
 
 	constructor (building: number) {
 		// Call our parent constructor

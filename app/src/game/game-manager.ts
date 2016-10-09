@@ -83,7 +83,7 @@ export class GameManager {
         if (mode === 'mapgen') {
             this.state.start('Preload', 'Game');
         } else if (mode === 'default') {
-		    this.state.start('Preload', 'MainMenu');
+            this.state.start('Preload', 'MainMenu');
         }
     }
 

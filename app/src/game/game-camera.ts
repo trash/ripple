@@ -1,7 +1,7 @@
 import {events} from '../events';
 import {keybindings} from '../services/keybindings';
 import TWEEN = require('tween.js');
-import {Tile} from '../map/tile';
+import {IRowColumnCoordinates} from '../interfaces';
 
 const minSpeed = 10;
 
@@ -104,7 +104,7 @@ export class GameCamera {
 		this.view = view;
 	}
 
-	setToTile (tile: Tile, animate: boolean = false) {
+	setToTile (tile: IRowColumnCoordinates, animate: boolean = false) {
 		this.setTo(tile.column * this.getTileSize(),
 			tile.row * this.getTileSize(), animate);
 	}

@@ -1,4 +1,6 @@
-import {Direction} from '../interfaces';
+import {Direction, IRowColumnCoordinates} from '../interfaces';
+import {positionUtil} from '../entity/util/position';
+import {MapUtil} from './map-util';
 
 export class MapGenTile {
     zoneNumber: number;
@@ -51,33 +53,8 @@ export class MapGenTile {
         return index % this.dimension;
     }
 
-	directionToTile (nextTile: MapGenTile): Direction {
-		const rowDiff = nextTile.row - this.row,
-			columnDiff = nextTile.column - this.column;
-
-		// Vertical
-		if (rowDiff) {
-			// Down
-			if (rowDiff > 0) {
-				return 'down';
-			}
-			// Up
-			else {
-				return 'up';
-			}
-		}
-		// Horizontal
-		else if (columnDiff) {
-			// Right
-			if (columnDiff > 0) {
-				return 'right';
-			}
-			// Left
-			else {
-				return 'left';
-			}
-		}
-		return null;
+	directionToTile (nextTile: IRowColumnCoordinates): Direction {
+		return positionUtil.directionToTile(this, nextTile);
 	}
 
     /**
@@ -87,16 +64,8 @@ export class MapGenTile {
 	 * @param {Boolean} [floor=false] Floor the return value
 	 * @return {float} The euclidean distance.
 	 */
-	distanceTo (tile: MapGenTile, floor: boolean = false): number {
-		var x = Math.pow((this.column - tile.column), 2),
-			y = Math.pow((this.row - tile.row), 2),
-			distance = Math.sqrt(x + y);
-
-		if (floor) {
-			return Math.floor(distance);
-		}
-
-		return distance;
+	distanceTo (tile: MapGenTile, floor?: boolean): number {
+		return MapUtil.distanceTo(this, tile, floor);
 	}
 
     getSiblings (corners: boolean = false): number[] {

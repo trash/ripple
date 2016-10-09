@@ -1,5 +1,6 @@
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {Position, IPositionState} from '../components/position';
+import {positionUtil} from '../util/position';
 
 export class PositionSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -21,6 +22,6 @@ export class PositionSystem extends EntitySystem {
         if (!entityState.previousTile) {
             return 'up';
         }
-        return entityState.previousTile.directionToTile(entityState.tile);
+        return positionUtil.directionToTile(entityState.previousTile, entityState.tile);
     }
 }

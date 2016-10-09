@@ -1,11 +1,11 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
 import {events} from '../../events';
-import {State} from './state';
+import {IState} from './state';
 import {StateManager} from '../state-manager';
 import {TestSelect as TestSelectComponent} from '../../views/test-select';
 
-export class TestSelectState implements State {
+export class TestSelectState implements IState {
 	manager: StateManager;
 	component: TestSelectComponent;
 

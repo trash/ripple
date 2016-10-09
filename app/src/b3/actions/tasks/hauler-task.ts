@@ -4,13 +4,13 @@ import {MemSequence} from '../../core/mem-sequence';
 // import {StoreItemToTile} from '../store-item-to-tile';
 // import {SetBlackboardValue} from '../set-blackboard-value';
 // import {HaulerTask as Task} from '../../../core/tasks/hauler-task';
-import {Tile} from '../../../map/tile';
+import {MapTile} from '../../../map/tile';
 // import {Item} from '../../../core/items/item';
 
 const targetKey = 'hauler-task-target';
 
 export class HaulerTask extends MemSequence {
-	constructor (item: number, dropOffLocation: Tile) {
+	constructor (item: number, dropOffLocation: MapTile) {
 		if (!item || !dropOffLocation) {
 			console.error('broken hauler task created');
 			debugger;

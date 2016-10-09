@@ -6,7 +6,6 @@ import {AStar as aStar} from '../vendor/astar';
 import {perlin} from '../vendor/perlin';
 import {constants} from '../data/constants';
 import {util, Util} from '../util';
-import {ResourceCluster} from './resource-cluster';
 import {GameManager} from '../game/game-manager';
 import {MapGenerator, IMapGenReturn} from './map-generator';
 import {MapUtil} from './map-util';
@@ -229,6 +228,13 @@ export class GameMap {
 		};
 	}
 
+	getTilesBetween (
+		startTile: ICoordinates,
+		endTile: ICoordinates
+	): IRowColumnCoordinates[] {
+		return MapUtil.getTilesBetween<IRowColumnCoordinates>(this.tiles, startTile, endTile);
+	}
+
 	/*
 	* Picks and returns a random tile.
 	*
@@ -397,7 +403,7 @@ export class GameMap {
 	* 		behavior.
 	*/
 	getNearestEmptyTile (tile: MapTile, checkMethod: (tile: MapTile) => boolean): MapTile {
-		return MapUtil.getNearestEmptyTile(this.tiles, tile, checkMethod);
+		return MapUtil.getNearestTile(this.tiles, tile, checkMethod);
 	}
 
 	/**

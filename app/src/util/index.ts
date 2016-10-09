@@ -23,7 +23,7 @@ const validTilesCheck = (checkFunction: (tile: MapGenTile) => boolean) => {
 };
 
 const defaultValidTilesCheck = validTilesCheck(tile =>
-	!tile.resource && tile.accessible && !tile.isWater && !tile.isBridge && !tile.isHill
+	tile.accessible
 );
 
 export class Util {
@@ -327,33 +327,6 @@ export class Util {
 			return capitalizedString.slice(0, capitalizedString.length-1);
 		}
 		return string[0].toUpperCase() + string.slice(1);
-	}
-
-	/**
-	 * Helper to get the tile from a variety of different objects
-	 * due to different interfaces being used.
-	 *
-	 * @param {Object} target
-	 * @param {Object} [startTile] Optional tile to use in case of wall pathing
-	 * @return {Tile}
-	 */
-	getTileFromTarget (target, startTile?: MapTile): MapTile {
-		if (_.isNumber(target)) {
-			return positionUtil.getTileFromEntityId(target);
-		}
-		if (_.isNumber(target.column) && _.isNumber(target.row)) {
-			return target;
-		}
-		if (target.get) {
-			return target.tile;
-		}
-		if (target.getEntranceTile) {
-			return target.getEntranceTile(startTile);
-		}
-		if (target.id) {
-			return positionUtil.getTileFromEntityId(target.id);
-		}
-		return target.tile;
 	}
 
 	/**

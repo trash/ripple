@@ -1,7 +1,7 @@
 import {Task} from './task';
 // import {storage} from '../services/storage';
 import {HaulerTask as HaulerTaskAction} from '../b3/actions/tasks/hauler-task';
-import {Tile} from '../map/tile';
+import {MapTile} from '../map/tile';
 import {professions} from '../data/professions';
 
 /**
@@ -21,10 +21,10 @@ import {professions} from '../data/professions';
 export class HaulerTask extends Task {
 	item: number;
 	toStorage: boolean;
-	destinationTile: Tile;
-	dropOffLocation: Tile;
+	destinationTile: MapTile;
+	dropOffLocation: MapTile;
 
-	constructor (item: number, dropOffLocation?: Tile) {
+	constructor (item: number, dropOffLocation?: MapTile) {
 		let noDropOffLocation = !dropOffLocation;
 
 		// If no dropOffLocation is defined then this is being stored

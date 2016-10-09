@@ -8,7 +8,6 @@ import Immutable = require('immutable');
 import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
 import {util, Util} from '../util';
-import {ResourceCluster} from './resource-cluster';
 
 type NeighborCheckFunction<T> = (neighbor: T) => boolean;
 
@@ -107,7 +106,6 @@ export class MapGenerator {
 		this.logUpdate('marking border water tiles');
 		tiles = this.markBorderWaterTiles(tiles);
 
-		debugger;
 		this.logUpdate('bridging islands');
 		// Create bridges between islands√
         tiles = this.bridgeIslands(tiles);

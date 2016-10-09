@@ -7,14 +7,14 @@ import {Tick} from '../../core/tick';
 // import {Building} from '../../../core/buildings/building';
 import {Task} from '../../../tasks/task';
 import {ResourceRequirements} from '../../../resource-requirements';
-import {Tile} from '../../../map/tile';
+import {MapTile} from '../../../map/tile';
 import {IHealthState} from '../../../entity/components/health';
 
 export class BuilderTask extends Sequence {
 	constructor (
 		buildingHealthState: IHealthState,
 		requiredResources: ResourceRequirements,
-		entranceTile: Tile,
+		entranceTile: MapTile,
 		task: Task
 	) {
 		super({

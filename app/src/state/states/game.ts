@@ -1,8 +1,8 @@
 import {events} from '../../events';
-import {State} from './state';
+import {IState} from './state';
 import {StateManager} from '../state-manager';
 
-export class GameState implements State {
+export class GameState implements IState {
 	manager: StateManager;
 
 	create () {

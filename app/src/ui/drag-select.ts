@@ -2,8 +2,7 @@ import _ = require('lodash');
 import {events} from '../events';
 import {HoverDimensionsElement} from './hover-dimensions-element';
 import {HoverElement} from './hover-element';
-import {Tile} from '../map/tile';
-import {IDimensions} from '../interfaces';
+import {IDimensions, IRowColumnCoordinates, ICoordinates} from '../interfaces';
 import {canvasService} from './canvas-service';
 import {GameMap} from '../map';
 
@@ -22,7 +21,7 @@ canvasService.on('canvas-set', () => {
 });
 
 // Gets the position relative to the canvas
-let relativePosition;
+let relativePosition: (x: number, y: number) => ICoordinates;
 
 /**
  * Gets the tiles between the start and end position and the dimensions of the rectangle.
@@ -35,10 +34,10 @@ let relativePosition;
  * @return {Number} selected.dimensions.width The width of the selected area in tiles
  * @return {Number} selected.dimensions.height The height of the selected area in tiles
  */
-let getTilesAndDimensions = function (startPosition, endPosition): {
-	tiles: Tile[],
+const getTilesAndDimensions = (startPosition: ICoordinates, endPosition: ICoordinates): {
+	tiles: IRowColumnCoordinates[],
 	dimensions: IDimensions
-} {
+} => {
 	var dimensions: IDimensions = {
 			width: Math.abs(endPosition.x - startPosition.x),
 			height: Math.abs(endPosition.y - startPosition.y),
@@ -83,11 +82,11 @@ let drawSelectBox = function (dimensions: IDimensions) {
 
 
 export function dragSelect (
-	updateCallback: (tiles: Tile[], element: HTMLElement) => void,
-	completeCallback: (tiles: Tile[], dimensions: IDimensions) => void,
+	updateCallback: (tiles: IRowColumnCoordinates[], element: HTMLElement) => void,
+	completeCallback: (tiles: IRowColumnCoordinates[], dimensions: IDimensions) => void,
 	draw: boolean | string
 ): () => void {
-	var dragEndPosition = {};
+	let dragEndPosition: ICoordinates;
 
 	if (!relativePosition) {
 		relativePosition = map.positionToTile.bind(map);

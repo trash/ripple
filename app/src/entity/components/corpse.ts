@@ -1,6 +1,5 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {Tile} from '../../map/tile';
 
 export interface ICorpseState {
     agentBaseSpriteName: string;

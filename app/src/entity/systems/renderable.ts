@@ -2,6 +2,7 @@ import TWEEN = require('tween.js');
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
+import {positionUtil} from '../util/position';
 import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
@@ -46,8 +47,7 @@ export class RenderableSystem extends EntitySystem {
 				// If the sprite changed subcontainers we need to manually update the spritegroup position so it tweens properly from one subcontainer to the next
 				// Otherwise we have jumping sprites
 				if (changedSubContainer) {
-					const direction = positionState.previousTile.directionToTile(positionState.tile);
-
+					const direction = positionUtil.directionToTile(positionState.previousTile, positionState.tile);
 					const tileSize = spriteManager.getTileSize();
 
 					switch (direction) {

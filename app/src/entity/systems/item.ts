@@ -7,7 +7,7 @@ import {IPositionState} from '../components/position';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
-import {Tile} from '../../map/tile';
+import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager} from '../../services/sprite-manager';
 
 export class ItemSystem extends EntitySystem {
@@ -30,10 +30,12 @@ export class ItemSystem extends EntitySystem {
         });
     }
 
-    getNearestEmptyTile (tile: Tile): Tile {
-        return tile.map.getNearestEmptyTile(tile, checkTile =>
-            checkTile.accessible && !checkTile.resource
-        );
+    getNearestEmptyTile (tile: IRowColumnCoordinates): IRowColumnCoordinates {
+        console.error('Reimplement');
+        return tile;
+        // return tile.map.getNearestEmptyTile(tile, checkTile =>
+        //     checkTile.accessible && !checkTile.resource
+        // );
     }
 
     spawn (

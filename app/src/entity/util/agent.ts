@@ -1,6 +1,8 @@
 import {ComponentEnum} from '../component-enum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
+import {positionUtil} from './position';
+import {MapUtil} from '../../map/map-util';
 
 export class AgentUtil extends BaseUtil {
     attackAgent (attacker: number, target: number): boolean {
@@ -11,13 +13,15 @@ export class AgentUtil extends BaseUtil {
             attackerPositionState = this._getPositionState(attacker),
             targetPositionState = this._getPositionState(target);
 
-        const distanceToTarget = attackerPositionState.tile.distanceTo(targetPositionState.tile, true);
+        const distanceToTarget = MapUtil.distanceTo(attackerPositionState.tile,
+            targetPositionState.tile, true);
 		if (distanceToTarget > 1) {
             return false;
         }
 
         // Face the target
-        attackerPositionState.direction = attackerPositionState.tile.directionToTile(
+        attackerPositionState.direction = positionUtil.directionToTile(
+            attackerPositionState.tile,
             targetPositionState.tile);
 
         const damage = agentState.strength;

@@ -41,7 +41,7 @@ export interface ITilemapData {
 export interface IRandomTileOptions {
 	accessible?: boolean;
 	range?: number;
-	baseTile?: MapTile;
+	baseTile?: IRowColumnCoordinates;
 }
 
 export interface IAgentSprite extends PIXI.Sprite {
