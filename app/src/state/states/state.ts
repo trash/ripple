@@ -1,9 +1,9 @@
 import {StateManager} from '../state-manager';
 
-export interface State {
+export interface IState {
     manager: StateManager;
 
-    create (): void
-    shutdown (): void
-    preload? (): void
+    create (done: Function): void;
+    shutdown (): void;
+    preload? (): void;
 }

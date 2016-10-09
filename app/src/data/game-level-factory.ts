@@ -38,6 +38,9 @@ const testLevel: ITestLevel = {
 };
 
 export class GameLevelFactory {
+	getDefaultTestLevel (): ITestLevel {
+		return testLevel;
+	}
 	getLevel (level: ITestLevel): ITestLevel {
 		return this._process(regularLevel, level);
 	}

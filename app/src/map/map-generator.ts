@@ -107,6 +107,7 @@ export class MapGenerator {
 		this.logUpdate('marking border water tiles');
 		tiles = this.markBorderWaterTiles(tiles);
 
+		debugger;
 		this.logUpdate('bridging islands');
 		// Create bridges between islands√
         tiles = this.bridgeIslands(tiles);

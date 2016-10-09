@@ -17,6 +17,9 @@ import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/sprite-manager';
 import {EntitySpawner} from '../entity/entity-spawner';
 import {IRowColumnCoordinates} from '../interfaces';
+import {gameLevelFactory} from '../data/game-level-factory';
+
+const defaultLevel = gameLevelFactory.getDefaultTestLevel();
 
 const windowSize = {
 	width: document.body.clientWidth,
@@ -36,8 +39,8 @@ export class GameManager {
     stage: PIXI.Container;
     tilemap: Tilemap;
 
-    constructor (rootElement: Element) {
-        console.info('GameManager initialized.');
+    constructor (rootElement: Element, mode: string = 'default') {
+        console.info(`GameManager initialized. Mode: ${mode}`);
         const gameManager = this;
 
         events.on('level-selected', (level: ITestLevel) => {
@@ -74,6 +77,14 @@ export class GameManager {
         this.camera = new GameCamera();
 
         this.startRenderer();
+
+        this.level = defaultLevel;
+
+        if (mode === 'mapgen') {
+            this.state.start('Preload', 'Game');
+        } else if (mode === 'default') {
+		    this.state.start('Preload', 'MainMenu');
+        }
     }
 
     update (turn: number, stopped: boolean) {
@@ -177,7 +188,5 @@ export class GameManager {
 		this.state.add('MainMenu', MainMenuState);
 		this.state.add('Game', GameState);
 		this.state.add('TestSelect', TestSelectState);
-
-		this.state.start('Preload');
 	};
 }

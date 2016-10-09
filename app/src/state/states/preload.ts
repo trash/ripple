@@ -4,27 +4,27 @@ import {MusicPlayer} from '../../game/music-player';
 const spritesDirectories = require('../../../sprites/directory.json');
 import {LoadScreen as LoadScreenComponent} from '../../views/load-screen';
 let LoadScreen = React.createFactory(LoadScreenComponent);
-import {State} from './state';
+import {IState} from './state';
 import {StateManager} from '../state-manager';
 import PIXI = require('pixi.js');
 
 // Handle loading sprites in test environment
 var baseDirectory = window['TEST'] ? '/base/app/' : '';
 
-export class PreloaderState implements State {
+export class PreloaderState implements IState {
 	manager: StateManager;
 	component: any;
 
 	preload () {
 		this.renderComponent(0);
 		this.component.show();
-	};
-	renderComponent (percent) {
+	}
+	renderComponent (percent: number) {
 		this.component = ReactDOM.render(LoadScreen({
 			percent: percent
 		}), this.manager.element);
-	};
-	create () {
+	}
+	create (done: Function) {
 		spritesDirectories.list.forEach(folderName => {
 			PIXI.loader
 				.add(folderName, baseDirectory + 'sprites/' + folderName + '.png')
@@ -46,16 +46,11 @@ export class PreloaderState implements State {
 		PIXI.loader
 			.load((loader, resources) => {
 				console.log('All resources completed loading:', resources);
-
-				// Jump straight to game in test environment
-				if (window['TEST']) {
-					return this.manager.start('Game');
-				}
-				this.manager.start('MainMenu');
+				done();
 			});
-	};
+	}
 
 	shutdown () {
 		this.component.hide();
-	};
+	}
 }

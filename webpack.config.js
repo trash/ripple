@@ -6,6 +6,7 @@ const webpack = require('webpack'),
 module.exports = {
   entry: {
     app: './app/src/app.ts',
+    mapgen: './app/src/mapgen-app.ts',
     vendor: [
       'react',
       'lodash',

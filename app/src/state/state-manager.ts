@@ -1,11 +1,11 @@
-import {State} from './states/state';
+import {IState} from './states/state';
 
 interface IStateMap {
-	[index: string]: State;
+	[index: string]: IState;
 }
 
 export class StateManager {
-	current: State;
+	current: IState;
 	states: IStateMap;
 	element: Element;
 
@@ -15,13 +15,13 @@ export class StateManager {
 		this.element = rootElement;
 	}
 
-	add (key: string, State: new () => State) {
+	add (key: string, State: new () => IState) {
 		var state = new State();
 		state.manager = this;
 		this.states[key] = state;
-	};
+	}
 
-	start (key: string) {
+	start (key: string, nextStateKey?: string) {
 		if (this.current && this.current.shutdown) {
 			this.current.shutdown();
 		}
@@ -32,6 +32,8 @@ export class StateManager {
 		if (state.preload) {
 			state.preload();
 		}
-		state.create();
-	};
+		state.create(() => {
+			this.start(nextStateKey);
+		});
+	}
 };
