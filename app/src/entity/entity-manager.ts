@@ -13,6 +13,7 @@ import {statusBubbleUtil} from './util/status-bubble';
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;
     componentEnum: ComponentEnum;
+    updateInterval?: number;
 
     constructor (manager: EntityManager, componentEnum: ComponentEnum) {
         super();
@@ -50,6 +51,9 @@ interface IComponentMap {
 interface IRemovedEntitiesMap {
     [key: number]: boolean;
 }
+interface IEntityComponentToIdListMap {
+    [key: number]: number[];
+}
 
 export class EntityManager {
     entities: number[];
@@ -57,6 +61,7 @@ export class EntityManager {
     systems: EntitySystem[];
     entityComponentDataMap: IEntityManagerMap;
     removedEntities: IRemovedEntitiesMap;
+    entityComponentToIdListMap: IEntityComponentToIdListMap;
 
     constructor () {
         // Lazy load this for circular dependency reasons
@@ -65,8 +70,9 @@ export class EntityManager {
         this.entities = [];
         this.components = {};
         this.systems = [];
-        this.entityComponentDataMap = {} as IEntityManagerMap;
+        this.entityComponentDataMap = {};
         this.removedEntities = {};
+        this.entityComponentToIdListMap = {};
 
         componentsList.forEach(component => {
             this.addComponent(component);
@@ -87,6 +93,9 @@ export class EntityManager {
 
     update (turn: number, stopped: boolean) {
         this.systems.forEach((system) => {
+            if (system.updateInterval && turn % system.updateInterval !== 1) {
+                return;
+            }
             const entityIds = this.getEntityIdsForComponent(system.componentEnum);
             system.update(entityIds, turn, stopped);
         });
@@ -120,6 +129,11 @@ export class EntityManager {
             }
 
             delete componentEntry[entityId];
+            // Remove the id
+            // NOTE: This is probably very expensive. We might want to just null out
+            // removed entities and handle nulls in the id list
+            const idList = this.entityComponentToIdListMap[componentName];
+            idList.splice(idList.indexOf(entityId), 1);
         }
     }
 
@@ -146,11 +160,13 @@ export class EntityManager {
             return;
         }
         this.getEntitiesWithComponent(componentName)[entityId] = this.createNewComponentDataMapEntry(componentName);
+        this.entityComponentToIdListMap[componentName].push(entityId);
     }
 
     addComponent (component: IComponent) {
         this.components[component.enum] = component;
         this.entityComponentDataMap[component.enum] = {};
+        this.entityComponentToIdListMap[component.enum] = [];
     }
 
     addSystem (system: EntitySystem) {
@@ -183,6 +199,6 @@ export class EntityManager {
     }
 
     getEntityIdsForComponent (componentName: ComponentEnum): number[] {
-        return Object.keys(this.getEntitiesWithComponent(componentName)).map(key => parseInt(key));
+        return this.entityComponentToIdListMap[componentName];
     }
 }

@@ -58,6 +58,11 @@ export interface IRowColumnCoordinates {
 	column: number;
 };
 
+export interface IRowColumnCoordinateWrapper<T> extends IRowColumnCoordinates {
+	value: T;
+	index: number;
+}
+
 export interface ICoordinates {
 	x: number;
 	y: number;

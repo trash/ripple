@@ -1,7 +1,7 @@
 /// <reference path="ndarray.d.ts" />
 import {perlin} from '../vendor/perlin';
 import {floodfill} from '../vendor/flood-fill';
-import {NDArray, ICoordinates} from '../interfaces';
+import {NDArray, ICoordinates, IRowColumnCoordinateWrapper} from '../interfaces';
 import ndarray = require('ndarray');
 import {MapGenTile} from './map-gen-tile';
 import Immutable = require('immutable');
@@ -18,6 +18,9 @@ export interface IMapGenReturn {
 	resourceList: string[]
 };
 
+const isValidResourceTile = (resource: string, i: number, tiles: Immutable.List<MapGenTile>): boolean =>
+			!resource && !tiles.get(i).isWater;
+
 const waterCheckFunction: NeighborCheckFunction<string> = (neighbor: string): boolean => {
 		if (!neighbor) {
 			return true;
@@ -26,7 +29,7 @@ const waterCheckFunction: NeighborCheckFunction<string> = (neighbor: string): bo
 		// then just act like the water continues off the map
 		return neighbor.indexOf('water') !== -1 && neighbor.indexOf('bridge') === -1;
 	},
-	hillCheckFunction: NeighborCheckFunction<MapGenTile> = (tile: MapGenTile) => tile && tile.isHill;
+	hillCheckFunction: NeighborCheckFunction<MapGenTile> = (tile: MapGenTile) => !!tile;
 
 type NeighborMap<T> = {
     left: T;
@@ -159,60 +162,76 @@ export class MapGenerator {
 		})
 	}
 
+	/**
+	 * Returns a list of the indices of tiles suitable to spawn
+	 * resources on in a cluster around the given starting tile index.
+	 *
+	 * @param {Immutable.List<string>} tiles
+	 * @param {number} size
+	 * @param {number} startTileIndex
+	 * @param {(tile: IRowColumnCoordinateWrapper<string>) => boolean} checkFunction
+	 * @returns {number[]}
+	 */
 	_getResourceCluster (
-		tiles: Immutable.List<MapGenTile>,
+		tiles: Immutable.List<string>,
 		size: number,
-		tile: MapGenTile
-	): MapGenTile[] {
-		const clusterTiles: MapGenTile[] = [];
+		startTileIndex: number,
+		checkFunction: (tile: IRowColumnCoordinateWrapper<string>) => boolean,
+		markFunction: (tile: IRowColumnCoordinateWrapper<string>) => IRowColumnCoordinateWrapper<string>
+	): number[] {
+		const clusterTiles: number[] = [];
+		const searchTiles = MapUtil.arrayToRowColumnCoordinatesArray(tiles.toArray());
+		const startTile = searchTiles[startTileIndex];
 
 		for (let i = 0; i < size - 1; i++) {
 			// Give me the next closest tile without a resource and without water
-			const nextTile = MapUtil.getNearestEmptyTile(tiles.toArray(), tile, (checkTile) => {
-				return !(checkTile as MapGenTile).resource &&
-					!!Util.validTiles.resource([checkTile as MapGenTile]).length;
-			}) as MapGenTile;
+			const nextTile = MapUtil.getNearestTile(searchTiles, startTile, checkFunction);
 			// No more free tiles?
 			if (!nextTile) {
 				break;
 			}
+			// Mark the tile
+			searchTiles[nextTile.index] = markFunction(searchTiles[nextTile.index]);
 
-			clusterTiles.push(nextTile);
+			clusterTiles.push(nextTile.index);
 		}
-		console.info('we should be clearing tiles here?');
 		return clusterTiles;
 	}
 
-	/**
-	 * Generates clusters of the given resource type.
-	 *
-	 * @param {String} type The type of resource
-	 * @param {Number} amount Creates clusters with that total up to 'amount'.
-	 * @param {Number[]} clusterBounds Cluster bounds determines the ranges of size for each cluster.
-	 */
 	generateResourceClusters (
 		tiles: Immutable.List<MapGenTile>,
+		resourceList: Immutable.List<string>,
 		type: string,
 		amount: number,
-		clusterBounds: [number, number],
-		filteredTiles: MapGenTile[]
-	): MapGenTile[] {
+		clusterBounds: [number, number]
+	): Immutable.List<string> {
+		let clusterTiles = [];
 		while (amount > 0) {
 			const clusterSize = util.randomInRange(clusterBounds[0], clusterBounds[1]);
 			amount -= clusterSize;
 
 			// Pick the starting tile for cluster from all filtered tiles
-			const tileIndex = util.randomInRange(0 ,filteredTiles.length, false, false),
-				randomTile = filteredTiles[tileIndex];
+			const tileIndex = util.randomInRange(0 , tiles.size, false, false);
 
 			// Generate the cluster
-			const clusterTiles = this._getResourceCluster(tiles, clusterSize, randomTile);
-			console.log('we need to be generating resources somehow with these clusterTiles');
-
-			// Remove the tile from the filtered list
-			filteredTiles.splice(tileIndex, 1);
+			clusterTiles = clusterTiles.concat(
+				this._getResourceCluster(
+					resourceList,
+					clusterSize,
+					tileIndex,
+					tile => isValidResourceTile(tile.value, tile.index, tiles),
+					tile => {
+						tile.value = 'marked';
+						return tile
+					})
+			);
 		}
-		return filteredTiles;
+
+		return resourceList.withMutations(resourceList => {
+			clusterTiles.forEach(index => {
+				resourceList.set(index, type);
+			});
+		});
 	}
 
 	/**
@@ -254,8 +273,9 @@ export class MapGenerator {
 		perlin.seed(this.seed);
 		const fragment = 2;
 
-		return resourceList.map((resource, i) => {
-			if (resource || tiles.get(i).isWater) {
+		// Generate trees via perlin noise
+		resourceList = resourceList.map((resource, i) => {
+			if (!isValidResourceTile(resource, i, tiles)) {
 				return resource;
 			}
 			const column = i % this.dimension,
@@ -264,21 +284,26 @@ export class MapGenerator {
 			value *= 40;
 			value = Math.floor(Math.abs(value));
 
-			// Trees 10%
 			if (value > 15) {
 				return 'tree';
-			// Rocks 2.5%
-			} else if (value === 28) {
-				return 'rock';
-			// Bushes 2.5%
-			} else if (value === 27) {
-				return 'bush';
-			} else if (value < 2) {
-				// clearTiles.push(tile);
-				return null;
 			}
 			return null;
 		}).toList();
+
+		// Generate everything else via clusters
+		const tilesCount = resourceList.size;
+		// 2.5% to be rocks
+		const rocksCount = Math.floor(tilesCount * 0.025);
+		// 2.0% to be shrooms
+		const shroomCount = Math.floor(tilesCount * 0.02);
+		// 2.5% to be bushes
+		const bushesCount = Math.floor(tilesCount * 0.025);
+
+		resourceList = this.generateResourceClusters(tiles, resourceList, 'rock', rocksCount, [10, 15]);
+		resourceList = this.generateResourceClusters(tiles, resourceList, 'bush', bushesCount, [2, 5]);
+		resourceList = this.generateResourceClusters(tiles, resourceList, 'mushroom', rocksCount, [3, 5]);
+
+		return resourceList;
 	}
 
 	generateHills (

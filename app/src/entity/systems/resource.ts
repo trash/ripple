@@ -12,6 +12,8 @@ import {TilemapSprite} from '../../tilemap';
 import {spriteManager} from '../../services/sprite-manager';
 
 export class ResourceSystem extends EntitySystem {
+    readonly updateInterval = 10;
+
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(

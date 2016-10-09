@@ -1,4 +1,5 @@
-import {IRowColumnCoordinates, ICoordinates, IRandomTileOptions, Direction} from '../interfaces';
+import {IRowColumnCoordinates, IRowColumnCoordinateWrapper, ICoordinates,
+	IRandomTileOptions, Direction} from '../interfaces';
 import {AStar as aStar} from '../vendor/astar';
 import {constants} from '../data/constants';
 import {MapTile} from './tile';
@@ -250,6 +251,20 @@ export class MapUtil {
 		return baseTile;
 	}
 
+	static arrayToRowColumnCoordinatesArray<T> (
+		inputArray: T[]
+	): IRowColumnCoordinateWrapper<T>[] {
+		const dimension = Math.sqrt(inputArray.length);
+		return inputArray.map((item, i) => {
+			return {
+				value: item,
+				column: i % dimension,
+				row: Math.floor(i / dimension),
+				index: i
+			};
+		});
+	}
+
 	/**
 	* Returns the nearest tile that passes the checkMethod function to the current one.
 	* Uses a spiral out algorithm.
@@ -259,7 +274,7 @@ export class MapUtil {
 	* @todo Handle edges cases. Currently if the spiral starts on the left edge it has some unpredictable
 	* 		behavior.
 	*/
-	static getNearestEmptyTile<T extends IRowColumnCoordinates> (
+	static getNearestTile<T extends IRowColumnCoordinates> (
 		tiles: T[],
 		tile: T,
 		checkMethod: (tile: T) => boolean
@@ -270,7 +285,7 @@ export class MapUtil {
 		}
 		const dimension = Math.sqrt(tiles.length);
 
-		let emptyTile,
+		let match,
 			x = 0,
 			y = 0,
 			delta = [0, -1],
@@ -278,13 +293,13 @@ export class MapUtil {
 			height = 9999;
 
 		// Spiral out and find the first empty tile
-		while (!emptyTile && Math.abs(x) <= dimension && Math.abs(y) <= dimension) {
+		while (!match && Math.abs(x) <= dimension && Math.abs(y) <= dimension) {
 			// console.log(x, y, this.dimension);
 			if (((-width/2 < x) && (x <= width/2)) && ((-height/2 < y) && (y <= height/2))) {
 				const checkTile = this.getTile(tiles, tile.row + x, tile.column + y);
 				// If the tile passes the checkMethod
 				if (checkTile && checkMethod(checkTile)) {
-					emptyTile = checkTile;
+					match = checkTile;
 				}
 			}
 
@@ -296,6 +311,6 @@ export class MapUtil {
 			x += delta[0];
 			y += delta[1];
 		}
-		return emptyTile;
+		return match;
 	}
 }
