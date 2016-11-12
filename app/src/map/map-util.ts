@@ -91,7 +91,7 @@ export class MapUtil {
 					}
 					const tile = MapUtil.getTile(inputTiles, j, i);
 					// Just in case we're out of bounds
-					if (tile && (!accessible || (accessible && tile.accessible))) {
+					if (tile && !tile.isEqualToCoords(baseTile) && (!accessible || (accessible && tile.accessible))) {
 						tiles.push(tile);
 					}
 				}

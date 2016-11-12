@@ -130,6 +130,10 @@ export class GameManager {
             }
         });
 
+        this.level.agents.forEach(agent => {
+            this.entitySpawner.spawnAgent(agent);
+        });
+
         const startTile = this.map.getRandomTile({
             accessible: true
         });

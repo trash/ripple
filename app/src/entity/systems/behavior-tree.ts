@@ -10,8 +10,8 @@ import {events} from '../../events';
 import {GameMap} from '../../map';
 
 let map: GameMap;
-events.on('map-update', (map: GameMap) => {
-    map = map;
+events.on('map-update', (newMap: GameMap) => {
+    map = newMap;
 });
 
 export interface IBehaviorTreeTickTarget {

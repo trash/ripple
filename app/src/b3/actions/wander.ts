@@ -16,11 +16,14 @@ export class WanderAction extends BaseNode {
 	}
 
 	open (tick: Tick) {
-		let randomTile = tick.target.map.getRandomTile({
+		const randomTile = tick.target.map.getRandomTile({
 			accessible: true,
 			range: 1,
 			baseTile: tick.target.position.tile
 		});
+		if (!randomTile) {
+			debugger;
+		}
 
 		util.blackboardSet(tick, 'arrived', false);
 		util.blackboardSet(tick, 'destination', randomTile);
@@ -31,7 +34,7 @@ export class WanderAction extends BaseNode {
 		if (!arrived) {
 			util.blackboardSet(tick, 'arrived', true);
 			// testLog.log('should be wandering');
-			let randomTile = util.blackboardGet(tick, 'destination');
+			const randomTile = util.blackboardGet(tick, 'destination');
 			if (!randomTile) {
 				console.error('for some reason randomTile is undefined?? ignoring this for now...');
 			} else {

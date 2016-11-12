@@ -11,6 +11,7 @@ import {MapGenerator, IMapGenReturn} from './map-generator';
 import {MapUtil} from './map-util';
 import {MapGenTile} from './map-gen-tile';
 import {MapTile} from './tile';
+import {events} from '../events';
 
 var zoneNumber = 10,
 	zoneNumberCount;
@@ -167,6 +168,7 @@ export class GameMap {
 	initialize () {
 		// Update the grid
 		this.grid(true);
+		events.emit('map-update', this);
 	}
 
 	/**

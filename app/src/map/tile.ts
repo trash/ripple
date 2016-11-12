@@ -20,9 +20,17 @@ export class MapTile implements IRowColumnCoordinates {
         this.column = column;
         this.data = data;
         this.isWater = isWater;
+        this.collision = false;
     }
 
     get accessible (): boolean {
-        return this.isWater || this.collision;
+        return !this.isWater && !this.collision;
+    }
+
+    isEqual (other: MapTile): boolean {
+        return this.index === other.index;
+    }
+    isEqualToCoords (other: IRowColumnCoordinates): boolean {
+        return this.row === other.row && this.column === other.column;
     }
 }
