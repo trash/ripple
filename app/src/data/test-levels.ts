@@ -41,6 +41,12 @@ interface ITestLevelGroup {
 		name: 'Agent Spawning Tests',
 		list: [
 			{
+				name: 'Agent paths around map',
+				agents: [{
+					name: 'human'
+				}]
+			},
+			{
 				name: 'Zombie attacks villager',
 				agents: [{
 					name: 'zombie'

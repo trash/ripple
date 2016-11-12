@@ -38,6 +38,13 @@ export class RenderableSystem extends EntitySystem {
 				newPosition = spriteManager.positionFromTile(
 					positionState.tile.column, positionState.tile.row);
 
+			// We always need to update moving sprites to make sure their
+			// z-index is up to date (so they don't appear behind things wrong)
+			if (!util.coordinatesAreEqual(newPosition, lastPosition)) {
+				spriteManager.changePosition(renderableState.spriteGroup,
+					positionState.tile.column, positionState.tile.row, true);
+			}
+
 			// Don't re-render thousands of things on the map that don't move (like resources)
 			if (spriteManager.subContainerWillUpdate(renderableState.spriteGroup as TilemapSprite,
 				positionState.tile.column, positionState.tile.row

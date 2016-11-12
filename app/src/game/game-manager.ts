@@ -11,6 +11,7 @@ import {GameMap, IMapOptions} from '../map';
 import {canvasService} from '../ui/canvas-service';
 import {util} from '../util';
 import {GameLoop} from './game-loop';
+import {GameSpeed} from './game-speed';
 import {GameCamera} from './game-camera';
 import {gameClock} from './game-clock';
 import {Tilemap} from '../tilemap';
@@ -18,6 +19,7 @@ import {spriteManager} from '../services/sprite-manager';
 import {EntitySpawner} from '../entity/entity-spawner';
 import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/game-level-factory';
+import {keybindings} from '../services/keybindings';
 
 const defaultLevel = gameLevelFactory.getDefaultTestLevel();
 
@@ -74,6 +76,8 @@ export class GameManager {
         this.loop = new GameLoop();
 		this.loop.on('update', this.update.bind(this));
 
+        new GameSpeed(this.loop);
+
         this.camera = new GameCamera();
 
         this.startRenderer();
@@ -85,6 +89,8 @@ export class GameManager {
         } else if (mode === 'default') {
             this.state.start('Preload', 'MainMenu');
         }
+
+        keybindings.on();
     }
 
     update (turn: number, stopped: boolean) {

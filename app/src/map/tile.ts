@@ -1,6 +1,7 @@
 import {IRowColumnCoordinates} from '../interfaces';
+import {BaseTile} from './base-tile';
 
-export class MapTile implements IRowColumnCoordinates {
+export class MapTile extends BaseTile {
     isWater: boolean;
     row: number;
     column: number;
@@ -15,6 +16,7 @@ export class MapTile implements IRowColumnCoordinates {
         data: string,
         isWater: boolean
     ) {
+        super(dimension);
         this.index = row * dimension + column;
         this.row = row;
         this.column = column;

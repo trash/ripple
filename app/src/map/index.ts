@@ -505,4 +505,8 @@ export class GameMap {
 	getTileByIndex (index: number): MapTile {
 		return this.getTile(Math.floor(index / this.dimension), index % this.dimension);
 	}
+
+	getTileFromCoords (coords: IRowColumnCoordinates): MapTile {
+		return this.getTile(coords.row, coords.column);
+	}
 }
