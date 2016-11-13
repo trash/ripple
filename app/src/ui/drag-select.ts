@@ -6,10 +6,13 @@ import {IDimensions, IRowColumnCoordinates, ICoordinates} from '../interfaces';
 import {canvasService} from './canvas-service';
 import {GameMap} from '../map';
 
-let map: GameMap;
-
+const globalRefs: {
+	map: GameMap
+} = {
+	map: null
+};
 events.on('map-update', (map: GameMap) => {
-	map = map;
+	globalRefs.map = map;
 });
 
 let canvas,
@@ -56,7 +59,7 @@ const getTilesAndDimensions = (startPosition: ICoordinates, endPosition: ICoordi
 	dimensions.base = base;
 
 	return {
-		tiles: map.getTilesBetween(startPosition, endPosition),
+		tiles: globalRefs.map.getTilesBetween(startPosition, endPosition),
 		dimensions: dimensions
 	};
 };
@@ -65,13 +68,13 @@ let selectBoxElement = new HoverElement(),
 	dimensionsElement = new HoverDimensionsElement();
 
 let drawSelectBox = function (dimensions: IDimensions) {
-	map.setElementToTilePosition(selectBoxElement.element, map.getTile(dimensions.base.y, dimensions.base.x));
+	globalRefs.map.setElementToTilePosition(selectBoxElement.element, globalRefs.map.getTile(dimensions.base.y, dimensions.base.x));
 
 	// Update the text for the dimensions element
 	dimensionsElement.setText(dimensions.width + 'x' + dimensions.height);
-	map.setElementToTilePosition(dimensionsElement.element, map.getTile(dimensions.base.y, dimensions.base.x));
+	globalRefs.map.setElementToTilePosition(dimensionsElement.element, globalRefs.map.getTile(dimensions.base.y, dimensions.base.x));
 
-	var tileSize = map.scaledTileSize();
+	var tileSize = globalRefs.map.scaledTileSize();
 
 	// Expand its size
 	selectBoxElement.element.style.width = dimensions.width * tileSize + 'px';
@@ -89,7 +92,7 @@ export function dragSelect (
 	let dragEndPosition: ICoordinates;
 
 	if (!relativePosition) {
-		relativePosition = map.positionToTile.bind(map);
+		relativePosition = globalRefs.map.positionToTile.bind(globalRefs.map);
 	}
 
 	// Allow optional class to be given to select box
@@ -150,13 +153,13 @@ export function dragSelect (
 			selectBoxElement.show();
 			dimensionsElement.show();
 			// Move the select box element to the click start
-			map.setElementToTilePosition(
+			globalRefs.map.setElementToTilePosition(
 				selectBoxElement.element,
-				map.getTile(dragStartPosition.y, dragStartPosition.x)
+				globalRefs.map.getTile(dragStartPosition.y, dragStartPosition.x)
 			);
-			map.setElementToTilePosition(
+			globalRefs.map.setElementToTilePosition(
 				dimensionsElement.element,
-				map.getTile(dragStartPosition.y, dragStartPosition.x)
+				globalRefs.map.getTile(dragStartPosition.y, dragStartPosition.x)
 			);
 		}
 

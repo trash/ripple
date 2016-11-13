@@ -19,29 +19,29 @@ export class MainMenuState implements IState {
 		}), this.manager.element);
 
 		this.component.show();
-	};
+	}
 
 	startGame () {
 		this.manager.start('StartingSupplies');
-	};
+	}
 
 	loadGame () {
 		this.manager.start('LoadGame');
-	};
+	}
 
 	tutorialSelect () {
 		this.manager.start('TutorialSelect');
-	};
+	}
 
 	testSelect () {
 		this.manager.start('TestSelect');
-	};
+	}
 
 	generateMap () {
 		this.manager.start('MapGeneration');
-	};
+	}
 
 	shutdown () {
 		this.component.hide();
-	};
+	}
 }

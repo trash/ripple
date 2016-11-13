@@ -1,3 +1,5 @@
+import React = require('react');
+import ReactDOM = require('react-dom');
 import {events} from '../events';
 import TWEEN = require('tween.js');
 import {StateManager} from '../state/state-manager';
@@ -20,6 +22,10 @@ import {EntitySpawner} from '../entity/entity-spawner';
 import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/game-level-factory';
 import {keybindings} from '../services/keybindings';
+import {GameComponent} from '../views/game';
+import {tileInfoService} from '../ui/tile-info-service';
+
+tileInfoService;
 
 const defaultLevel = gameLevelFactory.getDefaultTestLevel();
 
@@ -113,6 +119,11 @@ export class GameManager {
 		animate();
 	}
 
+    private renderGameUI () {
+        const GameComponentFactory = React.createFactory(GameComponent);
+        ReactDOM.render(GameComponentFactory(), document.querySelector('.game-ui'));
+    }
+
     start () {
         console.info('Start the game.');
         this.map = this.createMap(this.level.gameMap);
@@ -146,6 +157,8 @@ export class GameManager {
 		this.camera.setToTile(startTile);
 
         this.loop.start();
+
+        this.renderGameUI();
     }
 
     updateTilemap () {

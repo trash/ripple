@@ -15,9 +15,13 @@ import {taskQueueManager} from '../../tasks/task-queue-manager';
 import {GameMap} from '../../map';
 import {IRowColumnCoordinates} from '../../interfaces';
 
-let map: GameMap;
+const globalRefs: {
+	map: GameMap
+} = {
+	map: null
+};
 events.on('map-update', (map: GameMap) => {
-	map = map;
+	globalRefs.map = map;
 });
 
 
@@ -126,8 +130,8 @@ export class HarvestSelectSystem extends EntitySystem {
 		this.tileHoverElement.show();
 
 		// Highlight the currrently hovered over tile
-		this.hoverListener = map.addTileHoverListener(tile => {
-			map.setElementToTilePosition(this.tileHoverElement.element, tile);
+		this.hoverListener = globalRefs.map.addTileHoverListener(tile => {
+			globalRefs.map.setElementToTilePosition(this.tileHoverElement.element, tile);
 		});
 
 		// Start the drag select

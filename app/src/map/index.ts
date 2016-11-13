@@ -114,7 +114,7 @@ export class GameMap {
 
 		this._tileHoverListenerCallbacks = [];
 
-		gameManager.loop.on('loop-update', this._onLoopUpdate.bind(this));
+		gameManager.loop.on('update', this._onLoopUpdate.bind(this));
 
 		this._onMouseMoveListener = this._onMouseMoveListener.bind(this);
 		window.addEventListener('mousemove', this._onMouseMoveListener);

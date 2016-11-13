@@ -20,6 +20,12 @@ button {
     padding: 0.5em 0.75em;
 }
 
+.game-ui {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
 .ripple {
     background: #ccc;
 }
