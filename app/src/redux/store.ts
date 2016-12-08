@@ -1,7 +1,12 @@
 import {createStore} from 'redux';
 import {actionTypes} from './actions/types';
+import {MapTile} from '../map/tile';
 
-const initialState = {};
+interface StoreState {
+    tile: MapTile;
+}
+
+const initialState = {} as StoreState;
 const mainReducer = (previousState = initialState, action) => {
     const newState = _.extend({}, previousState);
     if (action.type === actionTypes.UPDATE_HOVER_TILE) {
@@ -10,4 +15,4 @@ const mainReducer = (previousState = initialState, action) => {
     return newState;
 };
 
-export const store = createStore(mainReducer);
+export const store = createStore<StoreState>(mainReducer);
