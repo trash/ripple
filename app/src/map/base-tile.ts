@@ -11,6 +11,10 @@ export abstract class BaseTile implements IRowColumnCoordinates {
 		this.dimension = dimension;
 	}
 
+	toString(): string {
+		return `[${this.row},${this.column}]`;
+	}
+
 	_rowFromIndex (index: number) {
         return Math.floor(index / this.dimension);
     }

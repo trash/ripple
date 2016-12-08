@@ -1,10 +1,14 @@
 import React = require('react');
-import {DebugPanel} from './components/debug-panel';
+import {Provider} from 'react-redux';
+import {DebugPanel, ConnectedDebugPanel} from './components/debug-panel';
+import {store} from '../redux/store';
 
 export class GameComponent extends React.Component<any, any> {
     render () {
         return (
-            <DebugPanel/>
+            <Provider store={store}>
+                <ConnectedDebugPanel/>
+            </Provider>
         );
     }
 }
