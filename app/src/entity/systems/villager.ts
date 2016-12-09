@@ -6,6 +6,7 @@ import {IVillagerState} from '../components/villager';
 import {IAgentState} from '../components/agent';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
+import {IBehaviorTreeState} from '../components/behavior-tree';
 import {IStatusBubbleState} from '../components/status-bubble';
 import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
@@ -13,14 +14,25 @@ import {professionsList, professions} from '../../data/professions';
 import {villagerJobs, villagerJobsMap} from '../../data/villager-jobs';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
 import {statusBubbleUtil} from '../util/status-bubble';
+import {deerTree as villagerTree} from '../../b3/trees/deer';
 
 export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
-            const agentState = this.manager.getComponentDataForEntity(ComponentEnum.Agent, id) as IAgentState,
-                positionState = this.manager.getComponentDataForEntity(ComponentEnum.Position, id) as IPositionState,
-                statusBubbleState = this.manager.getComponentDataForEntity(ComponentEnum.StatusBubble, id) as IStatusBubbleState,
-                villagerState = this.manager.getComponentDataForEntity(ComponentEnum.Villager, id) as IVillagerState;
+            const agentState = this.manager.getComponentDataForEntity(
+					ComponentEnum.Agent, id) as IAgentState,
+                behaviorTreeState = this.manager.getComponentDataForEntity(
+					ComponentEnum.BehaviorTree, id) as IBehaviorTreeState,
+                positionState = this.manager.getComponentDataForEntity(
+					ComponentEnum.Position, id) as IPositionState,
+                statusBubbleState = this.manager.getComponentDataForEntity(
+					ComponentEnum.StatusBubble, id) as IStatusBubbleState,
+                villagerState = this.manager.getComponentDataForEntity(
+					ComponentEnum.Villager, id) as IVillagerState;
+
+			if (!behaviorTreeState.tree) {
+				behaviorTreeState.tree = villagerTree;
+			}
 
 			const newTask = this.getTaskForVillager(id, villagerState),
 				newTaskId = newTask ? newTask.id : null,

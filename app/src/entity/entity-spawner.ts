@@ -1,5 +1,4 @@
 // import {behaviorTree as villagerTree} from '../agents/villager-tree';
-import {deerTree as villagerTree} from '../b3/trees/deer';
 import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {agentsAssemblageData} from '../entity/assemblages-data/agents';
@@ -81,7 +80,6 @@ export class EntitySpawner {
 		const positionState = this.entityManager.getComponentDataForEntity(ComponentEnum.Position, entityId) as IPositionState,
 			agentState = this.entityManager.getComponentDataForEntity(ComponentEnum.Agent, entityId) as IAgentState,
 			villagerState = this.entityManager.getComponentDataForEntity(ComponentEnum.Villager, entityId) as IVillagerState,
-			behaviorTreeState = this.entityManager.getComponentDataForEntity(ComponentEnum.BehaviorTree, entityId) as IBehaviorTreeState,
 			renderableState = this.entityManager.getComponentDataForEntity(ComponentEnum.Renderable, entityId) as IRenderableState;
 
 		// Copy over the defaults for the agent
@@ -91,8 +89,7 @@ export class EntitySpawner {
 
 		// If they specified options for the villager, assign them
 		if (data.villager) {
-			villagerState.job = data.villager.job !== undefined ? data.villager.job : villagerState.job
-			behaviorTreeState.tree = villagerTree;
+			villagerState.job = data.villager.job !== undefined ? data.villager.job : villagerState.job;
 		}
 		positionState.hasDirection = true;
 		// Set tile to 0,0

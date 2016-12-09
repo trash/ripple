@@ -12,7 +12,7 @@ interface DebugPanelProps {
 export class DebugPanel extends React.Component<DebugPanelProps, void> {
     render () {
         return (
-        <div>
+        <div className="debug-ui">
             <h4>Tile: {this.props.tile && this.props.tile.toString()}</h4>
             <h4>Agent: {this.props.agent}</h4>
             <h4>Resource: {this.props.resource}</h4>

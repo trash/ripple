@@ -5,9 +5,13 @@ import {componentsList} from './components/components-list';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems/systems-list';
 import {EventEmitter2} from 'eventemitter2';
-import {BaseUtil} from './util/base';
+
+// Utils
+import {BaseUtil, baseUtil} from './util/base';
 import {agentUtil} from './util/agent';
 import {itemUtil} from './util/item';
+import {mapUtil} from './util/map';
+import {positionUtil} from './util/position';
 import {statusBubbleUtil} from './util/status-bubble';
 
 export class EntitySystem extends EventEmitter2 {
@@ -31,9 +35,12 @@ export interface IComponent {
 }
 
 const utilList: BaseUtil[] = [
+    baseUtil,
     agentUtil,
     itemUtil,
-    statusBubbleUtil
+    mapUtil,
+    positionUtil,
+    statusBubbleUtil,
 ];
 
 type EntityComponentDataMapEntry = any;
