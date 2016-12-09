@@ -404,7 +404,10 @@ export class GameMap {
 	* @todo Handle edges cases. Currently if the spiral starts on the left edge it has some unpredictable
 	* 		behavior.
 	*/
-	getNearestEmptyTile (tile: MapTile, checkMethod: (tile: MapTile) => boolean): MapTile {
+	getNearestEmptyTile (
+		tile: MapTile,
+		checkMethod: (tile: MapTile) => boolean
+	): MapTile {
 		return MapUtil.getNearestTile(this.tiles, tile, checkMethod);
 	}
 

@@ -18,6 +18,7 @@ import {IAgentAssemblageTestData} from '../data/test-level';
 // import {AgentsService} from '../services/agents-service';
 // import {ItemManager} from '../services/item-manager';
 import {GameMap} from '../map';
+import {MapTile} from '../map/tile';
 
 export class EntitySpawner {
     entityManager: EntityManager;
@@ -138,7 +139,10 @@ export class EntitySpawner {
 				ComponentEnum.Position, entityId) as IPositionState,
 			itemState = this.entityManager.getComponentDataForEntity(
 				ComponentEnum.Item, entityId) as IItemState;
-		positionState.tile = this.map.getNearestEmptyTile(this.map.getTile(0, 0), tile => !!tile.accessible);
+		const tileDoesntContainItem = (tile: MapTile): boolean => {
+			return true;
+		};
+		positionState.tile = this.map.getNearestEmptyTile(this.map.getTile(0, 0), tileDoesntContainItem);
 		itemState.shouldBeSpawned = true;
 
 		// this.itemManager.addItem(entityId);

@@ -151,6 +151,12 @@ export class GameManager {
             this.entitySpawner.spawnAgent(agent);
         });
 
+        Object.keys(this.level.items).forEach(itemName => {
+            for (let i = 0; i < this.level.items[itemName]; i++) {
+                this.entitySpawner.spawnItem(itemName);
+            }
+        });
+
         const startTile = this.map.getRandomTile({
             accessible: true
         });
