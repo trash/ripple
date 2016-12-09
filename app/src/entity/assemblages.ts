@@ -36,7 +36,8 @@ export const assemblages: IAssemblagesMap = {
         ComponentEnum.Renderable,
         ComponentEnum.Position,
         ComponentEnum.Harvestable,
-        ComponentEnum.Health
+        ComponentEnum.Health,
+        ComponentEnum.Name
     ],
     [AssemblagesEnum.Item]: [
         ComponentEnum.Renderable,

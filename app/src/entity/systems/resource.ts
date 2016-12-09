@@ -5,6 +5,7 @@ import {IResourceState} from '../components/resource';
 import {IHarvestableState} from '../components/harvestable';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
+import {INameState} from '../components/name';
 import {IHealthState} from '../components/health';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
@@ -24,6 +25,8 @@ export class ResourceSystem extends EntitySystem {
                     ComponentEnum.Health, id) as IHealthState,
                 resourceState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Resource, id) as IResourceState,
+                nameState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Name, id) as INameState,
                 positionState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Position, id) as IPositionState;
 
@@ -32,6 +35,10 @@ export class ResourceSystem extends EntitySystem {
             renderableState.sprite.tint = harvestableState.highlighted || harvestableState.queued ?
                 constants.colors.BLUE_GREEN :
                 constants.colors.WHITE;
+
+            if (!nameState.name) {
+                nameState.name = resourceState.name;
+            }
 
             if (healthState.currentHealth <= 0) {
                 console.info('Should be getting rid of resource sprites', id);
