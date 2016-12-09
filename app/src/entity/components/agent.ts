@@ -1,6 +1,6 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {AgentTraits} from '../../interfaces';
+import {AgentTraits, Gender} from '../../interfaces';
 
 export interface IAgentState {
     agentName: string;
@@ -9,7 +9,7 @@ export interface IAgentState {
     strength: number;
 
     lastTurn?: number;
-    gender?: string;
+    gender?: Gender;
     spriteCount?: number;
     defaultSpriteFrame?: number;
     spriteIndex?: number;

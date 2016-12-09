@@ -13,6 +13,8 @@ import {Building} from './building';
 import {Constructible} from './constructible';
 import {Corpse} from './corpse';
 import {Collision} from './collision';
+import {Name} from './name';
+
 import {IComponent} from '../entity-manager';
 
 export let componentsList: IComponent[] = [
@@ -31,4 +33,5 @@ export let componentsList: IComponent[] = [
     Constructible,
     Collision,
     Corpse,
+    Name
 ];

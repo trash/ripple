@@ -23,9 +23,7 @@ import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/game-level-factory';
 import {keybindings} from '../services/keybindings';
 import {GameComponent} from '../views/game';
-import {tileInfoService} from '../ui/tile-info-service';
-
-tileInfoService;
+import {TileInfoService} from '../ui/tile-info-service';
 
 const defaultLevel = gameLevelFactory.getDefaultTestLevel();
 
@@ -65,6 +63,8 @@ export class GameManager {
         this.bootstrapGameStates();
 
         this.entityManager = new EntityManager();
+
+        new TileInfoService(this.entityManager);
 
         // create a renderer instance.
 		this.renderer = new PIXI.WebGLRenderer(windowSize.width, windowSize.height, {

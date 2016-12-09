@@ -1,25 +1,27 @@
 import React = require('react');
 import {connect} from 'react-redux';
-import {store} from '../../redux/store';
+import {store, StoreState} from '../../redux/store';
 import {MapTile} from '../../map/tile';
 
 interface DebugPanelProps {
     tile: MapTile;
+    agent: string;
 }
 
-export class DebugPanel extends React.Component<DebugPanelProps, any> {
+export class DebugPanel extends React.Component<DebugPanelProps, void> {
     render () {
         return (
         <div>
-            <h1>Debug</h1>
-            <h4>{this.props.tile && this.props.tile.toString()}</h4>
+            <h4>Tile: {this.props.tile && this.props.tile.toString()}</h4>
+            <h4>Agent: {this.props.agent}</h4>
         </div>
         );
     }
 }
 
-export const ConnectedDebugPanel = connect(state => {
+export const ConnectedDebugPanel = connect((state: StoreState) => {
     return {
-        tile: state.tile
+        tile: state.tile,
+        agent: state.hoveredAgentName
     };
 })(DebugPanel);

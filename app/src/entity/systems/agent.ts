@@ -6,9 +6,11 @@ import {IRenderableState} from '../components/renderable';
 import {IHealthState} from '../components/health';
 import {IHealthBarState} from '../components/health-bar';
 import {IPositionState} from '../components/position';
+import {INameState} from '../components/name';
 import {IAgentSprite} from '../../interfaces';
 import {util} from '../../util';
 import {events} from '../../events';
+import {names} from '../../names';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -19,6 +21,8 @@ export class AgentSystem extends EntitySystem {
                     ComponentEnum.Agent, id) as IAgentState,
                 healthState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Health, id) as IHealthState,
+                nameState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Name, id) as INameState,
                 healthBarState = this.manager.getComponentDataForEntity(
                     ComponentEnum.HealthBar, id) as IHealthBarState,
                 positionState = this.manager.getComponentDataForEntity(
@@ -33,6 +37,10 @@ export class AgentSystem extends EntitySystem {
             }
             if (!agentState.inventory) {
                 agentState.inventory = [];
+            }
+            if (!nameState.name) {
+                const newName = names.getName(agentState.agentName, agentState.gender);
+                nameState.name = `${newName.first} ${newName.last}`;
             }
             if (healthBarState.sprites) {
                 healthBarState.sprites.forEach(healthBar => {
