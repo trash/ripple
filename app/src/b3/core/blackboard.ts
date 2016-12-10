@@ -29,6 +29,22 @@
  import {b3} from '../index';
  import {uniqueId} from '../../unique-id';
 
+interface TreeMemoryInstance {
+    lastOpenNodes: any[];
+    nodeCount: number;
+
+    nodeMemory: {};
+    openNodes: any[];
+    traversalCycle: number;
+    traversalDepth: number;
+}
+
+
+
+interface TreeMemoryMap {
+    [key: string]: TreeMemoryInstance;
+}
+
 /**
  * The Blackboard is the memory structure required by `BehaviorTree` and its
  * nodes. It only have 2 public methods: `set` and `get`. These methods works
@@ -67,8 +83,9 @@
  * @class Blackboard
 **/
 export class Blackboard {
-    _baseMemory: any;
-    _treeMemory: any;
+    _baseMemory: {};
+    _treeMemory: TreeMemoryMap;
+    id: string;
 
     constructor () {
         this.initialize();
@@ -79,7 +96,7 @@ export class Blackboard {
      * @method initialize
      * @constructor
     **/
-    initialize = function() {
+    initialize () {
         this.id = uniqueId.get();
         this._baseMemory = {};
         this._treeMemory = {};
@@ -94,36 +111,19 @@ export class Blackboard {
      * @returns {Object} The tree memory.
      * @protected
     **/
-    _getTreeMemory (treeScope) {
+    _getTreeMemory (treeScope: string): TreeMemoryInstance {
         if (!this._treeMemory[treeScope]) {
             this._treeMemory[treeScope] = {
-                'nodeMemory' : {},
-                'openNodes' : [],
-                'traversalDepth' : 0,
-                'traversalCycle' : 0,
+                nodeMemory : {},
+                openNodes : [],
+                traversalCycle : 0,
+                traversalDepth : 0,
+                lastOpenNodes: null,
+                nodeCount: null
             };
         }
         return this._treeMemory[treeScope];
-    };
-
-    /**
-     * Internal method to retrieve the node context memory, given the tree
-     * memory. If the memory does not exist, this method creates is.
-     *
-     * @method _getNodeMemory
-     * @param {String} treeMemory the tree memory.
-     * @param {String} nodeScope The id of the node in scope.
-     * @returns {Object} The node memory.
-     * @protected
-    **/
-    _getNodeMemory (treeMemory, nodeScope) {
-        var memory = treeMemory['nodeMemory'];
-        if (!memory[nodeScope]) {
-            memory[nodeScope] = {};
-        }
-
-        return memory[nodeScope];
-    };
+    }
 
     /**
      * Internal method to retrieve the context memory. If treeScope and
@@ -139,19 +139,12 @@ export class Blackboard {
      * @returns {Object} A memory object.
      * @protected
     **/
-    _getMemory (treeScope, nodeScope) {
-        var memory = this._baseMemory;
-
+    _getMemory (treeScope: string): {} | TreeMemoryInstance {
         if (treeScope) {
-            memory = this._getTreeMemory(treeScope);
-
-            if (nodeScope) {
-                memory = this._getNodeMemory(memory, nodeScope);
-            }
+            return this._getTreeMemory(treeScope);
         }
-
-        return memory;
-    };
+        return this._baseMemory;
+    }
 
     /**
      * Stores a value in the blackboard. If treeScope and nodeScope are
@@ -169,10 +162,10 @@ export class Blackboard {
      *                           memory.
      * @param {String} nodeScope The node id if accessing the node memory.
     **/
-    set (key, value, treeScope, nodeScope) {
-        var memory = this._getMemory(treeScope, nodeScope);
+    set (key: string, value: string, treeScope: string) {
+        const memory = this._getMemory(treeScope);
         memory[key] = value;
-    };
+    }
 
     /**
      * Retrieves a value in the blackboard. If treeScope and nodeScope are
@@ -190,8 +183,8 @@ export class Blackboard {
      * @param {String} nodeScope The node id if accessing the node memory.
      * @returns {Object} The value stored or undefined.
     **/
-    get (key, treeScope, nodeScope) {
-        var memory = this._getMemory(treeScope, nodeScope);
+    get (key: string, treeScope: string, nodeScope: string) {
+        const memory = this._getMemory(treeScope);
         return memory[key];
-    };
+    }
 }

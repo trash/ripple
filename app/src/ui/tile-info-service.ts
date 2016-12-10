@@ -65,7 +65,7 @@ export class TileInfoService {
             store.dispatch(updateHoveredResourceName(resourceName.name));
         }
 
-        // Get the name of any resource occupying the tile
+        // Get the name of any item occupying the tile
         const itemName = getNameOfEntityOccupyingTile(ComponentEnum.Item);
         if (itemName) {
             store.dispatch(updateHoveredItemName(itemName.name));

@@ -36,20 +36,12 @@ export class ItemSystem extends EntitySystem {
         });
     }
 
-    getNearestEmptyTile (tile: IRowColumnCoordinates): IRowColumnCoordinates {
-        console.error('Reimplement');
-        return tile;
-        // return tile.map.getNearestEmptyTile(tile, checkTile =>
-        //     checkTile.accessible && !checkTile.resource
-        // );
-    }
-
     spawn (
         itemState: IItemState,
         renderableState: IRenderableState,
         positionState: IPositionState
     ) {
-        var nearestEmptyTile = this.getNearestEmptyTile(positionState.tile);
+        var nearestEmptyTile = positionState.tile;
 
 		// nearestEmptyTile.addItem(this);
 

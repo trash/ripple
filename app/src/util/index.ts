@@ -6,6 +6,7 @@ import {INearestTile, ICoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {ComponentEnum} from '../entity/component-enum';
 import {positionUtil} from '../entity/util/position';
+import {Tick} from '../b3/core/tick';
 
 // This is 1 minute of real time at regular speed
 var ticksPerHour = constants.TICKS_PER_HOUR;
@@ -409,12 +410,12 @@ export class Util {
 		return this.targetOrKey(tick, targetOrKey);
 	}
 
-	blackboardGet (tick, blackboardKey: string) {
-		return tick.blackboard.get(blackboardKey + ':' + tick.target.id, tick.tree.id);
+	blackboardGet (tick: Tick, blackboardKey: string) {
+		return tick.blackboard.get(`${blackboardKey}:${tick.target.id}`, tick.tree.id);
 	}
 
-	blackboardSet (tick, blackboardKey: string, value) {
-		return tick.blackboard.set(blackboardKey + ':' + tick.target.id, value, tick.tree.id);
+	blackboardSet (tick: Tick, blackboardKey: string, value: any) {
+		return tick.blackboard.set(`${blackboardKey}:${tick.target.id}`, value, tick.tree.id);
 	}
 
 	setTile (positionState: IPositionState, tile: MapTile, turn: number, speed: number) {

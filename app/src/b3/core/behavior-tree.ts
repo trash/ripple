@@ -119,171 +119,12 @@ export class BehaviorTree {
     debug: any;
 
     constructor () {
-        this.initialize();
-    }
-
-    /**
-     * Initialization method.
-     *
-     * @method initialize
-     * @constructor
-    **/
-    initialize () {
         this.id = b3.createUUID();
         this.title = 'The behavior tree';
         this.description = 'Default description';
         this.properties = {};
         this.root = null;
         this.debug = null;
-    }
-
-    /**
-     * This method loads a Behavior Tree from a data structure, populating this
-     * object with the provided data. Notice that, the data structure must
-     * follow the format specified by Behavior3JS. Consult the guide to know
-     * more about this format.
-     *
-     * You probably want to use custom nodes in your BTs, thus, you need to
-     * provide the `names` object, in which this method can find the nodes by
-     * `names[NODE_NAME]`. This variable can be a namespace or a dictionary,
-     * as long as this method can find the node by its name, for example:
-     *
-     *     //json
-     *     ...
-     *     'node1': {
-     *       'name': MyCustomNode,
-     *       'title': ...
-     *     }
-     *     ...
-     *
-     *     //code
-     *     var bt = new b3.BehaviorTree();
-     *     bt.load(data, {'MyCustomNode':MyCustomNode})
-     *
-     *
-     * @method load
-     * @param {Object} data The data structure representing a Behavior Tree.
-     * @param {Object} [names] A namespace or dict containing custom nodes.
-    **/
-    load (data, names) {
-        names = names || {};
-
-        this.title       = data.title || this.title;
-        this.description = data.description || this.description;
-        this.properties  = data.properties || this.properties;
-
-        var nodes = {};
-        // Create the node list (without connection between them)
-        for (var id in data.nodes) {
-            var spec = data.nodes[id];
-
-            if (spec.name in names) {
-                // Look for the name in custom nodes
-                var cls = names[spec.name];
-            } else if (spec.name in b3) {
-                // Look for the name in default nodes
-                var cls = b3[spec.name];
-            } else {
-                // Invalid node name
-                throw EvalError('BehaviorTree.load: Invalid node name + "'+
-                                    spec.name+'".');
-            }
-
-            var node = new cls(spec.properties);
-            node.id = spec.id || node.id;
-            node.title = spec.title || node.title;
-            node.description = spec.description || node.description;
-            node.properties = spec.properties || node.properties;
-
-            nodes[id] = node;
-        }
-
-        // Connect the nodes
-        for (var id in data.nodes) {
-            var spec = data.nodes[id];
-            var node = nodes[id];
-
-            if (node.category === b3.COMPOSITE && spec.children) {
-                for (var i=0; i<spec.children.length; i++) {
-                    var cid = spec.children[i];
-                    node.children.push(nodes[cid]);
-                }
-            } else if (node.category === b3.DECORATOR && spec.child) {
-                node.child = nodes[spec.child];
-            }
-        }
-
-        this.root = nodes[data.root];
-    }
-
-    /**
-     * This method dump the current BT into a data structure.
-     *
-     * Note: This method does not record the current node parameters. Thus,
-     * it may not be compatible with load for now.
-     *
-     * @method dump
-     * @returns {Object} A data object representing this tree.
-    **/
-    dump () {
-        var customNames = [];
-
-        let data = {
-            title: this.title,
-            description: this.description,
-            root: (this.root)? this.root.id:null,
-            properties: this.properties,
-            nodes: {},
-            custom_nodes: []
-        };
-
-        if (!this.root) return data;
-
-        var stack = [this.root];
-        while (stack.length > 0) {
-            var node = stack.pop();
-
-            let spec = {
-                id: node.id,
-                name: node.name,
-                title: node.title,
-                description: node.description,
-                properties: node.properties,
-                parameters: node.parameters,
-                children: null,
-                child: null
-            };
-
-            // verify custom node
-            var nodeName = node.__proto__.name || node.name;
-            if (!b3[nodeName] && customNames.indexOf(nodeName) < 0) {
-                var subdata = {
-                    name: nodeName,
-                    title: node.__proto__.title || node.title,
-                    category: node.category
-                };
-
-                customNames.push(nodeName);
-                data.custom_nodes.push(subdata);
-            }
-
-            // store children/child
-            if (node.category === b3.COMPOSITE && node.children) {
-                var children = []
-                for (var i=node.children.length-1; i>=0; i--) {
-                    children.push(node.children[i].id);
-                    stack.push(node.children[i]);
-                }
-                spec.children = children;
-            } else if (node.category === b3.DECORATOR && node.child) {
-                stack.push(node.child);
-                spec.child = node.child.id;
-            }
-
-            data.nodes[node.id] = spec;
-        }
-
-        return data;
     }
 
     /**
@@ -308,7 +149,7 @@ export class BehaviorTree {
      * @param {Blackboard} blackboard An instance of blackboard object.
      * @returns {Constant} The tick signal state.
     **/
-    tick (target: IBehaviorTreeTickTarget, blackboard) {
+    tick (target: IBehaviorTreeTickTarget, blackboard): number {
         if (!blackboard) {
             throw 'The blackboard parameter is obligatory and must be an ' +
                     'instance of b3.Blackboard';
@@ -330,7 +171,7 @@ export class BehaviorTree {
 
         // does not close if it is still open in this tick
         var start = 0;
-        for (var i=0; i<Math.min(lastOpenNodes.length, currOpenNodes.length); i++) {
+        for (let i = 0; i < Math.min(lastOpenNodes.length, currOpenNodes.length); i++) {
             start = i+1;
             if (lastOpenNodes[i] !== currOpenNodes[i]) {
                 break;
