@@ -10,14 +10,14 @@ import {Tick} from './tick';
  * @class Inverter
  * @extends Decorator
 **/
-export let ForceTrue = b3.Class(Decorator, {
+export class ForceTrue extends Decorator {
 
 	/**
 	 * Node name. Default to `Inverter`.
 	 * @property {String} name
 	 * @readonly
 	**/
-	name: 'ForceTrue',
+	static name = 'ForceTrue';
 
 	/**
 	 * Tick method.
@@ -25,11 +25,11 @@ export let ForceTrue = b3.Class(Decorator, {
 	 * @param {Tick} tick A tick instance.
 	 * @return {Constant} A state constant.
 	**/
-	tick: function(tick: Tick) {
+	tick (tick: Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}
 
 		return b3.SUCCESS;
 	}
-});
+}

@@ -51,8 +51,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                 currentTurn = turn;
             if (currentTurn >= agentsNextTurn) {
                 agentState.lastTurn = currentTurn;
-                console.info(behaviorTreeState.blackboard._getTreeMemory(
-                    behaviorTreeState.tree.id));
+                // console.info(behaviorTreeState.blackboard._getTreeMemory(
+                //     behaviorTreeState.tree.id));
                 behaviorTreeState.tree.tick({
                     id: id,
                     behaviorTree: behaviorTreeState,

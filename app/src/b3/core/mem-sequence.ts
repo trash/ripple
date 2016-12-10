@@ -1,6 +1,7 @@
 import {b3} from '../index';
 import {Composite} from './composite';
 import {Tick} from './tick';
+import {util} from '../../util';
 
 /**
  * MemSequence is similar to Sequence node, but when a child returns a
@@ -13,42 +14,34 @@ import {Tick} from './tick';
  * @extends Composite
 **/
 export class MemSequence extends Composite {
+	/**
+	 * Open method.
+	 * @method open
+	 * @param {b3.Tick} tick A tick instance.
+	**/
+	open (tick: Tick) {
+		util.blackboardSet(tick, 'runningChild', 0, this.id);
+	}
 
-  /**
-   * Node name. Default to `MemSequence`.
-   * @property {String} name
-   * @readonly
-  **/
-  name: 'MemSequence';
+	/**
+	 * Tick method.
+	 * @method tick
+	 * @param {b3.Tick} tick A tick instance.
+	 * @return {Constant} A state constant.
+	**/
+	tick (tick: Tick) {
+		const child = util.blackboardGet(tick, 'runningChild', this.id);
+		for (var i = child; i < this.children.length; i++) {
+			const status = this.children[i]._execute(tick);
 
-  /**
-   * Open method.
-   * @method open
-   * @param {b3.Tick} tick A tick instance.
-  **/
-  open (tick: Tick) {
-    tick.blackboard.set('runningChild', 0, tick.tree.id, this.id);
-  }
+			if (status !== b3.SUCCESS) {
+				if (status === b3.RUNNING) {
+					util.blackboardSet(tick, 'runningChild', i, this.id);
+				}
+				return status;
+			}
+		}
 
-  /**
-   * Tick method.
-   * @method tick
-   * @param {b3.Tick} tick A tick instance.
-   * @return {Constant} A state constant.
-  **/
-  tick (tick: Tick) {
-    var child = tick.blackboard.get('runningChild', tick.tree.id, this.id);
-    for (var i=child; i<this.children.length; i++) {
-      var status = this.children[i]._execute(tick);
-
-      if (status !== b3.SUCCESS) {
-        if (status === b3.RUNNING) {
-          tick.blackboard.set('runningChild', i, tick.tree.id, this.id);
-        }
-        return status;
-      }
-    }
-
-    return b3.SUCCESS;
-  }
-};
+		return b3.SUCCESS;
+	}
+}

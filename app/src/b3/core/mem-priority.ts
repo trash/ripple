@@ -1,6 +1,7 @@
 import {b3} from '../index';
 import {Composite} from './composite';
 import {Tick} from './tick';
+import {util} from '../../util';
 
 /**
  * MemPriority is similar to Priority node, but when a child returns a
@@ -12,45 +13,44 @@ import {Tick} from './tick';
  * @class MemPriority
  * @extends Composite
 **/
-export let MemPriority = b3.Class(Composite, {
+export class MemPriority extends Composite {
 
-  /**
-   * Node name. Default to `MemPriority`.
-   * @property {String} name
-   * @readonly
-  **/
-  name: 'MemPriority',
+	/**
+	 * Node name. Default to `MemPriority`.
+	 * @property {String} name
+	 * @readonly
+	**/
+	static name = 'MemPriority';
 
-  /**
-   * Open method.
-   * @method open
-   * @param {b3.Tick} tick A tick instance.
-  **/
-  open: function(tick: Tick) {
-    tick.blackboard.set('runningChild', 0, tick.tree.id, this.id);
-  },
+	/**
+	 * Open method.
+	 * @method open
+	 * @param {b3.Tick} tick A tick instance.
+	**/
+	open (tick: Tick) {
+		util.blackboardSet(tick, 'runningChild', 0, this.id);
+	}
 
-  /**
-   * Tick method.
-   * @method tick
-   * @param {b3.Tick} tick A tick instance.
-   * @return {Constant} A state constant.
-  **/
-  tick: function(tick: Tick) {
-    var child = tick.blackboard.get('runningChild', tick.tree.id, this.id);
-    for (var i=child; i<this.children.length; i++) {
-      var status = this.children[i]._execute(tick);
+	/**
+	 * Tick method.
+	 * @method tick
+	 * @param {b3.Tick} tick A tick instance.
+	 * @return {Constant} A state constant.
+	**/
+	tick (tick: Tick) {
+		const key = 'runningChild';
+		const child = util.blackboardGet(tick, key, this.id);
+		for (let i=child; i<this.children.length; i++) {
+			const status = this.children[i]._execute(tick);
 
-      if (status !== b3.FAILURE) {
-        if (status === b3.RUNNING) {
-          tick.blackboard.set('runningChild', i, tick.tree.id, this.id);
-        }
+			if (status !== b3.FAILURE) {
+				if (status === b3.RUNNING) {
+					util.blackboardSet(tick, key, i, this.id);
+				}
+				return status;
+			}
+		}
 
-        return status;
-      }
-    }
-
-    return b3.FAILURE;
-  }
-});
-
+		return b3.FAILURE;
+	}
+}

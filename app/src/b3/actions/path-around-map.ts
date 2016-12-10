@@ -4,12 +4,7 @@ import {Tick} from '../core/tick';
 import {util} from '../../util';
 
 export class PathAroundMap extends BaseNode {
-	constructor () {
-		super();
-		this.initialize();
-
-		this.description = 'Wandering.';
-	}
+	static description = 'Wandering.';
 
 	tick (tick: Tick) {
 		const agentData = tick.target,
@@ -41,4 +36,4 @@ export class PathAroundMap extends BaseNode {
 
 		return b3.SUCCESS;
 	}
-};
+}

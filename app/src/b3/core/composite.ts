@@ -37,32 +37,6 @@ import {BaseNode} from './base-node';
  * the children nodes manually. To do that, override the `tick` method and call
  * the `_execute` method on all nodes. For instance, take a look at how the
  * Sequence node inherit this class and how it call its children:
- *
- *
- *     // Inherit from Composite, using the util function Class.
- *     var Sequence = b3.Class(b3.Composite);
- *     var p = Sequence.prototype;
- *
- *         // Remember to set the name of the node.
- *         p.name = 'Sequence';
- *
- *         // Override the tick function
- *         p.tick = function(tick: Tick) {
- *
- *             // Iterates over the children
- *             for (var i=0; i<this.children.length; i++) {
- *
- *                 // Propagate the tick
- *                 var status = this.children[i]._execute(tick);
- *
- *                 if (status !== b3.SUCCESS) {
- *                     return status;
- *                 }
- *             }
- *
- *             return b3.SUCCESS;
- *         }
- *
  * @class Composite
  * @extends BaseNode
 **/
@@ -74,6 +48,15 @@ export interface ICompositeOptions {
 export class Composite extends BaseNode {
     children: BaseNode[];
 
+    /**
+     * Node category. Default to `b3.COMPOSITE`.
+     *
+     * @property category
+     * @type {String}
+     * @readonly
+    **/
+    static category = b3.COMPOSITE;
+
     constructor (options: ICompositeOptions) {
         super();
         this.initialize(options);
@@ -83,15 +66,5 @@ export class Composite extends BaseNode {
         super.initialize();
 
         this.children = (options.children || []).slice(0);
-    };
-};
-
-
-/**
- * Node category. Default to `b3.COMPOSITE`.
- *
- * @property category
- * @type {String}
- * @readonly
-**/
-Composite.prototype.category = b3.COMPOSITE;
+    }
+}

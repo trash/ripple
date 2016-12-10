@@ -27,6 +27,7 @@
  **/
 
  import {b3} from '../index';
+ import {Blackboard} from './blackboard';
  import {IBehaviorTreeTickTarget} from '../../entity/systems/behavior-tree';
 
 /**
@@ -51,7 +52,7 @@ export class Tick {
     _openNodes: any[];
     tree: any;
     debug: any;
-    blackboard: any;
+    blackboard: Blackboard;
 
     constructor () {
         this.initialize();

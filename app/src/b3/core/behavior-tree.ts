@@ -163,11 +163,12 @@ export class BehaviorTree {
         tick.tree = this;
 
         /* TICK NODE */
-        var state = this.root._execute(tick);
+        const state = this.root._execute(tick);
+        console.log(b3.humanReadableStatus(state));
 
         /* CLOSE NODES FROM LAST TICK, IF NEEDED */
-        var lastOpenNodes = blackboard.get('openNodes', this.id);
-        var currOpenNodes = tick._openNodes.slice(0);
+        const lastOpenNodes = blackboard.get('openNodes', this.id);
+        const currOpenNodes = tick._openNodes.slice(0);
 
         // does not close if it is still open in this tick
         var start = 0;

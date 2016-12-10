@@ -402,7 +402,7 @@ export class Util {
 	 * @param {String|Object|Function} targetOrKey Key corresponding to blackboard value or object
 	 * @return {Object}
 	 */
-	targetKeyOrFunction (tick, targetKeyOrFunction: string | Function) {
+	targetKeyOrFunction (tick: Tick, targetKeyOrFunction: string | Function) {
 		let targetOrKey = targetKeyOrFunction;
 		if (targetKeyOrFunction instanceof Function) {
 			targetOrKey = targetKeyOrFunction();
@@ -410,12 +410,14 @@ export class Util {
 		return this.targetOrKey(tick, targetOrKey);
 	}
 
-	blackboardGet (tick: Tick, blackboardKey: string) {
-		return tick.blackboard.get(`${blackboardKey}:${tick.target.id}`, tick.tree.id);
+	blackboardGet (tick: Tick, blackboardKey: string, nodeScope?: string) {
+		return tick.blackboard.get(
+			`${blackboardKey}:${tick.target.id}`, tick.tree.id, nodeScope);
 	}
 
-	blackboardSet (tick: Tick, blackboardKey: string, value: any) {
-		return tick.blackboard.set(`${blackboardKey}:${tick.target.id}`, value, tick.tree.id);
+	blackboardSet (tick: Tick, blackboardKey: string, value: any, nodeScope?: string) {
+		return tick.blackboard.set(
+			`${blackboardKey}:${tick.target.id}`, value, tick.tree.id, nodeScope);
 	}
 
 	setTile (positionState: IPositionState, tile: MapTile, turn: number, speed: number) {

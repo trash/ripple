@@ -110,10 +110,14 @@
  * @main Behavior3JS
 **/
 
-export class b3 {
-	BaseNode: any;
-	Action: any;
+export enum StatusCode {
+	SUCCESS = 1,
+	FAILURE = 2,
+	RUNNING = 3,
+	ERROR = 4
+}
 
+export class b3 {
 	/**
 	 * List of all constants in Behavior3JS.
 	 *
@@ -135,7 +139,7 @@ export class b3 {
 	 * @property SUCCESS
 	 * @type {Integer}
 	 */
-	static SUCCESS = 1;
+	static SUCCESS = StatusCode.SUCCESS;
 
 	/**
 	 * Returned when a criterion has not been met by a condition node or an action
@@ -144,7 +148,7 @@ export class b3 {
 	 * @property FAILURE
 	 * @type {Integer}
 	 */
-	static FAILURE = 2;
+	static FAILURE = StatusCode.FAILURE;
 
 	/**
 	 * Returned when an action node has been initialized but is still waiting the
@@ -153,7 +157,7 @@ export class b3 {
 	 * @property FAILURE
 	 * @type {Integer}
 	 */
-	static RUNNING = 3;
+	static RUNNING = StatusCode.RUNNING;
 
 	/**
 	 * Returned when some unexpected error happened in the tree, probably by a
@@ -163,7 +167,11 @@ export class b3 {
 	 * @property ERROR
 	 * @type {Integer}
 	 */
-	static ERROR = 4;
+	static ERROR = StatusCode.ERROR;
+
+	static humanReadableStatus (status: StatusCode) {
+		return StatusCode[status];
+	}
 
 
 	/**
@@ -224,67 +232,5 @@ export class b3 {
 
 		var uuid = s.join("");
 		return uuid;
-	};
-
-	/**
-	 * Class is a meta-factory function to create classes in JavaScript. It is a
-	 * shortcut for the CreateJS syntax style. By default, the class created by
-	 * this function have an initialize function (the constructor). Optionally,
-	 * you can specify the inheritance by passing another class as parameter.
-	 *
-	 * By default, all classes created using this function, may receive only a
-	 * dictionary parameter as argument. This pattern is commonly used by jQuery
-	 * and its plugins.
-	 *
-	 * Since 0.2.0, Class also receives a `properties` parameter, a dictionary
-	 * which will be used to fill the new class prototype.
-	 *
-	 * Usage
-	 * -----
-	 *
-	 *     // Creating a simple class
-	 *     var BaseClass = b3.Class();
-	 *
-	 *     var ChildClass = b3.Class(BaseClass, {
-	 *       // constructor
-	 *       initialize: function(params) {
-	 *
-	 *         // call super initialize
-	 *         BaseClass.initialize.call(this, params);
-	 *         ...
-	 *       }
-	 *     });
-	 *
-	 * @class Class
-	 * @constructor
-	 * @param {Object} baseClass The super class.
-	 * @param {Object} properties A dictionary with attributes and methods.
-	 * @return {Object} A new class.
-	**/
-	static Class (baseClass?: any, properties?: any) {
-		// create a new class
-		var cls = function(params) {
-			this.initialize(params || {});
-		};
-
-		// if base class is provided, inherit
-		if (baseClass) {
-			cls.prototype = Object.create(baseClass.prototype);
-			cls.prototype.constructor = cls;
-		}
-
-		// create initialize if does not exist on baseClass
-		if (!cls.prototype.initialize) {
-			cls.prototype.initialize = function() {};
-		}
-
-		// copy properties
-		if (properties) {
-			for (var key in properties) {
-				cls.prototype[key] = properties[key];
-			}
-		}
-
-		return cls;
-	};
+	}
 }

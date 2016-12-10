@@ -1,7 +1,8 @@
 import {b3} from '../index';
 import {Tick} from './tick';
-import {Decorator} from './decorator';
+import {Decorator, IDecoratorOptions} from './decorator';
 import {uniqueId} from '../../unique-id';
+import {util} from '../../util';
 /**
  * The Inverter decorator inverts the result of the child, returning `SUCCESS`
  * for `FAILURE` and `FAILURE` for `SUCCESS`.
@@ -10,25 +11,27 @@ import {uniqueId} from '../../unique-id';
  * @class Inverter
  * @extends Decorator
 **/
-export let CallOnce = b3.Class(Decorator, {
+export class CallOnce extends Decorator {
+	uniqueId: string;
 
 	/**
 	 * Node name. Default to `Inverter`.
 	 * @property {String} name
 	 * @readonly
 	**/
-	name: 'CallOnce',
+	static name = 'CallOnce';
 
-	initialize: function () {
-		Decorator.prototype.initialize.apply(this, arguments);
+	initialize (options: IDecoratorOptions) {
+		super.initialize(options);
 		this.uniqueId = uniqueId.get();
-	},
+	}
 
-	open: function(tick: Tick) {
-		if (!tick.blackboard.get('calledOnce', tick.tree.id, this.uniqueId)) {
-			tick.blackboard.set('calledOnce', false, tick.tree.id, this.uniqueId);
+	open (tick: Tick) {
+		const key = 'calledOnce';
+		if (util.blackboardGet(tick, key, this.uniqueId)) {
+			util.blackboardSet(tick, key, false, this.uniqueId);
 		}
-	},
+	}
 
 	/**
 	 * Tick method.
@@ -36,15 +39,16 @@ export let CallOnce = b3.Class(Decorator, {
 	 * @param {Tick} tick A tick instance.
 	 * @return {Constant} A state constant.
 	**/
-	tick: function(tick: Tick) {
+	tick (tick: Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}
 
-		if (!tick.blackboard.get('calledOnce', tick.tree.id, this.uniqueId)) {
-			tick.blackboard.set('calledOnce', true, tick.tree.id, this.uniqueId);
+		const key = 'calledOnce';
+		if (!util.blackboardGet(tick, key, this.uniqueId)) {
+			util.blackboardSet(tick, key, true, this.uniqueId);
 			return this.child._execute(tick);
 		}
 		return b3.SUCCESS;
 	}
-});
+};

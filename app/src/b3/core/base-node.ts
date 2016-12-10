@@ -26,8 +26,9 @@
  * @module Behavior3JS
  **/
 
-import {b3} from '../index';
+import {b3, StatusCode} from '../index';
 import {Tick} from './tick';
+import {util} from '../../util';
 
 /**
  * The BaseNode class is used as super class to all nodes in BehaviorJS. It
@@ -90,23 +91,23 @@ export class BaseNode {
      * @returns {Constant} The tick state.
      * @protected
     **/
-    _execute (tick: Tick) {
+    _execute (tick: Tick): StatusCode {
         /* ENTER */
         this._enter(tick);
 
         /* OPEN */
-        if (!tick.blackboard.get('isOpen', tick.tree.id, this.id)) {
+        if (!util.blackboardGet(tick, 'isOpen', this.id)) {
             this._open(tick);
         }
 
         /* TICK */
-        var status = this._tick(tick);
+        const status = this._tick(tick);
 
         /* CLOSE */
         if (status !== b3.RUNNING) {
             this._close(tick);
         } else {
-            let description = this._getDescription();
+            const description = this._getDescription();
             if (description) {
                 tick.target.behaviorTree.currentAction = description;
             }
@@ -134,9 +135,9 @@ export class BaseNode {
         return this.description;
     }
 
-    setDescription  (tick, description) {
+    setDescription  (tick: Tick, description: string) {
         this.description = description;
-        tick.target.currentAction = this.description;
+        // tick.target.currentAction = this.description;
     };
 
     /**
@@ -148,7 +149,7 @@ export class BaseNode {
     **/
     _open  (tick: Tick) {
         tick._openNode(this);
-        tick.blackboard.set('isOpen', true, tick.tree.id, this.id);
+        util.blackboardSet(tick, 'isOpen', true, this.id);
         this.open(tick);
     }
 
@@ -176,7 +177,7 @@ export class BaseNode {
     **/
     _close (tick: Tick) {
         tick._closeNode(this);
-        tick.blackboard.set('isOpen', false, tick.tree.id, this.id);
+        util.blackboardSet(tick, 'isOpen', false, this.id);
         this.close(tick);
     }
 
@@ -220,7 +221,7 @@ export class BaseNode {
      * @method tick
      * @param {Tick} tick A tick instance.
     **/
-    tick (tick: Tick): number {
+    tick (tick: Tick): StatusCode {
         return b3.SUCCESS;
     }
 
@@ -242,4 +243,4 @@ export class BaseNode {
      * @param {Tick} tick A tick instance.
     **/
     exit  (tick: Tick) {}
-};
+}

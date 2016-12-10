@@ -1,6 +1,11 @@
 import {b3} from '../index';
-import {Decorator} from './decorator';
+import {Decorator, IDecoratorOptions} from './decorator';
 import {Tick} from './tick';
+import {util} from '../../util';
+
+interface RepeaterOptions extends IDecoratorOptions {
+	maxLoop?: number;
+}
 
 /**
  * Repeater is a decorator that runs the given child node until it
@@ -12,28 +17,19 @@ import {Tick} from './tick';
  * @class Repeater
  * @extends Decorator
 **/
-export let Repeater = b3.Class(Decorator, {
+export class Repeater extends Decorator {
+	maxLoop: number;
 
 	/**
 	 * Node name. Default to `Repeater`.
 	 * @property {String} name
 	 * @readonly
 	**/
-	name: 'Repeater',
+	static name = 'Repeater';
 
-	/**
-	 * Node title. Default to `Repeat XXx`. Used in Editor.
-	 * @property {String} title
-	 * @readonly
-	**/
-	title: 'Repeat <maxLoop>x',
-
-	/**
-	 * Node parameters.
-	 * @property {String} parameters
-	 * @readonly
-	**/
-	parameters: {'maxLoop': -1},
+	constructor (options: RepeaterOptions) {
+		super(options);
+	}
 
 	/**
 	 * Initialization method.
@@ -48,37 +44,34 @@ export let Repeater = b3.Class(Decorator, {
 	 * @param {Object} params Object with parameters.
 	 * @constructor
 	**/
-	initialize: function(params) {
-		Decorator.prototype.initialize.call(this, params);
+	initialize (params: RepeaterOptions) {
+		super.initialize(params);
 		this.maxLoop = params.maxLoop || -1;
 		this.description = 'repeat x' + this.maxLoop;
-	},
+	}
 
 	/**
 	 * Open method.
 	 * @method open
 	 * @param {Tick} tick A tick instance.
 	**/
-	open: function(tick: Tick) {
-		tick.blackboard.set('i', 0, tick.tree.id, this.id);
-	},
+	open (tick: Tick) {
+		util.blackboardSet(tick, 'i', 0, this.id);
+	}
 
 	/**
 	 * Tick method.
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
 	**/
-	tick: function(tick: Tick) {
+	tick (tick: Tick) {
 		if (!this.child) {
-				return b3.ERROR;
+			return b3.ERROR;
 		}
 
-		var i = tick.blackboard.get('i', tick.tree.id, this.id);
-		var status = b3.SUCCESS;
+		let i = util.blackboardGet(tick, 'i', this.id);
 
-
-
-		status = this.child._execute(tick);
+		const status = this.child._execute(tick);
 
 		// If the node completes, we iterate the count 1
 		if (status == b3.SUCCESS || status == b3.FAILURE) {
@@ -90,7 +83,7 @@ export let Repeater = b3.Class(Decorator, {
 			return b3.SUCCESS;
 		}
 
-		tick.blackboard.set('i', i, tick.tree.id, this.id);
+		util.blackboardSet(tick, 'i', i, this.id);
 		return b3.RUNNING;
 	}
-});
+}
