@@ -8,6 +8,7 @@ import {IConstructibleState} from '../components/constructible';
 import {IBuildingState} from '../components/building';
 import {IRenderableState} from '../components/renderable';
 import {EntityManager} from '../entity-manager';
+import {MapTile} from '../../map/tile';
 
 export class BaseUtil {
     entityManager: EntityManager;
@@ -47,6 +48,16 @@ export class BaseUtil {
     _getHealthBarState (id): IHealthBarState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.HealthBar, id) as IHealthBarState;
+    }
+
+    tileContainsEntityOfComponent (componentName: ComponentEnum, tile: MapTile): boolean {
+        return Object.keys(this.entityManager.getEntitiesWithComponent(componentName))
+            .map(entityId => parseInt(entityId))
+            .filter(entityId => {
+                const positionState = this.entityManager.getComponentDataForEntity(
+                    ComponentEnum.Position, entityId) as IPositionState;
+                return positionState.tile && tile.isEqualToCoords(positionState.tile);
+            }).length !== 0;
     }
 }
 
