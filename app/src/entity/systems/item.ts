@@ -2,6 +2,7 @@ import _ = require('lodash');
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IItemState} from '../components/item';
+import {INameState} from '../components/name';
 import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {util} from '../../util';
@@ -17,6 +18,8 @@ export class ItemSystem extends EntitySystem {
                     ComponentEnum.Renderable, id) as IRenderableState,
                 itemState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Item, id) as IItemState,
+                nameState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Name, id) as INameState,
                 positionState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Position, id) as IPositionState;
 
@@ -26,6 +29,9 @@ export class ItemSystem extends EntitySystem {
             }
             if (renderableState.sprite && itemState.shouldBeSpawned && !itemState.hasBeenSpawned) {
                 this.spawn(itemState, renderableState, positionState);
+            }
+            if (!nameState.name) {
+                nameState.name = itemState.readableName;
             }
         });
     }
