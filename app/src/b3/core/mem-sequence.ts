@@ -31,8 +31,8 @@ export class MemSequence extends Composite {
 	**/
 	tick (tick: Tick) {
 		const child = util.blackboardGet(tick, 'runningChild', this.id);
-		for (var i = child; i < this.children.length; i++) {
-			const status = this.children[i]._execute(tick);
+		for (let i = child; i < this.children.length; i++) {
+			const status = this.executeChild(tick, this.children[i]);
 
 			if (status !== b3.SUCCESS) {
 				if (status === b3.RUNNING) {

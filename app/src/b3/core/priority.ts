@@ -47,8 +47,8 @@ export class Priority extends Composite {
      * @returns {Constant} A state constant.
     **/
     tick (tick: Tick) {
-        for (var i=0; i<this.children.length; i++) {
-            var status = this.children[i]._execute(tick);
+        for (let i = 0; i < this.children.length; i++) {
+            const status = this.executeChild(tick, this.children[i]);
 
             if (status !== b3.FAILURE) {
                 return status;
@@ -58,4 +58,3 @@ export class Priority extends Composite {
         return b3.FAILURE;
     }
 }
-Priority.prototype.name = 'Priority';

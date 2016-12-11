@@ -29,6 +29,8 @@
 import {b3} from '../index';
 import {Tick} from './tick';
 import {BaseNode} from './base-node';
+import {Composite} from './composite';
+import {Blackboard} from './blackboard';
 import {IBehaviorTreeTickTarget} from '../../entity/systems/behavior-tree';
 
 /**
@@ -96,35 +98,18 @@ export class BehaviorTree {
     title: string;
     description: string;
     /**
-     * A dictionary with (key-value) properties. Useful to define custom
-     * variables in the visual editor.
-     *
-     * @property properties
-     * @type {Object}
-     */
-    properties: any;
-    /**
      * The reference to the root node. Must be an instance of `b3.BaseNode`.
      *
      * @property root
      * @type {BaseNode}
      */
-    root: BaseNode;
-    /**
-     * The reference to the debug instance.
-     *
-     * @property debug
-     * @type {Object}
-     */
-    debug: any;
+    root: Composite;
 
     constructor () {
         this.id = b3.createUUID();
         this.title = 'The behavior tree';
         this.description = 'Default description';
-        this.properties = {};
         this.root = null;
-        this.debug = null;
     }
 
     /**
@@ -149,7 +134,7 @@ export class BehaviorTree {
      * @param {Blackboard} blackboard An instance of blackboard object.
      * @returns {Constant} The tick signal state.
     **/
-    tick (target: IBehaviorTreeTickTarget, blackboard): number {
+    tick (target: IBehaviorTreeTickTarget, blackboard: Blackboard): number {
         if (!blackboard) {
             throw 'The blackboard parameter is obligatory and must be an ' +
                     'instance of b3.Blackboard';
@@ -157,21 +142,25 @@ export class BehaviorTree {
 
         /* CREATE A TICK OBJECT */
         var tick = new Tick();
-        tick.debug = this.debug;
         tick.target = target;
         tick.blackboard = blackboard;
         tick.tree = this;
 
         /* TICK NODE */
         const state = this.root._execute(tick);
-        console.log(b3.humanReadableStatus(state));
+
+        // Store the last execution chains
+        blackboard.set('lastExecutionChain', blackboard.getNodeExecutionChains(this.id),
+            this.id);
+        // Clear execution chains
+        blackboard.clearNodeExecutionChain(this.id);
 
         /* CLOSE NODES FROM LAST TICK, IF NEEDED */
         const lastOpenNodes = blackboard.get('openNodes', this.id);
         const currOpenNodes = tick._openNodes.slice(0);
 
         // does not close if it is still open in this tick
-        var start = 0;
+        let start = 0;
         for (let i = 0; i < Math.min(lastOpenNodes.length, currOpenNodes.length); i++) {
             start = i+1;
             if (lastOpenNodes[i] !== currOpenNodes[i]) {

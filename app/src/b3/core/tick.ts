@@ -28,6 +28,8 @@
 
  import {b3} from '../index';
  import {Blackboard} from './blackboard';
+ import {BehaviorTree} from './behavior-tree';
+ import {BaseNode} from './base-node';
  import {IBehaviorTreeTickTarget} from '../../entity/systems/behavior-tree';
 
 /**
@@ -41,17 +43,13 @@
  * tick signal, in order to let `BehaviorTree` to keep track and close them
  * when necessary.
  *
- * This class also makes a bridge between nodes and the debug, passing the node
- * state to the debug if the last is provided.
- *
  * @class Tick
 **/
 export class Tick {
     target: IBehaviorTreeTickTarget;
     _nodeCount: number;
-    _openNodes: any[];
-    tree: any;
-    debug: any;
+    _openNodes: BaseNode[];
+    tree: BehaviorTree;
     blackboard: Blackboard;
 
     constructor () {
@@ -67,7 +65,6 @@ export class Tick {
     initialize () {
         // set by BehaviorTree
         this.tree = null;
-        this.debug = null;
         this.target = null;
         this.blackboard = null;
 
@@ -83,7 +80,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _enterNode (node) {
+    _enterNode (node: BaseNode) {
         this._nodeCount++;
         this._openNodes.push(node);
 
@@ -97,7 +94,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _openNode (node) {
+    _openNode (node: BaseNode) {
         // console.info(node);
     }
 
@@ -108,7 +105,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _tickNode (node) {
+    _tickNode (node: BaseNode) {
         // console.info(node);
     }
 
@@ -119,7 +116,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _closeNode (node) {
+    _closeNode (node: BaseNode) {
         // console.info(node);
         this._openNodes.pop();
     }
@@ -131,59 +128,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _exitNode (node) {
+    _exitNode (node: BaseNode) {
         // console.info(node);
     }
-};
-
-
-/**
- * The tree reference.
- *
- * @property tree
- * @type {b3.BehaviorTree}
- * @readOnly
- */
-
-/**
- * The debug reference.
- *
- * @property debug
- * @type {Object}
- * @readOnly
- */
-
-/**
- * The target object reference.
- *
- * @property target
- * @type {Object}
- * @readOnly
- */
-
-/**
- * The blackboard reference.
- *
- * @property blackboard
- * @type {Blackboard}
- * @readOnly
- */
-
-/**
- * The list of open nodes. Update during the tree traversal.
- *
- * @property _openNodes
- * @type {Array}
- * @protected
- * @readOnly
- */
-
-/**
- * The number of nodes entered during the tick. Update during the tree
- * traversal.
- *
- * @property _nodeCount
- * @type {Integer}
- * @protected
- * @readOnly
- */
+}

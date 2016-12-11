@@ -40,6 +40,4 @@ export class Wait extends BaseNode {
 		util.blackboardSet(tick, blackboardKey, currentTurn + 1);
 		return b3.RUNNING;
 	};
-};
-
-Wait.prototype.name = 'wait-action';
+}

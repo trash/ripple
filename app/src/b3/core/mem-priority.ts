@@ -41,7 +41,7 @@ export class MemPriority extends Composite {
 		const key = 'runningChild';
 		const child = util.blackboardGet(tick, key, this.id);
 		for (let i=child; i<this.children.length; i++) {
-			const status = this.children[i]._execute(tick);
+			const status = this.executeChild(tick, this.children[i]);
 
 			if (status !== b3.FAILURE) {
 				if (status === b3.RUNNING) {

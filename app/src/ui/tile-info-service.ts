@@ -1,3 +1,4 @@
+import {b3} from '../b3';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {events} from '../events';
@@ -11,6 +12,7 @@ import {EntityManager} from '../entity/entity-manager';
 import {ComponentEnum} from '../entity/component-enum';
 import {INameState} from '../entity/components/name';
 import {IPositionState} from '../entity/components/position';
+import {IBehaviorTreeState} from '../entity/components/behavior-tree';
 
 export class TileInfoService {
     hoverListenerOff: Function;
@@ -45,11 +47,15 @@ export class TileInfoService {
                 ComponentEnum.Name, entityId);
         };
 
-        const getNameOfEntityOccupyingTile = (componentName: ComponentEnum): INameState => {
+        const getEntitiesWithComponentInTile = (componentName: ComponentEnum) => {
             return Object.keys(
                 this.entityManager.getEntitiesWithComponent(componentName))
                     .map(entityId => parseInt(entityId))
-                    .filter(filterEntityByTile)
+                    .filter(filterEntityByTile);
+        }
+
+        const getNameOfEntityOccupyingTile = (componentName: ComponentEnum): INameState => {
+            return getEntitiesWithComponentInTile(componentName)
                     .map(getNameFromEntity)[0] as INameState;
         };
 
@@ -57,6 +63,24 @@ export class TileInfoService {
         const agentsName = getNameOfEntityOccupyingTile(ComponentEnum.Agent);
         if (agentsName) {
             store.dispatch(updateHoveredAgentName(agentsName.name));
+
+            // Expose info about the agent's behavior tree
+            const behaviorTreeState = getEntitiesWithComponentInTile(ComponentEnum.Agent)
+                    .map(entityId => this.entityManager.getComponentDataForEntity(
+                        ComponentEnum.BehaviorTree, entityId)
+                    )[0] as IBehaviorTreeState;
+            console.log(
+                `Two choices for inspecting an agent's actions:`,
+                behaviorTreeState.blackboard.get('lastExecutionChain',
+                    behaviorTreeState.tree.id),
+                behaviorTreeState.tree.root.childrenStatus
+                    .map(status => {
+                        return {
+                            status: b3.humanReadableStatus(status.status),
+                            child: status.child
+                        };
+                    })
+            );
         }
 
         // Get the name of any resource occupying the tile

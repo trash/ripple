@@ -26,8 +26,14 @@
  * @module Behavior3JS
  **/
 
- import {b3} from '../index';
+ import {b3, StatusCode} from '../index';
+ import {BaseNode} from './base-node';
  import {uniqueId} from '../../unique-id';
+
+interface LastNodeExecutionChain {
+    success: BaseNode[];
+    full: BaseNode[];
+}
 
 interface TreeMemoryInstance {
     lastOpenNodes: any[];
@@ -37,6 +43,8 @@ interface TreeMemoryInstance {
     openNodes: any[];
     traversalCycle: number;
     traversalDepth: number;
+
+    lastNodeExecutionChain: LastNodeExecutionChain;
 }
 
 
@@ -93,6 +101,34 @@ export class Blackboard {
         this._treeMemory = {};
     }
 
+    getNodeExecutionChains (treeScope: string): LastNodeExecutionChain {
+        const chains = this._getTreeMemory(treeScope).lastNodeExecutionChain;
+        return {
+            success: [].concat(chains.success),
+            full: [].concat(chains.full)
+        };
+    }
+
+    addNodeToExecutionChain (
+        treeScope: string,
+        node: BaseNode,
+        status: StatusCode
+    ): number {
+        // console.log('Adding node: ', node, b3.humanReadableStatus(status));
+
+        const chains = this._getTreeMemory(treeScope).lastNodeExecutionChain;
+        if (status === StatusCode.SUCCESS || status === StatusCode.RUNNING) {
+            chains.success.push(node);
+        }
+        chains.full.push(node);
+        return chains.full.length;
+    }
+    clearNodeExecutionChain (treeScope: string) {
+        const chains = this._getTreeMemory(treeScope).lastNodeExecutionChain;
+        chains.full = [];
+        chains.success = [];
+    }
+
     /**
      * Internal method to retrieve the tree context memory. If the memory does
      * not exist, this method creates it.
@@ -110,7 +146,11 @@ export class Blackboard {
                 traversalCycle : 0,
                 traversalDepth : 0,
                 lastOpenNodes: null,
-                nodeCount: null
+                nodeCount: null,
+                lastNodeExecutionChain: {
+                    full: [],
+                    success: []
+                }
             };
         }
         return this._treeMemory[treeScope];

@@ -40,8 +40,8 @@ import {Tick} from './tick';
 **/
 export class Sequence extends Composite {
     tick (tick: Tick) {
-        for (var i=0; i<this.children.length; i++) {
-            var status = this.children[i]._execute(tick);
+        for (let i = 0; i < this.children.length; i++) {
+            const status = this.executeChild(tick, this.children[i]);
 
             if (status !== b3.SUCCESS) {
                 return status;

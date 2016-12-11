@@ -54,15 +54,12 @@ export class BaseNode {
     title: string;
     name: string;
     description: string;
-    parameters: any;
-    properties: any;
     category: string;
-    __proto__: any;
     children: BaseNode[];
     child: BaseNode;
 
-    constructor () {
-        BaseNode.prototype.initialize.call(this);
+    constructor (...args) {
+        this.initialize(...args);
     }
 
     /**
@@ -71,12 +68,9 @@ export class BaseNode {
      * @method initialize
      * @constructor
     **/
-    initialize (...any) {
+    initialize (...args) {
         this.id = b3.createUUID();
         this.title = this.title || this.name;
-        this.description = this.description || '';
-        this.parameters = {};
-        this.properties = {};
     }
 
     /**
@@ -116,6 +110,8 @@ export class BaseNode {
         /* EXIT */
         this._exit(tick);
 
+        tick.blackboard.addNodeToExecutionChain(tick.tree.id, this, status);
+
         return status;
     }
 
@@ -135,7 +131,7 @@ export class BaseNode {
         return this.description;
     }
 
-    setDescription  (tick: Tick, description: string) {
+    setDescription (tick: Tick, description: string) {
         this.description = description;
         // tick.target.currentAction = this.description;
     };
@@ -147,7 +143,7 @@ export class BaseNode {
      * @param {Tick} tick A tick instance.
      * @protected
     **/
-    _open  (tick: Tick) {
+    _open (tick: Tick) {
         tick._openNode(this);
         util.blackboardSet(tick, 'isOpen', true, this.id);
         this.open(tick);
@@ -161,9 +157,9 @@ export class BaseNode {
      * @returns {Constant} A state constant.
      * @protected
     **/
-    _tick  (tick): number {
+    _tick (tick: Tick): number {
         tick._tickNode(this);
-        let tickReturns = this.tick(tick);
+        const tickReturns = this.tick(tick);
 
         return tickReturns;
     }
@@ -188,7 +184,7 @@ export class BaseNode {
      * @param {Tick} tick A tick instance.
      * @protected
     **/
-    _exit  (tick: Tick) {
+    _exit (tick: Tick) {
         tick._exitNode(this);
         this.exit(tick);
     }
@@ -211,7 +207,7 @@ export class BaseNode {
      * @method open
      * @param {Tick} tick A tick instance.
     **/
-    open  (tick: Tick) {}
+    open (tick: Tick) {}
 
     /**
      * Tick method, override this to use. This method must contain the real
@@ -242,5 +238,5 @@ export class BaseNode {
      * @method exit
      * @param {Tick} tick A tick instance.
     **/
-    exit  (tick: Tick) {}
+    exit (tick: Tick) {}
 }

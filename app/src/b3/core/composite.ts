@@ -26,8 +26,9 @@
  * @module Behavior3JS
  **/
 
-import {b3} from '../index';
+import {b3, StatusCode} from '../index';
 import {BaseNode} from './base-node';
+import {Tick} from './tick';
 
 /**
  * Composite is the base class for all composite nodes. Thus, if you want to
@@ -45,8 +46,14 @@ export interface ICompositeOptions {
     children: BaseNode[];
 };
 
+export interface ChildStatus {
+    child: BaseNode;
+    status: StatusCode;
+}
+
 export class Composite extends BaseNode {
     children: BaseNode[];
+    childrenStatus: ChildStatus[];
 
     /**
      * Node category. Default to `b3.COMPOSITE`.
@@ -57,14 +64,30 @@ export class Composite extends BaseNode {
     **/
     static category = b3.COMPOSITE;
 
-    constructor (options: ICompositeOptions) {
-        super();
-        this.initialize(options);
-    }
-
     initialize (options: ICompositeOptions) {
         super.initialize();
 
         this.children = (options.children || []).slice(0);
+        this.childrenStatus = [];
+    }
+
+    executeChild (tick: Tick, child: BaseNode): StatusCode {
+        const status = child._execute(tick);
+        this.childrenStatus.push({
+            child: child,
+            status: status
+        });
+        if (child instanceof Composite) {
+            child.childrenStatus
+                .forEach(grandChildStatus => this.childrenStatus.push(grandChildStatus));
+            child.childrenStatus = [];
+        }
+        return status;
+    }
+
+    _execute (tick: Tick): StatusCode {
+        this.childrenStatus = [];
+
+        return super._execute(tick);
     }
 }

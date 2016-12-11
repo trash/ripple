@@ -44,6 +44,4 @@ export class WanderAction extends BaseNode {
 		}
 		return b3.SUCCESS;
 	}
-};
-
-WanderAction.prototype.name = 'wander-action';
+}
