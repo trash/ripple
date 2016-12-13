@@ -139,9 +139,9 @@ export class GameMap {
 		}
 	}
 
-	generate (allLand: boolean, options): IMapGenReturn {
+	generate (allLand: boolean, options: IMapOptions): IMapGenReturn {
 		const generator = new MapGenerator(this.dimension, this.seed, this.biome, allLand);
-		return generator.generate();
+		return generator.generate(options.noResources);
 	}
 
 	_onLoopUpdate () {

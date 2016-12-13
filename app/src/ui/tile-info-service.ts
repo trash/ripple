@@ -3,10 +3,13 @@ import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {events} from '../events';
 import {store} from '../redux/store';
+// Redux actions
 import {updateHoverTile} from '../redux/actions/update-hover-tile';
 import {updateHoveredAgentName} from '../redux/actions/update-hovered-agent-name';
 import {updateHoveredResourceName} from '../redux/actions/update-hovered-resource-name';
 import {updateHoveredItemName} from '../redux/actions/update-hovered-item-name';
+import {updateHoveredAgentLastExecutionChain} from '../redux/actions/update-hovered-agent-last-execution-chain';
+
 import {agentUtil} from '../entity/util/agent';
 import {EntityManager} from '../entity/entity-manager';
 import {ComponentEnum} from '../entity/component-enum';
@@ -69,18 +72,10 @@ export class TileInfoService {
                     .map(entityId => this.entityManager.getComponentDataForEntity(
                         ComponentEnum.BehaviorTree, entityId)
                     )[0] as IBehaviorTreeState;
-            console.log(
-                `Two choices for inspecting an agent's actions:`,
-                behaviorTreeState.blackboard.get('lastExecutionChain',
-                    behaviorTreeState.tree.id),
-                behaviorTreeState.tree.root.childrenStatus
-                    .map(status => {
-                        return {
-                            status: b3.humanReadableStatus(status.status),
-                            child: status.child
-                        };
-                    })
-            );
+            const backupExecutionChain = behaviorTreeState.blackboard.get('lastExecutionChain', behaviorTreeState.tree.id);
+            const executionChain = behaviorTreeState.tree.getExecutionChain();
+
+            store.dispatch(updateHoveredAgentLastExecutionChain(executionChain));
         }
 
         // Get the name of any resource occupying the tile

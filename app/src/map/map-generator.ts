@@ -82,7 +82,7 @@ export class MapGenerator {
         this.biome = biome;
     }
 
-    generate (): IMapGenReturn {
+    generate (noResources: boolean): IMapGenReturn {
         // Generate a flat map of the biome's base tile
         let baseTilemap: string[] = _.range(0, (this.dimension * this.dimension))
             .map(() => this.biome.baseTile);
@@ -110,7 +110,7 @@ export class MapGenerator {
 		// Create bridges between islands√
         tiles = this.bridgeIslands(tiles);
 
-		const resourceList = this.generateResourceList(tiles);
+		const resourceList = noResources ? Immutable.List<string>() : this.generateResourceList(tiles);
 
 		const upperTilemap = tiles.map(tile => tile.data);
 

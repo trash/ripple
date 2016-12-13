@@ -33,7 +33,8 @@ const testLevel: ITestLevel = {
 	gameMap: {
 		dimension: 20,
 		seed: 666,
-		allLand: true
+		allLand: true,
+		// noResources: true
 	},
 };
 

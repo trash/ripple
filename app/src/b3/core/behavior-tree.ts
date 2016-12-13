@@ -112,6 +112,10 @@ export class BehaviorTree {
         this.root = null;
     }
 
+    getExecutionChain () {
+        return this.root.childrenStatus;
+    }
+
     /**
      * Propagates the tick signal through the tree, starting from the root.
      *
