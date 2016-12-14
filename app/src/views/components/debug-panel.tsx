@@ -10,6 +10,7 @@ interface DebugPanelProps {
     agent: string;
     resource: string;
     item: string;
+    building: string;
     executionChain: ChildStatus[];
 }
 
@@ -27,6 +28,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, void> {
             <h4>Last Action: {lastAction}</h4>
             <h4>Item: {this.props.item}</h4>
             <h4>Resource: {this.props.resource}</h4>
+            <h4>Building: {this.props.building}</h4>
         </div>
         );
     }
@@ -38,6 +40,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         agent: state.hoveredAgentName,
         item: state.hoveredItemName,
         resource: state.hoveredResourceName,
-        executionChain: state.hoveredAgentLastExecutionChain
+        executionChain: state.hoveredAgentLastExecutionChain,
+        building: state.hoveredBuildingName
     };
 })(DebugPanel);

@@ -8,6 +8,7 @@ import {ChildStatus} from '../b3/core/composite';
 import {UpdateHoveredAgentNameAction} from './actions/update-hovered-agent-name';
 import {UpdateHoveredAgentLastExecutionChainAction} from './actions/update-hovered-agent-last-execution-chain';
 import {UpdateHoveredItemNameAction} from './actions/update-hovered-item-name';
+import {UpdateHoveredBuildingNameAction} from './actions/update-hovered-building-name';
 import {UpdateHoveredResourceNameAction} from './actions/update-hovered-resource-name';
 import {UpdateHoverTileAction} from './actions/update-hover-tile';
 
@@ -16,6 +17,7 @@ export interface StoreState {
     hoveredAgentName: string;
     hoveredItemName: string;
     hoveredResourceName: string;
+    hoveredBuildingName: string;
     hoveredAgentLastExecutionChain: ChildStatus[];
 }
 
@@ -36,6 +38,9 @@ const mainReducer = (previousState = initialState, action) => {
     }
     if (action.type === actionTypes.UPDATE_HOVERED_AGENT_LAST_EXECUTION_CHAIN) {
         newState.hoveredAgentLastExecutionChain = (action as UpdateHoveredAgentLastExecutionChainAction).executionChain;
+    }
+    if (action.type === actionTypes.UPDATE_HOVERED_BUILDING_NAME) {
+        newState.hoveredBuildingName = (action as UpdateHoveredBuildingNameAction).name;
     }
     return newState;
 };

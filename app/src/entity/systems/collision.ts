@@ -7,6 +7,7 @@ import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
 import {mapUtil} from '../util/map';
+import {collisionUtil} from '../util/collision';
 
 export class CollisionSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -19,12 +20,11 @@ export class CollisionSystem extends EntitySystem {
             // Collision toggled, update tiles and then update map
             if (collisionState.previousActiveState !== collisionState.activeState) {
                 const tile = positionState.tile;
-                for (let x = tile.column; x < tile.column + collisionState.size.x; x++) {
-                    for (let y = tile.row; y < tile.row + collisionState.size.y; y++) {
-                        const occupiedTile = mapUtil.getTile(y, x);
-                        occupiedTile.collision = !collisionState.activeState;
-                    }
-                }
+
+                collisionUtil.getTilesFromCollisionEntity(id).forEach(coords => {
+                    const occupiedTile = mapUtil.getTile(coords.row, coords.column);
+                    occupiedTile.collision = !collisionState.activeState;
+                });
                 // Make sure to always make entrances are accessible
                 if (collisionState.entrance) {
                     const entranceTile = mapUtil.getTile(

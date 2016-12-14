@@ -9,6 +9,7 @@ import {EventEmitter2} from 'eventemitter2';
 // Utils
 import {BaseUtil, baseUtil} from './util/base';
 import {agentUtil} from './util/agent';
+import {collisionUtil} from './util/collision';
 import {itemUtil} from './util/item';
 import {mapUtil} from './util/map';
 import {positionUtil} from './util/position';
@@ -41,6 +42,7 @@ const utilList: BaseUtil[] = [
     mapUtil,
     positionUtil,
     statusBubbleUtil,
+    collisionUtil,
 ];
 
 type EntityComponentDataMapEntry = any;

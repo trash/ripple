@@ -7,6 +7,7 @@ import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {IConstructibleState} from '../components/constructible';
 import {IHealthState} from '../components/health';
+import {INameState} from '../components/name';
 import {mapUtil} from '../util/map';
 
 export class BuildingSystem extends EntitySystem {
@@ -18,6 +19,8 @@ export class BuildingSystem extends EntitySystem {
                     ComponentEnum.Position, id) as IPositionState,
                 healthState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Health, id) as IHealthState,
+                nameState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Name, id) as INameState,
                 constructibleState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Constructible, id) as IConstructibleState,
                 renderableState = this.manager.getComponentDataForEntity(
@@ -31,6 +34,9 @@ export class BuildingSystem extends EntitySystem {
                 buildingState.entranceTile = mapUtil.getTile(
                     tile.row + buildingState.entrancePosition.y,
 			        tile.column + buildingState.entrancePosition.x);
+            }
+            if (!nameState.name) {
+                nameState.name = 'ok';
             }
         });
     }

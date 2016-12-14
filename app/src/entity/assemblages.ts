@@ -59,5 +59,6 @@ export const assemblages: IAssemblagesMap = {
         // ComponentEnum.Enterable,
         ComponentEnum.Health,
         ComponentEnum.HealthBar,
+        ComponentEnum.Name
     ]
 };

@@ -1,5 +1,7 @@
 import {ComponentEnum} from '../component-enum';
+
 import {IHealthState} from '../components/health';
+import {ICollisionState} from '../components/collision';
 import {IHealthBarState} from '../components/health-bar';
 import {IAgentState} from '../components/agent';
 import {IItemState} from '../components/item';
@@ -7,6 +9,7 @@ import {IPositionState} from '../components/position';
 import {IConstructibleState} from '../components/constructible';
 import {IBuildingState} from '../components/building';
 import {IRenderableState} from '../components/renderable';
+
 import {EntityManager} from '../entity-manager';
 import {MapTile} from '../../map/tile';
 
@@ -48,6 +51,10 @@ export class BaseUtil {
     _getHealthBarState (id): IHealthBarState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.HealthBar, id) as IHealthBarState;
+    }
+    _getCollisionState (id): ICollisionState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.Collision, id) as ICollisionState;
     }
 
     tileContainsEntityOfComponent (componentName: ComponentEnum, tile: MapTile): boolean {
