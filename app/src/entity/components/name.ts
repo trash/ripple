@@ -2,7 +2,8 @@ import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 
 export interface INameState {
-    name: string;
+    name?: string;
+    isStatic? : boolean;
 }
 
 export interface INameComponent extends IComponent {
@@ -13,6 +14,7 @@ export let Name: INameComponent = {
     name: 'name',
     enum: ComponentEnum.Name,
     state: {
-        name: null
+        name: null,
+        isStatic: false
     }
 };

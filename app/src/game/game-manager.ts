@@ -161,7 +161,7 @@ export class GameManager {
 
         // Spawn buildings
         this.level.buildings.forEach(building => {
-            this.entitySpawner.spawnBuilding(building.name, building);
+            this.entitySpawner.spawnBuilding(building.buildingName, building);
         });
 
         const startTile = this.map.getRandomTile({

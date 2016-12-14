@@ -205,6 +205,7 @@ import {IHealthState} from './entity/components/health';
 import {IHealthBarState} from './entity/components/health-bar';
 import {IItemState} from './entity/components/item';
 import {IAgentState} from './entity/components/agent';
+import {INameState} from './entity/components/name';
 import {IBehaviorTreeState} from './entity/components/behavior-tree';
 import {IBuildingState} from './entity/components/building';
 import {IConstructibleState} from './entity/components/constructible';
@@ -219,6 +220,7 @@ export interface IEntityComponentData {
 	health?: IHealthState;
 	item?: IItemState;
 	agent?: IAgentState;
+	name?: INameState;
 	behaviorTree?: IBehaviorTreeState;
 	building?: IBuildingState;
 	constructible?: IConstructibleState;

@@ -16,7 +16,7 @@ interface ITestLevelGroup {
 			{
 				name: 'Buildings can be built',
 				buildings: [{
-					name: 'hut'
+					buildingName: 'hut'
 				}],
 				agents: [{
 					name: 'human',
@@ -32,7 +32,7 @@ interface ITestLevelGroup {
 			{
 				name: 'Completed Building Test',
 				buildings: [{
-					name: 'hut'
+					buildingName: 'hut'
 				}]
 			}
 		]

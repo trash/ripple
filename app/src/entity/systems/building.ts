@@ -36,7 +36,9 @@ export class BuildingSystem extends EntitySystem {
 			        tile.column + buildingState.entrancePosition.x);
             }
             if (!nameState.name) {
-                nameState.name = 'ok';
+                if (nameState.isStatic) {
+                    nameState.name = buildingState.name;
+                }
             }
         });
     }

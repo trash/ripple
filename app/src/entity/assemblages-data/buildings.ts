@@ -14,6 +14,9 @@ const dataList: IEntityComponentData[] = [
             name: 'hut',
             entrancePosition: hutEntrance
         },
+        name: {
+            isStatic: true
+        },
         collision: {
             size: {
                 x: 3,

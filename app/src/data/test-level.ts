@@ -12,7 +12,7 @@ export interface IAgentAssemblageTestData {
 }
 
 export interface IBuildingAssemblageTestData {
-	name: string;
+	buildingName: string;
 }
 
 export interface ITestGameMapOptions {
