@@ -14,13 +14,6 @@ import {util} from '../../util';
 export class CallOnce extends Decorator {
 	uniqueId: string;
 
-	/**
-	 * Node name. Default to `Inverter`.
-	 * @property {String} name
-	 * @readonly
-	**/
-	static name = 'CallOnce';
-
 	initialize (options: IDecoratorOptions) {
 		super.initialize(options);
 		this.uniqueId = uniqueId.get();
@@ -47,7 +40,7 @@ export class CallOnce extends Decorator {
 		const key = 'calledOnce';
 		if (!util.blackboardGet(tick, key, this.uniqueId)) {
 			util.blackboardSet(tick, key, true, this.uniqueId);
-			return this.child._execute(tick);
+			return this.executeChild(tick, this.child);
 		}
 		return b3.SUCCESS;
 	}

@@ -3,6 +3,7 @@ import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {events} from '../events';
 import {store} from '../redux/store';
+import {ChildStatus} from '../b3/core/child-status';
 // Redux actions
 import {updateHoverTile} from '../redux/actions/update-hover-tile';
 import {updateHoveredAgentName} from '../redux/actions/update-hovered-agent-name';
@@ -108,10 +109,17 @@ export class TileInfoService {
                     ).map(entityId => this.entityManager.getComponentDataForEntity(
                         ComponentEnum.BehaviorTree, entityId)
                     )[0] as IBehaviorTreeState;
-            const backupExecutionChain = behaviorTreeState.blackboard.get('lastExecutionChain', behaviorTreeState.tree.id);
+            const backupExecutionChain = behaviorTreeState.blackboard
+                .get('lastExecutionChain', behaviorTreeState.tree.id) as {
+                    success: ChildStatus[];
+                    failure: ChildStatus[];
+                }
             const executionChain = behaviorTreeState.tree.getExecutionChain();
+            console.info(executionChain);
+            console.info(backupExecutionChain);
 
-            store.dispatch(updateHoveredAgentLastExecutionChain(executionChain));
+            // store.dispatch(updateHoveredAgentLastExecutionChain(executionChain));
+            store.dispatch(updateHoveredAgentLastExecutionChain(backupExecutionChain.success.reverse()));
         }
 
         // Get the name of any resource occupying the tile

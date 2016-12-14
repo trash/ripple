@@ -95,6 +95,7 @@ import {IBehaviorTreeTickTarget} from '../../entity/systems/behavior-tree';
 **/
 export class BehaviorTree {
     id: string;
+    name: string;
     title: string;
     description: string;
     /**

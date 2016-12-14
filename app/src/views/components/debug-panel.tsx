@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 
 import {MapTile} from '../../map/tile';
-import {ChildStatus} from '../../b3/core/composite';
+import {ChildStatus} from '../../b3/core/child-status';
 
 interface DebugPanelProps {
     tile: MapTile;

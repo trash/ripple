@@ -1,5 +1,6 @@
-import {b3} from '../index';
+import {b3, StatusCode} from '../index';
 import {BaseNode} from './base-node';
+import {Tick} from './tick';
 /**
  * Decorator is the base class for all decorator nodes. Thus, if you want to
  * create new custom decorator nodes, you need to inherit from this class.
@@ -20,12 +21,6 @@ export interface IDecoratorOptions {
 
 export class Decorator extends BaseNode {
 	child: BaseNode;
-
-	constructor (options: IDecoratorOptions) {
-        super();
-        this.initialize(options);
-    }
-
 	/**
 	 * Initialization method.
 	 * @method initialize
@@ -34,5 +29,12 @@ export class Decorator extends BaseNode {
 	initialize (options: IDecoratorOptions) {
 		super.initialize();
 		this.child = options.child || null;
+		this.childrenStatus = [];
 	}
+
+	_execute (tick: Tick): StatusCode {
+        this.childrenStatus = [];
+
+        return super._execute(tick);
+    }
 };

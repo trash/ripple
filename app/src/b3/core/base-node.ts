@@ -27,6 +27,7 @@
  **/
 
 import {b3, StatusCode} from '../index';
+import {ChildStatus} from './child-status';
 import {Tick} from './tick';
 import {util} from '../../util';
 
@@ -57,6 +58,7 @@ export class BaseNode {
     category: string;
     children: BaseNode[];
     child: BaseNode;
+    childrenStatus: ChildStatus[];
 
     constructor (...args) {
         this.initialize(...args);
@@ -112,6 +114,21 @@ export class BaseNode {
 
         tick.blackboard.addNodeToExecutionChain(tick.tree.id, this, status);
 
+        return status;
+    }
+
+    executeChild (tick: Tick, child: BaseNode): StatusCode {
+        const status = child._execute(tick);
+        this.childrenStatus.push({
+            child: child,
+            status: status,
+            readableStatus: b3.humanReadableStatus(status)
+        });
+        if (child.childrenStatus) {
+            child.childrenStatus
+                .forEach(grandChildStatus => this.childrenStatus.push(grandChildStatus));
+            child.childrenStatus = [];
+        }
         return status;
     }
 

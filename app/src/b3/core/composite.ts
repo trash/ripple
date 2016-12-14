@@ -46,14 +46,8 @@ export interface ICompositeOptions {
     children: BaseNode[];
 };
 
-export interface ChildStatus {
-    child: BaseNode;
-    status: StatusCode;
-}
-
 export class Composite extends BaseNode {
     children: BaseNode[];
-    childrenStatus: ChildStatus[];
 
     /**
      * Node category. Default to `b3.COMPOSITE`.
@@ -69,20 +63,6 @@ export class Composite extends BaseNode {
 
         this.children = (options.children || []).slice(0);
         this.childrenStatus = [];
-    }
-
-    executeChild (tick: Tick, child: BaseNode): StatusCode {
-        const status = child._execute(tick);
-        this.childrenStatus.push({
-            child: child,
-            status: status
-        });
-        if (child instanceof Composite) {
-            child.childrenStatus
-                .forEach(grandChildStatus => this.childrenStatus.push(grandChildStatus));
-            child.childrenStatus = [];
-        }
-        return status;
     }
 
     _execute (tick: Tick): StatusCode {

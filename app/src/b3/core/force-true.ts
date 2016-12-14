@@ -11,14 +11,6 @@ import {Tick} from './tick';
  * @extends Decorator
 **/
 export class ForceTrue extends Decorator {
-
-	/**
-	 * Node name. Default to `Inverter`.
-	 * @property {String} name
-	 * @readonly
-	**/
-	static name = 'ForceTrue';
-
 	/**
 	 * Tick method.
 	 * @method tick

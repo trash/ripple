@@ -55,6 +55,6 @@ export class Timer extends Decorator {
 		}
 
 		// Run the child after the timer is done and return its status
-		return this.child._execute(tick);
+		return this.executeChild(tick, this.child);
 	}
 }

@@ -13,5 +13,4 @@ export class WaitWander extends RandomAction {
 		});
 		this.description = 'Waiting or wandering.';
 	}
-
 }

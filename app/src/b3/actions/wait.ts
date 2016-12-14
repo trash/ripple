@@ -32,8 +32,8 @@ export class Wait extends BaseNode {
 	};
 
 	tick (tick: Tick) {
-		var agent = tick.target,
-			currentTurn = util.blackboardGet(tick, blackboardKey);
+		const agent = tick.target;
+		const currentTurn = util.blackboardGet(tick, blackboardKey);
 		if (!this.hours || currentTurn === this.turns) {
 			return b3.SUCCESS;
 		}

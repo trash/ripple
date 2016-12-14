@@ -28,11 +28,12 @@
 
  import {b3, StatusCode} from '../index';
  import {BaseNode} from './base-node';
+ import {ChildStatus} from './child-status';
  import {uniqueId} from '../../unique-id';
 
 interface LastNodeExecutionChain {
-    success: BaseNode[];
-    full: BaseNode[];
+    success: ChildStatus[];
+    full: ChildStatus[];
 }
 
 interface TreeMemoryInstance {
@@ -117,10 +118,15 @@ export class Blackboard {
         // console.log('Adding node: ', node, b3.humanReadableStatus(status));
 
         const chains = this._getTreeMemory(treeScope).lastNodeExecutionChain;
+        const childStatus = {
+            child: node,
+            status: status,
+            readableStatus: b3.humanReadableStatus(status)
+        };
         if (status === StatusCode.SUCCESS || status === StatusCode.RUNNING) {
-            chains.success.push(node);
+            chains.success.push(childStatus);
         }
-        chains.full.push(node);
+        chains.full.push(childStatus);
         return chains.full.length;
     }
     clearNodeExecutionChain (treeScope: string) {

@@ -14,13 +14,6 @@ import {Tick} from './tick';
 **/
 export class RepeatUntilSuccessOrFailure extends Decorator {
 	/**
-	 * Node name. Default to `Repeater`.
-	 * @property {String} name
-	 * @readonly
-	 **/
-	static name = 'RepeatUntilSuccessOrFailure';
-
-	/**
 	 * Tick method.
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
@@ -29,7 +22,7 @@ export class RepeatUntilSuccessOrFailure extends Decorator {
 		if (!this.child) {
 			return b3.ERROR;
 		}
-		const status = this.child._execute(tick);
+		const status = this.executeChild(tick, this.child);
 
 		// If the node completes, we iterate the count 1
 		if (status === b3.RUNNING) {

@@ -19,18 +19,6 @@ interface RepeaterOptions extends IDecoratorOptions {
 **/
 export class Repeater extends Decorator {
 	maxLoop: number;
-
-	/**
-	 * Node name. Default to `Repeater`.
-	 * @property {String} name
-	 * @readonly
-	**/
-	static name = 'Repeater';
-
-	constructor (options: RepeaterOptions) {
-		super(options);
-	}
-
 	/**
 	 * Initialization method.
 	 *
@@ -71,7 +59,7 @@ export class Repeater extends Decorator {
 
 		let i = util.blackboardGet(tick, 'i', this.id);
 
-		const status = this.child._execute(tick);
+		const status = this.executeChild(tick, this.child);
 
 		// If the node completes, we iterate the count 1
 		if (status == b3.SUCCESS || status == b3.FAILURE) {

@@ -5,18 +5,18 @@ import _ = require('lodash');
 
 export class RandomActionComposite extends Composite {
 	tick (tick: Tick) {
-		var choices = [],
+		let choices = [],
 			i;
-		for (i=0; i < this.children.length; i++) {
+		for (i = 0; i < this.children.length; i++) {
 			choices.push(i);
 		}
 		choices = _.shuffle(choices);
 
 		// Iterates over the children randomly
-		for (i=0; i<this.children.length; i++) {
-			var index = choices.pop();
+		for (i = 0; i < this.children.length; i++) {
+			const index = choices.pop();
 			// Propagate the tick
-			var status = this.children[index]._execute(tick);
+			const status = this.children[index]._execute(tick);
 
 			if (status !== b3.SUCCESS) {
 				return status;

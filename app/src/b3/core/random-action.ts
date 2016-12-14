@@ -12,7 +12,6 @@ import {util} from '../../util';
  * @extends Composite
 **/
 export class RandomAction extends Composite {
-    static name = 'RandomAction';
     /**
      * Tick method.
      *

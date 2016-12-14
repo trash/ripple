@@ -1,6 +1,6 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components/behavior-tree';
-import {deerTree} from '../../b3/trees/deer';
+import {behaviorTree as deerTree} from '../../b3/trees/deer';
 // import {zombieTree} from '../../b3/trees/zombie';
 // import {wolfTree} from '../../b3/trees/wolf';
 import {IEntityComponentData, IAssemblageDataMap, AgentTraits} from '../../interfaces';

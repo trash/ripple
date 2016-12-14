@@ -5,9 +5,9 @@ import {PathAroundMap} from '../actions/path-around-map';
 import {BehaviorTree} from '../core/behavior-tree';
 import {Priority} from '../core/priority';
 
-export let deerTree = new BehaviorTree();
+export let behaviorTree = new BehaviorTree();
 
-deerTree.root = new Priority({
+behaviorTree.root = new Priority({
 	children: [
 		// new AttackAttackerIfAttacked(),
 		// new RunFromPredator(),
@@ -16,4 +16,4 @@ deerTree.root = new Priority({
 	]
 });
 
-deerTree.root.description = 'Deer behavior tree';
+behaviorTree.root.description = 'Deer behavior tree';

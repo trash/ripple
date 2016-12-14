@@ -10,14 +10,6 @@ import {Tick} from './tick';
  * @extends Decorator
 **/
 export class RunningBecomesSuccess extends Decorator {
-
-	/**
-	 * Node name. Default to `Inverter`.
-	 * @property {String} name
-	 * @readonly
-	**/
-	static name = 'RunningBecomesSuccess';
-
 	/**
 	 * Tick method.
 	 * @method tick
@@ -29,7 +21,7 @@ export class RunningBecomesSuccess extends Decorator {
 			return b3.ERROR;
 		}
 
-		const status = this.child._execute(tick);
+		const status = this.executeChild(tick, this.child);
 
 		if (status === b3.RUNNING) {
 			return b3.SUCCESS;

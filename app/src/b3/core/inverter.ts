@@ -12,13 +12,6 @@ import {Tick} from './tick';
 **/
 export class Inverter extends Decorator {
 	/**
-	 * Node name. Default to `Inverter`.
-	 * @property {String} name
-	 * @readonly
-	**/
-	static name = 'Inverter';
-
-	/**
 	 * Tick method.
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
@@ -29,7 +22,7 @@ export class Inverter extends Decorator {
 			return b3.ERROR;
 		}
 
-		let status = this.child._execute(tick);
+		let status = this.executeChild(tick, this.child);
 
 		if (status == b3.SUCCESS) {
 			status = b3.FAILURE;

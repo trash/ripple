@@ -2,7 +2,7 @@ import {createStore} from 'redux';
 import {actionTypes} from './actions/types';
 
 import {MapTile} from '../map/tile';
-import {ChildStatus} from '../b3/core/composite';
+import {ChildStatus} from '../b3/core/child-status';
 
 // Actions
 import {UpdateHoveredAgentNameAction} from './actions/update-hovered-agent-name';

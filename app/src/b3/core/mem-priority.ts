@@ -14,14 +14,6 @@ import {util} from '../../util';
  * @extends Composite
 **/
 export class MemPriority extends Composite {
-
-	/**
-	 * Node name. Default to `MemPriority`.
-	 * @property {String} name
-	 * @readonly
-	**/
-	static name = 'MemPriority';
-
 	/**
 	 * Open method.
 	 * @method open

@@ -14,7 +14,7 @@ import {professionsList, professions} from '../../data/professions';
 import {villagerJobs, villagerJobsMap} from '../../data/villager-jobs';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
 import {statusBubbleUtil} from '../util/status-bubble';
-import {deerTree as villagerTree} from '../../b3/trees/deer';
+import {behaviorTree as villagerTree} from '../../b3/trees/villager';
 
 export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -30,7 +30,7 @@ export class VillagerSystem extends EntitySystem {
                 villagerState = this.manager.getComponentDataForEntity(
 					ComponentEnum.Villager, id) as IVillagerState;
 
-			if (!behaviorTreeState.tree) {
+			if (behaviorTreeState.tree.name !== 'villager') {
 				behaviorTreeState.tree = villagerTree;
 			}
 
