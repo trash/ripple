@@ -4,7 +4,7 @@ import {Tick} from '../core/tick';
 import {util} from '../../util';
 import {Instance} from '../../tasks/instance';
 
-export class DoTask extends BaseNode {
+export class DoCurrentTask extends BaseNode {
 	updatesCurrentAction: boolean;
 	blackboardKey: string;
 
@@ -16,7 +16,10 @@ export class DoTask extends BaseNode {
 
 	tick (tick: Tick) {
 		const entityData = tick.target;
-		const taskInstance = util.blackboardGet(tick, this.blackboardKey) as Instance;
+		const taskInstance = entityData.villager.currentTask;
+		if (!taskInstance) {
+			return b3.FAILURE;
+		}
 
 		this.description = taskInstance.description;
 

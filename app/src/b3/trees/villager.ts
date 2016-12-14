@@ -4,8 +4,7 @@ import {BehaviorTree} from '../core/behavior-tree';
 import {Priority} from '../core/priority';
 import {Sequence} from '../core/sequence';
 import {RandomAction} from '../core/random-action';
-import {DoTask} from '../actions/do-task';
-import {GetTaskFromProfessions} from '../actions/get-task-from-professions';
+import {DoCurrentTask} from '../actions/do-current-task';
 
 export let behaviorTree = new BehaviorTree();
 
@@ -16,8 +15,7 @@ behaviorTree.root = new Priority({
 		// Profession stuff
 		new Sequence({
 			children: [
-				new GetTaskFromProfessions(taskKey),
-				new DoTask(taskKey)
+				new DoCurrentTask(taskKey),
 			]
 		}),
 		// Idle shizz
