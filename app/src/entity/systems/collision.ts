@@ -19,8 +19,8 @@ export class CollisionSystem extends EntitySystem {
             // Collision toggled, update tiles and then update map
             if (collisionState.previousActiveState !== collisionState.activeState) {
                 const tile = positionState.tile;
-                for (var x=tile.column; x < tile.column + collisionState.size.x; x++) {
-                    for (var y=tile.row; y < tile.row + collisionState.size.y; y++) {
+                for (let x = tile.column; x < tile.column + collisionState.size.x; x++) {
+                    for (let y = tile.row; y < tile.row + collisionState.size.y; y++) {
                         const occupiedTile = mapUtil.getTile(y, x);
                         occupiedTile.collision = !collisionState.activeState;
                     }

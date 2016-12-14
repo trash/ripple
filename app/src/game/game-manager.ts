@@ -147,14 +147,21 @@ export class GameManager {
             }
         });
 
+        // Spawn agents
         this.level.agents.forEach(agent => {
             this.entitySpawner.spawnAgent(agent);
         });
 
+        // Spawn items
         Object.keys(this.level.items).forEach(itemName => {
             for (let i = 0; i < this.level.items[itemName]; i++) {
                 this.entitySpawner.spawnItem(itemName);
             }
+        });
+
+        // Spawn buildings
+        this.level.buildings.forEach(building => {
+            this.entitySpawner.spawnBuilding(building.name, building);
         });
 
         const startTile = this.map.getRandomTile({

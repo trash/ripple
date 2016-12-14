@@ -2,14 +2,18 @@ import {events} from '../../events';
 import {BaseUtil} from './base';
 import {GameMap} from '../../map';
 
-let map: GameMap;
+const globalRefs: {
+	map: GameMap
+} = {
+	map: null
+};
 events.on('map-update', (map: GameMap) => {
-    map = map;
+	globalRefs.map = map;
 });
 
 export class MapUtil extends BaseUtil {
     getTile (x: number, y: number) {
-        return map.getTile(x, y);
+        return globalRefs.map.getTile(x, y);
     }
 }
 

@@ -52,12 +52,12 @@ export const assemblages: IAssemblagesMap = {
     ],
     [AssemblagesEnum.Building]: [
         ComponentEnum.Position,
+        ComponentEnum.Renderable,
         ComponentEnum.Building,
         ComponentEnum.Constructible,
         ComponentEnum.Collision,
         // ComponentEnum.Enterable,
         ComponentEnum.Health,
         ComponentEnum.HealthBar,
-        ComponentEnum.Renderable,
     ]
 };

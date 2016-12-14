@@ -28,6 +28,10 @@ export class ConstructibleSystem extends EntitySystem {
                     ComponentEnum.Constructible, id) as IConstructibleState,
                 renderableState = manager.getComponentDataForEntity(
                     ComponentEnum.Renderable, id) as IRenderableState;
+            // Wait for other systems to bootstrap
+            if (!renderableState.spriteGroup || !healthBarState.sprites) {
+                return;
+            }
 
             if (renderableState.spriteGroup && !constructibleState.completedSprite) {
                 this.initSprites(positionState, constructibleState, renderableState, healthBarState);
