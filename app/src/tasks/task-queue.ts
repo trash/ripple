@@ -13,7 +13,10 @@ export class TaskQueue {
 	tasks: Task[];
 	createTask: (...any) => Task;
 
-	constructor (type: string, createTask: (...any) => Task) {
+	constructor (
+		type: string,
+		createTask: (...any) => Task
+	) {
 		this.type = type;
 		this.createTask = createTask;
 
@@ -25,8 +28,11 @@ export class TaskQueue {
 	*
 	* @param {Task} task The task to push to the queue
 	*/
-	push (taskOrTaskItem: Task | any, front: boolean = false): Task {
-		var newTask = taskOrTaskItem;
+	push (
+		taskOrTaskItem: Task | any,
+		front: boolean = false
+	): Task {
+		let newTask = taskOrTaskItem;
 		if (!(taskOrTaskItem instanceof Task)) {
 			newTask = this.createTask(taskOrTaskItem);
 		}
@@ -45,7 +51,8 @@ export class TaskQueue {
 	* @returns {integer} Returns -1 if it doesn't exist, and the index if it does.
 	*/
 	removeTask (task: Task): number {
-		var index = this.tasks.indexOf(task);
+		console.info('removing task', task);
+		const index = this.tasks.indexOf(task);
 		if (index !== -1) {
 			this.tasks.splice(index, 1);
 		}
@@ -57,9 +64,9 @@ export class TaskQueue {
 	* @param { Citizen } citizen The citizen who is getting the task;
 	* @returns {Task} the next in the queue
 	*/
-	get (entity: number): Instance {
-		var nextTask = this.getReadyTasks()[0],
-			instance;
+	getTask (entity: number): Instance {
+		const nextTask = this.getReadyTasks()[0];
+		let instance: Instance;
 		if (nextTask) {
 			instance = nextTask.spawnInstance(entity);
 		}
@@ -67,9 +74,7 @@ export class TaskQueue {
 	};
 
 	getReadyTasks (): Task[] {
-		return this.tasks.filter(function (task) {
-			return task.ready;
-		});
+		return this.tasks.filter(task => task.ready);
 	};
 
 	/**

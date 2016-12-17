@@ -8,14 +8,12 @@ import {DoCurrentTask} from '../actions/do-current-task';
 
 export let behaviorTree = new BehaviorTree();
 
-const taskKey = 'task-from-professions';
-
 behaviorTree.root = new Priority({
 	children: [
 		// Profession stuff
 		new Sequence({
 			children: [
-				new DoCurrentTask(taskKey),
+				new DoCurrentTask(),
 			]
 		}),
 		// Idle shizz

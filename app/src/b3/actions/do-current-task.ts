@@ -6,12 +6,10 @@ import {Instance} from '../../tasks/instance';
 
 export class DoCurrentTask extends BaseNode {
 	updatesCurrentAction: boolean;
-	blackboardKey: string;
 
-	constructor (blackboardKey: string) {
+	constructor () {
 		super();
 		this.updatesCurrentAction = true;
-		this.blackboardKey = blackboardKey;
 	}
 
 	tick (tick: Tick) {

@@ -2,7 +2,7 @@ import _ = require('lodash');
 import {constants} from '../data/constants';
 import {MapTile} from '../map/tile';
 import {MapGenTile} from '../map/map-gen-tile';
-import {INearestTile, ICoordinates} from '../interfaces';
+import {INearestTile, ICoordinates, IRowColumnCoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {ComponentEnum} from '../entity/component-enum';
 import {positionUtil} from '../entity/util/position';
@@ -420,7 +420,12 @@ export class Util {
 			`${blackboardKey}:${tick.target.id}`, value, tick.tree.id, nodeScope);
 	}
 
-	setTile (positionState: IPositionState, tile: MapTile, turn: number, speed: number) {
+	setTile (
+		positionState: IPositionState,
+		tile: IRowColumnCoordinates,
+		turn: number,
+		speed: number
+	) {
 		positionState.previousTile = positionState.tile;
 		positionState.tile = tile;
 		positionState.turnUpdated = turn;

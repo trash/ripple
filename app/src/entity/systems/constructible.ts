@@ -50,6 +50,7 @@ export class ConstructibleSystem extends EntitySystem {
                 });
             }
             if (!constructibleState.taskCreated) {
+                console.info('Creating building task');
                 this.createTask(id);
                 constructibleState.taskCreated = true;
             }

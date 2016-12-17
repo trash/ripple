@@ -88,7 +88,7 @@ export class VillagerSystem extends EntitySystem {
 			if (this.hasProfession(villagerState, profession)) {
 				var taskQueue = taskQueueManager.professionTaskQueue(profession);
 				if (taskQueue.hasTask()) {
-					match = taskQueue.get(id);
+					match = taskQueue.getTask(id);
 					return true;
 				}
 			}
