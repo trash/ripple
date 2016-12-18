@@ -4,7 +4,7 @@ import {events} from '../events';
 import {BehaviorTree} from '../b3/core/behavior-tree';
 import {TaskQueue} from './task-queue';
 import {professions} from '../data/professions';
-import {IBehaviorTreeTickTarget} from '../entity/systems/behavior-tree';
+import {IBehaviorTreeTickTarget} from '../interfaces';
 
 const debouncedError = _.debounce(console.error, 1000),
 	debouncedError2 = _.debounce(console.error, 1000);

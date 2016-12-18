@@ -9,23 +9,12 @@ import {IStatusBubbleState} from '../components/status-bubble';
 import {Blackboard} from '../../b3/core/blackboard';
 import {events} from '../../events';
 import {GameMap} from '../../map';
+import {IBehaviorTreeTickTarget} from '../../interfaces';
 
 let map: GameMap;
 events.on('map-update', (newMap: GameMap) => {
     map = newMap;
 });
-
-export interface IBehaviorTreeTickTarget {
-    id: number;
-    behaviorTree: IBehaviorTreeState;
-    position: IPositionState;
-    villager: IVillagerState;
-    agent: IAgentState;
-    statusBubble: IStatusBubbleState;
-    turn: number;
-    map: GameMap;
-    inventory: IInventoryState;
-}
 
 export class BehaviorTreeSystem extends EntitySystem {
     update (entityIds: number[], turn: number, stopped: boolean) {

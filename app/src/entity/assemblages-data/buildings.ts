@@ -24,7 +24,8 @@ const dataList: IEntityComponentData[] = [
             entrance: hutEntrance
         },
         health: {
-            maxHealth: 1000,
+            maxHealth: 100,
+            // maxHealth: 1000,
             currentHealth: 0
         },
         healthBar: {

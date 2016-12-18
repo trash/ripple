@@ -31,7 +31,7 @@ import {Tick} from './tick';
 import {BaseNode} from './base-node';
 import {Composite} from './composite';
 import {Blackboard} from './blackboard';
-import {IBehaviorTreeTickTarget} from '../../entity/systems/behavior-tree';
+import {IBehaviorTreeTickTarget} from '../../interfaces';
 
 /**
  * The BehaviorTree class, as the name implies, represents the Behavior Tree

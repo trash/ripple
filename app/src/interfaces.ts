@@ -212,6 +212,9 @@ import {IBuildingState} from './entity/components/building';
 import {IConstructibleState} from './entity/components/constructible';
 import {ICollisionState} from './entity/components/collision';
 import {ICorpseState} from './entity/components/corpse';
+import {IVillagerState} from './entity/components/villager';
+import {IStatusBubbleState} from './entity/components/status-bubble';
+import {IInventoryState} from './entity/components/inventory';
 
 export interface IEntityComponentData {
 	position?: IPositionState;
@@ -241,3 +244,17 @@ export interface ItemSearchResult {
 }
 
 export type dropOffTargetKeyOrFunctionType = string | (() => IRowColumnCoordinates);
+
+import {GameMap} from './map';
+
+export interface IBehaviorTreeTickTarget {
+    id: number;
+    behaviorTree: IBehaviorTreeState;
+    position: IPositionState;
+    villager: IVillagerState;
+    agent: IAgentState;
+    statusBubble: IStatusBubbleState;
+    turn: number;
+    map: GameMap;
+    inventory: IInventoryState;
+}

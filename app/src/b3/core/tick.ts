@@ -30,7 +30,7 @@
  import {Blackboard} from './blackboard';
  import {BehaviorTree} from './behavior-tree';
  import {BaseNode} from './base-node';
- import {IBehaviorTreeTickTarget} from '../../entity/systems/behavior-tree';
+ import {IBehaviorTreeTickTarget} from '../../interfaces';
 
 /**
  * A new Tick object is instantiated every tick by BehaviorTree. It is passed

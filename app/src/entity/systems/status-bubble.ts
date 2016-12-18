@@ -35,6 +35,7 @@ export class StatusBubbleSystem extends EntitySystem {
             if (activeSprite) {
                 renderableState.spriteGroup.removeChild(activeSprite);
                 activeSprite.destroy();
+                statusBubbleState.activeBubbleSprite = null;
             }
 
             // Cycle to next bubble

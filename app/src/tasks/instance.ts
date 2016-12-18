@@ -4,7 +4,7 @@ import {uniqueId} from '../unique-id';
 import {Task} from './task';
 import {BehaviorTree} from '../b3/core/behavior-tree';
 import {Blackboard} from '../b3/core/blackboard';
-import {IBehaviorTreeTickTarget} from '../entity/systems/behavior-tree';
+import {IBehaviorTreeTickTarget} from '../interfaces';
 
 export class Instance {
 	task: Task;
