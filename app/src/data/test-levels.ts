@@ -3,8 +3,9 @@ import {IPositionState} from '../entity/components/position';
 import {IBuildingState} from '../entity/components/building';
 import {villagerJobs} from './villager-jobs';
 import {ITestLevel} from './test-level';
+import {constants} from '../data/constants';
 
-interface ITestLevelGroup {
+export interface ITestLevelGroup {
     name: string;
     list: ITestLevel[];
 }
@@ -87,3 +88,8 @@ export let testLevels = testLevelsData.map(group => {
 	group.list = group.list.map(levelData => gameLevelFactory.getTestLevel(levelData));
 	return group;
 });
+
+export const lastLoadedLevelGroup: ITestLevelGroup = {
+	name: 'Last Loaded',
+	list: [JSON.parse(localStorage.getItem(constants.LAST_LOADED_LEVEL))]
+};

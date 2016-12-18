@@ -7,7 +7,7 @@ import {Gender} from '../interfaces';
 // import {herbalistNames} from './herbalist-names';
 // import {itemShopNames} from './item-shop-names';
 // import {goblinNames} from './goblin-names';
-// import {zombieNames} from './zombie-names';
+import {zombieNames} from './zombie';
 // import {rabbitNames} from './rabbit-names';
 
 export class Names {
@@ -16,7 +16,7 @@ export class Names {
 		// wolf: wolfNames,
 		// deer: deerNames,
 		// goblin: goblinNames,
-		// zombie: zombieNames,
+		zombie: zombieNames,
 		// rabbit: rabbitNames
 	};
 	// static buildingMap = {

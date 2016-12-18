@@ -29,6 +29,7 @@ interface IConstants {
 	SCALED_TILE_HEIGHT: number;
 	ACCESSIBLE: number;
 	INACCESSIBLE: number;
+	LAST_LOADED_LEVEL: string;
 }
 
 export let constants = {
@@ -53,7 +54,8 @@ export let constants = {
 	SLEEP: {
 		// Sleep 6 hours per day
 		PER_DAY: 6
-	}
+	},
+	LAST_LOADED_LEVEL: 'lastLoadedLevel'
 } as IConstants;
 
 // An in game hour should be 10 second on normal speed

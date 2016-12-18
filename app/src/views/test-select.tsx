@@ -1,6 +1,6 @@
 import React = require('react');
 import {events} from '../events';
-import {testLevels} from '../data/test-levels';
+import {testLevels, ITestLevelGroup, lastLoadedLevelGroup} from '../data/test-levels';
 import {TestLevel} from './test-level';
 import {ShowHideComponent, ShowHideComponentState} from './higher-order/show-hide-component';
 
@@ -15,10 +15,7 @@ interface TestSelectState extends ShowHideComponentState {
 export class TestSelect extends ShowHideComponent<TestSelectState> {
 	constructor (props, context) {
 		super(props, context);
-		this.state = {
-			hidden: this.state.hidden,
-			expandedGroup: testLevels[0].name
-		};
+		this.state.expandedGroup = lastLoadedLevelGroup.name;
 	}
 
 	groupClick (group) {
@@ -30,6 +27,23 @@ export class TestSelect extends ShowHideComponent<TestSelectState> {
 		};
 	}
 
+	renderMenuBlock (group: ITestLevelGroup) {
+		const isExpanded = this.state.expandedGroup === group.name;
+		return (
+			<div className={`menu-block ${ isExpanded ? 'expanded' : '' }`}
+				key={ group.name }
+				onClick={ this.groupClick(group) }>
+				<h4>{ group.name }</h4>
+				{ group.list.map(tutorialLevel => {
+					return <TestLevel
+						key={ tutorialLevel.name }
+						startTest={ this.props.startTest }
+						level={ tutorialLevel }/>;
+				}) }
+			</div>
+		);
+	}
+
 	render () {
 		return (
 			<div className={ 'menu main-menu ' + (this.state.hidden ? 'hide' : '') }>
@@ -37,21 +51,8 @@ export class TestSelect extends ShowHideComponent<TestSelectState> {
 				<div className="menu-body">
 					<h4 className="menu-header">Tutorials</h4>
 					<button onClick={ this.props.mainMenu }>Main Menu</button>
-					{testLevels.map(group => {
-						const isExpanded = this.state.expandedGroup === group.name;
-						return <div
-							className={`menu-block ${ isExpanded ? 'expanded' : '' }`}
-							key={ group.name }
-							onClick={ this.groupClick(group) }>
-							<h4>{ group.name }</h4>
-							{ group.list.map(tutorialLevel => {
-								return <TestLevel
-									key={ tutorialLevel.name }
-									startTest={ this.props.startTest }
-									level={ tutorialLevel }/>;
-							}) }
-						</div>;
-					})}
+					{ this.renderMenuBlock(lastLoadedLevelGroup) }
+					{testLevels.map(group => this.renderMenuBlock(group))}
 				</div>
 			</div>
 		);

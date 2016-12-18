@@ -24,6 +24,7 @@ import {gameLevelFactory} from '../data/game-level-factory';
 import {keybindings} from '../services/keybindings';
 import {GameComponent} from '../views/game';
 import {TileInfoService} from '../ui/tile-info-service';
+import {constants} from '../data/constants';
 
 const defaultLevel = gameLevelFactory.getDefaultTestLevel();
 
@@ -52,6 +53,7 @@ export class GameManager {
         events.on('level-selected', (level: ITestLevel) => {
             this.level = level;
             this.state.start('Game');
+            this.saveLastOpenedLevel(level);
         });
         events.on('game-start', this.start.bind(this));
         events.on('game-destroy', this.destroy.bind(this));
@@ -98,6 +100,10 @@ export class GameManager {
         }
 
         keybindings.on();
+    }
+
+    private saveLastOpenedLevel (level: ITestLevel) {
+        localStorage.setItem(constants.LAST_LOADED_LEVEL, JSON.stringify(level));
     }
 
     update (turn: number, stopped: boolean) {
@@ -154,16 +160,20 @@ export class GameManager {
         });
 
         // Spawn items
-        Object.keys(this.level.items).forEach(itemName => {
-            for (let i = 0; i < this.level.items[itemName]; i++) {
-                this.entitySpawner.spawnItem(itemName);
-            }
-        });
+        if (this.level.items) {
+            Object.keys(this.level.items).forEach(itemName => {
+                for (let i = 0; i < this.level.items[itemName]; i++) {
+                    this.entitySpawner.spawnItem(itemName);
+                }
+            });
+        }
 
         // Spawn buildings
-        this.level.buildings.forEach(building => {
-            this.entitySpawner.spawnBuilding(building.buildingName, building);
-        });
+        if (this.level.buildings) {
+            this.level.buildings.forEach(building => {
+                this.entitySpawner.spawnBuilding(building.buildingName, building);
+            });
+        }
 
         const startTile = this.map.getRandomTile({
             accessible: true
