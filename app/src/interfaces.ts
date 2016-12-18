@@ -239,3 +239,10 @@ export interface ItemSearchResult {
 	id: number;
 	item: IItemState;
 }
+
+export interface GoToTargetTarget {
+	id: number;
+	tile: IRowColumnCoordinates;
+}
+
+export type dropOffTargetKeyOrFunctionType = string | (() => GoToTargetTarget);

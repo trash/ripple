@@ -51,7 +51,6 @@ export class TaskQueue {
 	* @returns {integer} Returns -1 if it doesn't exist, and the index if it does.
 	*/
 	removeTask (task: Task): number {
-		console.info('removing task', task);
 		const index = this.tasks.indexOf(task);
 		if (index !== -1) {
 			this.tasks.splice(index, 1);

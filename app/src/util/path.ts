@@ -69,14 +69,14 @@ export class PathUtil {
 	static getNextStepToTarget (
 		tile: IRowColumnCoordinates,
 		targetId: number,
-		target: IPositionState
+		target: IRowColumnCoordinates
 	): IRowColumnCoordinates {
 		const funcName = 'getNextStepToTarget';
 		const cached = cacheService.get(funcName, [targetId]);
 		if (cached && this.validateCachedPath(tile, cached)) {
 			return this.getNextStepFromPath(tile, cached);
 		}
-		const path = globalRefs.map.getPath(tile, target.tile);
+		const path = globalRefs.map.getPath(tile, target);
 		cacheService.store(funcName, [targetId], path, 500);
 		return path[0];
 	}

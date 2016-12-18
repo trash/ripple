@@ -1,3 +1,4 @@
+import {dropOffTargetKeyOrFunctionType} from '../../interfaces';
 import {Sequence} from '../core/sequence';
 import {MemPriority} from '../core/mem-priority';
 import {MemSequence} from '../core/mem-sequence';
@@ -12,11 +13,12 @@ import {BlackboardValueExists} from './blackboard-value-exists';
 import {ResourceRequirements} from '../../resource-requirements';
 
 const requiredResourceKey = 'required-resource';
+const goToTargetKey = 'required-resource-go-to-target';
 
 export class GatherResources extends Sequence {
 	constructor (
 		requiredResources: ResourceRequirements,
-		dropOffLocation: string | Function
+		dropOffLocation: dropOffTargetKeyOrFunctionType
 	) {
 		super({
 			children: [
@@ -28,13 +30,13 @@ export class GatherResources extends Sequence {
 									new Inverter({
 										child: new BlackboardValueExists(requiredResourceKey)
 									}),
-									new GetRequiredResource(requiredResourceKey, requiredResources, dropOffLocation)
+									new GetRequiredResource(requiredResourceKey, goToTargetKey, requiredResources, dropOffLocation)
 								]
 							}),
 						}),
 						new MemSequence({
 							children: [
-								new GoToTarget(requiredResourceKey),
+								new GoToTarget(goToTargetKey),
 								new PickupItem(requiredResourceKey),
 								new GoToTarget(dropOffLocation),
 								new AddResourceToRequirements(requiredResourceKey, requiredResources),

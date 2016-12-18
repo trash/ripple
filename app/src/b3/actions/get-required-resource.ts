@@ -4,21 +4,23 @@ import {Tick} from '../core/tick';
 import {util} from '../../util';
 import {ResourceRequirements} from '../../resource-requirements';
 import {itemUtil} from '../../entity/util/item';
-
-type DropOffTargetKeyOrFunction = string | Function;
+import {dropOffTargetKeyOrFunctionType, GoToTargetTarget} from '../../interfaces';
 
 export class GetRequiredResource extends BaseNode {
 	blackboardKey: string;
+	goToTargetKey: string;
 	requiredResources: ResourceRequirements;
-	dropOffTargetKeyOrFunction: DropOffTargetKeyOrFunction;
+	dropOffTargetKeyOrFunction: dropOffTargetKeyOrFunctionType;
 
 	constructor (
 		blackboardKey: string,
+		goToTargetKey: string,
 		requiredResources: ResourceRequirements,
-		dropOffTargetKeyOrFunction: DropOffTargetKeyOrFunction
+		dropOffTargetKeyOrFunction: dropOffTargetKeyOrFunctionType
 	) {
 		super();
 		this.blackboardKey = blackboardKey;
+		this.goToTargetKey = goToTargetKey;
 		this.requiredResources = requiredResources;
 		this.dropOffTargetKeyOrFunction = dropOffTargetKeyOrFunction;
 	}
@@ -30,22 +32,30 @@ export class GetRequiredResource extends BaseNode {
 		}
 
 		// Handle getting the drop off location from the object or key
-		var dropOffLocation = util.targetKeyOrFunction(tick, this.dropOffTargetKeyOrFunction);
+		const dropOffLocation: GoToTargetTarget = util.targetKeyOrFunction(tick, this.dropOffTargetKeyOrFunction);
 		if (!dropOffLocation) {
 			console.error('this should probably be defined');
 			return b3.FAILURE;
 		}
 
-		const requiredResource = itemUtil.getNearestItem(dropOffLocation, {
+		const requiredResource = itemUtil.getNearestItem(dropOffLocation.tile, {
 			itemNames: requiredResourceName
 		});
+
 		if (!requiredResource) {
 			return b3.RUNNING;
 		}
 		// Set the item to be stored so we don't have race conditions with
 		// multiple resource fetchers
 		requiredResource.state.toBeStored = true;
+
+		const goToTargetTarget: GoToTargetTarget = {
+			id: requiredResource.id,
+			tile: requiredResource.position.tile
+		};
+		// Store the item search result and target to the GoToTarget action separately
 		util.blackboardSet(tick, this.blackboardKey, requiredResource);
+		util.blackboardSet(tick, this.goToTargetKey, goToTargetTarget);
 		return b3.SUCCESS;
 	}
 }
