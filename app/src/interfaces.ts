@@ -233,3 +233,8 @@ export interface IAssemblageDataMap {
 }
 
 export type Gender = 'male' | 'female';
+
+export interface ItemSearchResult {
+	id: number;
+	item: IItemState;
+}

@@ -40,7 +40,8 @@ export class BuilderTask extends Task {
 			healthState = baseUtil._getHealthState(building),
 			buildingState = baseUtil._getBuildingState(building);
 
-		this.setBehaviorTree(new BuilderTaskAction(healthState, constructibleState.resourceRequirements,
+		this.setBehaviorTree(new BuilderTaskAction(healthState,
+			constructibleState.resourceRequirements,
 			buildingState.entranceTile, this));
 
 		this.building = building;

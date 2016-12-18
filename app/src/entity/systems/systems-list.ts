@@ -16,6 +16,7 @@ import {CorpseSystem} from './corpse';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 
+// Ordered list that determines in what order systems are called (first called first)
 export let systemsList:
     [new (manager: EntityManager, componentEnum: ComponentEnum) => EntitySystem, ComponentEnum][]
 = [

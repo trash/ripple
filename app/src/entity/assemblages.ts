@@ -23,7 +23,8 @@ const agentComponents = [
     ComponentEnum.Health,
     ComponentEnum.HealthBar,
     ComponentEnum.BehaviorTree,
-    ComponentEnum.Name
+    ComponentEnum.Name,
+    ComponentEnum.Inventory
 ];
 
 export const assemblages: IAssemblagesMap = {

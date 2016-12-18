@@ -9,13 +9,15 @@ import {AddResourceToRequirements} from './add-resource-to-requirements';
 import {GetRequiredResource} from './get-required-resource';
 import {ClearBlackboardValue} from './clear-blackboard-value';
 import {BlackboardValueExists} from './blackboard-value-exists';
-import {ResourceRequirements} from '../../core/resource-requirements';
-import {Tile} from '../../core/map/tile';
+import {ResourceRequirements} from '../../resource-requirements';
 
 const requiredResourceKey = 'required-resource';
 
 export class GatherResources extends Sequence {
-	constructor (requiredResources: ResourceRequirements, dropOffLocation: string | Function) {
+	constructor (
+		requiredResources: ResourceRequirements,
+		dropOffLocation: string | Function
+	) {
 		super({
 			children: [
 				new MemPriority({

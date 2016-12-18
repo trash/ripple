@@ -4,6 +4,7 @@ import {Agent} from './agent';
 import {Villager} from './villager';
 import {Harvestable} from './harvestable';
 import {Resource} from './resource';
+import {Inventory} from './Inventory';
 import {BehaviorTree} from './behavior-tree';
 import {StatusBubble} from './status-bubble';
 import {Health} from './health';
@@ -33,5 +34,6 @@ export let componentsList: IComponent[] = [
     Constructible,
     Collision,
     Corpse,
-    Name
+    Name,
+    Inventory
 ];

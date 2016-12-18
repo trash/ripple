@@ -16,7 +16,8 @@ export enum ComponentEnum {
     Building,
     Collision,
     Constructible,
-    Name
+    Name,
+    Inventory
 }
 
 interface IComponentEnumToKeyMap {

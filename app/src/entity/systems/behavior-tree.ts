@@ -4,6 +4,7 @@ import {IBehaviorTreeState} from '../components/behavior-tree';
 import {IPositionState} from '../components/position';
 import {IAgentState} from '../components/agent';
 import {IVillagerState} from '../components/villager';
+import {IInventoryState} from '../components/inventory';
 import {IStatusBubbleState} from '../components/status-bubble';
 import {Blackboard} from '../../b3/core/blackboard';
 import {events} from '../../events';
@@ -23,6 +24,7 @@ export interface IBehaviorTreeTickTarget {
     statusBubble: IStatusBubbleState;
     turn: number;
     map: GameMap;
+    inventory: IInventoryState;
 }
 
 export class BehaviorTreeSystem extends EntitySystem {
@@ -41,7 +43,9 @@ export class BehaviorTreeSystem extends EntitySystem {
                 statusBubbleState = this.manager.getComponentDataForEntity(
                     ComponentEnum.StatusBubble, id) as IStatusBubbleState,
                 positionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState;
+                    ComponentEnum.Position, id) as IPositionState,
+                inventoryState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Inventory, id) as IInventoryState;
 
             // initialize blackboard
             if (!behaviorTreeState.blackboard) {
@@ -61,7 +65,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     agent: agentState,
                     statusBubble: statusBubbleState,
                     turn: turn,
-                    map: map
+                    map: map,
+                    inventory: inventoryState
                 }, behaviorTreeState.blackboard);
             }
         });
