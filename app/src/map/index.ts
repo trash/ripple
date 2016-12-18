@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {NDArray, Direction, ICoordinates, IRandomTileOptions, IRowColumnCoordinates, ITilemapData} from '../interfaces';
 import ndarray = require('ndarray');
 import {floodfill} from '../vendor/flood-fill';

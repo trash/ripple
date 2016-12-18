@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {uniqueId} from '../unique-id';
 import {ComponentEnum} from './component-enum';
 import {componentsList} from './components/components-list';

@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {events} from '../events';
 import {HoverDimensionsElement} from './hover-dimensions-element';
 import {HoverElement} from './hover-element';

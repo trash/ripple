@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import {Composite} from '../core/composite';
 import {Tick} from '../core/tick';
-import _ = require('lodash');
+import * as _ from 'lodash';;
 
 export class RandomActionComposite extends Composite {
 	tick (tick: Tick) {

@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {Task, ITaskOptions} from './task';
 import {HarvesterTask as HarvesterTaskAction} from '../b3/actions/tasks/harvester-task';
 import {ComponentEnum} from '../entity/component-enum';

@@ -51,7 +51,7 @@ export class TestSelect extends ShowHideComponent<TestSelectState> {
 				<div className="menu-body">
 					<h4 className="menu-header">Tutorials</h4>
 					<button onClick={ this.props.mainMenu }>Main Menu</button>
-					{ this.renderMenuBlock(lastLoadedLevelGroup) }
+					{ lastLoadedLevelGroup.list[0] && this.renderMenuBlock(lastLoadedLevelGroup) }
 					{testLevels.map(group => this.renderMenuBlock(group))}
 				</div>
 			</div>

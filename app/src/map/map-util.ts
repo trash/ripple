@@ -57,6 +57,25 @@ export class MapUtil {
 		return floor ? Math.floor(distance) : distance;
 	}
 
+	/**
+	* Return the nearest tile from the set to the current tile
+	*/
+	static nearestTileFromSet (
+		startTile: IRowColumnCoordinates,
+		tileSet: IRowColumnCoordinates[]
+	): number {
+		let nearestDistance = 999999;
+		let nearestIndex = null;
+		tileSet.forEach((tile, index) => {
+			const distance = this.distanceTo(startTile, tile);
+			if (distance < nearestDistance) {
+				nearestDistance = distance;
+				nearestIndex = index;
+			}
+		});
+		return nearestIndex;
+	};
+
 	/*
 	* Picks and returns a random tile.
 	*

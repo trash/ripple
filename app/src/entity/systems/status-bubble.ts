@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';

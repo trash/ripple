@@ -54,7 +54,13 @@ export interface ITestLevelGroup {
 				}, {
 					name: 'human',
 					villager: {}
-				}]
+				}],
+				gameMap: {
+					noResources: true,
+					dimension: 20,
+					seed: 666,
+					allLand: true
+				}
 			},
 			{
 				name: 'Spawn Wolf And Zombie',

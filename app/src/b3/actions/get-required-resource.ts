@@ -32,7 +32,8 @@ export class GetRequiredResource extends BaseNode {
 		}
 
 		// Handle getting the drop off location from the object or key
-		const dropOffLocation: IRowColumnCoordinates = util.targetKeyOrFunction(tick, this.dropOffTargetKeyOrFunction);
+		const dropOffLocation: IRowColumnCoordinates = util.targetKeyOrFunction(tick,
+			this.dropOffTargetKeyOrFunction);
 		if (!dropOffLocation) {
 			console.error('this should probably be defined');
 			return b3.FAILURE;

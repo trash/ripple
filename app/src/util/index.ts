@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {constants} from '../data/constants';
 import {MapTile} from '../map/tile';
 import {MapGenTile} from '../map/map-gen-tile';

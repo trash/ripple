@@ -243,6 +243,12 @@ export interface ItemSearchResult {
 	item: IItemState;
 }
 
+export interface AgentSearchResult {
+	id: number;
+	agent: IAgentState;
+	position: IPositionState;
+}
+
 export type dropOffTargetKeyOrFunctionType = string | (() => IRowColumnCoordinates);
 
 import {GameMap} from './map';
@@ -257,4 +263,9 @@ export interface IBehaviorTreeTickTarget {
     turn: number;
     map: GameMap;
     inventory: IInventoryState;
+}
+
+export interface IAgentSearchOptions {
+	cannotHaveId?: number;
+	traits?: AgentTraits[];
 }

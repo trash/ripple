@@ -20,39 +20,39 @@ export class BaseUtil {
         this.entityManager = entityManager;
     }
 
-    _getHealthState (id): IHealthState {
+    _getHealthState (id: number): IHealthState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Health, id) as IHealthState;
     }
-    _getAgentState (id): IAgentState {
+    _getAgentState (id: number): IAgentState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Agent, id) as IAgentState;
     }
-    _getItemState (id): IItemState {
+    _getItemState (id: number): IItemState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Item, id) as IItemState;
     }
-    _getPositionState (id): IPositionState {
+    _getPositionState (id: number): IPositionState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Position, id) as IPositionState;
     }
-    _getRenderableState (id): IRenderableState {
+    _getRenderableState (id: number): IRenderableState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Renderable, id) as IRenderableState;
     }
-    _getConstructibleState (id): IConstructibleState {
+    _getConstructibleState (id: number): IConstructibleState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Constructible, id) as IConstructibleState;
     }
-    _getBuildingState (id): IBuildingState {
+    _getBuildingState (id: number): IBuildingState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Building, id) as IBuildingState;
     }
-    _getHealthBarState (id): IHealthBarState {
+    _getHealthBarState (id: number): IHealthBarState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.HealthBar, id) as IHealthBarState;
     }
-    _getCollisionState (id): ICollisionState {
+    _getCollisionState (id: number): ICollisionState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Collision, id) as ICollisionState;
     }

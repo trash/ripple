@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {villagerJobs} from './villager-jobs';
 import {ITestLevel} from './test-level';
 

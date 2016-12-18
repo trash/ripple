@@ -1,5 +1,5 @@
 import {b3} from '../index';
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {Composite} from './composite';
 import {Tick} from './tick';
 import {util} from '../../util';

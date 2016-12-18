@@ -31,16 +31,18 @@ export class ItemUtil extends BaseUtil {
         positionState.tile = null;
     }
 
+	private idToItemSearchResult (id: number): IItemSearchResult {
+		return {
+			id: id,
+			state: this._getItemState(id),
+			position: this._getPositionState(id)
+		};
+	}
+
     getAllItems (): IItemSearchResult[] {
         return this.entityManager
             .getEntityIdsForComponent(ComponentEnum.Item)
-            .map(id => {
-                return {
-                    id: id,
-                    state: this._getItemState(id),
-					position: this._getPositionState(id)
-                };
-            });
+            .map(id => this.idToItemSearchResult(id));
     }
 
     getTownItems (): IItemSearchResult[] {
@@ -105,12 +107,10 @@ export class ItemUtil extends BaseUtil {
 		if (searchOptions.sortBy) {
 			itemList = itemList
 				.filter(item => item[searchOptions.sortBy] !== undefined)
-				.sort(function (a, b) {
-					return a[searchOptions.sortBy] - b[searchOptions.sortBy];
-				});
+				.sort((a, b) => a[searchOptions.sortBy] - b[searchOptions.sortBy]);
 		}
 
-		for (var i=0; i < itemList.length; i++) {
+		for (let i = 0; i < itemList.length; i++) {
 			const itemSearchResult = itemList[i];
 			const tile = this._getPositionState(itemSearchResult.id).tile;
 			// Skip if this item is picked up already or it's marked to be stored

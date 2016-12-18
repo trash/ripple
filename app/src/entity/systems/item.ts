@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IItemState} from '../components/item';

@@ -1,4 +1,4 @@
-import _ = require('lodash');
+import * as _ from 'lodash';;
 import {b3} from '../index';
 import {BaseNode} from '../core/base-node';
 import {Tick} from '../core/tick';
@@ -8,13 +8,15 @@ import {MapUtil} from '../../map/map-util';
 import {IPositionState} from '../../entity/components/position';
 import {IRowColumnCoordinates, dropOffTargetKeyOrFunctionType} from '../../interfaces';
 
+type updateDescription = (tick: Tick, target: IRowColumnCoordinates) => void;
+
 export class GoToTarget extends BaseNode {
 	targetKeyOrFunction: dropOffTargetKeyOrFunctionType;
-	updateDescription: (tick: any, target: any) => void;
+	updateDescription: updateDescription;
 
 	constructor (
 		targetKeyOrFunction: dropOffTargetKeyOrFunctionType,
-		updateDescription?: (tick: any, target: any) => void
+		updateDescription?: updateDescription
 	) {
 		super();
 		this.targetKeyOrFunction = targetKeyOrFunction;
