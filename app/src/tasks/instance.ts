@@ -2,11 +2,14 @@ import {b3} from '../b3';
 import {util} from '../util';
 import {uniqueId} from '../unique-id';
 import {Task} from './task';
+import {BehaviorTree} from '../b3/core/behavior-tree';
+import {Blackboard} from '../b3/core/blackboard';
+import {IBehaviorTreeTickTarget} from '../entity/systems/behavior-tree';
 
 export class Instance {
 	task: Task;
 	id: string;
-	behaviorTree: any;
+	behaviorTree: BehaviorTree;
 	entity: number;
 	description: string;
 	options: any;
@@ -32,22 +35,26 @@ export class Instance {
 		this.task.cancel();
 		// Free up teh instance from the task
 		this.task.dropInstance(this);
-	};
+	}
 
-	update (agent: number, blackboard: any): number {
+	update (
+		agent: IBehaviorTreeTickTarget,
+		blackboard: Blackboard
+	): number {
 		var status = this.behaviorTree.tick(agent, blackboard);
 		if (status === b3.SUCCESS) {
 			this.complete();
 		}
 		return status;
-	};
+	}
 
 	isReady (): boolean {
 		return this.task.isReady();
-	};
+	}
+
 	isComplete (): boolean {
 		return this.task.isComplete();
-	};
+	}
 
 	/**
 	 * Very important, when the instance is complete check if the task is complete then call its
@@ -55,5 +62,5 @@ export class Instance {
 	 */
 	complete () {
 		this.task.complete();
-	};
-};
+	}
+}

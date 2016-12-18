@@ -51,6 +51,7 @@ export interface IAgentSprite extends PIXI.Sprite {
 export interface IItemSearchResult {
 	id: number;
 	state: IItemState;
+	position: IPositionState;
 }
 
 export interface IRowColumnCoordinates {

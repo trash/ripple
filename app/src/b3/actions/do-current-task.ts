@@ -21,7 +21,7 @@ export class DoCurrentTask extends BaseNode {
 
 		this.description = taskInstance.description;
 
-		const status = taskInstance.update(entityData.id, entityData.behaviorTree.blackboard);
+		const status = taskInstance.update(entityData, entityData.behaviorTree.blackboard);
 		if (status) {
 			return status;
 		}

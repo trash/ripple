@@ -37,7 +37,8 @@ export class ItemUtil extends BaseUtil {
             .map(id => {
                 return {
                     id: id,
-                    state: this._getItemState(id)
+                    state: this._getItemState(id),
+					position: this._getPositionState(id)
                 };
             });
     }
