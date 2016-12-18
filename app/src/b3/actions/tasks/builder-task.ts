@@ -17,18 +17,8 @@ export class BuilderTask extends Sequence {
 	) {
 		super({
 			children: [
-				new GatherResources(requiredResources, () => {
-					return {
-						id: 666,
-						tile: entranceTile
-					};
-				}),
-				new GoToTarget(() => {
-					return {
-						id: 666,
-						tile: entranceTile
-					};
-				}),
+				new GatherResources(requiredResources, () => entranceTile),
+				new GoToTarget(() => entranceTile),
 				new BuildBuilding(buildingHealthState, task),
 			]
 		});

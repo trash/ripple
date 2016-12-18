@@ -13,7 +13,7 @@ export class CacheService {
 		return JSON.stringify(args);
 	}
 
-	get (
+	getValue (
 		name: string,
 		args: any
 	): any {

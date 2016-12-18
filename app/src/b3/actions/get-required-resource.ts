@@ -4,7 +4,7 @@ import {Tick} from '../core/tick';
 import {util} from '../../util';
 import {ResourceRequirements} from '../../resource-requirements';
 import {itemUtil} from '../../entity/util/item';
-import {dropOffTargetKeyOrFunctionType, GoToTargetTarget} from '../../interfaces';
+import {dropOffTargetKeyOrFunctionType, IRowColumnCoordinates} from '../../interfaces';
 
 export class GetRequiredResource extends BaseNode {
 	blackboardKey: string;
@@ -32,13 +32,13 @@ export class GetRequiredResource extends BaseNode {
 		}
 
 		// Handle getting the drop off location from the object or key
-		const dropOffLocation: GoToTargetTarget = util.targetKeyOrFunction(tick, this.dropOffTargetKeyOrFunction);
+		const dropOffLocation: IRowColumnCoordinates = util.targetKeyOrFunction(tick, this.dropOffTargetKeyOrFunction);
 		if (!dropOffLocation) {
 			console.error('this should probably be defined');
 			return b3.FAILURE;
 		}
 
-		const requiredResource = itemUtil.getNearestItem(dropOffLocation.tile, {
+		const requiredResource = itemUtil.getNearestItem(dropOffLocation, {
 			itemNames: requiredResourceName
 		});
 
@@ -49,13 +49,9 @@ export class GetRequiredResource extends BaseNode {
 		// multiple resource fetchers
 		requiredResource.state.toBeStored = true;
 
-		const goToTargetTarget: GoToTargetTarget = {
-			id: requiredResource.id,
-			tile: requiredResource.position.tile
-		};
 		// Store the item search result and target to the GoToTarget action separately
 		util.blackboardSet(tick, this.blackboardKey, requiredResource);
-		util.blackboardSet(tick, this.goToTargetKey, goToTargetTarget);
+		util.blackboardSet(tick, this.goToTargetKey, requiredResource.position.tile);
 		return b3.SUCCESS;
 	}
 }

@@ -240,9 +240,4 @@ export interface ItemSearchResult {
 	item: IItemState;
 }
 
-export interface GoToTargetTarget {
-	id: number;
-	tile: IRowColumnCoordinates;
-}
-
-export type dropOffTargetKeyOrFunctionType = string | (() => GoToTargetTarget);
+export type dropOffTargetKeyOrFunctionType = string | (() => IRowColumnCoordinates);

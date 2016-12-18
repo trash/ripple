@@ -33,6 +33,10 @@ const filterEntityByTile = (
     const positionState = entityManager.getComponentDataForEntity(
         ComponentEnum.Position, entityId) as IPositionState;
 
+    if (!positionState || !positionState.tile) {
+        return false;
+    }
+
     // Need to check each tile occupied by the collidable body
     if (collisionState) {
         return collisionUtil.getTilesFromCollisionEntity(entityId).some(coords => {

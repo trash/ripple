@@ -158,7 +158,7 @@ export class MapUtil {
 		startTile: T
 	): T[] {
 		const dimension = Math.sqrt(tiles.length),
-			 leftMostTile = tiles[startTile.row * dimension + 0],
+			leftMostTile = tiles[startTile.row * dimension + 0],
 			rightMostTile = tiles[startTile.row * dimension + dimension - 1],
 			topMostTile = tiles[0 + startTile.column],
 			bottomMostTile = tiles[(dimension - 1)* dimension + startTile.column];
