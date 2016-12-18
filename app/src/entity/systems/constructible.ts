@@ -34,7 +34,7 @@ export class ConstructibleSystem extends EntitySystem {
             }
 
             if (renderableState.spriteGroup && !constructibleState.completedSprite) {
-                this.initSprites(positionState, constructibleState, renderableState, healthBarState);
+                this.initSprites(positionState, constructibleState, renderableState);
             }
             if (this.isComplete(healthState)) {
                 constructibleState.progressSprite.visible = false;
@@ -54,9 +54,6 @@ export class ConstructibleSystem extends EntitySystem {
                 this.createTask(id);
                 constructibleState.taskCreated = true;
             }
-
-            // For testing
-            healthBarState.shown = true;
         });
     }
 
@@ -110,8 +107,7 @@ export class ConstructibleSystem extends EntitySystem {
     initSprites (
         positionState: IPositionState,
         constructibleState: IConstructibleState,
-        renderableState: IRenderableState,
-        healthBarState: IHealthBarState
+        renderableState: IRenderableState
     ) {
         // The sprite group for the agent
         const spriteGroup = renderableState.spriteGroup;

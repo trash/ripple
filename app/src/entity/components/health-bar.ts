@@ -8,6 +8,8 @@ export interface IHealthBarState {
     positionY?: number;
     sprites?: PIXI.Sprite[];
     percentageFilled?: number;
+    // auto hide stuff
+    autoHideTimeout?: number;
 }
 
 export interface IHealthBarComponent extends IComponent {
@@ -23,6 +25,8 @@ export let HealthBar: IHealthBarComponent = {
         positionX: null,
         positionY: null,
         sprites: null,
-        percentageFilled: 0
+        percentageFilled: 0,
+        // auto hide stuff
+        autoHideTimeout: null,
     }
 };

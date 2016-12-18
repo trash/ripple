@@ -63,6 +63,7 @@ export class GameManager {
         this.bootstrapGameStates();
 
         this.entityManager = new EntityManager();
+        window['entityManager'] = this.entityManager;
 
         new TileInfoService(this.entityManager);
 

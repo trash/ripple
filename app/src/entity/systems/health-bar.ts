@@ -8,15 +8,16 @@ import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
 
+const healthBarAutoHideTime = 1000;
 
 export class HealthBarSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Renderable, id) as IRenderableState,
-                healthState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Health, id) as IHealthState,
-                healthBarState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Renderable, id) as IRenderableState;
+            const healthState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Health, id) as IHealthState;
+            const healthBarState = this.manager.getComponentDataForEntity(
                     ComponentEnum.HealthBar, id) as IHealthBarState;
 
             if (renderableState.spriteGroup && !healthBarState.sprites) {
@@ -24,6 +25,21 @@ export class HealthBarSystem extends EntitySystem {
             }
             // Update the percentageFilled based on the current health
             healthBarState.percentageFilled = healthState.currentHealth / healthState.maxHealth;
+
+            // Always show the healthbar for damaged things
+            if (healthBarState.percentageFilled < 1 && !healthBarState.shown) {
+                healthBarState.shown = true;
+                clearTimeout(healthBarState.autoHideTimeout);
+                healthBarState.autoHideTimeout = null;
+            // Autohide healthbars with full health
+            } else {
+                if (!healthBarState.autoHideTimeout) {
+                    healthBarState.autoHideTimeout = setTimeout(() => {
+                        healthBarState.shown = false;
+                        healthBarState.autoHideTimeout = null;
+                    }, healthBarAutoHideTime);
+                }
+            }
 
             this.updateHealthBar(healthBarState);
         });
@@ -33,9 +49,10 @@ export class HealthBarSystem extends EntitySystem {
         if (!healthBarState.sprites) {
             return;
         }
+
         const currentHealthBarIndex = Math.floor(healthBarState.size * healthBarState.percentageFilled);
-        for (var i=0; i < healthBarState.sprites.length; i++) {
-            var visible = false;
+        for (let i = 0; i < healthBarState.sprites.length; i++) {
+            let visible = false;
             if (healthBarState.shown && i === currentHealthBarIndex) {
                 visible = true;
             }
@@ -46,7 +63,7 @@ export class HealthBarSystem extends EntitySystem {
     initSprites (healthBarState: IHealthBarState, renderableState: IRenderableState) {
         const size = healthBarState.size;
         healthBarState.sprites = [];
-        for (var i=0; i < size + 1; i++) {
+        for (let i = 0; i < size + 1; i++) {
 			const healthBar = PIXI.Sprite.fromFrame(`health-bar-${i}-${size}`);
 			healthBar.position.x = healthBarState.positionX;
 			healthBar.position.y = healthBarState.positionY;
