@@ -17,6 +17,10 @@ export interface IAgentState {
     dead?: boolean;
     traits?: AgentTraits[];
     corpseSprite?: PIXI.Sprite;
+
+    // Info about agent that last attacked this agent
+    lastAttacker?: number;
+    lastAttacked?: number;
 }
 
 export interface IAgentComponent extends IComponent {

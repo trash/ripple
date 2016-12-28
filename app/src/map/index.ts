@@ -251,10 +251,10 @@ export class GameMap {
 	}
 
 	getFarthestTile (
-		baseTile: MapTile,
+		baseTile: IRowColumnCoordinates,
 		limit: number,
 		direction: Direction
-	): MapTile {
+	): IRowColumnCoordinates {
 		return MapUtil.getFarthestTile(this.tiles, baseTile, limit, direction);
 	}
 

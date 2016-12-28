@@ -101,7 +101,7 @@ export class EntityManager {
     }
 
     update (turn: number, stopped: boolean) {
-        this.systems.forEach((system) => {
+        this.systems.forEach(system => {
             if (system.updateInterval && turn % system.updateInterval !== 1) {
                 return;
             }

@@ -3,6 +3,8 @@ import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
 import {positionUtil} from './position';
 import {MapUtil} from '../../map/map-util';
+import {PathUtil} from '../../util/path';
+import {util} from '../../util';
 import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
 import {cacheService} from '../../services/cache';
 
@@ -119,11 +121,26 @@ export class AgentUtil extends BaseUtil {
 		return null;
 	}
 
+	fleeFromTarget (
+		turn: number,
+		agent: number,
+		fleeTarget: number
+	) {
+		const fleeTargetPositionState = this._getPositionState(fleeTarget);
+		const agentData = this._getAgentState(agent);
+		const agentPositionState = this._getPositionState(agent);
+		const tile = PathUtil.getFleeTile(agentPositionState.tile, fleeTargetPositionState.tile);
+
+		util.setTile(agentPositionState, tile, turn, agentData.speed);
+	}
+
     attackAgent (
+		turn: number,
         attacker: number,
         target: number
     ): boolean {
         const healthState = this._getHealthState(target);
+        const targetAgentState = this._getAgentState(target);
         const agentState = this._getAgentState(attacker);
         const targetRenderableState = this._getRenderableState(target);
         const targetHealthBarState = this._getHealthBarState(target);
@@ -142,6 +159,10 @@ export class AgentUtil extends BaseUtil {
             targetPositionState.tile);
 
         const damage = agentState.strength;
+
+		// Update last attacked info
+		targetAgentState.lastAttacked = turn;
+		targetAgentState.lastAttacker = attacker;
 
         // Reduce health
         healthState.currentHealth -= damage;

@@ -22,8 +22,7 @@ const dataList: IEntityComponentData[] = [{
             strength: 10
         },
         behaviorTree: {
-            tree: zombieTree,
-            // tree: deerTree
+            tree: zombieTree
         },
         health: defaultHealthState
     },

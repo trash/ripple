@@ -16,7 +16,7 @@ export class AttackTarget extends BaseNode {
 		const agent = tick.target;
 		const target: number = util.blackboardGet(tick, this.targetKey);
 
-		const successfulAttack = agentUtil.attackAgent(agent.id, target);
+		const successfulAttack = agentUtil.attackAgent(agent.turn, agent.id, target);
 
 		if (successfulAttack) {
 			return b3.RUNNING;

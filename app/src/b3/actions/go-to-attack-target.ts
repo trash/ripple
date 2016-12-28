@@ -3,7 +3,6 @@ import {Tick} from '../core/tick';
 import {AttackTarget} from './attack-target';
 import {GoToTarget} from './go-to-target';
 import {ShowBubble} from './show-bubble';
-import {HideBubble} from './hide-bubble';
 import {CheckIfAgentIsDead} from './check-if-agent-is-dead';
 import {Inverter} from '../core/inverter';
 import {util} from '../../util';

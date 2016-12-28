@@ -79,10 +79,14 @@ export class EntitySpawner {
 		console.info(`Spawning: ${agentName} with entityId: ${entityId}`);
 
 		// Get relevant state
-		const positionState = this.entityManager.getComponentDataForEntity(ComponentEnum.Position, entityId) as IPositionState,
-			agentState = this.entityManager.getComponentDataForEntity(ComponentEnum.Agent, entityId) as IAgentState,
-			villagerState = this.entityManager.getComponentDataForEntity(ComponentEnum.Villager, entityId) as IVillagerState,
-			renderableState = this.entityManager.getComponentDataForEntity(ComponentEnum.Renderable, entityId) as IRenderableState;
+		const positionState = this.entityManager.getComponentDataForEntity(
+				ComponentEnum.Position, entityId) as IPositionState;
+		const agentState = this.entityManager.getComponentDataForEntity(
+				ComponentEnum.Agent, entityId) as IAgentState;
+		const villagerState = this.entityManager.getComponentDataForEntity(
+				ComponentEnum.Villager, entityId) as IVillagerState;
+		const renderableState = this.entityManager.getComponentDataForEntity(
+				ComponentEnum.Renderable, entityId) as IRenderableState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agentName]);
@@ -91,7 +95,9 @@ export class EntitySpawner {
 
 		// If they specified options for the villager, assign them
 		if (data.villager) {
-			villagerState.job = data.villager.job !== undefined ? data.villager.job : villagerState.job;
+			villagerState.job = data.villager.job !== undefined ?
+				data.villager.job :
+				villagerState.job;
 		}
 		positionState.hasDirection = true;
 		// Set tile to 0,0
