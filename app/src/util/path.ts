@@ -2,7 +2,7 @@ import {cacheService} from '../services/cache';
 import {util} from './index';
 import {GameMap} from '../map';
 import {MapUtil} from '../map/map-util';
-import {IRowColumnCoordinates} from '../interfaces';
+import {IRowColumnCoordinates, Direction} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {events} from '../events';
 
@@ -92,22 +92,21 @@ export class PathUtil {
 		const map = globalRefs.map;
 
 		// Figure out the opposite direction
-		const goRight = agent.column >= target.column;
-		const goDown = agent.row >= target.row;
+		const goRight = agent.column > target.column;
+		const goDown = agent.row > target.row;
+		let direction: Direction;
 
-		let direction;
-		// If at a vertical boundary, go horizontal
-		if ((agent.column === 0 && !goDown) || (agent.column === map.dimension && goDown)) {
-			direction = (goRight ? 'right' : 'left');
+		if (agent.column < map.dimension - 1 && agent.column >= target.column) {
+			direction = 'right';
+		} else if (agent.column > 0 && agent.column <= target.column) {
+			direction = 'left';
+		} else if (agent.row > 0 && agent.row <= target.row) {
+			direction = 'up';
+		} else if (agent.row < map.dimension - 1 && agent.row >= target.row) {
+			direction = 'down';
+		} else {
+			direction = 'right';
 		}
-		// If at a horizontal boundary, go vertical
-		else if ((agent.row === 0 && !goRight) || (agent.row === map.dimension && goRight)) {
-			direction = (goDown ? 'down' : 'up');
-		}
-		// 50/50 choose going up/down or left/right if not at a boundary
-		direction = direction || (Math.random() > 0.50) ?
-			(goRight ? 'right' : 'left') :
-			(goDown ? 'down' : 'up');
 
 		// Pass true to make sure it's accessible
 		return map.getFarthestTile(agent, distance, direction);

@@ -224,9 +224,9 @@ export class MapUtil {
 		switch (direction) {
 			case 'left':
 				// Need to start the limit at the farthest tile
-				limit = baseTile.column - Math.max(0, baseTile.column - limit);
-				for (i=limit; i < baseTile.column; i++) {
-					tile = tiles[baseTileIndex - i];
+				limit = Math.max(0, baseTile.column - limit);
+				for (i = limit; i < baseTile.column; i++) {
+					tile = tiles[i + baseTile.row * dimension];
 					if (tile.accessible) {
 						return tile;
 					}
@@ -234,9 +234,9 @@ export class MapUtil {
 				break;
 			case 'right':
 				// Need to start the limit at the farthest tile
-				limit = Math.min(dimension-1, baseTile.column + limit) - baseTile.column;
-				for (i=limit; i > 0; i--) {
-					tile = tiles[baseTileIndex + i];
+				limit = Math.min(dimension - 1, baseTile.column + limit);
+				for (i = limit; i > baseTile.column; i--) {
+					tile = tiles[i + baseTile.row * dimension];
 					if (tile.accessible) {
 						return tile;
 					}
@@ -244,9 +244,9 @@ export class MapUtil {
 				break;
 			case 'up':
 				// Need to start the limit at the farthest tile
-				limit = baseTile.row - Math.max(0, baseTile.row - limit);
+				limit = Math.max(0, baseTile.row - limit);
 				for (i = limit; i < baseTile.row; i++) {
-					tile = tiles[baseTileIndex - i * dimension];
+					tile = tiles[baseTile.column + i * dimension];
 					if (tile.accessible) {
 						return tile;
 					}
@@ -254,9 +254,9 @@ export class MapUtil {
 				break;
 			case 'down':
 				// Need to start the limit at the farthest tile
-				limit = Math.min(dimension-1, baseTile.row + limit) - baseTile.row;
-				for (i = limit; i > 0; i--) {
-					tile = tiles[baseTileIndex + i * dimension];
+				limit = Math.min(dimension - 1, baseTile.row + limit);
+				for (i = limit; i > baseTile.row; i--) {
+					tile = tiles[baseTile.column + i * dimension];
 					if (tile.accessible) {
 						return tile;
 					}

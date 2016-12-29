@@ -16,7 +16,7 @@ behaviorTree.root = new Priority({
 	children: [
 		new Sequence({
 			children: [
-				new WasRecentlyAttacked(wasRecentlyAttackedKey, 3),
+				new WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
 				new FleeFromTarget(wasRecentlyAttackedKey)
 			]
 		}),
