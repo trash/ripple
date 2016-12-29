@@ -92,8 +92,8 @@ export class PathUtil {
 		const map = globalRefs.map;
 
 		// Figure out the opposite direction
-		const goRight = agent.column > target.column;
-		const goDown = agent.row > target.row;
+		const goRight = agent.column >= target.column;
+		const goDown = agent.row >= target.row;
 
 		let direction;
 		// If at a vertical boundary, go horizontal
