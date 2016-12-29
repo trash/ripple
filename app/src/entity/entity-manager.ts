@@ -13,6 +13,7 @@ import {collisionUtil} from './util/collision';
 import {itemUtil} from './util/item';
 import {mapUtil} from './util/map';
 import {positionUtil} from './util/position';
+import {buildingUtil} from './util/building';
 import {statusBubbleUtil} from './util/status-bubble';
 
 export class EntitySystem extends EventEmitter2 {
@@ -43,6 +44,7 @@ const utilList: BaseUtil[] = [
     positionUtil,
     statusBubbleUtil,
     collisionUtil,
+    buildingUtil,
 ];
 
 type EntityComponentDataMapEntry = any;

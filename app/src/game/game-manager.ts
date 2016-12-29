@@ -171,7 +171,7 @@ export class GameManager {
         // Spawn buildings
         if (this.level.buildings) {
             this.level.buildings.forEach(building => {
-                this.entitySpawner.spawnBuilding(building.buildingName, building);
+                this.entitySpawner.spawnBuilding(building.buildingName, building.isCompleted, building);
             });
         }
 

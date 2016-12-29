@@ -405,7 +405,7 @@ export class Util {
 	targetKeyOrFunction (tick: Tick, targetKeyOrFunction: string | Function) {
 		let targetOrKey = targetKeyOrFunction;
 		if (targetKeyOrFunction instanceof Function) {
-			targetOrKey = targetKeyOrFunction();
+			targetOrKey = targetKeyOrFunction(tick);
 		}
 		return this.targetOrKey(tick, targetOrKey);
 	}

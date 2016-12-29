@@ -11,7 +11,8 @@ const dataList: IEntityComponentData[] = [
     {
         building: {
             name: 'hut',
-            entrancePosition: hutEntrance
+            entrancePosition: hutEntrance,
+            maxOccupants: 4
         },
         name: {
             isStatic: true

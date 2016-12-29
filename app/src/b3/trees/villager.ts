@@ -7,17 +7,36 @@ import {RandomAction} from '../core/random-action';
 import {DoCurrentTask} from '../actions/do-current-task';
 import {WasRecentlyAttacked} from '../actions/was-recently-attacked';
 import {FleeFromTarget} from '../actions/flee-from-target';
+import {GoToTarget} from '../actions/go-to-target';
+import {BuildingWithSpaceIsNearby} from '../actions/building-with-space-is-nearby';
+import {EnterBuilding} from '../actions/enter-building';
+import {buildingUtil} from '../../entity/util/building';
+import {util} from '../../util';
+import {Tick} from '../core/tick';
 
 export let behaviorTree = new BehaviorTree();
 
 const wasRecentlyAttackedKey = 'was-recently-attacked';
+const fleeBuildingKey = 'flee-building';
 
 behaviorTree.root = new Priority({
 	children: [
 		new Sequence({
 			children: [
 				new WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
-				new FleeFromTarget(wasRecentlyAttackedKey)
+				new Priority({
+					children: [
+						new Sequence({
+							children: [
+								new BuildingWithSpaceIsNearby(fleeBuildingKey),
+								new GoToTarget((tick: Tick) =>
+									buildingUtil.getTileFromBuilding(util.blackboardGet(tick, fleeBuildingKey))),
+								new EnterBuilding(fleeBuildingKey)
+							]
+						}),
+						new FleeFromTarget(wasRecentlyAttackedKey)
+					]
+				})
 			]
 		}),
 		// Profession stuff

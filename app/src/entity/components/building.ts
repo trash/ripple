@@ -6,6 +6,9 @@ export interface IBuildingState {
     name: string;
     entrancePosition: ICoordinates;
     entranceTile?: IRowColumnCoordinates;
+
+    maxOccupants?: number;
+    occupants?: number[];
 }
 
 export interface IBuildingComponent extends IComponent {
@@ -19,5 +22,7 @@ export let Building: IBuildingComponent = {
         name: null,
         entrancePosition: null,
         entranceTile: null,
+        occupants: [],
+        maxOccupants: 0
     }
 };

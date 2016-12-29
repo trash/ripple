@@ -1,5 +1,6 @@
 import {MapTile} from './map/tile';
 import {professions} from './data/professions';
+import {Tick} from './b3/core/tick';
 
 export interface ITileset {
 	name: string;
@@ -249,7 +250,7 @@ export interface AgentSearchResult {
 	position: IPositionState;
 }
 
-export type dropOffTargetKeyOrFunctionType = string | (() => IRowColumnCoordinates);
+export type dropOffTargetKeyOrFunctionType = string | ((tick: Tick) => IRowColumnCoordinates);
 
 import {GameMap} from './map';
 

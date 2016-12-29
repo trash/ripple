@@ -1,6 +1,7 @@
 import {ComponentEnum} from '../component-enum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
+import {buildingUtil} from './building';
 import {positionUtil} from './position';
 import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
@@ -177,6 +178,29 @@ export class AgentUtil extends BaseUtil {
 
         return true;
     }
+
+
+
+	enterBuilding (
+		turn: number,
+		agent: number,
+		building: number
+	) {
+		const buildingHealthState = this._getHealthState(building);
+		if (buildingHealthState.currentHealth < buildingHealthState.maxHealth) {
+			return console.error('We should not allow agents to enter damaged buildings.');
+		}
+
+		// Move them onto the building
+		const agentState = this._getAgentState(agent);
+		const agentPositionState = this._getPositionState(agent);
+		const buildingPositionState = this._getPositionState(building);
+
+		agentState.isInBuilding = true;
+		util.setTile(agentPositionState, buildingPositionState.tile, turn, agentState.speed);
+
+		buildingUtil.addOccupant(building, agent);
+	}
 }
 
 export const agentUtil = new AgentUtil();

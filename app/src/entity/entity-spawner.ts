@@ -10,6 +10,7 @@ import {IPositionState} from '../entity/components/position';
 import {IItemState} from '../entity/components/item';
 import {IRenderableState} from '../entity/components/renderable';
 import {IAgentState} from '../entity/components/agent';
+import {IHealthState} from '../entity/components/health';
 import {IVillagerState} from '../entity/components/villager';
 import {IBehaviorTreeState} from '../entity/components/behavior-tree';
 import {EntityManager} from '../entity/entity-manager';
@@ -165,6 +166,7 @@ export class EntitySpawner {
 	 */
 	spawnBuilding (
         buildingName: string,
+		isCompleted: boolean = false,
         entityComponentData: IEntityComponentData = {}
     ): number {
 		const assemblageData = _.extend({}, buildingsAssemblageData[buildingName]);
@@ -178,6 +180,12 @@ export class EntitySpawner {
 			ComponentEnum.Position, entityId) as IPositionState;
 		const map = this.map;
 		positionState.tile = map.getTile(map.dimension / 4 - 1, map.dimension / 2 - 1);
+
+		if (isCompleted) {
+			const healthState = this.entityManager.getComponentDataForEntity(
+				ComponentEnum.Health, entityId) as IHealthState;
+			healthState.currentHealth = healthState.maxHealth;
+		}
 
 		// var tile = options.tile || this.map.getTile(options.position[0], options.position[1]);
 		// Make sure to construct building and pass in gameManager instance

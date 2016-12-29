@@ -38,6 +38,12 @@ export class AgentSystem extends EntitySystem {
             if (!agentState.inventory) {
                 agentState.inventory = [];
             }
+            // Show/hide agent based on whether they're in building
+            if (agentState.isInBuilding && renderableState.shown) {
+                renderableState.shown = false;
+            } else if (!agentState.isInBuilding && !renderableState.shown) {
+                renderableState.shown = true;
+            }
             if (!nameState.name) {
                 const newName = names.getName(agentState.agentName, agentState.gender);
                 nameState.name = `${newName.first} ${newName.last}`;

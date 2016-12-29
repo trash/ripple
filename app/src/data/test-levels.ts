@@ -63,14 +63,23 @@ export interface ITestLevelGroup {
 				}
 			},
 			{
-				name: 'Spawn Wolf And Zombie',
+				name: 'Villager hides in building',
 				agents: [{
-					name: 'wolf'
-				}, {
 					name: 'zombie'
 				}, {
-					name: 'human'
-				}]
+					name: 'human',
+					villager: {}
+				}],
+				buildings: [{
+					buildingName: 'hut',
+					isCompleted: true
+				}],
+				gameMap: {
+					noResources: true,
+					dimension: 20,
+					seed: 666,
+					allLand: true
+				}
 			},
 		]
 	},

@@ -13,6 +13,7 @@ export interface IAgentAssemblageTestData {
 
 export interface IBuildingAssemblageTestData {
 	buildingName: string;
+    isCompleted?: boolean;
 }
 
 export interface ITestGameMapOptions {

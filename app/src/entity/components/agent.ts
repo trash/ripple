@@ -21,6 +21,8 @@ export interface IAgentState {
     // Info about agent that last attacked this agent
     lastAttacker?: number;
     lastAttacked?: number;
+
+    isInBuilding?: boolean;
 }
 
 export interface IAgentComponent extends IComponent {
@@ -42,6 +44,7 @@ export let Agent: IAgentComponent = {
         inventory: null,
         dead: false,
         traits: [],
-        strength: 1
+        strength: 1,
+        isInBuilding: false
     }
 };
