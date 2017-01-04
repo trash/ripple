@@ -13,9 +13,9 @@ export class CollisionSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const collisionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Collision, id) as ICollisionState,
-                positionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState;
+                ComponentEnum.Collision, id) as ICollisionState;
+            const positionState = this.manager.getComponentDataForEntity(
+                ComponentEnum.Position, id) as IPositionState;
 
             // Collision toggled, update tiles and then update map
             if (collisionState.previousActiveState !== collisionState.activeState) {
@@ -23,16 +23,19 @@ export class CollisionSystem extends EntitySystem {
 
                 collisionUtil.getTilesFromCollisionEntity(id).forEach(coords => {
                     const occupiedTile = mapUtil.getTile(coords.row, coords.column);
-                    occupiedTile.collision = !collisionState.activeState;
+                    occupiedTile.collision = collisionState.activeState;
                 });
                 // Make sure to always make entrances are accessible
                 if (collisionState.entrance) {
                     const entranceTile = mapUtil.getTile(
                         tile.row + collisionState.entrance.y,
                         tile.column + collisionState.entrance.x);
-                    entranceTile.collision = true;
+                    entranceTile.collision = false;
                 }
                 collisionState.previousActiveState = collisionState.activeState;
+
+                // Update the map
+                mapUtil.updateCollisionGrid();
             }
         });
     }

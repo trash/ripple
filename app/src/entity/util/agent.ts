@@ -150,7 +150,7 @@ export class AgentUtil extends BaseUtil {
 
         const distanceToTarget = MapUtil.distanceTo(attackerPositionState.tile,
             targetPositionState.tile, true);
-		if (distanceToTarget > 1) {
+		if (distanceToTarget > 1 || targetAgentState.isInBuilding) {
             return false;
         }
 
@@ -178,8 +178,6 @@ export class AgentUtil extends BaseUtil {
 
         return true;
     }
-
-
 
 	enterBuilding (
 		turn: number,

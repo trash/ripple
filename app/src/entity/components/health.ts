@@ -10,7 +10,7 @@ export interface IHealthComponent extends IComponent {
     state: IHealthState;
 }
 
-export let Health: IHealthComponent = {
+export const Health: IHealthComponent = {
     name: 'health',
     enum: ComponentEnum.Health,
     state: {

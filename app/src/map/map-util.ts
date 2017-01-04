@@ -22,7 +22,7 @@ export class MapUtil {
 		// worker.postMessage('sup brah');
 
 		// Do it with sync astar instead
-		var result = aStar(grid, [fromTile.column, fromTile.row],
+		let result = aStar(grid, [fromTile.column, fromTile.row],
             [toTile.column, toTile.row], 'Manhattan');
 
 		if (!result.length) {
@@ -50,11 +50,13 @@ export class MapUtil {
 		end: IRowColumnCoordinates,
 		floor: boolean = false
 	) {
-		const x = Math.pow((start.column - end.column), 2),
-			y = Math.pow((start.row - end.row), 2),
-			distance = Math.sqrt(x + y);
+		const x = Math.pow((start.column - end.column), 2);
+		const y = Math.pow((start.row - end.row), 2);
+		const distance = Math.sqrt(x + y);
 
-		return floor ? Math.floor(distance) : distance;
+		return floor ?
+			Math.floor(distance) :
+			distance;
 	}
 
 	/**

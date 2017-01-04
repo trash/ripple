@@ -336,9 +336,9 @@ export class GameMap {
 			console.error('Invalid tile. Your coords are probably out of bounds. Cannot set element position.');
 			return;
 		}
-		var camera = this.gameManager.camera;
+		const camera = this.gameManager.camera;
 
-		var left = 0,
+		let left = 0,
 			top = 0;
 
 		// Add scaled tile position
@@ -455,6 +455,7 @@ export class GameMap {
 	}
 
 	_getGrid (ignoreAccessible: boolean = false): number[][] {
+		console.log('ay');
 		const grid = [];
 		for (let i=0; i < this.dimension; i++) {
 			grid.push([]);
@@ -463,7 +464,7 @@ export class GameMap {
 					grid[i].push(0);
 				} else {
 					const tile = this.getTile(i, j);
-					grid[i].push(tile.accessible ? 0 : 1);
+					grid[i].push(!tile.collision ? 0 : 1);
 				}
 			}
 		}

@@ -70,7 +70,10 @@ export class EntitySpawner {
 	*
 	* @returns {Agent} The agent that was created.
 	*/
-	spawnAgent (data: IAgentAssemblageTestData, entityComponentData: IEntityComponentData = {}) {
+	spawnAgent (
+		data: IAgentAssemblageTestData,
+		entityComponentData: IEntityComponentData = {}
+	): number {
 		const agentName = data.name;
 
 		const entityId = this.entityManager.createEntityFromAssemblage(data.villager ?
@@ -173,6 +176,8 @@ export class EntitySpawner {
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Building);
+
+		console.info(`Spawning: ${buildingName} with entityId: ${entityId}`);
 
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
 

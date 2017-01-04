@@ -6,6 +6,7 @@ import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {IHealthBarState} from '../components/health-bar';
 import {IConstructibleState} from '../components/constructible';
+import {ICollisionState} from '../components/collision';
 import {IHealthState} from '../components/health';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
 import {professions} from '../../data/professions';
@@ -19,15 +20,17 @@ export class ConstructibleSystem extends EntitySystem {
         const manager = this.manager;
         entityIds.forEach(id => {
             const positionState = manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState,
-                healthState = manager.getComponentDataForEntity(
-                    ComponentEnum.Health, id) as IHealthState,
-                healthBarState = manager.getComponentDataForEntity(
-                    ComponentEnum.HealthBar, id) as IHealthBarState,
-                constructibleState = manager.getComponentDataForEntity(
-                    ComponentEnum.Constructible, id) as IConstructibleState,
-                renderableState = manager.getComponentDataForEntity(
-                    ComponentEnum.Renderable, id) as IRenderableState;
+                ComponentEnum.Position, id) as IPositionState;
+            const healthState = manager.getComponentDataForEntity(
+                ComponentEnum.Health, id) as IHealthState;
+            const healthBarState = manager.getComponentDataForEntity(
+                ComponentEnum.HealthBar, id) as IHealthBarState;
+            const constructibleState = manager.getComponentDataForEntity(
+                ComponentEnum.Constructible, id) as IConstructibleState;
+            const collisionState = manager.getComponentDataForEntity(
+                ComponentEnum.Collision, id) as ICollisionState;
+            const renderableState = manager.getComponentDataForEntity(
+                ComponentEnum.Renderable, id) as IRenderableState;
             // Wait for other systems to bootstrap
             if (!renderableState.spriteGroup || !healthBarState.sprites) {
                 return;
