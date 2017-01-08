@@ -18,6 +18,14 @@ interface CollisionDebugViewProps {
 }
 
 export class CollisionDebugView extends React.Component<CollisionDebugViewProps, void> {
+    componentWillMount () {
+        setInterval(() => {
+            if (!this.props.show) {
+                return;
+            }
+            this.render();
+        }, 5);
+    }
     render () {
         if (!this.props.show) {
             return null;

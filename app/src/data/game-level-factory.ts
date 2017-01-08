@@ -34,7 +34,7 @@ const testLevel: ITestLevel = {
 		dimension: 20,
 		seed: 666,
 		allLand: true,
-		// noResources: true
+		noResources: true
 	},
 };
 

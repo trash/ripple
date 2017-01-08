@@ -9,7 +9,7 @@ import {updateHoverTile} from '../redux/actions/update-hover-tile';
 import {updateHoveredAgentName} from '../redux/actions/update-hovered-agent-name';
 import {updateHoveredResourceName} from '../redux/actions/update-hovered-resource-name';
 import {updateHoveredItemName} from '../redux/actions/update-hovered-item-name';
-import {updateHoveredBuildingName} from '../redux/actions/update-hovered-building-name';
+import {updateHoveredBuilding} from '../redux/actions/update-hovered-building';
 import {updateHoveredAgentLastExecutionChain} from '../redux/actions/update-hovered-agent-last-execution-chain';
 
 import {agentUtil} from '../entity/util/agent';
@@ -18,6 +18,8 @@ import {collisionUtil} from '../entity/util/collision';
 import {EntityManager} from '../entity/entity-manager';
 import {ComponentEnum} from '../entity/component-enum';
 
+import {IBuildingState} from '../entity/components/building';
+import {IConstructibleState} from '../entity/components/constructible';
 import {INameState} from '../entity/components/name';
 import {IPositionState} from '../entity/components/position';
 import {ICollisionState} from '../entity/components/collision';
@@ -139,9 +141,14 @@ export class TileInfoService {
         }
 
         // Get the name of any building occupying the tile
-        const buildingName = getNameOfEntityOccupyingThisTile(ComponentEnum.Building);
-        if (buildingName) {
-            store.dispatch(updateHoveredBuildingName(buildingName.name));
+        const building = getEntitiesWithComponentInTile(
+            this.entityManager, tile, ComponentEnum.Building)[0];
+        if (building) {
+            const buildingState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Building, building) as IBuildingState;
+            const constructibleState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Constructible, building) as IConstructibleState;
+            store.dispatch(updateHoveredBuilding(buildingState, constructibleState));
         }
 
         store.dispatch(updateHoverTile(tile));

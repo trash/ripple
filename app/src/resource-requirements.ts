@@ -3,6 +3,11 @@ import {IResourceRequirementsMap, IResourceRequirementsMapEntry, IRequiredResour
 	IItemSearchResult} from './interfaces';
 import {EventEmitter2} from 'eventemitter2';
 
+type ForEachCallback = (
+	resourceType: string,
+	resourceEntry: IResourceRequirementsMapEntry
+) => void;
+
 /**
 * Creates a new ResourceRequirements object.
 *
@@ -27,6 +32,20 @@ export class ResourceRequirements extends EventEmitter2 {
 		}
 	}
 
+	forEach(callback: ForEachCallback) {
+		Object.keys(this.map).forEach(resourceType => {
+			callback(resourceType, this.map[resourceType]);
+		});
+	}
+
+	toString(): string {
+		let string = '';
+		this.forEach((resourceType, resourceEntry) => {
+			string += `${resourceType}:[${resourceEntry.gathered}/${resourceEntry.required}]`;
+		})
+		return string;
+	}
+
 	/**
 	 * Adds a resource to the list of gathered resources of the given resource type
 	 *
@@ -44,7 +63,7 @@ export class ResourceRequirements extends EventEmitter2 {
 		events.emit(['trigger-sound', 'resourceDrop'])
 
 		this.emit('add', itemSearchResult);
-	};
+	}
 
 	/**
 	 * Pick a random (first one found) resource that needs to be gathered
@@ -60,7 +79,7 @@ export class ResourceRequirements extends EventEmitter2 {
 			}
 		});
 		return resourceToGather;
-	};
+	}
 
 	/**
 	 * Returns true if there are enough of the claimed resources in existence
@@ -81,7 +100,7 @@ export class ResourceRequirements extends EventEmitter2 {
 			// }
 			return false;
 		});
-	};
+	}
 
 	/**
 	 * Returns the total required resources left to be gathered across all types.
@@ -89,27 +108,24 @@ export class ResourceRequirements extends EventEmitter2 {
 	 * @return {Number} The number of resources left to be gathered.
 	 */
 	totalRequiredResources () {
-		var total = 0,
-			requiredResources = this;
-		Object.keys(requiredResources.map).forEach(resourceType => {
-			total += requiredResources.map[resourceType].required -
-				requiredResources.map[resourceType].gathered;
-		});
+		let total = 0;
+		this.forEach((resourceType, resourceEntry) => {
+			total += resourceEntry.required - resourceEntry.gathered;
+		})
 		return total;
-	};
+	}
 
 	/**
 	 * The total amount of resources that are required to have this be built.
 	 * Compared with `totalRequiredResources` to tell if you're done.
 	 */
 	totalNeededResources () {
-		var total = 0,
-			requiredResources = this;
-		Object.keys(requiredResources.map).forEach(resourceType => {
-			total += requiredResources.map[resourceType].required;
-		});
+		let total = 0;
+		this.forEach((resourceType, resourceEntry) => {
+			total += resourceEntry.required;
+		})
 		return total;
-	};
+	}
 
 	/**
 	 * Returns the count of different types of resources. I.e. if wood and stone then 2
@@ -118,5 +134,5 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	resourceTypeCount () {
 		return Object.keys(this.map).length;
-	};
+	}
 }

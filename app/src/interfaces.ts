@@ -270,3 +270,7 @@ export interface IAgentSearchOptions {
 	cannotHaveId?: number;
 	traits?: AgentTraits[];
 }
+
+export interface BuildingInfo {
+	name: string;
+}
