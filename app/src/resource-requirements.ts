@@ -1,5 +1,5 @@
 import {events} from './events';
-import {IResourceRequirementsMap, IResourceRequirementsMapEntry, IRequiredResources,
+import {IResourceRequirementsMapEntry, IRequiredResources,
 	IItemSearchResult} from './interfaces';
 import {EventEmitter2} from 'eventemitter2';
 
@@ -18,29 +18,23 @@ type ForEachCallback = (
 *                           i.e. { wood: 10, stone: 5 }
 */
 export class ResourceRequirements extends EventEmitter2 {
-	map: IResourceRequirementsMap;
+	map: Map<string, IResourceRequirementsMapEntry>;
 
 	constructor (resources: IRequiredResources) {
 		super();
-		this.map = {};
+		this.map = new Map();
 
-		for (let resource in resources) {
-			this.map[resource] = {
+		for (const resource in resources) {
+			this.map.set(resource, {
 				gathered: 0,
 				required: resources[resource]
-			};
+			});
 		}
-	}
-
-	forEach(callback: ForEachCallback) {
-		Object.keys(this.map).forEach(resourceType => {
-			callback(resourceType, this.map[resourceType]);
-		});
 	}
 
 	toString(): string {
 		let string = '';
-		this.forEach((resourceType, resourceEntry) => {
+		this.map.forEach((resourceEntry, resourceType) => {
 			string += `${resourceType}:[${resourceEntry.gathered}/${resourceEntry.required}]`;
 		})
 		return string;
@@ -54,7 +48,7 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	addToRequirements (itemSearchResult: IItemSearchResult) {
 		// Update our gathered amount
-		this.map[itemSearchResult.state.name].gathered += 1;
+		this.map.get(itemSearchResult.state.name).gathered += 1;
 
 		// Update the resources service
 		events.emit('remove-from-resource', itemSearchResult.id);
@@ -72,12 +66,13 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	pickRequiredResource (): string {
 		let resourceToGather: string;
-		Object.keys(this.map).some(resource => {
-			if (this.map[resource].required > this.map[resource].gathered) {
-				resourceToGather = resource;
+		Array.from(this.map).some(([resourceType, resourceEntry]) => {
+			if (resourceEntry.required > resourceEntry.gathered) {
+				resourceToGather = resourceType;
 				return true;
 			}
 		});
+
 		return resourceToGather;
 	}
 
@@ -90,8 +85,8 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	claimedResourcesExist () {
 		// Since this returns true if there ISNT the proper amount, we want to return the opposite
-		return !Object.keys(this.map).some(resourceType => {
-			let amountLeft = this.map[resourceType].required - this.map[resourceType].gathered;
+		return !Array.from(this.map).some(([resourceType, resourceEntry]) => {
+			let amountLeft = resourceEntry.required - resourceEntry.gathered;
 			debugger;
 			// Basically check if the required amount of resource exists and if it doesn't then return true
 			// NOTE: make sure to take into account the amount that have already been gathered
@@ -109,7 +104,7 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	totalRequiredResources () {
 		let total = 0;
-		this.forEach((resourceType, resourceEntry) => {
+		this.map.forEach((resourceEntry) => {
 			total += resourceEntry.required - resourceEntry.gathered;
 		})
 		return total;
@@ -121,7 +116,7 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	totalNeededResources () {
 		let total = 0;
-		this.forEach((resourceType, resourceEntry) => {
+		this.map.forEach((resourceEntry) => {
 			total += resourceEntry.required;
 		})
 		return total;

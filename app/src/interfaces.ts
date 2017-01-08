@@ -81,10 +81,6 @@ export interface IRequiredResourcesInput {
 export interface IResourceRequirementsMapEntry {
 	gathered: number;
 	required: number;
-};
-
-export interface IResourceRequirementsMap {
-	[index: string]: IResourceRequirementsMapEntry;
 }
 
 export enum AgentTraits {
