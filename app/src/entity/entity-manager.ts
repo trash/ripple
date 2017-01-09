@@ -12,6 +12,7 @@ import {agentUtil} from './util/agent';
 import {collisionUtil} from './util/collision';
 import {itemUtil} from './util/item';
 import {mapUtil} from './util/map';
+import {resourceUtil} from './util/resource';
 import {positionUtil} from './util/position';
 import {buildingUtil} from './util/building';
 import {statusBubbleUtil} from './util/status-bubble';
@@ -39,6 +40,7 @@ export interface IComponent {
 const utilList: BaseUtil[] = [
     baseUtil,
     agentUtil,
+    resourceUtil,
     itemUtil,
     mapUtil,
     positionUtil,

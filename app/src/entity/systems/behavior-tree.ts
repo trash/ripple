@@ -4,6 +4,7 @@ import {IBehaviorTreeState} from '../components/behavior-tree';
 import {IPositionState} from '../components/position';
 import {IAgentState} from '../components/agent';
 import {IVillagerState} from '../components/villager';
+import {IHealthState} from '../components/health';
 import {IInventoryState} from '../components/inventory';
 import {IStatusBubbleState} from '../components/status-bubble';
 import {Blackboard} from '../../b3/core/blackboard';
@@ -24,16 +25,18 @@ export class BehaviorTreeSystem extends EntitySystem {
 
         entityIds.forEach(id => {
             const behaviorTreeState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.BehaviorTree, id) as IBehaviorTreeState,
-                agentState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Agent, id) as IAgentState,
-                villagerState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Villager, id) as IVillagerState,
-                statusBubbleState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.StatusBubble, id) as IStatusBubbleState,
-                positionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState,
-                inventoryState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.BehaviorTree, id) as IBehaviorTreeState;
+            const healthState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Health, id) as IHealthState;
+            const agentState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Agent, id) as IAgentState;
+            const villagerState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Villager, id) as IVillagerState;
+            const statusBubbleState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.StatusBubble, id) as IStatusBubbleState;
+            const positionState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Position, id) as IPositionState;
+            const inventoryState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Inventory, id) as IInventoryState;
 
             // initialize blackboard
@@ -50,6 +53,7 @@ export class BehaviorTreeSystem extends EntitySystem {
                     id: id,
                     behaviorTree: behaviorTreeState,
                     position: positionState,
+                    health: healthState,
                     villager: villagerState,
                     agent: agentState,
                     statusBubble: statusBubbleState,

@@ -255,6 +255,7 @@ export interface IBehaviorTreeTickTarget {
     behaviorTree: IBehaviorTreeState;
     position: IPositionState;
     villager: IVillagerState;
+    health: IHealthState;
     agent: IAgentState;
     statusBubble: IStatusBubbleState;
     turn: number;

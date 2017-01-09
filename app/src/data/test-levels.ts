@@ -55,12 +55,6 @@ export interface ITestLevelGroup {
 					name: 'human',
 					villager: {}
 				}],
-				gameMap: {
-					noResources: true,
-					dimension: 20,
-					seed: 666,
-					allLand: true
-				}
 			},
 			{
 				name: 'Villager hides in building',
@@ -74,12 +68,6 @@ export interface ITestLevelGroup {
 					buildingName: 'hut',
 					isCompleted: true
 				}],
-				gameMap: {
-					noResources: true,
-					dimension: 20,
-					seed: 666,
-					allLand: true
-				}
 			},
 		]
 	},
@@ -93,7 +81,13 @@ export interface ITestLevelGroup {
 					villager: {
 						job: villagerJobs.laborer
 					}
-				}]
+				}],
+				gameMap: {
+					noResources: false,
+					dimension: 20,
+					allLand: true,
+					seed: 666
+				}
 			}
 		]
 	}
