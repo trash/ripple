@@ -6,9 +6,9 @@ import {store} from '../redux/store';
 import {ChildStatus} from '../b3/core/child-status';
 // Redux actions
 import {updateHoverTile} from '../redux/actions/update-hover-tile';
-import {updateHoveredAgentName} from '../redux/actions/update-hovered-agent-name';
-import {updateHoveredResourceName} from '../redux/actions/update-hovered-resource-name';
-import {updateHoveredItemName} from '../redux/actions/update-hovered-item-name';
+import {updateHoveredAgent} from '../redux/actions/update-hovered-agent';
+import {updateHoveredResource} from '../redux/actions/update-hovered-resource';
+import {updateHoveredItem} from '../redux/actions/update-hovered-item';
 import {updateHoveredBuilding} from '../redux/actions/update-hovered-building';
 import {updateHoveredAgentLastExecutionChain} from '../redux/actions/update-hovered-agent-last-execution-chain';
 
@@ -18,6 +18,9 @@ import {collisionUtil} from '../entity/util/collision';
 import {EntityManager} from '../entity/entity-manager';
 import {ComponentEnum} from '../entity/component-enum';
 
+import {IResourceState} from '../entity/components/resource';
+import {IAgentState} from '../entity/components/agent';
+import {IItemState} from '../entity/components/item';
 import {IBuildingState} from '../entity/components/building';
 import {IConstructibleState} from '../entity/components/constructible';
 import {INameState} from '../entity/components/name';
@@ -102,10 +105,18 @@ export class TileInfoService {
             return getNameOfEntityOccupyingTile(this.entityManager, tile, componentName);
         }
 
+        const getEntityWithComponentInTile = (
+            component: ComponentEnum
+        ): number => {
+            return getEntitiesWithComponentInTile(this.entityManager, tile, component)[0];
+        }
+
         // Get the name of any agent occupying the tile
-        const agentsName = getNameOfEntityOccupyingThisTile(ComponentEnum.Agent);
-        if (agentsName) {
-            store.dispatch(updateHoveredAgentName(agentsName.name));
+        const agent = getEntityWithComponentInTile(ComponentEnum.Agent);
+        if (agent) {
+            const agentState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Agent, agent) as IAgentState;
+            store.dispatch(updateHoveredAgent(agentState));
 
             // Expose info about the agent's behavior tree
             const behaviorTreeState = getEntitiesWithComponentInTile(
@@ -129,20 +140,23 @@ export class TileInfoService {
         }
 
         // Get the name of any resource occupying the tile
-        const resourceName = getNameOfEntityOccupyingThisTile(ComponentEnum.Resource);
-        if (resourceName) {
-            store.dispatch(updateHoveredResourceName(resourceName.name));
+        const resource = getEntityWithComponentInTile(ComponentEnum.Resource);
+        if (resource) {
+            const resourceState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Resource, resource) as IResourceState;
+            store.dispatch(updateHoveredResource(resourceState));
         }
 
         // Get the name of any item occupying the tile
-        const itemName = getNameOfEntityOccupyingThisTile(ComponentEnum.Item);
-        if (itemName) {
-            store.dispatch(updateHoveredItemName(itemName.name));
+        const item = getEntityWithComponentInTile(ComponentEnum.Item);
+        if (item) {
+            const itemState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Item, item) as IItemState;
+            store.dispatch(updateHoveredItem(itemState));
         }
 
         // Get the name of any building occupying the tile
-        const building = getEntitiesWithComponentInTile(
-            this.entityManager, tile, ComponentEnum.Building)[0];
+        const building = getEntityWithComponentInTile(ComponentEnum.Building);
         if (building) {
             const buildingState = this.entityManager.getComponentDataForEntity(
                 ComponentEnum.Building, building) as IBuildingState;
