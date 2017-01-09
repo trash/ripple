@@ -49,6 +49,8 @@ const dataList: IEntityComponentData[] = [
     }
 ];
 
-export const assemblageData: IAssemblageDataMap = {
-    hut: dataList[0],
-};
+export const assemblageData = (() => {
+    let assemblageData: IAssemblageDataMap = {};
+    dataList.forEach(data => assemblageData[data.building.name] = data);
+    return assemblageData;
+})();

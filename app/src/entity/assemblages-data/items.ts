@@ -32,10 +32,31 @@ const dataList: IEntityComponentData[] = [{
             hasBeenSpawned: null,
             stored: null
         },
+    },
+    {
+        item: {
+            value: 1,
+            name: 'mushroom',
+            readableName: 'mushroom',
+            spriteName: 'purple-mushroom',
+            description: 'Purple mushrooms that can be used in alchemists recipes.',
+            properties: []
+        }
+    },
+    {
+        item: {
+            value: 4,
+            name: 'stone',
+            readableName: 'stone',
+            spriteName: 'stone',
+            description: 'A pile of stone.',
+            properties: [ItemProperties.resource]
+        }
     }
 ];
 
-export const itemsAssemblageData: IAssemblageDataMap = {
-    wood: dataList[0],
-    berries: dataList[1]
-};
+export const assemblageData = (() => {
+    let assemblageData: IAssemblageDataMap = {};
+    dataList.forEach(data => assemblageData[data.item.name] = data);
+    return assemblageData;
+})();

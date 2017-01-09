@@ -1,9 +1,9 @@
 // import {behaviorTree as villagerTree} from '../agents/villager-tree';
 import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
-import {agentsAssemblageData} from '../entity/assemblages-data/agents';
-import {resourcesAssemblageData} from '../entity/assemblages-data/resources';
-import {itemsAssemblageData} from '../entity/assemblages-data/items';
+import {assemblageData as agentsAssemblageData} from '../entity/assemblages-data/agents';
+import {assemblageData as resourcesAssemblageData} from '../entity/assemblages-data/resources';
+import {assemblageData as itemsAssemblageData} from '../entity/assemblages-data/items';
 import {assemblageData as buildingsAssemblageData} from '../entity/assemblages-data/buildings';
 import {ComponentEnum, componentEnumToKeyMap} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';

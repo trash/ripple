@@ -59,8 +59,8 @@ const dataList: IEntityComponentData[] = [{
         health: defaultHealthState
 }];
 
-export const agentsAssemblageData: IAssemblageDataMap = {
-    zombie: dataList[0],
-    wolf: dataList[1],
-    human: dataList[2]
-};
+export const assemblageData = (() => {
+    let assemblageData: IAssemblageDataMap = {};
+    dataList.forEach(data => assemblageData[data.agent.agentName] = data);
+    return assemblageData;
+})();

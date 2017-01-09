@@ -11,7 +11,7 @@ const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.ave
     bushHealth = 100,
     mushroomHealth = 100;
 
-const resourcesList: IEntityComponentData[] = [{
+const dataList: IEntityComponentData[] = [{
         resource: {
             name: 'tree',
             anchor: [0, 0.6],
@@ -116,9 +116,8 @@ const resourcesList: IEntityComponentData[] = [{
     }
 ];
 
-export const resourcesAssemblageData: IAssemblageDataMap = {
-    tree: resourcesList[0],
-    rock: resourcesList[1],
-    bush: resourcesList[2],
-    mushroom: resourcesList[3]
-};
+export const assemblageData = (() => {
+    let assemblageData: IAssemblageDataMap = {};
+    dataList.forEach(data => assemblageData[data.resource.name] = data);
+    return assemblageData;
+})();
