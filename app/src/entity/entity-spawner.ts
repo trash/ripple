@@ -196,20 +196,24 @@ export class EntitySpawner {
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Item);
 
-		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
-
-		const positionState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Position, entityId) as IPositionState,
-			itemState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Item, entityId) as IItemState;
-
+		// Get the tile to spawn *before* creating the item or the item itself will
+		// show up in the search
 		const tileDoesntContainItem = (tile: MapTile): boolean => {
 			return !baseUtil.tileContainsEntityOfComponent(ComponentEnum.Item, tile);
 		};
-		positionState.tile = globalRefs.map.getNearestEmptyTile(globalRefs.map.getTile(0, 0), tileDoesntContainItem);
-		itemState.shouldBeSpawned = true;
+		const spawnTileStart = (entityComponentData.position && entityComponentData.position.tile) ||
+			globalRefs.map.getTile(0, 0);
+		const spawnTile = globalRefs.map.getNearestEmptyTile(spawnTileStart, tileDoesntContainItem);
 
-		// this.itemManager.addItem(entityId);
+		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
+
+		const positionState = this.entityManager.getComponentDataForEntity(
+			ComponentEnum.Position, entityId) as IPositionState;
+		const itemState = this.entityManager.getComponentDataForEntity(
+			ComponentEnum.Item, entityId) as IItemState;
+
+		positionState.tile = spawnTile;
+		itemState.shouldBeSpawned = true;
 
 		return entityId;
 	}
@@ -219,7 +223,7 @@ export class EntitySpawner {
 		entityComponentData: IEntityComponentData = {}
 	): number[] {
 		return this.itemNamesFromList(items).map(itemName => {
-			return this.spawnItem(itemName);
+			return this.spawnItem(itemName, entityComponentData);
 		});
 	}
 

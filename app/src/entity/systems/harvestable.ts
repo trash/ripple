@@ -25,7 +25,14 @@ export class HarvestableSystem extends EntitySystem {
             if (healthState.currentHealth <= 0) {
                 console.info(`should be spawning items dropped by
                     harvestable in the right spot`);
-                this.manager.spawner.spawnItemsFromList(harvestableState.drops);
+                this.manager.spawner.spawnItemsFromList(harvestableState.drops, {
+                    position: {
+                        tile: positionState.tile
+                    },
+                    item: {
+                        claimed: true
+                    }
+                });
                 events.emit(['trigger-sound', 'harvestResource']);
 
                 console.error('Reimplement itemManager functionality.');

@@ -22,7 +22,7 @@ export interface StoreState {
     tile: MapTile;
     hoveredAgent: IAgentState;
     hoveredItem: IItemState;
-    hoveredResource: IResourceStatae;
+    hoveredResource: IResourceState;
     hoveredBuildingState: IBuildingState;
     hoveredBuildingConstructibleState: IConstructibleState;
     hoveredAgentLastExecutionChain: ChildStatus[];

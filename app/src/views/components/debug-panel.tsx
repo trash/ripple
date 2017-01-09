@@ -14,9 +14,9 @@ import {ChildStatus} from '../../b3/core/child-status';
 
 interface DebugPanelProps {
     tile: MapTile;
-    agent: string;
-    resource: string;
-    item: string;
+    agent: IAgentState;
+    resource: IResourceState;
+    item: IItemState;
     building: IBuildingState;
     buildingConstructible: IConstructibleState;
     executionChain: ChildStatus[];

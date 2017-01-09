@@ -3,17 +3,17 @@ import {ComponentEnum} from '../component-enum';
 import {ItemProperties} from '../../interfaces';
 
 export interface IItemState {
-    name: string;
-    readableName: string;
-    spriteName: string;
-    description: string;
-    shouldBeSpawned: boolean;
-    hasBeenSpawned: boolean;
-    claimed: boolean;
-    properties: ItemProperties[]
-    toBeStored: boolean;
-    stored: boolean;
-    value: number;
+    name?: string;
+    readableName?: string;
+    spriteName?: string;
+    description?: string;
+    shouldBeSpawned?: boolean;
+    hasBeenSpawned?: boolean;
+    claimed?: boolean;
+    properties?: ItemProperties[]
+    toBeStored?: boolean;
+    stored?: boolean;
+    value?: number;
 }
 
 export interface IItemComponent extends IComponent {
