@@ -1,6 +1,10 @@
 import {constants} from '../data/constants';
 import {events} from '../events';
 import {util} from '../util'
+
+import {store} from '../redux/store';
+import {updateClockTime} from '../redux/actions/update-clock-time';
+
 const hoursToTicks = util.hoursToTicks;
 
 // This is 1 minute of real time at regular speed
@@ -123,6 +127,7 @@ export class GameClock {
 			this.incrementDay();
 		} else {
 			events.emit(['clock', 'hour'], this.hours);
+			store.dispatch(updateClockTime(this.hours, this.days));
 		}
 	};
 
@@ -137,6 +142,7 @@ export class GameClock {
 	updateDay (value: number) {
 		this.days = value;
 		events.emit(['clock', 'day'], this.days);
+		store.dispatch(updateClockTime(this.hours, this.days));
 	};
 
 	/**

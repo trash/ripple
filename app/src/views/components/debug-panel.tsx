@@ -20,6 +20,8 @@ interface DebugPanelProps {
     building: IBuildingState;
     buildingConstructible: IConstructibleState;
     executionChain: ChildStatus[];
+    hours: number;
+    days: number;
 }
 
 interface DebugPanelState {
@@ -55,6 +57,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
         return (
         <div className="debug-ui">
+            <h4>Day: {this.props.days} Hour: {this.props.hours}</h4>
             <h4>Tile: {this.props.tile && this.props.tile.toString()}</h4>
             <h4>Agent:</h4>
             <ul>
@@ -92,6 +95,8 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         resource: state.hoveredResource,
         executionChain: state.hoveredAgentLastExecutionChain,
         building: state.hoveredBuildingState,
-        buildingConstructible: state.hoveredBuildingConstructibleState
+        buildingConstructible: state.hoveredBuildingConstructibleState,
+        hours: state.hours,
+        days: state.days
     };
 })(DebugPanel);
