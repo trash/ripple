@@ -8,6 +8,7 @@ import {Inventory} from './Inventory';
 import {BehaviorTree} from './behavior-tree';
 import {StatusBubble} from './status-bubble';
 import {Health} from './health';
+import {Hunger} from './hunger';
 import {HealthBar} from './health-bar';
 import {Item} from './item';
 import {Building} from './building';
@@ -18,6 +19,7 @@ import {Name} from './name';
 
 import {IComponent} from '../entity-manager';
 
+// Order doesn't matter
 export let componentsList: IComponent[] = [
     Position,
     Renderable,
@@ -29,6 +31,7 @@ export let componentsList: IComponent[] = [
     BehaviorTree,
     Harvestable,
     Health,
+    Hunger,
     HealthBar,
     Building,
     Constructible,

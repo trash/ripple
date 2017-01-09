@@ -1,5 +1,6 @@
 import * as _ from 'lodash';;
 
+// Order doesn't matter
 export enum ComponentEnum {
     Position,
     Renderable,
@@ -17,6 +18,7 @@ export enum ComponentEnum {
     Collision,
     Constructible,
     Name,
+    Hunger,
     Inventory
 }
 

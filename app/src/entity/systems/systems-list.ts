@@ -8,6 +8,7 @@ import {BuildingSystem} from './building';
 import {ConstructibleSystem} from './constructible';
 import {HarvestableSystem} from './harvestable';
 import {HealthBarSystem} from './health-bar';
+import {HungerSystem} from './hunger';
 import {BehaviorTreeSystem} from './behavior-tree';
 import {StatusBubbleSystem} from './status-bubble';
 import {HarvestSelectSystem} from './harvest-select';
@@ -32,6 +33,7 @@ export let systemsList:
     [AgentSystem, ComponentEnum.Agent],
     [CorpseSystem, ComponentEnum.Corpse],
     [HarvestableSystem, ComponentEnum.Harvestable],
+    [HungerSystem, ComponentEnum.Hunger],
     [StatusBubbleSystem, ComponentEnum.StatusBubble],
     [HealthBarSystem, ComponentEnum.HealthBar],
     [RenderableSystem, ComponentEnum.Renderable],

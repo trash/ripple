@@ -1,11 +1,14 @@
 // import {behaviorTree as villagerTree} from '../agents/villager-tree';
 import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
+
 import {assemblageData as agentsAssemblageData} from '../entity/assemblages-data/agents';
 import {assemblageData as resourcesAssemblageData} from '../entity/assemblages-data/resources';
 import {assemblageData as itemsAssemblageData} from '../entity/assemblages-data/items';
 import {assemblageData as buildingsAssemblageData} from '../entity/assemblages-data/buildings';
+
 import {ComponentEnum, componentEnumToKeyMap} from '../entity/component-enum';
+
 import {IPositionState} from '../entity/components/position';
 import {IItemState} from '../entity/components/item';
 import {IRenderableState} from '../entity/components/renderable';
@@ -13,11 +16,9 @@ import {IAgentState} from '../entity/components/agent';
 import {IHealthState} from '../entity/components/health';
 import {IVillagerState} from '../entity/components/villager';
 import {IBehaviorTreeState} from '../entity/components/behavior-tree';
+
 import {EntityManager} from '../entity/entity-manager';
 import {IAgentAssemblageTestData} from '../data/test-level';
-// import {buildings} from '../services/buildings';
-// import {AgentsService} from '../services/agents-service';
-// import {ItemManager} from '../services/item-manager';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util/base';
@@ -256,10 +257,6 @@ export class EntitySpawner {
 				ComponentEnum.Health, entityId) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;
 		}
-
-		// var tile = options.tile || this.map.getTile(options.position[0], options.position[1]);
-		// Make sure to construct building and pass in gameManager instance
-		// buildings.newBuilding(entityId);
 
 		return entityId;
 	}
