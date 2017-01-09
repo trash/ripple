@@ -21,21 +21,36 @@ import {IAgentAssemblageTestData} from '../data/test-level';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util/base';
+import {util} from '../util';
+import {events} from '../events';
+
+const globalRefs: {
+	map: GameMap
+} = {
+	map: null
+};
+events.on('map-update', (map: GameMap) => {
+	globalRefs.map = map;
+});
 
 export class EntitySpawner {
     entityManager: EntityManager;
-    map: GameMap;
     // itemManager: ItemManager;
 
-    constructor (entityManager: EntityManager, map: GameMap) {
+    constructor (
+		entityManager: EntityManager
+	) {
         this.entityManager = entityManager;
-        this.map = map;
         // this.itemManager = itemManager;
     }
 
-    copyComponentData (entityId: number, pair) {
+    copyComponentData (
+		entityId: number,
+		pair: [any, ComponentEnum]
+	) {
 		if (pair[0]) {
-			const entityState = this.entityManager.getComponentDataForEntity(pair[1] as ComponentEnum, entityId);
+			const entityState = this.entityManager.getComponentDataForEntity(
+				pair[1], entityId);
 			if (entityState) {
 				for (const stateProp in entityState) {
 					const value = pair[0][stateProp]
@@ -105,7 +120,7 @@ export class EntitySpawner {
 		}
 		positionState.hasDirection = true;
 		// Set tile to 0,0
-		positionState.tile = this.map.getTile(0, 0);
+		positionState.tile = globalRefs.map.getTile(0, 0);
 
 		return entityId;
 	}
@@ -135,6 +150,43 @@ export class EntitySpawner {
 		return entityId;
 	}
 
+	itemNamesFromList (
+		list: string[]
+	): string[] {
+		let items = [];
+		list.forEach(itemPattern => {
+			// https://regex101.com/r/kA9pJ2/2
+			// Acceptable inputs: wood*3, wood*[1-3], wood%50, wood*[1-3]%50
+			const matches = itemPattern.match(/(\w+-*\w*)\**((\d)*)(?:\[(\d+)-(\d+)\])*%*(\d+)*/);
+
+			const itemName = matches[1];
+			const itemCount = parseInt(matches[2]);
+			const itemRangeStart = parseInt(matches[3]);
+			const itemRangeEnd = parseInt(matches[4]);
+			const itemSpawnChance = parseInt(matches[5]);
+
+			let count = 1;
+
+			if (itemCount) {
+				count = itemCount;
+			} else if (itemRangeStart) {
+				count = util.randomInRange(itemRangeStart, itemRangeEnd);
+			}
+
+			// Only spawn *any* items if spawn chance succeeds
+			if (itemSpawnChance) {
+				if (Math.random() > (itemSpawnChance / 100)) {
+					return;
+				}
+			}
+
+			for (let i = 0; i < count; i++) {
+				items.push(itemName);
+			}
+		});
+		return items;
+	}
+
 	spawnItem (
         itemName: string,
         entityComponentData: IEntityComponentData = {}
@@ -154,12 +206,21 @@ export class EntitySpawner {
 		const tileDoesntContainItem = (tile: MapTile): boolean => {
 			return !baseUtil.tileContainsEntityOfComponent(ComponentEnum.Item, tile);
 		};
-		positionState.tile = this.map.getNearestEmptyTile(this.map.getTile(0, 0), tileDoesntContainItem);
+		positionState.tile = globalRefs.map.getNearestEmptyTile(globalRefs.map.getTile(0, 0), tileDoesntContainItem);
 		itemState.shouldBeSpawned = true;
 
 		// this.itemManager.addItem(entityId);
 
 		return entityId;
+	}
+
+	spawnItemsFromList (
+		items: string[],
+		entityComponentData: IEntityComponentData = {}
+	): number[] {
+		return this.itemNamesFromList(items).map(itemName => {
+			return this.spawnItem(itemName);
+		});
 	}
 
 	/**
@@ -183,7 +244,7 @@ export class EntitySpawner {
 
 		const positionState = this.entityManager.getComponentDataForEntity(
 			ComponentEnum.Position, entityId) as IPositionState;
-		const map = this.map;
+		const map = globalRefs.map;
 		positionState.tile = map.getTile(map.dimension / 4 - 1, map.dimension / 2 - 1);
 
 		if (isCompleted) {

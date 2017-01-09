@@ -36,7 +36,6 @@ const windowSize = {
 export class GameManager {
     state: StateManager;
     entityManager: EntityManager;
-    entitySpawner: EntitySpawner;
     level: ITestLevel;
     map: GameMap;
     renderer: PIXI.WebGLRenderer;
@@ -136,8 +135,6 @@ export class GameManager {
         this.map = this.createMap(this.level.gameMap);
         events.emit('map-update', this.map);
 
-        this.entitySpawner = new EntitySpawner(this.entityManager, this.map);
-
         this.updateTilemap();
 
 		this.map.initialize();
@@ -150,20 +147,20 @@ export class GameManager {
                     debugger;
                     this.map.getTileByIndex(i);
                 }
-                this.entitySpawner.spawnResource(resourceName, tile);
+                this.entityManager.spawner.spawnResource(resourceName, tile);
             }
         });
 
         // Spawn agents
         this.level.agents.forEach(agent => {
-            this.entitySpawner.spawnAgent(agent);
+            this.entityManager.spawner.spawnAgent(agent);
         });
 
         // Spawn items
         if (this.level.items) {
             Object.keys(this.level.items).forEach(itemName => {
                 for (let i = 0; i < this.level.items[itemName]; i++) {
-                    this.entitySpawner.spawnItem(itemName);
+                    this.entityManager.spawner.spawnItem(itemName);
                 }
             });
         }
@@ -171,7 +168,7 @@ export class GameManager {
         // Spawn buildings
         if (this.level.buildings) {
             this.level.buildings.forEach(building => {
-                this.entitySpawner.spawnBuilding(building.buildingName, building.isCompleted, building);
+                this.entityManager.spawner.spawnBuilding(building.buildingName, building.isCompleted, building);
             });
         }
 
@@ -210,7 +207,7 @@ export class GameManager {
         console.info(`Should be spawning an entity of type: ${entityType}`);
         switch (entityType) {
             case 'resource':
-                this.entitySpawner.spawnResource(entityName, tile);
+                this.entityManager.spawner.spawnResource(entityName, tile);
                 break;
         }
     }

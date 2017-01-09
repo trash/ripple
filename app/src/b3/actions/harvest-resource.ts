@@ -4,7 +4,7 @@ import {Tick} from '../core/tick';
 import {Task} from '../../tasks/task';
 import {ComponentEnum} from '../../entity/component-enum';
 import {IHealthState} from '../../entity/components/health';
-import {resourceUtil} from '../../entity/util/resource';
+import {harvestableUtil} from '../../entity/util/harvestable';
 
 export class HarvestResource extends BaseNode {
 	resourceEntityId: number;
@@ -25,7 +25,7 @@ export class HarvestResource extends BaseNode {
 		const contribution = this.task.contribute(agentData);
 
 		// Chop the tree
-		const harvested = resourceUtil.harvest(this.resourceEntityId, contribution);
+		const harvested = harvestableUtil.harvest(this.resourceEntityId, contribution);
 
 		return harvested ?
 			b3.SUCCESS :

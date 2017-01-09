@@ -5,6 +5,7 @@ import {componentsList} from './components/components-list';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems/systems-list';
 import {EventEmitter2} from 'eventemitter2';
+import {EntitySpawner} from './entity-spawner';
 
 // Utils
 import {BaseUtil, baseUtil} from './util/base';
@@ -12,7 +13,7 @@ import {agentUtil} from './util/agent';
 import {collisionUtil} from './util/collision';
 import {itemUtil} from './util/item';
 import {mapUtil} from './util/map';
-import {resourceUtil} from './util/resource';
+import {harvestableUtil} from './util/harvestable';
 import {positionUtil} from './util/position';
 import {buildingUtil} from './util/building';
 import {statusBubbleUtil} from './util/status-bubble';
@@ -22,7 +23,10 @@ export class EntitySystem extends EventEmitter2 {
     componentEnum: ComponentEnum;
     updateInterval?: number;
 
-    constructor (manager: EntityManager, componentEnum: ComponentEnum) {
+    constructor (
+        manager: EntityManager,
+        componentEnum: ComponentEnum
+    ) {
         super();
         this.manager = manager;
         this.componentEnum = componentEnum;
@@ -40,7 +44,7 @@ export interface IComponent {
 const utilList: BaseUtil[] = [
     baseUtil,
     agentUtil,
-    resourceUtil,
+    harvestableUtil,
     itemUtil,
     mapUtil,
     positionUtil,
@@ -75,8 +79,11 @@ export class EntityManager {
     entityComponentDataMap: IEntityManagerMap;
     removedEntities: IRemovedEntitiesMap;
     entityComponentToIdListMap: IEntityComponentToIdListMap;
+    spawner: EntitySpawner;
 
     constructor () {
+        this.spawner = new EntitySpawner(this);
+
         // Lazy load this for circular dependency reasons
         let systemsList: typeof sysList = require('./systems/systems-list').systemsList;
 

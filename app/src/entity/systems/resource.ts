@@ -41,7 +41,6 @@ export class ResourceSystem extends EntitySystem {
             }
 
             if (healthState.currentHealth <= 0) {
-                console.info('Should be getting rid of resource sprites', id);
                 spriteManager.destroy(renderableState.spriteGroup as TilemapSprite);
             }
         });

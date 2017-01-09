@@ -1,7 +1,7 @@
 import {BaseUtil} from './base';
 import {Direction, IRowColumnCoordinates} from '../../interfaces';
 
-export class ResourceUtil extends BaseUtil {
+export class HarvestableUtil extends BaseUtil {
     harvest (
         resource: number,
         contribution: number
@@ -18,4 +18,4 @@ export class ResourceUtil extends BaseUtil {
     }
 }
 
-export const resourceUtil = new ResourceUtil();
+export const harvestableUtil = new HarvestableUtil();
