@@ -2,6 +2,7 @@ import {createStore} from 'redux';
 import {actionTypes} from './actions/types';
 
 import {IAgentState} from '../entity/components/agent';
+import {IHungerState} from '../entity/components/hunger';
 import {IItemState} from '../entity/components/item';
 import {IResourceState} from '../entity/components/resource';
 import {IBuildingState} from '../entity/components/building';
@@ -22,6 +23,7 @@ import {UpdateHoverTileAction} from './actions/update-hover-tile';
 export interface StoreState {
     tile: MapTile;
     hoveredAgent: IAgentState;
+    hoveredAgentHunger: IHungerState;
     hoveredItem: IItemState;
     hoveredResource: IResourceState;
     hoveredBuildingState: IBuildingState;
@@ -38,7 +40,9 @@ const mainReducer = (previousState = initialState, action) => {
         newState.tile = (action as UpdateHoverTileAction).tile;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_AGENT) {
-        newState.hoveredAgent = (action as UpdateHoveredAgentAction).agent;
+        const updateAction = action as UpdateHoveredAgentAction;
+        newState.hoveredAgent = updateAction.agent;
+        newState.hoveredAgentHunger = updateAction.hunger;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
         newState.hoveredResource = (action as UpdateHoveredResourceAction).resource;

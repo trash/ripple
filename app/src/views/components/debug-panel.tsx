@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collision-debug-view';
 
+import {IHungerState} from '../../entity/components/hunger';
 import {IAgentState} from '../../entity/components/agent';
 import {IItemState} from '../../entity/components/item';
 import {IResourceState} from '../../entity/components/resource';
@@ -15,6 +16,7 @@ import {ChildStatus} from '../../b3/core/child-status';
 interface DebugPanelProps {
     tile: MapTile;
     agent: IAgentState;
+    agentHunger: IHungerState;
     resource: IResourceState;
     item: IItemState;
     building: IBuildingState;
@@ -63,6 +65,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             <ul>
                 {this.stringifiedList(this.props.agent)}
             </ul>
+            <h4>Agent Hunger:</h4>
+            <ul>
+                {this.stringifiedList(this.props.agentHunger)}
+            </ul>
             <h4>Last Action: {lastAction}</h4>
             <h4>Item:</h4>
             <ul>
@@ -91,6 +97,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
     return {
         tile: state.tile,
         agent: state.hoveredAgent,
+        agentHunger: state.hoveredAgentHunger,
         item: state.hoveredItem,
         resource: state.hoveredResource,
         executionChain: state.hoveredAgentLastExecutionChain,
