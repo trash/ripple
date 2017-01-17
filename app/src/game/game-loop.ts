@@ -24,7 +24,7 @@ export class GameLoop extends EventEmitter2 {
 		this.reset();
 
 		// Default to 1/20 of a second
-		this.step = 1/constants.TICKS_PER_SECOND;
+		this.step = 1 / constants.TICKS_PER_SECOND;
 
 		keybindings.addKeyListener('space', this.pause.bind(this));
 	}

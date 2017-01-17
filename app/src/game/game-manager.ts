@@ -106,7 +106,9 @@ export class GameManager {
     }
 
     update (turn: number, stopped: boolean) {
-		gameClock.update();
+        if (!stopped) {
+            gameClock.update();
+        }
 
 		this.entityManager.update(turn, stopped);
     }

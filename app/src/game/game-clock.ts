@@ -37,12 +37,12 @@ export class GameClock {
 
 		this.updateHour(0);
 		this.updateDay(1);
-	};
+	}
 
 	load (saveData: any) {
 		this.ticks = saveData.ticks;
 		this.setTime(saveData.days, saveData.hours);
-	};
+	}
 
 	serialize (): { ticks: number, hours: number, days: number } {
 		return {
@@ -50,12 +50,12 @@ export class GameClock {
 			hours: this.hours,
 			days: this.days
 		};
-	};
+	}
 
 	setTime (days: number, hours: number) {
 		this.updateDay(days);
 		this.updateHour(hours);
-	};
+	}
 
 	/**
 	 * Increments ticks
@@ -72,7 +72,7 @@ export class GameClock {
 		}
 
 		this.checkCallbacks();
-	};
+	}
 
 	/**
 	 * Add a callback to the list of callbacks for the given tick
@@ -101,7 +101,7 @@ export class GameClock {
 			callbacks.splice(index, 1);
 			this.callbacks[tick] = callbacks;
 		};
-	};
+	}
 
 	/**
 	 * Calls any callbacks for the given tick
@@ -117,7 +117,7 @@ export class GameClock {
 			// Get rid of them
 			delete this.callbacks[this.ticks];
 		}
-	};
+	}
 
 	updateHour (value: number) {
 		this.hours = value;
@@ -129,7 +129,7 @@ export class GameClock {
 			events.emit(['clock', 'hour'], this.hours);
 			store.dispatch(updateClockTime(this.hours, this.days));
 		}
-	};
+	}
 
 	/**
 	 * Increments the game clock by one hour
@@ -137,20 +137,20 @@ export class GameClock {
 	 */
 	incrementHour () {
 		this.updateHour(this.hours + 1);
-	};
+	}
 
 	updateDay (value: number) {
 		this.days = value;
 		events.emit(['clock', 'day'], this.days);
 		store.dispatch(updateClockTime(this.hours, this.days));
-	};
+	}
 
 	/**
 	 * Increments the days by one
 	 */
 	incrementDay () {
 		this.updateDay(this.days + 1);
-	};
+	}
 
 	/**
 	 * Get a timestamp object for the current time
@@ -163,7 +163,7 @@ export class GameClock {
 			hour: this.hours,
 			string: 'Day: ' + this.days + ' Time: ' + this.hours + ':00'
 		};
-	};
+	}
 
 	/**
 	 * Set a timer for a set number of hours and call a callback after
@@ -177,7 +177,7 @@ export class GameClock {
 			end = start + hoursToTicks(hours);
 
 		return this.addTimerCallback(end, callback);
-	};
-};
+	}
+}
 
 export const gameClock = new GameClock();

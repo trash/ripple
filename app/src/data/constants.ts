@@ -61,7 +61,7 @@ export let constants = {
 // An in game hour should be 10 second on normal speed
 constants.MOCK_TICKS_PER_HOUR = constants.TICKS_PER_SECOND * 10;
 // TICKS_PER_HOUR: 1200,
-constants.TICKS_PER_HOUR = constants.TICKS_PER_SECOND * 30;
+constants.TICKS_PER_HOUR = constants.MOCK_TICKS_PER_HOUR;//constants.TICKS_PER_SECOND * 30;
 // We're scaling the screen up by 2
 constants.SCALE_FACTOR = constants.SCALE_UP ? 2 : 1;
 // When we're dealing outside of game code (i.e. figuring out where a user clicked using windoe relative coords) we need to use the scaled tile height
