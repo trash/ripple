@@ -8,6 +8,7 @@ import {IItemState} from '../entity/components/item';
 import {IResourceState} from '../entity/components/resource';
 import {IBuildingState} from '../entity/components/building';
 import {IConstructibleState} from '../entity/components/constructible';
+import {IPositionState} from '../entity/components/position';
 
 import {MapTile} from '../map/tile';
 import {ChildStatus} from '../b3/core/child-status';
@@ -26,6 +27,7 @@ export interface StoreState {
     hoveredAgent: IAgentState;
     hoveredAgentHunger: IHungerState;
     hoveredAgentSleep: ISleepState;
+    hoveredAgentPosition: IPositionState;
     hoveredItem: IItemState;
     hoveredResource: IResourceState;
     hoveredBuildingState: IBuildingState;
@@ -46,6 +48,7 @@ const mainReducer = (previousState = initialState, action) => {
         newState.hoveredAgent = updateAction.agent;
         newState.hoveredAgentHunger = updateAction.hunger;
         newState.hoveredAgentSleep = updateAction.sleep;
+        newState.hoveredAgentPosition = updateAction.position;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
         newState.hoveredResource = (action as UpdateHoveredResourceAction).resource;

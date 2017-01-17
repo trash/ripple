@@ -1,6 +1,9 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entity-manager';
+import {statusBubbleUtil} from '../util/status-bubble';
+import {buildingUtil} from '../util/building';
+
 import {ComponentEnum} from '../component-enum';
 import {IVillagerState} from '../components/villager';
 import {IAgentState} from '../components/agent';
@@ -8,26 +11,26 @@ import {IRenderableState} from '../components/renderable';
 import {IPositionState} from '../components/position';
 import {IBehaviorTreeState} from '../components/behavior-tree';
 import {IStatusBubbleState} from '../components/status-bubble';
+
 import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
 import {professionsList, professions} from '../../data/professions';
 import {villagerJobs, villagerJobsMap} from '../../data/villager-jobs';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
-import {statusBubbleUtil} from '../util/status-bubble';
 import {behaviorTree as villagerTree} from '../../b3/trees/villager';
 
 export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const agentState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Agent, id) as IAgentState,
-                behaviorTreeState = this.manager.getComponentDataForEntity(
-					ComponentEnum.BehaviorTree, id) as IBehaviorTreeState,
-                positionState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Position, id) as IPositionState,
-                statusBubbleState = this.manager.getComponentDataForEntity(
-					ComponentEnum.StatusBubble, id) as IStatusBubbleState,
-                villagerState = this.manager.getComponentDataForEntity(
+					ComponentEnum.Agent, id) as IAgentState;
+            const behaviorTreeState = this.manager.getComponentDataForEntity(
+					ComponentEnum.BehaviorTree, id) as IBehaviorTreeState;
+            const positionState = this.manager.getComponentDataForEntity(
+					ComponentEnum.Position, id) as IPositionState;
+            const statusBubbleState = this.manager.getComponentDataForEntity(
+					ComponentEnum.StatusBubble, id) as IStatusBubbleState;
+            const villagerState = this.manager.getComponentDataForEntity(
 					ComponentEnum.Villager, id) as IVillagerState;
 
 			if (behaviorTreeState.tree.name !== 'villager') {
@@ -49,6 +52,13 @@ export class VillagerSystem extends EntitySystem {
 				}
 			}
 			villagerState.currentTask = newTask;
+
+			if (!villagerState.home) {
+				const freeHome = buildingUtil.getFreeHome();
+				if (freeHome) {
+					villagerState.home = freeHome;
+				}
+			}
         });
     }
 

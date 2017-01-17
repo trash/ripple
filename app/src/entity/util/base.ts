@@ -9,6 +9,8 @@ import {IPositionState} from '../components/position';
 import {IConstructibleState} from '../components/constructible';
 import {IBuildingState} from '../components/building';
 import {IRenderableState} from '../components/renderable';
+import {IVillagerState} from '../components/villager';
+import {ISleepState} from '../components/sleep';
 
 import {EntityManager} from '../entity-manager';
 import {MapTile} from '../../map/tile';
@@ -55,6 +57,14 @@ export class BaseUtil {
     _getCollisionState (id: number): ICollisionState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Collision, id) as ICollisionState;
+    }
+    _getVillagerState (id: number): IVillagerState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.Villager, id) as IVillagerState;
+    }
+    _getSleepState (id: number): ISleepState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.Sleep, id) as ISleepState;
     }
 
     tileContainsEntityOfComponent (componentName: ComponentEnum, tile: MapTile): boolean {

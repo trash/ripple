@@ -24,6 +24,7 @@ export class SleepSystem extends EntitySystem {
                 let sleepValue = constants.SLEEP.RECOVER_TICK;
                 // If they're sleeping on the floor then they have to sleep for twice as long
                 if (!sleepState.inHome) {
+                    console.info('not in home');
                     sleepValue = ((sleepValue - 1) / 2) + 1;
                 }
                 sleepState.value -= sleepValue * this.updateInterval;
@@ -34,6 +35,7 @@ export class SleepSystem extends EntitySystem {
             // They're done sleeping
             if (sleepState.value <= sleepState.min) {
                 sleepState.isSleeping = false;
+                sleepState.inHome = false;
             }
 
             sleepState.value = util.bound(sleepState.value, sleepState.min, sleepState.max);

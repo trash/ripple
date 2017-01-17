@@ -15,6 +15,10 @@ export class BuildingUtil extends BaseUtil {
 		return this.getAllBuildings()[0];
 	}
 
+	getFreeHome (): number {
+		return this.getAllBuildings()[0];
+	}
+
     hasOccupancy(
 		building: number
 	): boolean {

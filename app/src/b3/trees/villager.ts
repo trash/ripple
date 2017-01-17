@@ -62,7 +62,8 @@ behaviorTree.root = new Priority({
 									new IsTrue(tick => !!tick.target.villager.home),
 									new SetBlackboardValue(findHomeKey,
 										tick => tick.target.villager.home),
-									new GoToTarget(findHomeKey),
+									new GoToTarget((tick: Tick) =>
+										buildingUtil.getTileFromBuilding(util.blackboardGet(tick, findHomeKey))),
 									new EnterBuilding(findHomeKey)
 								]
 							})

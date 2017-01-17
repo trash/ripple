@@ -122,7 +122,9 @@ export class TileInfoService {
                 ComponentEnum.Hunger, agent) as IHungerState;
             const sleepState = this.entityManager.getComponentDataForEntity(
                 ComponentEnum.Sleep, agent) as ISleepState;
-            store.dispatch(updateHoveredAgent(agentState, hungerState, sleepState));
+            const positionState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Position, agent) as IPositionState;
+            store.dispatch(updateHoveredAgent(agentState, hungerState, sleepState, positionState));
 
             // Expose info about the agent's behavior tree
             const behaviorTreeState = getEntitiesWithComponentInTile(

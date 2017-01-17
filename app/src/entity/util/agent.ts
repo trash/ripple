@@ -197,6 +197,12 @@ export class AgentUtil extends BaseUtil {
 		agentState.isInBuilding = true;
 		util.setTile(agentPositionState, buildingPositionState.tile, turn, agentState.speed);
 
+		const villagerState = this._getVillagerState(agent);
+		if (villagerState && villagerState.home) {
+			const sleepState = this._getSleepState(agent);
+			sleepState.inHome = true;
+		}
+
 		buildingUtil.addOccupant(building, agent);
 	}
 }

@@ -10,6 +10,7 @@ import {IItemState} from '../../entity/components/item';
 import {IResourceState} from '../../entity/components/resource';
 import {IBuildingState} from '../../entity/components/building';
 import {IConstructibleState} from '../../entity/components/constructible';
+import {IPositionState} from '../../entity/components/position';
 
 import {MapTile} from '../../map/tile';
 import {ChildStatus} from '../../b3/core/child-status';
@@ -19,6 +20,7 @@ interface DebugPanelProps {
     agent: IAgentState;
     agentHunger: IHungerState;
     agentSleep: ISleepState;
+    agentPosition: IPositionState;
     resource: IResourceState;
     item: IItemState;
     building: IBuildingState;
@@ -67,6 +69,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             <ul>
                 {this.stringifiedList(this.props.agent)}
             </ul>
+            <h4>Agent Position:</h4>
+            <ul>
+                {this.stringifiedList(this.props.agentPosition)}
+            </ul>
             <h4>Agent Hunger:</h4>
             <ul>
                 {this.stringifiedList(this.props.agentHunger)}
@@ -105,6 +111,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         agent: state.hoveredAgent,
         agentHunger: state.hoveredAgentHunger,
         agentSleep: state.hoveredAgentSleep,
+        agentPosition: state.hoveredAgentPosition,
         item: state.hoveredItem,
         resource: state.hoveredResource,
         executionChain: state.hoveredAgentLastExecutionChain,
