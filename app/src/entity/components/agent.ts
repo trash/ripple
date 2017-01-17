@@ -22,7 +22,7 @@ export interface IAgentState {
     lastAttacker?: number;
     lastAttacked?: number;
 
-    isInBuilding?: boolean;
+    buildingInsideOf?: number;
 }
 
 export interface IAgentComponent extends IComponent {
@@ -45,6 +45,6 @@ export let Agent: IAgentComponent = {
         dead: false,
         traits: [],
         strength: 1,
-        isInBuilding: false
+        buildingInsideOf: null
     }
 };

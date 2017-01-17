@@ -445,7 +445,18 @@ export class Util {
 		positionState.turnCompleted = turn + speed;
 	}
 
-	coordinatesAreEqual (coord1: ICoordinates, coord2: ICoordinates): boolean {
+
+	rowColumnCoordinatesAreEqual (
+		coord1: IRowColumnCoordinates,
+		coord2: IRowColumnCoordinates
+	): boolean {
+		return coord1.row === coord2.row && coord1.column === coord2.column;
+	}
+
+	coordinatesAreEqual (
+		coord1: ICoordinates,
+		coord2: ICoordinates
+	): boolean {
 		return coord1.x === coord2.x && coord1.y === coord2.y;
 	}
 }

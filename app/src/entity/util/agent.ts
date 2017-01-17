@@ -150,7 +150,7 @@ export class AgentUtil extends BaseUtil {
 
         const distanceToTarget = MapUtil.distanceTo(attackerPositionState.tile,
             targetPositionState.tile, true);
-		if (distanceToTarget > 1 || targetAgentState.isInBuilding) {
+		if (distanceToTarget > 1 || targetAgentState.buildingInsideOf) {
             return false;
         }
 
@@ -194,7 +194,7 @@ export class AgentUtil extends BaseUtil {
 		const agentPositionState = this._getPositionState(agent);
 		const buildingPositionState = this._getPositionState(building);
 
-		agentState.isInBuilding = true;
+		agentState.buildingInsideOf = building;
 		util.setTile(agentPositionState, buildingPositionState.tile, turn, agentState.speed);
 
 		const villagerState = this._getVillagerState(agent);

@@ -27,6 +27,9 @@ export class RenderableSystem extends EntitySystem {
 			if (!renderableState.shown) {
 				renderableState.spriteGroup.visible = false;
 				return;
+			// Show sprites again
+			} else if (!renderableState.spriteGroup.visible) {
+				renderableState.spriteGroup.visible = true;
 			}
 			// Wait for position system to bootstrap this
 			if (!positionState.previousTile) {

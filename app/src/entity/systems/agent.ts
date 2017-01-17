@@ -16,16 +16,16 @@ export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Renderable, id) as IRenderableState,
-                agentState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Agent, id) as IAgentState,
-                healthState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Health, id) as IHealthState,
-                nameState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Name, id) as INameState,
-                healthBarState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.HealthBar, id) as IHealthBarState,
-                positionState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Renderable, id) as IRenderableState;
+            const agentState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Agent, id) as IAgentState;
+            const healthState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Health, id) as IHealthState;
+            const nameState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Name, id) as INameState;
+            const healthBarState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.HealthBar, id) as IHealthBarState;
+            const positionState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Position, id) as IPositionState;
 
             this.handleInit(agentState, renderableState, positionState);
@@ -38,16 +38,29 @@ export class AgentSystem extends EntitySystem {
             if (!agentState.inventory) {
                 agentState.inventory = [];
             }
+
+            // Check to see if the agent left the building they were in
+            if (agentState.buildingInsideOf) {
+                const buildingPositionState = this.manager.getComponentDataForEntity(
+                        ComponentEnum.Position, agentState.buildingInsideOf) as IPositionState;
+                if (!util.rowColumnCoordinatesAreEqual(positionState.tile, buildingPositionState.tile)) {
+                    agentState.buildingInsideOf = null;
+                }
+            }
+
             // Show/hide agent based on whether they're in building
-            if (agentState.isInBuilding && renderableState.shown) {
+            if (agentState.buildingInsideOf && renderableState.shown) {
                 renderableState.shown = false;
-            } else if (!agentState.isInBuilding && !renderableState.shown) {
+            } else if (!agentState.buildingInsideOf && !renderableState.shown) {
                 renderableState.shown = true;
             }
+
+            // Init name
             if (!nameState.name) {
                 const newName = names.getName(agentState.agentName, agentState.gender);
                 nameState.name = `${newName.first} ${newName.last}`;
             }
+            // Init health bar sprites
             if (healthBarState.sprites) {
                 healthBarState.sprites.forEach(healthBar => {
                     healthBar.position.x = 0;
