@@ -196,6 +196,19 @@ export class Util {
 		return list[Math.floor(Math.random() * list.length)];
 	}
 
+	bound (
+		value: number,
+		lower: number,
+		upper: number
+	): number {
+		if (value < lower) {
+			return lower;
+		} else if (value > upper) {
+			return upper;
+		}
+		return value;
+	}
+
 	/**
 	 * Returns a random integer in between the given upper and lower bounds.
 	 * Pass a single argument if you just want the lower bound to be 0

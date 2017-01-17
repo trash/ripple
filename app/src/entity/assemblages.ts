@@ -32,6 +32,7 @@ export const assemblages: IAssemblagesMap = {
     [AssemblagesEnum.Villager]: agentComponents.concat([
         ComponentEnum.Villager,
         ComponentEnum.Hunger,
+        ComponentEnum.Sleep,
     ]),
     [AssemblagesEnum.Resource]: [
         ComponentEnum.Resource,

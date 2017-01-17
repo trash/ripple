@@ -9,6 +9,7 @@ import {BehaviorTree} from './behavior-tree';
 import {StatusBubble} from './status-bubble';
 import {Health} from './health';
 import {Hunger} from './hunger';
+import {Sleep} from './sleep';
 import {HealthBar} from './health-bar';
 import {Item} from './item';
 import {Building} from './building';
@@ -32,6 +33,7 @@ export let componentsList: IComponent[] = [
     Harvestable,
     Health,
     Hunger,
+    Sleep,
     HealthBar,
     Building,
     Constructible,

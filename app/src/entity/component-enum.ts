@@ -19,6 +19,7 @@ export enum ComponentEnum {
     Constructible,
     Name,
     Hunger,
+    Sleep,
     Inventory
 }
 

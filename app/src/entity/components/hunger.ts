@@ -19,6 +19,6 @@ export let Hunger: IHungerComponent = {
     state: {
         max: constants.HUNGER.MAX,
 	    min: 0,
-        value: null
+        value: 0
     }
 };

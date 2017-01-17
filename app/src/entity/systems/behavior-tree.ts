@@ -1,12 +1,15 @@
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
+
 import {IBehaviorTreeState} from '../components/behavior-tree';
 import {IPositionState} from '../components/position';
 import {IAgentState} from '../components/agent';
 import {IVillagerState} from '../components/villager';
 import {IHealthState} from '../components/health';
+import {ISleepState} from '../components/sleep';
 import {IInventoryState} from '../components/inventory';
 import {IStatusBubbleState} from '../components/status-bubble';
+
 import {Blackboard} from '../../b3/core/blackboard';
 import {events} from '../../events';
 import {GameMap} from '../../map';
@@ -38,6 +41,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     ComponentEnum.Position, id) as IPositionState;
             const inventoryState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Inventory, id) as IInventoryState;
+            const sleepState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Sleep, id) as ISleepState;
 
             // initialize blackboard
             if (!behaviorTreeState.blackboard) {
@@ -56,6 +61,7 @@ export class BehaviorTreeSystem extends EntitySystem {
                     health: healthState,
                     villager: villagerState,
                     agent: agentState,
+                    sleep: sleepState,
                     statusBubble: statusBubbleState,
                     turn: turn,
                     map: map,

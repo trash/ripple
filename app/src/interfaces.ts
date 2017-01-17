@@ -212,6 +212,7 @@ import {ICorpseState} from './entity/components/corpse';
 import {IVillagerState} from './entity/components/villager';
 import {IStatusBubbleState} from './entity/components/status-bubble';
 import {IInventoryState} from './entity/components/inventory';
+import {ISleepState} from './entity/components/sleep';
 
 export interface IEntityComponentData {
 	position?: IPositionState;
@@ -257,6 +258,7 @@ export interface IBehaviorTreeTickTarget {
     villager: IVillagerState;
     health: IHealthState;
     agent: IAgentState;
+    sleep: ISleepState;
     statusBubble: IStatusBubbleState;
     turn: number;
     map: GameMap;

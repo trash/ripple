@@ -3,6 +3,7 @@ import {actionTypes} from './actions/types';
 
 import {IAgentState} from '../entity/components/agent';
 import {IHungerState} from '../entity/components/hunger';
+import {ISleepState} from '../entity/components/sleep';
 import {IItemState} from '../entity/components/item';
 import {IResourceState} from '../entity/components/resource';
 import {IBuildingState} from '../entity/components/building';
@@ -24,6 +25,7 @@ export interface StoreState {
     tile: MapTile;
     hoveredAgent: IAgentState;
     hoveredAgentHunger: IHungerState;
+    hoveredAgentSleep: ISleepState;
     hoveredItem: IItemState;
     hoveredResource: IResourceState;
     hoveredBuildingState: IBuildingState;
@@ -43,6 +45,7 @@ const mainReducer = (previousState = initialState, action) => {
         const updateAction = action as UpdateHoveredAgentAction;
         newState.hoveredAgent = updateAction.agent;
         newState.hoveredAgentHunger = updateAction.hunger;
+        newState.hoveredAgentSleep = updateAction.sleep;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
         newState.hoveredResource = (action as UpdateHoveredResourceAction).resource;

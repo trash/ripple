@@ -22,12 +22,9 @@ export class HungerSystem extends EntitySystem {
 
             hungerState.value += this.updateInterval;
             // Check bounds
-            if (hungerState.value < hungerState.min) {
-                hungerState.value = hungerState.min;
-            } else if (hungerState.value > hungerState.max) {
-                hungerState.value = hungerState.max;
-            }
+            hungerState.value = util.bound(hungerState.value, hungerState.min, hungerState.max);
 
+            // They starved
             if (hungerState.value === hungerState.max) {
                 const healthState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Health, id) as IHealthState;

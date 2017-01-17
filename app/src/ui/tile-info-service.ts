@@ -21,6 +21,7 @@ import {ComponentEnum} from '../entity/component-enum';
 import {IResourceState} from '../entity/components/resource';
 import {IAgentState} from '../entity/components/agent';
 import {IHungerState} from '../entity/components/hunger';
+import {ISleepState} from '../entity/components/sleep';
 import {IItemState} from '../entity/components/item';
 import {IBuildingState} from '../entity/components/building';
 import {IConstructibleState} from '../entity/components/constructible';
@@ -119,7 +120,9 @@ export class TileInfoService {
                 ComponentEnum.Agent, agent) as IAgentState;
             const hungerState = this.entityManager.getComponentDataForEntity(
                 ComponentEnum.Hunger, agent) as IHungerState;
-            store.dispatch(updateHoveredAgent(agentState, hungerState));
+            const sleepState = this.entityManager.getComponentDataForEntity(
+                ComponentEnum.Sleep, agent) as ISleepState;
+            store.dispatch(updateHoveredAgent(agentState, hungerState, sleepState));
 
             // Expose info about the agent's behavior tree
             const behaviorTreeState = getEntitiesWithComponentInTile(
