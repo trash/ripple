@@ -39,6 +39,35 @@ export interface ITestLevelGroup {
 		]
 	},
 	{
+		name: 'Villager Tests',
+		list: [
+			{
+				name: 'Villager sleeps in house',
+				agents: [{
+					name: 'human',
+					villager: {}
+				}],
+				buildings: [{
+					buildingName: 'hut',
+					isCompleted: true
+				}],
+			},
+			{
+				name: 'Villager hides in building',
+				agents: [{
+					name: 'zombie'
+				}, {
+					name: 'human',
+					villager: {}
+				}],
+				buildings: [{
+					buildingName: 'hut',
+					isCompleted: true
+				}],
+			},
+		]
+	},
+	{
 		name: 'Agent Spawning Tests',
 		list: [
 			{
@@ -56,19 +85,7 @@ export interface ITestLevelGroup {
 					villager: {}
 				}],
 			},
-			{
-				name: 'Villager hides in building',
-				agents: [{
-					name: 'zombie'
-				}, {
-					name: 'human',
-					villager: {}
-				}],
-				buildings: [{
-					buildingName: 'hut',
-					isCompleted: true
-				}],
-			},
+
 		]
 	},
 	{

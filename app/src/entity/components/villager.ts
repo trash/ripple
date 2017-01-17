@@ -7,6 +7,7 @@ import {Instance} from '../../tasks/instance';
 export interface IVillagerState {
     job: villagerJobs;
     currentTask: Instance;
+    home: number;
 }
 
 export interface IVillagerComponent extends IComponent {
@@ -18,6 +19,7 @@ export let Villager: IVillagerComponent = {
     enum: ComponentEnum.Villager,
     state: {
         job: villagerJobs.unemployed,
-        currentTask: null
+        currentTask: null,
+        home: null
     }
 };

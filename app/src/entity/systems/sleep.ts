@@ -29,17 +29,10 @@ export class SleepSystem extends EntitySystem {
                 sleepState.value -= sleepValue * this.updateInterval;
             } else {
                 sleepState.value += this.updateInterval;
-                // Check bounds
-                sleepState.value = util.bound(sleepState.value, sleepState.min, sleepState.max);
-
-                // Make them sleep
-                if (sleepState.value === sleepState.max) {
-                    sleepState.isSleeping = true;
-                }
             }
 
             // They're done sleeping
-            if (sleepState.value <= 0) {
+            if (sleepState.value <= sleepState.min) {
                 sleepState.isSleeping = false;
             }
 
