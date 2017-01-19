@@ -1,5 +1,5 @@
 import {constants} from './data/constants';
-import {ICoordinates, ITilemapData} from './interfaces';
+import {ICoordinates, ITilemapData, ILayerData, ICameraView} from './interfaces';
 
 const tileSize = constants.TILE_HEIGHT,
 	defaultSubContainerLayer = 1;
@@ -121,7 +121,10 @@ export class Tilemap extends PIXI.Container {
 		this.filters = [sepiaFilter, colorStepFilter];
 	};
 
-	addBackgroundSpriteFromLayerData (layerData, childIndex) {
+	addBackgroundSpriteFromLayerData (
+		layerData: ILayerData,
+		childIndex: number
+	) {
 		const layer = new PIXI.Container();
 		for (let i = 0; i < this.dimension; i++) {
 			for (let j = 0; j < this.dimension; j++) {
@@ -156,7 +159,9 @@ export class Tilemap extends PIXI.Container {
 		return this._getDimension();
 	}
 
-	updateView (view) {
+	updateView (
+		view: ICameraView
+	) {
 		// Unit is the size of one container in pixels
 		const unit = (this.subContainerDimension * tileSize);
 		// Compute the boundaries based on this unit
@@ -219,7 +224,7 @@ export class Tilemap extends PIXI.Container {
 		return y * Math.sqrt(this.subContainersCount) + x;
 	}
 
-	getSprite (frame) {
+	getSprite (frame: string) {
 		if (this.test) {
 			return new PIXI.Sprite();
 		}

@@ -90,7 +90,7 @@ export class GameCamera {
 	 * Calculate the view and emit it when the camera is moved
 	 */
 	emitUpdate (userUpdate?) {
-		var view = {
+		const view = {
 			x: -this.tilemap.position.x,
 			y: -this.tilemap.position.y,
 			width: document.body.clientWidth,
