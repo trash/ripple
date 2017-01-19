@@ -67,8 +67,8 @@ export class ResourceSystem extends EntitySystem {
         if (!renderableState.spriteGroup) {
             const spriteGroup = spriteManager.createContainer(
                     positionState.tile.column,
-                    positionState.tile.row),
-                sprite = PIXI.Sprite.fromFrame(this.getSpriteName(resourceState));
+                    positionState.tile.row);
+            const sprite = PIXI.Sprite.fromFrame(this.getSpriteName(resourceState));
 
             spriteGroup.addChild(sprite);
 

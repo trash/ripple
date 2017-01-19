@@ -56,9 +56,6 @@ export class GameManager {
         });
         events.on('game-start', this.start.bind(this));
         events.on('game-destroy', this.destroy.bind(this));
-        events.on(['spawn', '*'], function (entityName: string, tile: IRowColumnCoordinates) {
-            gameManager.handleSpawnEvent(this.event[1], entityName, tile);
-        });
 
         this.state = new StateManager(rootElement);
         this.bootstrapGameStates();
@@ -204,15 +201,6 @@ export class GameManager {
 
 		return tilemap;
 	};
-
-    handleSpawnEvent (entityType: string, entityName: string, tile: IRowColumnCoordinates) {
-        console.info(`Should be spawning an entity of type: ${entityType}`);
-        switch (entityType) {
-            case 'resource':
-                this.entityManager.spawner.spawnResource(entityName, tile);
-                break;
-        }
-    }
 
     createMap (mapData: ITestGameMapOptions) {
         return new GameMap({

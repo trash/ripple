@@ -82,23 +82,14 @@ export class AgentSystem extends EntitySystem {
     ) {
         console.info(`killing off an agent with id ${id}`);
         agentState.dead = true;
-        renderableState.shown = false;
         this.manager.destroyEntity(id);
         this.spawnCorpse(agentState, positionState);
-        events.emit(['agent', 'remove'], id);
     }
 
     spawnCorpse (agentState: IAgentState, positionState: IPositionState) {
-        const tile = positionState.tile,
-            baseSpriteName = this.getBaseSpriteName(agentState);
-        events.emit(['spawn', 'corpse'], {
-            corpse: {
-                agentBaseSpriteName: baseSpriteName
-            },
-            position: {
-                tile: tile
-            }
-        });
+        const tile = positionState.tile;
+        const baseSpriteName = this.getBaseSpriteName(agentState);
+        console.info('should be spawning a corpse');
     }
 
     handleInit (

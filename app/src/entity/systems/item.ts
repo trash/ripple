@@ -15,17 +15,18 @@ export class ItemSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Renderable, id) as IRenderableState,
-                itemState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Item, id) as IItemState,
-                nameState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Name, id) as INameState,
-                positionState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Renderable, id) as IRenderableState;
+            const itemState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Item, id) as IItemState;
+            const nameState = this.manager.getComponentDataForEntity(
+                    ComponentEnum.Name, id) as INameState;
+            const positionState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Position, id) as IPositionState;
 
             if (renderableState.spriteGroup && !renderableState.sprite) {
-                renderableState.spriteGroup = spriteManager.createContainer(0, 0);
                 renderableState.sprite = this.createSprite(itemState);
+                renderableState.spriteGroup.addChild(renderableState.sprite);
+                renderableState.shown = false;
             }
             if (renderableState.sprite && itemState.shouldBeSpawned && !itemState.hasBeenSpawned) {
                 this.spawn(itemState, renderableState, positionState);
@@ -41,16 +42,17 @@ export class ItemSystem extends EntitySystem {
         renderableState: IRenderableState,
         positionState: IPositionState
     ) {
-        var nearestEmptyTile = positionState.tile;
+        const nearestEmptyTile = positionState.tile;
 
 		// nearestEmptyTile.addItem(this);
 
 		// Create a new hauler task for this item if there is storage space available and it's storable
-		events.emit(['item', 'spawn'], this);
+        console.info('should be creating a hauler task for this item');
 
-        const sprite = renderableState.sprite;
-        spriteManager.changePosition(sprite, nearestEmptyTile.column, nearestEmptyTile.row);
-        sprite.visible = true;
+        spriteManager.changePosition(renderableState.spriteGroup, nearestEmptyTile.column,
+            nearestEmptyTile.row);
+
+        renderableState.shown = true;
 
         itemState.hasBeenSpawned = true;
 
@@ -61,9 +63,8 @@ export class ItemSystem extends EntitySystem {
 
     createSprite (itemState: IItemState) {
         // Just default to first row initially
-		const sprite = spriteManager.create(itemState.spriteName, 0, 0);
+        const sprite = PIXI.Sprite.fromFrame(itemState.spriteName);
 
-		sprite.visible = false;
 		// for tooltips
 		sprite.interactive = true;
 
