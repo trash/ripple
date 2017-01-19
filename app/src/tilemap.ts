@@ -50,14 +50,14 @@ export class Tilemap extends PIXI.Container {
 
 		this.subContainerDimension = 20;
 
-		var subContainersCount = (this.dimension * this.dimension) / (this.subContainerDimension * this.subContainerDimension);
+		const subContainersCount = (this.dimension * this.dimension) / (this.subContainerDimension * this.subContainerDimension);
 		this.subContainersCount = subContainersCount;
 		this.subContainers = [];
 
-		var i;
+		let i;
 
 		for (i=0; i < subContainersCount; i++) {
-			var subContainer = new SubContainer();
+			const subContainer = new SubContainer();
 
 			// Mark their position in the grid of subcontainers
 			subContainer.subX = (i % Math.sqrt(subContainersCount));
@@ -82,13 +82,13 @@ export class Tilemap extends PIXI.Container {
 
 		// Add the third layer for each sub container
 		this.subContainers.forEach(subContainer => {
-			for (var i=0; i < this.subContainerLayerCount; i++) {
-				var layer = new SubContainerLayer();
+			for (i = 0; i < this.subContainerLayerCount; i++) {
+				const layer = new SubContainerLayer();
 
 				layer.rows = [];
 
 				// Most of them will be empty but eh i'm lazy
-				for (var j=0; j < this.dimension; j++) {
+				for (let j = 0; j < this.dimension; j++) {
 					layer.rows[j] = [];
 				}
 
@@ -122,11 +122,11 @@ export class Tilemap extends PIXI.Container {
 	};
 
 	addBackgroundSpriteFromLayerData (layerData, childIndex) {
-		var layer = new PIXI.Container();
-		for (var i=0; i < this.dimension; i++) {
-			for (var j=0; j < this.dimension; j++) {
-				var index = i*this.dimension + j,
-					sprite = this.getSprite(layerData.data[index]);
+		const layer = new PIXI.Container();
+		for (let i = 0; i < this.dimension; i++) {
+			for (let j = 0; j < this.dimension; j++) {
+				const index = i*this.dimension + j;
+				const sprite = this.getSprite(layerData.data[index]);
 				sprite.position.x = j * tileSize;
 				sprite.position.y = i * tileSize;
 				// Need to offset some of the grass tiles because they're 24x44
@@ -138,11 +138,11 @@ export class Tilemap extends PIXI.Container {
 		}
 
 		// Render each background layer as a render texture
-		var texture = new PIXI.RenderTexture(this.renderer, this.dimension * tileSize, this.dimension * tileSize);
+		const texture = new PIXI.RenderTexture(this.renderer, this.dimension * tileSize, this.dimension * tileSize);
 		texture.render(layer);
 
 		// Write the render texture to a sprite and add it to the the tilemap
-		var background = new PIXI.Sprite(texture);
+		const background = new PIXI.Sprite(texture);
 		this.addChildAt(background, childIndex);
 	};
 
@@ -158,12 +158,12 @@ export class Tilemap extends PIXI.Container {
 
 	updateView (view) {
 		// Unit is the size of one container in pixels
-		var unit = (this.subContainerDimension * tileSize),
+		const unit = (this.subContainerDimension * tileSize);
 		// Compute the boundaries based on this unit
-			startX = Math.floor(view.x / unit),
-			startY = Math.floor(view.y / unit),
-			endX = Math.ceil(startX + (view.width / unit)),
-			endY = Math.ceil(startY + (view.height / unit));
+		const startX = Math.floor(view.x / unit);
+		const startY = Math.floor(view.y / unit);
+		const endX = Math.ceil(startX + (view.width / unit));
+		const endY = Math.ceil(startY + (view.height / unit));
 
 		// Go through the subcontainers and mark the ones that should be rendered
 		this.subContainers.forEach(subContainer => {
@@ -172,7 +172,7 @@ export class Tilemap extends PIXI.Container {
 				&& subContainer.subY >= startY && subContainer.subY <= endY);
 		});
 
-		var currentRenderList = this.subContainers.map(subContainer => {
+		const currentRenderList = this.subContainers.map(subContainer => {
 			return subContainer.shouldBeRendered;
 		});
 
@@ -241,9 +241,9 @@ export class Tilemap extends PIXI.Container {
 		layerIndex: number = defaultSubContainerLayer,
 		dontUpdatePosition: boolean = false
 	) {
-		var subContainerIndex = this.tileToSubContainerIndex(x, y),
-			subContainer = this.subContainers[subContainerIndex],
-			layer = subContainer.children[layerIndex];
+		const subContainerIndex = this.tileToSubContainerIndex(x, y);
+		const subContainer = this.subContainers[subContainerIndex];
+		const layer = subContainer.children[layerIndex];
 
 		// Need to account for variable length of previous rows
 		const previousRowsTotal = layer.rows.slice(0, y).reduce((previous, next) => {
@@ -277,12 +277,15 @@ export class Tilemap extends PIXI.Container {
 		return this.finalLayer.getChildIndex(sprite);
 	}
 
-	removeChildFromSubContainer (sprite, layerIndex: number = defaultSubContainerLayer) {
-		const previousSubContainer = this.subContainers[sprite.subContainer],
-			layer = previousSubContainer.children[layerIndex],
-			index = layer.children.indexOf(sprite),
-			row = layer.rows[sprite.row],
-			indexInRow = row.indexOf(sprite);
+	removeChildFromSubContainer (
+		sprite: TilemapSprite,
+		layerIndex: number = defaultSubContainerLayer
+	) {
+		const previousSubContainer = this.subContainers[sprite.subContainer];
+		const layer = previousSubContainer.children[layerIndex];
+		const index = layer.children.indexOf(sprite);
+		const row = layer.rows[sprite.row];
+		const indexInRow = row.indexOf(sprite);
 
 		if (indexInRow === -1) {
 			debugger;
@@ -296,7 +299,10 @@ export class Tilemap extends PIXI.Container {
 		return sprite.subContainer;
 	}
 
-	positionFromTile (column: number, row: number): ICoordinates {
+	positionFromTile (
+		column: number,
+		row: number
+	): ICoordinates {
 		// Need to make them relative to the subcontainer using modulo operator
 		return {
 			x: tileSize * (column % this.subContainerDimension) * this.scaleFactor,
@@ -304,8 +310,12 @@ export class Tilemap extends PIXI.Container {
 		};
 	}
 
-	setSpritePositionFromTile (sprite: PIXI.DisplayObject, column: number, row: number) {
-		var position = this.positionFromTile(column, row);
+	setSpritePositionFromTile (
+		sprite: PIXI.DisplayObject,
+		column: number,
+		row: number
+	) {
+		const position = this.positionFromTile(column, row);
 		// Need to make them relative to the subcontainer using modulo operator
 		sprite.position.x = position.x;
 		sprite.position.y = position.y;
@@ -314,7 +324,11 @@ export class Tilemap extends PIXI.Container {
 	/**
 	 * Returns true if the new position will result in the subcontainer being changed
 	 */
-	subContainerWillUpdate (sprite: TilemapSprite, x: number, y: number): boolean {
+	subContainerWillUpdate (
+		sprite: TilemapSprite,
+		x: number,
+		y: number
+	): boolean {
 		const newSubContainerIndex = this.tileToSubContainerIndex(x, y);
 		return newSubContainerIndex !== sprite.subContainer;
 	}
@@ -337,8 +351,8 @@ export class Tilemap extends PIXI.Container {
 		dontUpdatePosition: boolean,
 		layerIndex: number = defaultSubContainerLayer,
 	): boolean {
-		const oldSubContainerIndex = this.removeChildFromSubContainer(sprite, layerIndex),
-			newSubContainerIndex = this.addChildToPosition(sprite, x, y, layerIndex, dontUpdatePosition);
+		const oldSubContainerIndex = this.removeChildFromSubContainer(sprite, layerIndex);
+		const newSubContainerIndex = this.addChildToPosition(sprite, x, y, layerIndex, dontUpdatePosition);
 
 		// Whether it was an actual update
 		return oldSubContainerIndex !== newSubContainerIndex;

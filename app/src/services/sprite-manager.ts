@@ -27,7 +27,12 @@ export class SpriteManager {
 	}
 
 
-	create (name: string, column: number, row: number, outsideTilemap = false): PIXI.Sprite {
+	create (
+		name: string,
+		column: number,
+		row: number,
+		outsideTilemap = false
+	): PIXI.Sprite {
 		if (!this.tilemap) {
 			console.error('SpriteManager does not have a tilemap.');
 		}
@@ -41,7 +46,12 @@ export class SpriteManager {
 		return sprite;
 	}
 
-	createText (text: string, options: ITextOptions, column: number, row: number): ISpriteText {
+	createText (
+		text: string,
+		options: ITextOptions,
+		column: number,
+		row: number
+	): ISpriteText {
 		let fill = options.fill || 0xff1010,
 			align = options.align || 'center',
 			fontSize = options.fontSize || 16;
@@ -67,7 +77,11 @@ export class SpriteManager {
 		return sprite;
 	}
 
-	createContainer (column: number, row: number, layerIndex?: number): PIXI.Container {
+	createContainer (
+		column: number,
+		row: number,
+		layerIndex?: number
+	): PIXI.Container {
 		if (!this.tilemap) {
 			console.error('SpriteManager does not have a tilemap.');
 		}
@@ -79,7 +93,11 @@ export class SpriteManager {
 		return container;
 	}
 
-	subContainerWillUpdate (sprite: TilemapSprite, x: number, y: number): boolean {
+	subContainerWillUpdate (
+		sprite: TilemapSprite,
+		x: number,
+		y: number
+	): boolean {
 		return this.tilemap.subContainerWillUpdate(sprite, x, y);
 	}
 
@@ -92,11 +110,18 @@ export class SpriteManager {
 		return this.tilemap.changeChildPosition(sprite as TilemapSprite, column, row, dontUpdate);
 	}
 
-	positionFromTile (column: number, row: number): ICoordinates {
+	positionFromTile (
+		column: number,
+		row: number
+	): ICoordinates {
 		return this.tilemap.positionFromTile(column, row);
 	}
 
-	setSpritePositionFromTile (sprite: any, column: number, row: number) {
+	setSpritePositionFromTile (
+		sprite: TilemapSprite,
+		column: number,
+		row: number
+	) {
 		this.tilemap.setSpritePositionFromTile(sprite, column, row);
 	}
 

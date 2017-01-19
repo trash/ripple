@@ -4,8 +4,8 @@ import {ComponentEnum} from '../component-enum';
 import {constants} from '../../data/constants';
 
 export interface IHungerState {
-    min: number;
-    max: number;
+    min?: number;
+    max?: number;
     value: number;
 }
 
