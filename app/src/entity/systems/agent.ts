@@ -83,7 +83,7 @@ export class AgentSystem extends EntitySystem {
         console.info(`killing off an agent with id ${id}`);
         agentState.dead = true;
         renderableState.shown = false;
-        this.manager.removeEntity(id);
+        this.manager.destroyEntity(id);
         this.spawnCorpse(agentState, positionState);
         events.emit(['agent', 'remove'], id);
     }

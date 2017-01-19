@@ -11,6 +11,7 @@ import {IBuildingState} from '../components/building';
 import {IRenderableState} from '../components/renderable';
 import {IVillagerState} from '../components/villager';
 import {ISleepState} from '../components/sleep';
+import {IHungerState} from '../components/hunger';
 
 import {EntityManager} from '../entity-manager';
 import {MapTile} from '../../map/tile';
@@ -65,6 +66,10 @@ export class BaseUtil {
     _getSleepState (id: number): ISleepState {
         return this.entityManager.getComponentDataForEntity(
             ComponentEnum.Sleep, id) as ISleepState;
+    }
+    _getHungerState (id: number): IHungerState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.Hunger, id) as IHungerState;
     }
 
     tileContainsEntityOfComponent (componentName: ComponentEnum, tile: MapTile): boolean {

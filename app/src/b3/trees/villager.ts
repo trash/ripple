@@ -21,6 +21,8 @@ import {ContinueSleeping} from '../actions/continue-sleeping';
 import {Sleep} from '../actions/sleep';
 import {IsTrue} from '../actions/is-true';
 import {SetBlackboardValue} from '../actions/set-blackboard-value';
+import {FindFoodAndEat} from '../actions/find-food-and-eat';
+import {ShowBubble} from '../actions/show-bubble';
 
 export let behaviorTree = new BehaviorTree();
 
@@ -31,6 +33,7 @@ const findHomeKey = 'find-home';
 behaviorTree.root = new Priority({
 	children: [
 		new ContinueSleeping(),
+		// Make them flee if they've been attacked recently
 		new Sequence({
 			children: [
 				new WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
@@ -53,6 +56,7 @@ behaviorTree.root = new Priority({
 		new Sequence({
 			children: [
 				new IsTrue(tick => tick.target.sleep.value >= constants.SLEEP.MAX),
+				new ShowBubble('sleep'),
 				new Sequence({
 					children: [
 						// We need the villagers to move on to sleeping even if they don't have a home
@@ -71,6 +75,13 @@ behaviorTree.root = new Priority({
 						new Sleep()
 					]
 				})
+			]
+		}),
+		// Super hungry
+		new Sequence({
+			children: [
+				new IsTrue(tick => tick.target.hunger.value > constants.HUNGER.MAX * 2/3),
+				new FindFoodAndEat()
 			]
 		}),
 		// Profession stuff

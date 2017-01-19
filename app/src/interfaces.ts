@@ -213,6 +213,7 @@ import {IVillagerState} from './entity/components/villager';
 import {IStatusBubbleState} from './entity/components/status-bubble';
 import {IInventoryState} from './entity/components/inventory';
 import {ISleepState} from './entity/components/sleep';
+import {IHungerState} from './entity/components/hunger';
 
 export interface IEntityComponentData {
 	position?: IPositionState;
@@ -223,6 +224,7 @@ export interface IEntityComponentData {
 	item?: IItemState;
 	agent?: IAgentState;
 	name?: INameState;
+	hunger?: IHungerState;
 	behaviorTree?: IBehaviorTreeState;
 	building?: IBuildingState;
 	constructible?: IConstructibleState;
@@ -258,7 +260,9 @@ export interface IBehaviorTreeTickTarget {
     villager: IVillagerState;
     health: IHealthState;
     agent: IAgentState;
+    name: INameState;
     sleep: ISleepState;
+    hunger: IHungerState;
     statusBubble: IStatusBubbleState;
     turn: number;
     map: GameMap;
@@ -272,4 +276,11 @@ export interface IAgentSearchOptions {
 
 export interface BuildingInfo {
 	name: string;
+}
+
+export interface IItemSearchOptions {
+	itemNames?: string | string[];
+	properties?: ItemProperties[];
+	claimed?: boolean;
+	sortBy?: string;
 }

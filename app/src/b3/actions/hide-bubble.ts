@@ -11,7 +11,7 @@ export class HideBubble extends BaseNode {
         this.bubbleName = bubbleName;
     }
     tick (tick: Tick) {
-        statusBubbleUtil.removeStatusBubble(tick.target.statusBubble, this.bubbleName);
+        statusBubbleUtil.removeStatusBubble(tick.target.id, this.bubbleName);
         return b3.SUCCESS;
     }
 }

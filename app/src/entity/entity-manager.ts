@@ -157,7 +157,7 @@ export class EntityManager {
         }
     }
 
-    removeEntity (entityId: number) {
+    destroyEntity (entityId: number) {
         // Remove each component data entry
         for (const componentName in this.entityComponentDataMap) {
             this.removeComponentDataEntry(entityId, parseInt(componentName));

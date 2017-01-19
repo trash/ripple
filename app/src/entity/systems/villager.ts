@@ -45,10 +45,10 @@ export class VillagerSystem extends EntitySystem {
 			if (currentTaskId !== newTaskId) {
 				// Clear bubble for task ending
 				if (!newTaskId) {
-					this.clearBubbleForTask(villagerState.currentTask, statusBubbleState);
+					this.clearBubbleForTask(villagerState.currentTask, id);
 				// Activate bubble for task starting
 				} else {
-					this.activateBubbleForTask(newTask, statusBubbleState);
+					this.activateBubbleForTask(newTask, id);
 				}
 			}
 			villagerState.currentTask = newTask;
@@ -62,13 +62,13 @@ export class VillagerSystem extends EntitySystem {
         });
     }
 
-	clearBubbleForTask (taskInstance: Instance, statusBubbleState: IStatusBubbleState) {
+	clearBubbleForTask (taskInstance: Instance, id: number) {
 		const bubbleName = taskInstance.task.bubble;
-		statusBubbleUtil.removeStatusBubble(statusBubbleState, bubbleName);
+		statusBubbleUtil.removeStatusBubble(id, bubbleName);
 	}
-	activateBubbleForTask (taskInstance: Instance, statusBubbleState: IStatusBubbleState) {
+	activateBubbleForTask (taskInstance: Instance, id: number) {
 		const bubbleName = taskInstance.task.bubble;
-		statusBubbleUtil.addStatusBubble(statusBubbleState, bubbleName);
+		statusBubbleUtil.addStatusBubble(id, bubbleName);
 	}
 
     getTaskForVillager (id: number, villagerState: IVillagerState): Instance {

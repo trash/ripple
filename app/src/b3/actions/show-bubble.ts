@@ -11,7 +11,7 @@ export class ShowBubble extends BaseNode {
         this.bubbleName = bubbleName;
     }
     tick (tick: Tick) {
-        statusBubbleUtil.addStatusBubble(tick.target.statusBubble, this.bubbleName);
+        statusBubbleUtil.addStatusBubble(tick.target.id, this.bubbleName);
         return b3.SUCCESS;
     }
 }

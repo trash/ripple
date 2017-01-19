@@ -1,11 +1,28 @@
+import {ComponentEnum} from '../component-enum';
 import {BaseUtil} from './base';
 import {IStatusBubbleState} from '../components/status-bubble';
 
 export class StatusBubbleUtil extends BaseUtil {
-    addStatusBubble (statusBubbleState, bubbleName) {
+    _getStatusBubbleState (id: number): IStatusBubbleState {
+        return this.entityManager.getComponentDataForEntity(
+            ComponentEnum.StatusBubble, id) as IStatusBubbleState;
+    }
+
+    addStatusBubble (
+        id: number,
+        bubbleName: string
+    ) {
+        const statusBubbleState = this._getStatusBubbleState(id);
+        if (statusBubbleState.activeBubbles.includes(bubbleName)) {
+            return;
+        }
         statusBubbleState.activeBubbles.push(bubbleName);
     }
-    removeStatusBubble (statusBubbleState: IStatusBubbleState, bubbleName: string) {
+    removeStatusBubble (
+        id: number,
+        bubbleName: string
+    ) {
+        const statusBubbleState = this._getStatusBubbleState(id);
 		const index = statusBubbleState.activeBubbles.indexOf(bubbleName);
 		statusBubbleState.activeBubbles.splice(index, 1);
     }

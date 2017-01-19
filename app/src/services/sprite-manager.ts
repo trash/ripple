@@ -24,7 +24,7 @@ export class SpriteManager {
 
 	getTileSize (): number {
 		return this.tilemap.getTileSize();
-	};
+	}
 
 
 	create (name: string, column: number, row: number, outsideTilemap = false): PIXI.Sprite {
@@ -39,7 +39,7 @@ export class SpriteManager {
 		}
 
 		return sprite;
-	};
+	}
 
 	createText (text: string, options: ITextOptions, column: number, row: number): ISpriteText {
 		let fill = options.fill || 0xff1010,
@@ -57,7 +57,7 @@ export class SpriteManager {
 		textSprite.actualWidth = util.getTextWidth(text, font);
 
 		return textSprite;
-	};
+	}
 
 	createHoverSprite (name: string): any {
 		var sprite = PIXI.Sprite.fromFrame(name);
@@ -65,19 +65,19 @@ export class SpriteManager {
 		this.tilemap.hoverLayer.addChild(sprite);
 
 		return sprite;
-	};
+	}
 
 	createContainer (column: number, row: number, layerIndex?: number): PIXI.Container {
 		if (!this.tilemap) {
 			console.error('SpriteManager does not have a tilemap.');
 		}
 
-		var container = new PIXI.Container() as TilemapSprite;
+		const container = new PIXI.Container() as TilemapSprite;
 
 		this.tilemap.addChildToPosition(container, column, row, layerIndex);
 
 		return container;
-	};
+	}
 
 	subContainerWillUpdate (sprite: TilemapSprite, x: number, y: number): boolean {
 		return this.tilemap.subContainerWillUpdate(sprite, x, y);
@@ -90,25 +90,27 @@ export class SpriteManager {
 		dontUpdate: boolean = false
 	): any {
 		return this.tilemap.changeChildPosition(sprite as TilemapSprite, column, row, dontUpdate);
-	};
+	}
 
 	positionFromTile (column: number, row: number): ICoordinates {
 		return this.tilemap.positionFromTile(column, row);
-	};
+	}
 
 	setSpritePositionFromTile (sprite: any, column: number, row: number) {
 		this.tilemap.setSpritePositionFromTile(sprite, column, row);
-	};
+	}
 
 	destroy (sprite: TilemapSprite) {
 		sprite.destroyed = true;
 
 		this.tilemap.removeChildFromSubContainer(sprite);
-	};
+
+		sprite.destroy();
+	}
 
 	setTilemap (tilemap: any) {
 		this.tilemap = tilemap;
-	};
+	}
 }
 
 export const spriteManager = new SpriteManager();

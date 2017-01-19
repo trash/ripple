@@ -18,7 +18,7 @@ import {IVillagerState} from '../entity/components/villager';
 import {IBehaviorTreeState} from '../entity/components/behavior-tree';
 
 import {EntityManager} from '../entity/entity-manager';
-import {IAgentAssemblageTestData} from '../data/test-level';
+import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/test-level';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util/base';
@@ -69,10 +69,10 @@ export class EntitySpawner {
 		entityComponentData: IEntityComponentData,
 		assemblageEnum: AssemblagesEnum
 	) {
-		const assemblageComponentList = assemblages[assemblageEnum],
-			assemblageComponentPairList = [];
+		const assemblageComponentList = assemblages[assemblageEnum];
+		const assemblageComponentPairList = [];
 
-		assemblageComponentList.forEach((componentEnum: ComponentEnum) => {
+		assemblageComponentList.forEach(componentEnum => {
 			const dataKey = componentEnumToKeyMap[componentEnum];
 			assemblageComponentPairList.push([entityComponentData[dataKey], componentEnum]);
 		});
@@ -87,14 +87,14 @@ export class EntitySpawner {
 	* @returns {Agent} The agent that was created.
 	*/
 	spawnAgent (
-		data: IAgentAssemblageTestData,
+		agentName: string,
+		villager: IVillagerComponentOptions = null,
 		entityComponentData: IEntityComponentData = {}
 	): number {
-		const agentName = data.name;
-
-		const entityId = this.entityManager.createEntityFromAssemblage(data.villager ?
+		const assemblage = villager ?
 			AssemblagesEnum.Villager :
-			AssemblagesEnum.Agent);
+			AssemblagesEnum.Agent;
+		const entityId = this.entityManager.createEntityFromAssemblage(assemblage);
 
 		console.info(`Spawning: ${agentName} with entityId: ${entityId}`);
 
@@ -111,12 +111,12 @@ export class EntitySpawner {
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agentName]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
-		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Agent);
+		this._copyNeededComponentData(entityId, entityComponentData, assemblage);
 
 		// If they specified options for the villager, assign them
-		if (data.villager) {
-			villagerState.job = data.villager.job !== undefined ?
-				data.villager.job :
+		if (villager) {
+			villagerState.job = villager.job !== undefined ?
+				villager.job :
 				villagerState.job;
 		}
 		positionState.hasDirection = true;

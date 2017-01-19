@@ -14,6 +14,7 @@ export interface IItemState {
     toBeStored?: boolean;
     stored?: boolean;
     value?: number;
+    haulerTask?: number;
 }
 
 export interface IItemComponent extends IComponent {
@@ -34,6 +35,7 @@ export let Item: IItemComponent = {
         properties: [],
         toBeStored: false,
         stored: false,
-        value: 1
+        value: 1,
+        haulerTask: null
     }
 };

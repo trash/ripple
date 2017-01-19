@@ -25,7 +25,7 @@ export class CorpseSystem extends EntitySystem {
                     `${corpseState.agentBaseSpriteName}-corpse`);
                 renderableState.spriteGroup.addChild(renderableState.sprite);
                 gameClock.timer(72, () => {
-                    this.manager.removeEntity(id);
+                    this.manager.destroyEntity(id);
                 });
             }
         });

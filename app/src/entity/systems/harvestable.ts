@@ -45,7 +45,7 @@ export class HarvestableSystem extends EntitySystem {
 
                 //     events.emit(['stats', 'harvest-' + itemName]);
                 // });
-                this.manager.removeEntity(id);
+                this.manager.destroyEntity(id);
             }
         });
     }

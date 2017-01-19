@@ -6,8 +6,10 @@ import {positionUtil} from './position';
 import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
+import {constants} from '../../data/constants';
 import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
 import {cacheService} from '../../services/cache';
+import {statusBubbleUtil} from './status-bubble';
 
 export class AgentUtil extends BaseUtil {
     /**
@@ -204,6 +206,21 @@ export class AgentUtil extends BaseUtil {
 		}
 
 		buildingUtil.addOccupant(building, agent);
+	}
+
+	eatItem (
+		turn: number,
+		agent: number,
+		item: number
+	) {
+		const hungerState = this._getHungerState(agent);
+		hungerState.value -= constants.foodValue;
+
+		if (hungerState.value < constants.HUNGER.MAX / 3) {
+			statusBubbleUtil.removeStatusBubble(agent, 'hunger');
+		}
+
+		this.entityManager.destroyEntity(item);
 	}
 }
 

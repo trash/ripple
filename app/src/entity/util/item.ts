@@ -4,15 +4,8 @@ import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
 import {BaseUtil} from './base';
-import {IItemSearchResult, IRowColumnCoordinates, ItemProperties} from '../../interfaces';
+import {IItemSearchResult, IRowColumnCoordinates, ItemProperties, IItemSearchOptions} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
-
-export interface IItemSearchOptions {
-	itemNames?: string | string[];
-	properties?: ItemProperties[];
-	claimed?: boolean;
-	sortBy?: string;
-}
 
 export class ItemUtil extends BaseUtil {
     removeFromTile (id: number) {

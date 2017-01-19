@@ -32,6 +32,6 @@ export class GoToAttackTarget extends Sequence {
 	close (tick: Tick) {
 		super.close(tick);
 
-		statusBubbleUtil.removeStatusBubble(tick.target.statusBubble, 'sword');
+		statusBubbleUtil.removeStatusBubble(tick.target.id, 'sword');
 	}
 }

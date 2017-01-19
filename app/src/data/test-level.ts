@@ -1,5 +1,9 @@
-import {IPositionState} from '../entity/components/position';
 import {villagerJobs} from './villager-jobs';
+
+import {IEntityComponentData} from '../interfaces';
+
+import {IPositionState} from '../entity/components/position';
+import {IHungerState} from '../entity/components/hunger';
 
 export interface IVillagerComponentOptions {
 	job?: villagerJobs
@@ -7,8 +11,8 @@ export interface IVillagerComponentOptions {
 
 export interface IAgentAssemblageTestData {
     name: string;
-    position?: IPositionState;
 	villager?: IVillagerComponentOptions;
+    data?: IEntityComponentData;
 }
 
 export interface IBuildingAssemblageTestData {

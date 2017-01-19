@@ -5,6 +5,8 @@ import {ComponentEnum} from '../component-enum';
 import {ISleepState} from '../components/sleep';
 import {IVillagerState} from '../components/villager';
 
+import {statusBubbleUtil} from '../util/status-bubble';
+
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 
@@ -36,6 +38,7 @@ export class SleepSystem extends EntitySystem {
             if (sleepState.value <= sleepState.min) {
                 sleepState.isSleeping = false;
                 sleepState.inHome = false;
+                statusBubbleUtil.removeStatusBubble(id, 'sleep');
             }
 
             sleepState.value = util.bound(sleepState.value, sleepState.min, sleepState.max);

@@ -155,7 +155,7 @@ export class GameManager {
 
         // Spawn agents
         this.level.agents.forEach(agent => {
-            this.entityManager.spawner.spawnAgent(agent);
+            this.entityManager.spawner.spawnAgent(agent.name, agent.villager, agent.data);
         });
 
         // Spawn items

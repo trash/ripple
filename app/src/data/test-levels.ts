@@ -1,9 +1,11 @@
+import {constants} from '../data/constants';
+
+import {ITestLevel} from './test-level';
 import {gameLevelFactory} from './game-level-factory';
+import {villagerJobs} from './villager-jobs';
+
 import {IPositionState} from '../entity/components/position';
 import {IBuildingState} from '../entity/components/building';
-import {villagerJobs} from './villager-jobs';
-import {ITestLevel} from './test-level';
-import {constants} from '../data/constants';
 
 export interface ITestLevelGroup {
     name: string;
@@ -41,6 +43,21 @@ export interface ITestLevelGroup {
 	{
 		name: 'Villager Tests',
 		list: [
+			{
+				name: 'Villager eats food when hungry',
+				agents: [{
+					name: 'human',
+					villager: {},
+					data: {
+						hunger: {
+							value: constants.HUNGER.MAX * 1/2
+						}
+					}
+				}],
+				items: {
+					berries: 2
+				}
+			},
 			{
 				name: 'Villager sleeps in house',
 				agents: [{

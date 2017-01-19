@@ -14,8 +14,8 @@ export class RenderableSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Renderable, id) as IRenderableState,
-				positionState = this.manager.getComponentDataForEntity(
+					ComponentEnum.Renderable, id) as IRenderableState;
+			const positionState = this.manager.getComponentDataForEntity(
 					ComponentEnum.Position, id) as IPositionState;
 
 			if (!renderableState.spriteGroup) {
@@ -37,8 +37,8 @@ export class RenderableSystem extends EntitySystem {
 			}
 
 			let lastPosition = spriteManager.positionFromTile(
-					positionState.previousTile.column, positionState.previousTile.row),
-				newPosition = spriteManager.positionFromTile(
+					positionState.previousTile.column, positionState.previousTile.row);
+			let newPosition = spriteManager.positionFromTile(
 					positionState.tile.column, positionState.tile.row);
 
 			// We always need to update moving sprites to make sure their
