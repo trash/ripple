@@ -1,3 +1,4 @@
+import {StatusBubble} from '../data/status-bubble';
 import {HarvesterTask} from './harvester-task';
 import {Professions} from '../data/professions';
 
@@ -16,10 +17,10 @@ export class GathererTask extends HarvesterTask {
 		super({
 			name: 'gatherer-task',
 			taskType: Professions.Gatherer,
-			bubble: 'gather'
+			bubble: StatusBubble.Gather
 		}, resource);
 
 		// Description of the woodcutting task
-		this.description = 'Gathering a resource at ' + this.destinationTile.column + ',' + this.destinationTile.row + '.';
+		this.description = `Gathering a resource at ${this.destinationTile.column}, ${this.destinationTile.row}.`;
 	}
 };

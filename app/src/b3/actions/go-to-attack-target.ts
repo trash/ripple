@@ -1,3 +1,4 @@
+import {StatusBubble} from '../../data/status-bubble';
 import {Sequence} from '../core/sequence';
 import {Tick} from '../core/tick';
 import {AttackTarget} from './attack-target';
@@ -18,7 +19,7 @@ export class GoToAttackTarget extends Sequence {
 				new Inverter({
 					child: new CheckIfAgentIsDead(targetKey)
 				}),
-				new ShowBubble('sword'),
+				new ShowBubble(StatusBubble.Sword),
 				new GoToTarget(targetTileKey, (tick, target) => {
 					this.setDescription(tick,
 						`going to attack agent @ \
@@ -32,6 +33,6 @@ export class GoToAttackTarget extends Sequence {
 	close (tick: Tick) {
 		super.close(tick);
 
-		statusBubbleUtil.removeStatusBubble(tick.target.id, 'sword');
+		statusBubbleUtil.removeStatusBubble(tick.target.id, StatusBubble.Sword);
 	}
 }

@@ -1,11 +1,12 @@
+import {StatusBubble as StatusBubbleEnum} from '../../data/status-bubble';
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
 
 export interface IStatusBubbleState {
-    activeBubbles: string[];
-    activeBubbleName: string;
+    activeBubbles: StatusBubbleEnum[];
+    activeBubbleName: StatusBubbleEnum;
     activeBubbleSprite: PIXI.Sprite;
 }
 

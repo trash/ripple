@@ -1,14 +1,11 @@
 import * as _ from 'lodash';;
 import {Task, ITaskOptions} from './task';
 import {HarvesterTask as HarvesterTaskAction} from '../b3/actions/tasks/harvester-task';
+import {StatusBubble} from '../data/status-bubble';
 import {ComponentEnum} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';
 import {baseUtil} from '../entity/util/base';
 import {IRowColumnCoordinates} from '../interfaces';
-
-interface IHarvesterTaskOptions extends ITaskOptions {
-	bubble: string;
-}
 
 /**
 * Creates a new HarvesterTask object.
@@ -24,10 +21,9 @@ export abstract class HarvesterTask extends Task {
 	destinationTile: IRowColumnCoordinates;
 	resourceEntityId: number;
 
-	constructor (options: IHarvesterTaskOptions, resourceEntityId: number) {
+	constructor (options: ITaskOptions, resourceEntityId: number) {
 		// Call our parent constructor
 		super(options);
-		this.bubble = options.bubble;
 		this.setBehaviorTree(new HarvesterTaskAction(resourceEntityId, this));
 
 
@@ -41,8 +37,8 @@ export abstract class HarvesterTask extends Task {
 		this.maxInstancePool = 2;
 
 		// Description of the harvesting task
-		this.description = 'Harvesting a resource at ' + this.destinationTile.column + ',' +
-			this.destinationTile.row + '.';
+		this.description = `Harvesting a resource at ${this.destinationTile.column},
+			${this.destinationTile.row}.`;
 	}
 
 	getTileFromResource (resourceEntityId: number): IRowColumnCoordinates {

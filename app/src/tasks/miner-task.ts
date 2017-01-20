@@ -1,5 +1,6 @@
 import {HarvesterTask} from './harvester-task';
 import {Professions} from '../data/professions';
+import {StatusBubble} from '../data/status-bubble';
 
 /**
 * Creates a new MinerTask object.
@@ -17,11 +18,11 @@ export class MinerTask extends HarvesterTask {
 		super({
 			name: 'miner-task',
 			taskType: Professions.Miner,
-			bubble: 'mine'
+			bubble: StatusBubble.Mine
 		}, rock);
 
 		// Description of the woodcutting task
-		this.description = 'Mining a rock at ' + this.destinationTile.column + ',' +
-			this.destinationTile.row + '.';
+		this.description = `Mining a rock at ${this.destinationTile.column},
+			${this.destinationTile.row}.`;
 	}
 };

@@ -4,6 +4,7 @@ import {events} from '../events';
 import {BehaviorTree} from '../b3/core/behavior-tree';
 import {TaskQueue} from './task-queue';
 import {Professions} from '../data/professions';
+import {StatusBubble} from '../data/status-bubble';
 import {IBehaviorTreeTickTarget} from '../interfaces';
 
 const debouncedError = _.debounce(console.error, 1000),
@@ -16,6 +17,7 @@ export interface ITaskOptions {
 	description?: string;
 	effortRating?: number;
 	maxInstancePool?: number;
+	bubble?: StatusBubble;
 }
 
 /**
@@ -31,7 +33,7 @@ export class Task {
 	behaviorTree: any;
 	taskType: Professions;
 	contributions: any;
-	bubble: string;
+	bubble: StatusBubble;
 	description: string;
 	effortRating: number;
 	instancePool: Instance[];
@@ -62,6 +64,8 @@ export class Task {
 		if (this.options.behaviorTree) {
 			this.setBehaviorTree(this.options.behaviorTree);
 		}
+
+		this.bubble = options.bubble;
 
 		// Generic task. This should be overwritten by subclasses
 		this.taskType = this.options.taskType;

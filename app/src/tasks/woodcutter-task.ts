@@ -1,5 +1,6 @@
-import {HarvesterTask} from './harvester-task'
+import {HarvesterTask} from './harvester-task';
 import {Professions} from '../data/professions';
+import {StatusBubble} from '../data/status-bubble';
 
 /**
 * Creates a new WoodcutterTask object.
@@ -16,10 +17,11 @@ export class WoodcutterTask extends HarvesterTask {
 		super({
 			name: 'woodcutter-task',
 			taskType: Professions.Woodcutter,
-			bubble: 'mine'
+			bubble: StatusBubble.Mine
 		}, tree);
 
 		// Description of the woodcutting task
-		this.description = 'Cutting a tree down at ' + this.destinationTile.column + ',' + this.destinationTile.row + '.';
+		this.description = `Cutting a tree down at ${this.destinationTile.column},
+			${this.destinationTile.row}.`;
 	}
 };

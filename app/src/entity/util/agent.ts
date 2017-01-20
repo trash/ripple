@@ -7,6 +7,7 @@ import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
+import {StatusBubble} from '../../data/status-bubble';
 import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
 import {cacheService} from '../../services/cache';
 import {statusBubbleUtil} from './status-bubble';
@@ -217,7 +218,7 @@ export class AgentUtil extends BaseUtil {
 		hungerState.value -= constants.foodValue;
 
 		if (hungerState.value < constants.HUNGER.MAX / 3) {
-			statusBubbleUtil.removeStatusBubble(agent, 'hunger');
+			statusBubbleUtil.removeStatusBubble(agent, StatusBubble.Hunger);
 		}
 
 		this.entityManager.destroyEntity(item);

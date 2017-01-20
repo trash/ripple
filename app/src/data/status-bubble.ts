@@ -1,0 +1,19 @@
+export enum StatusBubble {
+    Build,
+    Coin,
+    Deer,
+    Empty,
+    Farm,
+    Gather,
+    Guard,
+    Happy,
+    Hunger,
+    Mine,
+    Mushroom,
+    Potion,
+    Sad,
+    Sleep,
+    Smith,
+    Sword,
+    Torch
+}

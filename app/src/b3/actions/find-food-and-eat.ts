@@ -1,6 +1,7 @@
 import {Sequence} from '../core/sequence';
 import {Tick} from '../core/tick';
 import {util} from '../../util';
+import {StatusBubble} from '../../data/status-bubble';
 
 import {CheckForNearbyItem} from './check-for-nearby-item';
 import {EatItem} from './eat-item';
@@ -19,7 +20,7 @@ export class FindFoodAndEat extends Sequence {
 	constructor () {
 		super({
 			children: [
-				new ShowBubble('hunger'),
+				new ShowBubble(StatusBubble.Hunger),
 				new CheckForNearbyItem(foodKey, {
 					properties: [ItemProperties.food]
 				}, null, true),
@@ -28,7 +29,7 @@ export class FindFoodAndEat extends Sequence {
 					(util.blackboardGet(tick, foodKey) as IItemSearchResult).position.tile),
 				// eat the item
 				new EatItem(foodKey),
-				new HideBubble('hunger')
+				new HideBubble(StatusBubble.Hunger)
 			]
 		});
 		this.description = `Going to eat something.`;

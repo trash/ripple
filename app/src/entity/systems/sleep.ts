@@ -9,6 +9,7 @@ import {statusBubbleUtil} from '../util/status-bubble';
 
 import {util} from '../../util';
 import {constants} from '../../data/constants';
+import {StatusBubble} from '../../data/status-bubble';
 
 export class SleepSystem extends EntitySystem {
     readonly updateInterval = 10;
@@ -38,7 +39,7 @@ export class SleepSystem extends EntitySystem {
             if (sleepState.value <= sleepState.min) {
                 sleepState.isSleeping = false;
                 sleepState.inHome = false;
-                statusBubbleUtil.removeStatusBubble(id, 'sleep');
+                statusBubbleUtil.removeStatusBubble(id, StatusBubble.Sleep);
             }
 
             sleepState.value = util.bound(sleepState.value, sleepState.min, sleepState.max);

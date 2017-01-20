@@ -2,6 +2,7 @@ import {Task} from './task';
 import {BuilderTask as BuilderTaskAction} from '../b3/actions/tasks/builder-task';
 import {ResourceRequirements} from '../resource-requirements';
 import {Professions} from '../data/professions';
+import {StatusBubble} from '../data/status-bubble';
 import {ComponentEnum} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';
 import {IBuildingState} from '../entity/components/building';
@@ -33,7 +34,7 @@ export class BuilderTask extends Task {
 			maxInstancePool: 4,
 		});
 
-		this.bubble = 'build';
+		this.bubble = StatusBubble.Build;
 
 		const positionState = baseUtil._getPositionState(building),
 			constructibleState = baseUtil._getConstructibleState(building),

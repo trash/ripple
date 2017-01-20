@@ -1,5 +1,6 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
+import {StatusBubble} from '../../data/status-bubble';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {IRenderableState} from '../components/renderable';
@@ -49,7 +50,7 @@ export class StatusBubbleSystem extends EntitySystem {
         });
     }
 
-    getNextBubbleName (activeBubbles: string[], activeBubbleName: string) {
+    getNextBubbleName (activeBubbles: StatusBubble[], activeBubbleName: StatusBubble) {
         if (!activeBubbles.length) {
             return null;
         }

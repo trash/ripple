@@ -2,6 +2,7 @@ import {buildingUtil} from '../../entity/util/building';
 import {util} from '../../util';
 import {Tick} from '../core/tick';
 import {constants} from '../../data/constants';
+import {StatusBubble} from '../../data/status-bubble';
 
 import {BehaviorTree} from '../core/behavior-tree';
 import {Priority} from '../core/priority';
@@ -56,7 +57,7 @@ behaviorTree.root = new Priority({
 		new Sequence({
 			children: [
 				new IsTrue(tick => tick.target.sleep.value >= constants.SLEEP.MAX),
-				new ShowBubble('sleep'),
+				new ShowBubble(StatusBubble.Sleep),
 				new Sequence({
 					children: [
 						// We need the villagers to move on to sleeping even if they don't have a home

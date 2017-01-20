@@ -1,12 +1,13 @@
+import {StatusBubble} from '../../data/status-bubble';
 import {b3} from '../';
 import {BaseNode} from '../core/base-node';
 import {Tick} from '../core/tick';
 import {statusBubbleUtil} from '../../entity/util/status-bubble';
 
 export class HideBubble extends BaseNode {
-    bubbleName: string;
+    bubbleName: StatusBubble;
 
-    constructor (bubbleName: string) {
+    constructor (bubbleName: StatusBubble) {
         super();
         this.bubbleName = bubbleName;
     }
