@@ -10,7 +10,10 @@ import {MapTile} from '../../../map/tile';
 const targetKey = 'hauler-task-target';
 
 export class HaulerTask extends MemSequence {
-	constructor (item: number, dropOffLocation: MapTile) {
+	constructor (
+		item: number,
+		dropOffLocation: MapTile
+	) {
 		if (!item || !dropOffLocation) {
 			console.error('broken hauler task created');
 			debugger;

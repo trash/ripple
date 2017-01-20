@@ -10,8 +10,11 @@ export class AddResourceToRequirements extends BaseNode {
 	blackboardKey: string;
 	requiredResources: ResourceRequirements;
 
-	constructor (blackboardKey, requiredResources) {
-			super();
+	constructor (
+		blackboardKey: string,
+		requiredResources: ResourceRequirements
+	) {
+		super();
 		this.blackboardKey = blackboardKey;
 		this.requiredResources = requiredResources;
 	}

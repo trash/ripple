@@ -27,7 +27,7 @@
  **/
 
 import {b3} from '../index';
-import {BaseNode} from './base-node';
+import * as Core from './index';
 
 /**
  * Action is the base class for all action nodes. Thus, if you want to
@@ -36,6 +36,6 @@ import {BaseNode} from './base-node';
  * @extends BaseNode
 **/
 
-export class Action extends BaseNode {
+export class Action extends Core.BaseNode {
     static category = b3.ACTION;
 }

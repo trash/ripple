@@ -27,10 +27,7 @@
  **/
 
 import {b3} from '../index';
-import {Tick} from './tick';
-import {BaseNode} from './base-node';
-import {Composite} from './composite';
-import {Blackboard} from './blackboard';
+import * as Core from './index';
 import {IBehaviorTreeTickTarget} from '../../interfaces';
 
 /**
@@ -104,7 +101,7 @@ export class BehaviorTree {
      * @property root
      * @type {BaseNode}
      */
-    root: Composite;
+    root: Core.Composite;
 
     constructor () {
         this.id = b3.createUUID();
@@ -139,14 +136,14 @@ export class BehaviorTree {
      * @param {Blackboard} blackboard An instance of blackboard object.
      * @returns {Constant} The tick signal state.
     **/
-    tick (target: IBehaviorTreeTickTarget, blackboard: Blackboard): number {
+    tick (target: IBehaviorTreeTickTarget, blackboard: Core.Blackboard): number {
         if (!blackboard) {
             throw 'The blackboard parameter is obligatory and must be an ' +
                     'instance of b3.Blackboard';
         }
 
         /* CREATE A TICK OBJECT */
-        var tick = new Tick();
+        var tick = new Core.Tick();
         tick.target = target;
         tick.blackboard = blackboard;
         tick.tree = this;

@@ -27,10 +27,8 @@
  **/
 
  import {b3} from '../index';
- import {Blackboard} from './blackboard';
- import {BehaviorTree} from './behavior-tree';
- import {BaseNode} from './base-node';
  import {IBehaviorTreeTickTarget} from '../../interfaces';
+ import * as Core from './index';
 
 /**
  * A new Tick object is instantiated every tick by BehaviorTree. It is passed
@@ -48,9 +46,9 @@
 export class Tick {
     target: IBehaviorTreeTickTarget;
     _nodeCount: number;
-    _openNodes: BaseNode[];
-    tree: BehaviorTree;
-    blackboard: Blackboard;
+    _openNodes: Core.BaseNode[];
+    tree: Core.BehaviorTree;
+    blackboard: Core.Blackboard;
 
     constructor () {
         this.initialize();
@@ -80,7 +78,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _enterNode (node: BaseNode) {
+    _enterNode (node: Core.BaseNode) {
         this._nodeCount++;
         this._openNodes.push(node);
 
@@ -94,7 +92,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _openNode (node: BaseNode) {
+    _openNode (node: Core.BaseNode) {
         // console.info(node);
     }
 
@@ -105,7 +103,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _tickNode (node: BaseNode) {
+    _tickNode (node: Core.BaseNode) {
         // console.info(node);
     }
 
@@ -116,7 +114,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _closeNode (node: BaseNode) {
+    _closeNode (node: Core.BaseNode) {
         // console.info(node);
         this._openNodes.pop();
     }
@@ -128,7 +126,7 @@ export class Tick {
      * @param {Object} node The node that called this method.
      * @protected
     **/
-    _exitNode (node: BaseNode) {
+    _exitNode (node: Core.BaseNode) {
         // console.info(node);
     }
 }

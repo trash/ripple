@@ -1,6 +1,5 @@
 import {b3} from '../index';
-import {Decorator} from './decorator';
-import {Tick} from './tick';
+import * as Core from './index';
 
 /**
  * The Inverter decorator inverts the result of the child, returning `SUCCESS`
@@ -10,14 +9,14 @@ import {Tick} from './tick';
  * @class Inverter
  * @extends Decorator
 **/
-export class Inverter extends Decorator {
+export class Inverter extends Core.Decorator {
 	/**
 	 * Tick method.
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
 	 * @return {Constant} A state constant.
 	**/
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}

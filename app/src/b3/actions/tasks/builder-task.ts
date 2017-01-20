@@ -1,12 +1,11 @@
 import {Sequence} from '../../core/sequence';
 import {Tick} from '../../core/tick';
-import {GoToTarget} from '../go-to-target';
-import {GatherResources} from '../gather-resources';
-import {BuildBuilding} from '../build-building';
 import {Task} from '../../../tasks/task';
 import {ResourceRequirements} from '../../../resource-requirements';
 import {IHealthState} from '../../../entity/components/health';
 import {IRowColumnCoordinates} from '../../../interfaces';
+
+import * as Actions from '../index';
 
 export class BuilderTask extends Sequence {
 	constructor (
@@ -17,9 +16,9 @@ export class BuilderTask extends Sequence {
 	) {
 		super({
 			children: [
-				new GatherResources(requiredResources, () => entranceTile),
-				new GoToTarget(() => entranceTile),
-				new BuildBuilding(buildingHealthState, task),
+				new Actions.GatherResources(requiredResources, () => entranceTile),
+				new Actions.GoToTarget(() => entranceTile),
+				new Actions.BuildBuilding(buildingHealthState, task),
 			]
 		});
 	}

@@ -27,8 +27,7 @@
  **/
 
 import {b3} from '../index';
-import {Composite} from './composite';
-import {Tick} from './tick';
+import * as Core from './index';
 
 /**
  * The Sequence node ticks its children sequentially until one of them returns
@@ -38,8 +37,8 @@ import {Tick} from './tick';
  * @class Sequence
  * @extends Composite
 **/
-export class Sequence extends Composite {
-    tick (tick: Tick) {
+export class Sequence extends Core.Composite {
+    tick (tick: Core.Tick) {
         for (let i = 0; i < this.children.length; i++) {
             const status = this.executeChild(tick, this.children[i]);
 

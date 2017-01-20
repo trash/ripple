@@ -1,6 +1,5 @@
 import {b3} from '../index';
-import {Tick} from './tick';
-import {Decorator, IDecoratorOptions} from './decorator';
+import * as Core from './index';
 import {uniqueId} from '../../unique-id';
 import {util} from '../../util';
 /**
@@ -11,15 +10,15 @@ import {util} from '../../util';
  * @class Inverter
  * @extends Decorator
 **/
-export class CallOnce extends Decorator {
+export class CallOnce extends Core.Decorator {
 	uniqueId: string;
 
-	initialize (options: IDecoratorOptions) {
+	initialize (options: Core.IDecoratorOptions) {
 		super.initialize(options);
 		this.uniqueId = uniqueId.get();
 	}
 
-	open (tick: Tick) {
+	open (tick: Core.Tick) {
 		const key = 'calledOnce';
 		if (util.blackboardGet(tick, key, this.uniqueId)) {
 			util.blackboardSet(tick, key, false, this.uniqueId);
@@ -32,7 +31,7 @@ export class CallOnce extends Decorator {
 	 * @param {Tick} tick A tick instance.
 	 * @return {Constant} A state constant.
 	**/
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}

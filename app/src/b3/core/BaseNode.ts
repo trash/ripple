@@ -27,8 +27,7 @@
  **/
 
 import {b3, StatusCode} from '../index';
-import {ChildStatus} from './child-status';
-import {Tick} from './tick';
+import * as Core from './index';
 import {util} from '../../util';
 
 /**
@@ -58,7 +57,7 @@ export class BaseNode {
     category: string;
     children: BaseNode[];
     child: BaseNode;
-    childrenStatus: ChildStatus[];
+    childrenStatus: Core.ChildStatus[];
 
     constructor (...args) {
         this.initialize(...args);
@@ -83,11 +82,11 @@ export class BaseNode {
      * different of `b3.RUNNING`.
      *
      * @method _execute
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
      * @returns {Constant} The tick state.
      * @protected
     **/
-    _execute (tick: Tick): StatusCode {
+    _execute (tick: Core.Tick): StatusCode {
         /* ENTER */
         this._enter(tick);
 
@@ -117,7 +116,7 @@ export class BaseNode {
         return status;
     }
 
-    executeChild (tick: Tick, child: BaseNode): StatusCode {
+    executeChild (tick: Core.Tick, child: BaseNode): StatusCode {
         const status = child._execute(tick);
         this.childrenStatus.push({
             child: child,
@@ -136,10 +135,10 @@ export class BaseNode {
      * Wrapper for enter method.
      *
      * @method _enter
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
      * @protected
     **/
-    _enter (tick: Tick) {
+    _enter (tick: Core.Tick) {
         tick._enterNode(this);
         this.enter(tick);
     }
@@ -148,7 +147,7 @@ export class BaseNode {
         return this.description;
     }
 
-    setDescription (tick: Tick, description: string) {
+    setDescription (tick: Core.Tick, description: string) {
         this.description = description;
         // tick.target.currentAction = this.description;
     };
@@ -157,10 +156,10 @@ export class BaseNode {
      * Wrapper for open method.
      *
      * @method _open
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
      * @protected
     **/
-    _open (tick: Tick) {
+    _open (tick: Core.Tick) {
         tick._openNode(this);
         util.blackboardSet(tick, 'isOpen', true, this.id);
         this.open(tick);
@@ -170,11 +169,11 @@ export class BaseNode {
      * Wrapper for tick method.
      *
      * @method _tick
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
      * @returns {Constant} A state constant.
      * @protected
     **/
-    _tick (tick: Tick): number {
+    _tick (tick: Core.Tick): number {
         tick._tickNode(this);
         const tickReturns = this.tick(tick);
 
@@ -185,10 +184,10 @@ export class BaseNode {
      * Wrapper for close method.
      *
      * @method _close
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
      * @protected
     **/
-    _close (tick: Tick) {
+    _close (tick: Core.Tick) {
         tick._closeNode(this);
         util.blackboardSet(tick, 'isOpen', false, this.id);
         this.close(tick);
@@ -198,10 +197,10 @@ export class BaseNode {
      * Wrapper for exit method.
      *
      * @method _exit
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
      * @protected
     **/
-    _exit (tick: Tick) {
+    _exit (tick: Core.Tick) {
         tick._exitNode(this);
         this.exit(tick);
     }
@@ -211,9 +210,9 @@ export class BaseNode {
      * asked to execute, before the tick itself.
      *
      * @method enter
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
     **/
-    enter (tick: Tick) {}
+    enter (tick: Core.Tick) {}
 
     /**
      * Open method, override this to use. It is called only before the tick
@@ -222,19 +221,19 @@ export class BaseNode {
      * Note: a node will be closed if it returned `b3.RUNNING` in the tick.
      *
      * @method open
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
     **/
-    open (tick: Tick) {}
+    open (tick: Core.Tick) {}
 
     /**
-     * Tick method, override this to use. This method must contain the real
+     * Core.Tick method, override this to use. This method must contain the real
      * execution of node (perform a task, call children, etc.). It is called
      * every time a node is asked to execute.
      *
      * @method tick
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
     **/
-    tick (tick: Tick): StatusCode {
+    tick (tick: Core.Tick): StatusCode {
         return b3.SUCCESS;
     }
 
@@ -244,16 +243,16 @@ export class BaseNode {
      * `b3.RUNNING`.
      *
      * @method close
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
     **/
-    close (tick: Tick) {}
+    close (tick: Core.Tick) {}
 
     /**
      * Exit method, override this to use. Called every time in the end of the
      * execution.
      *
      * @method exit
-     * @param {Tick} tick A tick instance.
+     * @param {Core.Tick} tick A tick instance.
     **/
-    exit (tick: Tick) {}
+    exit (tick: Core.Tick) {}
 }

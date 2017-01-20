@@ -1,7 +1,6 @@
 import {Sequence} from '../../core/sequence';
-import {GoToTarget} from '../go-to-target';
-import {HarvestResource} from '../harvest-resource';
-import {FaceTile} from '../face-tile';
+
+import * as Actions from '../index';
 
 export class HarvesterTask extends Sequence {
 	constructor (resource, task) {
@@ -10,9 +9,9 @@ export class HarvesterTask extends Sequence {
 
 		super({
 			children: [
-				new GoToTarget(tile),
-				new FaceTile(tile),
-				new HarvestResource(resource, task)
+				new Actions.GoToTarget(tile),
+				new Actions.FaceTile(tile),
+				new Actions.HarvestResource(resource, task)
 			]
 		});
 	}

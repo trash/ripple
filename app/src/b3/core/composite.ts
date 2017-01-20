@@ -27,8 +27,7 @@
  **/
 
 import {b3, StatusCode} from '../index';
-import {BaseNode} from './base-node';
-import {Tick} from './tick';
+import * as Core from './index';
 
 /**
  * Composite is the base class for all composite nodes. Thus, if you want to
@@ -43,11 +42,11 @@ import {Tick} from './tick';
 **/
 
 export interface ICompositeOptions {
-    children: BaseNode[];
+    children: Core.BaseNode[];
 };
 
-export class Composite extends BaseNode {
-    children: BaseNode[];
+export class Composite extends Core.BaseNode {
+    children: Core.BaseNode[];
 
     /**
      * Node category. Default to `b3.COMPOSITE`.
@@ -65,7 +64,7 @@ export class Composite extends BaseNode {
         this.childrenStatus = [];
     }
 
-    _execute (tick: Tick): StatusCode {
+    _execute (tick: Core.Tick): StatusCode {
         this.childrenStatus = [];
 
         return super._execute(tick);

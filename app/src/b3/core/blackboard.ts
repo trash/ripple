@@ -27,8 +27,7 @@
  **/
 
  import {b3, StatusCode} from '../index';
- import {BaseNode} from './base-node';
- import {ChildStatus} from './child-status';
+import * as Core from './index';
  import {uniqueId} from '../../unique-id';
 
 interface LastNodeExecutionChain {
@@ -112,7 +111,7 @@ export class Blackboard {
 
     addNodeToExecutionChain (
         treeScope: string,
-        node: BaseNode,
+        node: Core.BaseNode,
         status: StatusCode
     ): number {
         // console.log('Adding node: ', node, b3.humanReadableStatus(status));

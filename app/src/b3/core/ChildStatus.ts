@@ -1,8 +1,8 @@
 import {StatusCode} from '../index';
-import {BaseNode} from './base-node';
+import * as Core from './index';
 
 export interface ChildStatus {
-    child: BaseNode;
+    child: Core.BaseNode;
     status: StatusCode;
     readableStatus: string;
 }

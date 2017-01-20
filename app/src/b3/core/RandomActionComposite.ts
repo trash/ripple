@@ -1,10 +1,9 @@
+import * as _ from 'lodash';
 import {b3} from '../index';
-import {Composite} from '../core/composite';
-import {Tick} from '../core/tick';
-import * as _ from 'lodash';;
+import * as Core from './index';
 
-export class RandomActionComposite extends Composite {
-	tick (tick: Tick) {
+export class RandomActionComposite extends Core.Composite {
+	tick (tick: Core.Tick) {
 		let choices = [],
 			i;
 		for (i = 0; i < this.children.length; i++) {

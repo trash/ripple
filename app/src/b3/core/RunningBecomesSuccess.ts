@@ -1,6 +1,6 @@
 import {b3} from '../index';
-import {Decorator} from './decorator';
-import {Tick} from './tick';
+import * as Core from './index';
+
 /**
  * The Inverter decorator inverts the result of the child, returning `SUCCESS`
  * for `FAILURE` and `FAILURE` for `SUCCESS`.
@@ -9,14 +9,14 @@ import {Tick} from './tick';
  * @class Inverter
  * @extends Decorator
 **/
-export class RunningBecomesFailure extends Decorator {
+export class RunningBecomesSuccess extends Core.Decorator {
 	/**
 	 * Tick method.
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
 	 * @return {Constant} A state constant.
 	**/
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}
@@ -24,7 +24,7 @@ export class RunningBecomesFailure extends Decorator {
 		const status = this.executeChild(tick, this.child);
 
 		if (status === b3.RUNNING) {
-			return b3.FAILURE;
+			return b3.SUCCESS;
 		}
 
 		return status;

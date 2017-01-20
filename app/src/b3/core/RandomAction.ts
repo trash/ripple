@@ -1,8 +1,7 @@
-import {b3} from '../index';
 import * as _ from 'lodash';;
-import {Composite} from './composite';
-import {Tick} from './tick';
+import {b3} from '../index';
 import {util} from '../../util';
+import * as Core from './index';
 
 /**
  * The RandomAction node picks a random child then executes it. It returns
@@ -11,7 +10,7 @@ import {util} from '../../util';
  * @class RandomAction
  * @extends Composite
 **/
-export class RandomAction extends Composite {
+export class RandomAction extends Core.Composite {
     /**
      * Tick method.
      *
@@ -19,7 +18,7 @@ export class RandomAction extends Composite {
      * @param {b3.Tick} tick A tick instance.
      * @returns {Constant} A state constant.
     **/
-    tick (tick: Tick) {
+    tick (tick: Core.Tick) {
         let currentPickedChild = util.blackboardGet(tick, 'currentPickedChild', this.id);
         // If there's no random child we're executing, pick one
         if (!_.isNumber(currentPickedChild)) {

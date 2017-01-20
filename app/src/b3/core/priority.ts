@@ -27,8 +27,7 @@
  **/
 
 import {b3} from '../index';
-import {Composite} from './composite';
-import {Tick} from './tick';
+import * as Core from './index';
 
 /**
  * Priority ticks its children sequentially until one of them returns
@@ -38,7 +37,7 @@ import {Tick} from './tick';
  * @class Priority
  * @extends Composite
 **/
-export class Priority extends Composite {
+export class Priority extends Core.Composite {
     /**
      * Tick method.
      *
@@ -46,7 +45,7 @@ export class Priority extends Composite {
      * @param {Tick} tick A tick instance.
      * @returns {Constant} A state constant.
     **/
-    tick (tick: Tick) {
+    tick (tick: Core.Tick) {
         for (let i = 0; i < this.children.length; i++) {
             const status = this.executeChild(tick, this.children[i]);
 

@@ -2,14 +2,11 @@ import {StatusBubble} from '../../data/status-bubble';
 import {Sequence} from '../core/sequence';
 import {Tick} from '../core/tick';
 
-import * as Actions from './index';
-
-import {GoToTarget} from './go-to-target';
-import {ShowBubble} from './show-bubble';
-import {CheckIfAgentIsDead} from './check-if-agent-is-dead';
 import {Inverter} from '../core/inverter';
 import {util} from '../../util';
 import {statusBubbleUtil} from '../../entity/util/status-bubble';
+
+import * as Actions from './index';
 
 export class GoToAttackTarget extends Sequence {
 	constructor (
@@ -19,10 +16,10 @@ export class GoToAttackTarget extends Sequence {
 		super({
 			children: [
 				new Inverter({
-					child: new CheckIfAgentIsDead(targetKey)
+					child: new Actions.CheckIfAgentIsDead(targetKey)
 				}),
-				new ShowBubble(StatusBubble.Sword),
-				new GoToTarget(targetTileKey, (tick, target) => {
+				new Actions.ShowBubble(StatusBubble.Sword),
+				new Actions.GoToTarget(targetTileKey, (tick, target) => {
 					this.setDescription(tick,
 						`going to attack agent @ \
 						${target}`);

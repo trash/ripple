@@ -1,6 +1,5 @@
 import {b3} from '../index';
-import {Decorator} from './decorator';
-import {Tick} from './tick';
+import * as Core from './index';
 
 /**
  * Repeater is a decorator that runs the given child node until it
@@ -12,26 +11,25 @@ import {Tick} from './tick';
  * @class Repeater
  * @extends Decorator
 **/
-export class RepeatUntilFailure extends Decorator {
+export class RepeatUntilSuccessOrFailure extends Core.Decorator {
 	/**
 	 * Tick method.
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
-	**/
-	tick (tick: Tick) {
+	 **/
+	tick (tick: Core.Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}
-
 		const status = this.executeChild(tick, this.child);
 
 		// If the node completes, we iterate the count 1
-		if (status === b3.RUNNING || status === b3.SUCCESS) {
+		if (status === b3.RUNNING) {
 			return b3.RUNNING;
 		}
 		// FAILURE means we're done here
-		else if (status === b3.FAILURE) {
-			return b3.SUCCESS
+		else if (status === b3.FAILURE || status === b3.SUCCESS) {
+			return b3.SUCCESS;
 		}
 	}
 }

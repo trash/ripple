@@ -1,13 +1,11 @@
 import {b3} from '../index';
-import {Decorator, IDecoratorOptions} from './decorator';
-import {Inverter} from './inverter';
-import {Tick} from './tick';
 import {util} from '../../util';
 import {gameClock} from '../../game/game-clock';
+import * as Core from './index';
 
 var timerKey = 'timer:hours-passed';
 
-interface ITimerOptions extends IDecoratorOptions {
+interface ITimerOptions extends Core.IDecoratorOptions {
 	hours: number;
 }
 
@@ -19,7 +17,7 @@ interface ITimerOptions extends IDecoratorOptions {
  * @class Inverter
  * @extends Decorator
 **/
-export class Timer extends Decorator {
+export class Timer extends Core.Decorator {
 	hours: number;
 
 	constructor (options: ITimerOptions) {
@@ -27,11 +25,11 @@ export class Timer extends Decorator {
 	}
 
 	initialize (options: ITimerOptions) {
-		super.initialize(options as IDecoratorOptions);
+		super.initialize(options as Core.IDecoratorOptions);
 
 		this.hours = options.hours || null;
 	}
-	open (tick: Tick) {
+	open (tick: Core.Tick) {
 		util.blackboardSet(tick, timerKey, false);
 		gameClock.timer(this.hours, () => {
 			util.blackboardSet(tick, timerKey, true);
@@ -43,7 +41,7 @@ export class Timer extends Decorator {
 	 * @param {Tick} tick A tick instance.
 	 * @return {Constant} A state constant.
 	**/
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (!this.child || !this.hours) {
 			debugger;
 			return b3.ERROR;

@@ -3,7 +3,7 @@ import {BaseNode} from '../core/base-node';
 import {Tick} from '../core/tick';
 import {util} from '../../util';
 
-export class WanderAction extends BaseNode {
+export class Wander extends BaseNode {
 	distance: number;
 
 	constructor (distance: number = 3) {

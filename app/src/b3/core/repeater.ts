@@ -1,9 +1,8 @@
 import {b3} from '../index';
-import {Decorator, IDecoratorOptions} from './decorator';
-import {Tick} from './tick';
 import {util} from '../../util';
+import * as Core from './index';
 
-interface RepeaterOptions extends IDecoratorOptions {
+interface RepeaterOptions extends Core.IDecoratorOptions {
 	maxLoop?: number;
 }
 
@@ -17,7 +16,7 @@ interface RepeaterOptions extends IDecoratorOptions {
  * @class Repeater
  * @extends Decorator
 **/
-export class Repeater extends Decorator {
+export class Repeater extends Core.Decorator {
 	maxLoop: number;
 	/**
 	 * Initialization method.
@@ -43,7 +42,7 @@ export class Repeater extends Decorator {
 	 * @method open
 	 * @param {Tick} tick A tick instance.
 	**/
-	open (tick: Tick) {
+	open (tick: Core.Tick) {
 		util.blackboardSet(tick, 'i', 0, this.id);
 	}
 
@@ -52,7 +51,7 @@ export class Repeater extends Decorator {
 	 * @method tick
 	 * @param {Tick} tick A tick instance.
 	**/
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (!this.child) {
 			return b3.ERROR;
 		}
