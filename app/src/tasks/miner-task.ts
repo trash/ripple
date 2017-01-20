@@ -1,5 +1,5 @@
 import {HarvesterTask} from './harvester-task';
-import {professions} from '../data/professions';
+import {Professions} from '../data/professions';
 
 /**
 * Creates a new MinerTask object.
@@ -16,7 +16,7 @@ export class MinerTask extends HarvesterTask {
 		// Call our parent constructor
 		super({
 			name: 'miner-task',
-			taskType: professions.miner,
+			taskType: Professions.Miner,
 			bubble: 'mine'
 		}, rock);
 

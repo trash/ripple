@@ -14,8 +14,8 @@ import {IStatusBubbleState} from '../components/status-bubble';
 
 import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
-import {professionsList, professions} from '../../data/professions';
-import {villagerJobs, villagerJobsMap} from '../../data/villager-jobs';
+import {professionsList, Professions} from '../../data/professions';
+import {VillagerJobs, villagerJobsMap} from '../../data/villager-jobs';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
 import {behaviorTree as villagerTree} from '../../b3/trees/villager';
 
@@ -84,7 +84,7 @@ export class VillagerSystem extends EntitySystem {
 		return null;
     }
 
-    hasProfession (villagerState: IVillagerState, profession: professions): boolean {
+    hasProfession (villagerState: IVillagerState, profession: Professions): boolean {
         const job = villagerJobsMap[villagerState.job];
         return job.professions.includes(profession);
     }

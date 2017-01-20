@@ -1,5 +1,5 @@
 import {HarvesterTask} from './harvester-task';
-import {professions} from '../data/professions';
+import {Professions} from '../data/professions';
 
 /**
 * Creates a new WoodcutterTask object.
@@ -15,7 +15,7 @@ export class GathererTask extends HarvesterTask {
 	constructor (resource) {
 		super({
 			name: 'gatherer-task',
-			taskType: professions.gatherer,
+			taskType: Professions.Gatherer,
 			bubble: 'gather'
 		}, resource);
 

@@ -9,7 +9,7 @@ import {IConstructibleState} from '../components/constructible';
 import {ICollisionState} from '../components/collision';
 import {IHealthState} from '../components/health';
 import {taskQueueManager} from '../../tasks/task-queue-manager';
-import {professions} from '../../data/professions';
+import {Professions} from '../../data/professions';
 import {ResourceRequirements} from '../../resource-requirements';
 import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';
@@ -98,7 +98,7 @@ export class ConstructibleSystem extends EntitySystem {
 	}
 
     createTask (id: number) {
-        const builderTaskQueue = taskQueueManager.professionTaskQueue(professions.builder);
+        const builderTaskQueue = taskQueueManager.professionTaskQueue(Professions.Builder);
 		// Add the build job to the task queue
 		builderTaskQueue.push(id);
     }

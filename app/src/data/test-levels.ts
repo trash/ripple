@@ -2,7 +2,7 @@ import {constants} from '../data/constants';
 
 import {ITestLevel} from './test-level';
 import {gameLevelFactory} from './game-level-factory';
-import {villagerJobs} from './villager-jobs';
+import {VillagerJobs} from './villager-jobs';
 
 import {IPositionState} from '../entity/components/position';
 import {IBuildingState} from '../entity/components/building';
@@ -24,7 +24,7 @@ export interface ITestLevelGroup {
 				agents: [{
 					name: 'human',
 					villager: {
-						job: villagerJobs.builder
+						job: VillagerJobs.Builder
 					}
 				}],
 				items: {
@@ -113,7 +113,7 @@ export interface ITestLevelGroup {
 				agents: [{
 					name: 'human',
 					villager: {
-						job: villagerJobs.laborer
+						job: VillagerJobs.Laborer
 					}
 				}],
 				gameMap: {

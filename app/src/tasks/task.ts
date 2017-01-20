@@ -3,7 +3,7 @@ import {util} from '../util';
 import {events} from '../events';
 import {BehaviorTree} from '../b3/core/behavior-tree';
 import {TaskQueue} from './task-queue';
-import {professions} from '../data/professions';
+import {Professions} from '../data/professions';
 import {IBehaviorTreeTickTarget} from '../interfaces';
 
 const debouncedError = _.debounce(console.error, 1000),
@@ -11,7 +11,7 @@ const debouncedError = _.debounce(console.error, 1000),
 
 export interface ITaskOptions {
 	behaviorTree?: any;
-	taskType: professions;
+	taskType: Professions;
 	name: string;
 	description?: string;
 	effortRating?: number;
@@ -29,7 +29,7 @@ export class Task {
 	ready: boolean;
 	name: string;
 	behaviorTree: any;
-	taskType: professions;
+	taskType: Professions;
 	contributions: any;
 	bubble: string;
 	description: string;

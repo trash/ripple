@@ -1,7 +1,7 @@
 import {Task} from './task';
 import {BuilderTask as BuilderTaskAction} from '../b3/actions/tasks/builder-task';
 import {ResourceRequirements} from '../resource-requirements';
-import {professions} from '../data/professions';
+import {Professions} from '../data/professions';
 import {ComponentEnum} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';
 import {IBuildingState} from '../entity/components/building';
@@ -28,7 +28,7 @@ export class BuilderTask extends Task {
 	constructor (building: number) {
 		// Call our parent constructor
 		super({
-			taskType: professions.builder,
+			taskType: Professions.Builder,
 			name: 'builder-task',
 			maxInstancePool: 4,
 		});

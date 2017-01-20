@@ -1,5 +1,5 @@
 import {HarvesterTask} from './harvester-task'
-import {professions} from '../data/professions';
+import {Professions} from '../data/professions';
 
 /**
 * Creates a new WoodcutterTask object.
@@ -15,7 +15,7 @@ export class WoodcutterTask extends HarvesterTask {
 	constructor (tree: number) {
 		super({
 			name: 'woodcutter-task',
-			taskType: professions.woodcutter,
+			taskType: Professions.Woodcutter,
 			bubble: 'mine'
 		}, tree);
 

@@ -37,7 +37,7 @@ export class SpriteManager {
 			console.error('SpriteManager does not have a tilemap.');
 		}
 
-		var sprite = PIXI.Sprite.fromFrame(name);
+		const sprite = PIXI.Sprite.fromFrame(name);
 
 		if (!outsideTilemap) {
 			this.tilemap.addChildToPosition(sprite as TilemapSprite, column, row);

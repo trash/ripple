@@ -2,7 +2,7 @@ import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
-import {professions} from '../../data/professions';
+import {Professions} from '../../data/professions';
 
 export enum HarvestTypesEnum {
     tree,
@@ -15,7 +15,7 @@ export interface IHarvestableState {
     highlighted: boolean;
     queued: boolean;
     task: Task;
-    profession: professions;
+    profession: Professions;
     drops: string[];
     itemsDropped?: boolean;
     harvestType: HarvestTypesEnum;

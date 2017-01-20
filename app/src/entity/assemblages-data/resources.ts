@@ -4,7 +4,7 @@ import {IHealthState} from '../components/health';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
 import {config} from '../../data/config';
-import {professions} from '../../data/professions';
+import {Professions} from '../../data/professions';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,
     rockHealth = 200,
@@ -25,7 +25,7 @@ const dataList: IEntityComponentData[] = [{
             }
         },
         harvestable: {
-            profession: professions.woodcutter,
+            profession: Professions.Woodcutter,
             highlighted: false,
             queued: false,
             task: null,
@@ -49,7 +49,7 @@ const dataList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: professions.miner,
+            profession: Professions.Miner,
             highlighted: false,
             queued: false,
             task: null,
@@ -74,7 +74,7 @@ const dataList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: professions.gatherer,
+            profession: Professions.Gatherer,
             highlighted: false,
             queued: false,
             task: null,
@@ -100,7 +100,7 @@ const dataList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: professions.gatherer,
+            profession: Professions.Gatherer,
             highlighted: false,
             queued: false,
             task: null,

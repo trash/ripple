@@ -1,5 +1,5 @@
 import {MapTile} from './map/tile';
-import {professions} from './data/professions';
+import {Professions} from './data/professions';
 import {Tick} from './b3/core/tick';
 
 export interface ITileset {
@@ -115,7 +115,7 @@ export interface IItemDefinition {
 	value?: number;
 	requiredResources?: IRequiredResourcesInput;
 	taskQueue?: string;
-	craftProfession?: professions;
+	craftProfession?: Professions;
 	craftTurns?: number;
 	healAmount?: number;
 }

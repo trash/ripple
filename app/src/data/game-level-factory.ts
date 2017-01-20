@@ -1,5 +1,5 @@
 import * as _ from 'lodash';;
-import {villagerJobs} from './villager-jobs';
+import {VillagerJobs} from './villager-jobs';
 import {ITestLevel} from './test-level';
 
 const regularLevel: ITestLevel = {
@@ -7,18 +7,18 @@ const regularLevel: ITestLevel = {
 	agents: [{
 			name: 'human',
 			villager: {
-				job: villagerJobs.laborer
+				job: VillagerJobs.Laborer
 			}
 		}, {
 			name: 'human',
 			villager: {
-				job: villagerJobs.builder
+				job: VillagerJobs.Builder
 			},
 			// inventory: ['sword-wood', 'armor-wood']
 		}, {
 			name: 'human',
 			villager: {
-				job: villagerJobs.builder
+				job: VillagerJobs.Builder
 			}
 		},
 	],

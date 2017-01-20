@@ -1,19 +1,19 @@
-import {professions} from './professions';
+import {Professions} from './professions';
 
-export enum villagerJobs {
-    laborer,
-    guard,
-    builder,
-    farmer,
-    fisherman,
-    blacksmith,
-    unemployed,
-    shopkeeper
+export enum VillagerJobs {
+    Laborer,
+    Guard,
+    Builder,
+    Farmer,
+    Fisherman,
+    Blacksmith,
+    Unemployed,
+    Shopkeeper
 }
 
 export interface IVillagerJob {
-    id?: villagerJobs,
-    professions: professions[];
+    id?: VillagerJobs,
+    professions: Professions[];
     readableName?: string;
 };
 export interface IVillagerJobMap {
@@ -21,49 +21,49 @@ export interface IVillagerJobMap {
 }
 
 export const villagerJobsMap: IVillagerJobMap = {
-    [villagerJobs.unemployed]: {
+    [VillagerJobs.Unemployed]: {
         professions: [
-            professions.citizen
+            Professions.Citizen
         ]
     },
-    [villagerJobs.laborer]: {
+    [VillagerJobs.Laborer]: {
         professions: [
-            professions.gatherer,
-            professions.woodcutter,
-            professions.miner
+            Professions.Gatherer,
+            Professions.Woodcutter,
+            Professions.Miner
         ]
     },
-    [villagerJobs.guard]: {
+    [VillagerJobs.Guard]: {
         professions: [
-            professions.guard
+            Professions.Guard
         ]
     },
-    [villagerJobs.builder]: {
+    [VillagerJobs.Builder]: {
         professions: [
-            professions.builder,
-            professions.woodcutter
+            Professions.Builder,
+            Professions.Woodcutter
         ]
     },
-    [villagerJobs.blacksmith]: {
+    [VillagerJobs.Blacksmith]: {
         professions: [
-            professions.miner,
-            professions.blacksmith
+            Professions.Miner,
+            Professions.Blacksmith
         ]
     },
-    [villagerJobs.farmer]: {
+    [VillagerJobs.Farmer]: {
         professions: [
-            professions.farmer,
-            professions.gatherer
+            Professions.Farmer,
+            Professions.Gatherer
         ]
     },
-    [villagerJobs.fisherman]: {
+    [VillagerJobs.Fisherman]: {
         professions: [
-            professions.fisherman
+            Professions.Fisherman
         ]
     },
-    [villagerJobs.shopkeeper]: {
+    [VillagerJobs.Shopkeeper]: {
         professions: [
-            professions.shopkeeper
+            Professions.Shopkeeper
         ]
     }
 };
@@ -71,6 +71,6 @@ export const villagerJobsMap: IVillagerJobMap = {
 Object.keys(villagerJobsMap).forEach(enumIdString => {
     let enumId = parseInt(enumIdString);
     let villagerJob = villagerJobsMap[enumId];
-    villagerJob.readableName = villagerJobs[enumId];
+    villagerJob.readableName = VillagerJobs[enumId];
     villagerJob.id = enumId;
 })
