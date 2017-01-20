@@ -1,7 +1,9 @@
 import {StatusBubble} from '../../data/status-bubble';
 import {Sequence} from '../core/sequence';
 import {Tick} from '../core/tick';
-import {AttackTarget} from './attack-target';
+
+import * as Actions from './index';
+
 import {GoToTarget} from './go-to-target';
 import {ShowBubble} from './show-bubble';
 import {CheckIfAgentIsDead} from './check-if-agent-is-dead';
@@ -25,7 +27,7 @@ export class GoToAttackTarget extends Sequence {
 						`going to attack agent @ \
 						${target}`);
 				}),
-				new AttackTarget(targetKey),
+				new Actions.AttackTarget(targetKey),
 			]
 		});
 		this.description = 'go to attack target';
