@@ -1,9 +1,8 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 
-export class Sleep extends BaseNode {
-	tick (tick: Tick) {
+export class Sleep extends Core.BaseNode {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 
         agentData.sleep.isSleeping = true;

@@ -1,6 +1,6 @@
-import {Task} from './task';
+import {Task} from './Task';
 // import {storage} from '../services/storage';
-import {HaulerTask as HaulerTaskAction} from '../b3/actions/tasks/hauler-task';
+import * as Tasks from '../b3/Actions/Tasks';
 import {MapTile} from '../map/tile';
 import {Professions} from '../data/professions';
 
@@ -40,7 +40,7 @@ export class HaulerTask extends Task {
 		super({
 			name: 'hauler-task',
 			taskType: Professions.Citizen,
-			behaviorTree: new HaulerTaskAction(item, dropOffLocation)
+			behaviorTree: new Tasks.HaulerTask(item, dropOffLocation)
 		});
 
 		if (noDropOffLocation) {

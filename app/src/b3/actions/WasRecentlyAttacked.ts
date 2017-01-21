@@ -1,9 +1,8 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
-export class WasRecentlyAttacked extends BaseNode {
+export class WasRecentlyAttacked extends Core.BaseNode {
 	turnsSinceLastAttack: number;
 	blackboardKey: string;
 
@@ -13,7 +12,7 @@ export class WasRecentlyAttacked extends BaseNode {
 		this.blackboardKey = blackboardKey;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const target = tick.target;
 		const agent = target.agent;
 		const wasRecentlyAttacked = agent.lastAttacked &&

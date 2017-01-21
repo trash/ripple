@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
-import {Task, ITaskOptions} from './task';
-import {HarvesterTask as HarvesterTaskAction} from '../b3/actions/tasks/harvester-task';
+import {Task, ITaskOptions} from './Task';
+import * as Tasks from '../b3/Actions/Tasks';
 import {StatusBubble} from '../data/status-bubble';
 import {ComponentEnum} from '../entity/component-enum';
 import {IPositionState} from '../entity/components/position';
@@ -24,7 +24,7 @@ export abstract class HarvesterTask extends Task {
 	constructor (options: ITaskOptions, resourceEntityId: number) {
 		// Call our parent constructor
 		super(options);
-		this.setBehaviorTree(new HarvesterTaskAction(resourceEntityId, this));
+		this.setBehaviorTree(new Tasks.HarvesterTask(resourceEntityId, this));
 
 
 		this.resourceEntityId = resourceEntityId;

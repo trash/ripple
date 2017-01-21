@@ -1,6 +1,6 @@
 import {MapTile} from '../../map/tile';
 import {actionTypes} from './types';
-import {ChildStatus} from '../../b3/core/child-status';
+import {ChildStatus} from '../../b3/Core';
 
 export interface UpdateHoveredAgentLastExecutionChainAction {
     type: string;

@@ -1,18 +1,14 @@
-import {WaitWander} from '../actions/wait-wander';
-import {PathAroundMap} from '../actions/path-around-map';
-// import {AttackAttackerIfAttacked} from '../actions/attack-attacker-if-attacked';
-// import {RunFromPredator} from '../actions/run-from-predator';
-import {BehaviorTree} from '../core/behavior-tree';
-import {Priority} from '../core/priority';
+import * as Core from '../core';
+import * as Actions from '../actions';
 
-export let behaviorTree = new BehaviorTree();
+export let behaviorTree = new Core.BehaviorTree();
 
-behaviorTree.root = new Priority({
+behaviorTree.root = new Core.Priority({
 	children: [
-		// new AttackAttackerIfAttacked(),
-		// new RunFromPredator(),
-		// new WaitWander(),
-		new PathAroundMap(),
+		// new Acitons.AttackAttackerIfAttacked(),
+		// new Acitons.RunFromPredator(),
+		// new Acitons.WaitWander(),
+		new Actions.PathAroundMap(),
 	]
 });
 

@@ -1,10 +1,9 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {Instance} from '../../tasks/instance';
 
-export class DoCurrentTask extends BaseNode {
+export class DoCurrentTask extends Core.BaseNode {
 	updatesCurrentAction: boolean;
 
 	constructor () {
@@ -12,7 +11,7 @@ export class DoCurrentTask extends BaseNode {
 		this.updatesCurrentAction = true;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const entityData = tick.target;
 		const taskInstance = entityData.villager.currentTask;
 		if (!taskInstance) {
@@ -31,7 +30,7 @@ export class DoCurrentTask extends BaseNode {
 		return b3.RUNNING;
 	}
 
-	close (tick: Tick) {
+	close (tick: Core.Tick) {
 		const entityData = tick.target
 		const currentTask = entityData.villager.currentTask;
 		// Already called once

@@ -1,10 +1,9 @@
 import {b3} from '../';
-import {Tick} from '../core/tick';
-import {BaseNode} from '../core/base-node';
+import * as Core from '../core';
 import {util} from '../../util';
 import {agentUtil} from '../../entity/util/agent';
 
-export class CheckIfAgentIsDead extends BaseNode {
+export class CheckIfAgentIsDead extends Core.BaseNode {
 	targetKey: string;
 
 	constructor (targetKey) {
@@ -12,7 +11,7 @@ export class CheckIfAgentIsDead extends BaseNode {
 		this.targetKey = targetKey;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agent = tick.target;
 		const target: number = util.blackboardGet(tick, this.targetKey);
 		if (agentUtil.agentIsDead(target)) {

@@ -1,3 +1,6 @@
+import * as _Tasks from './Tasks';
+export const Tasks = _Tasks;
+
 export {AddResourceToRequirements} from './AddResourceToRequirements';
 export {AllResourcesGathered} from './AllresourcesGathered';
 export {AttackTarget} from './AttackTarget';

@@ -1,4 +1,4 @@
-import {MemSequence} from '../../core/mem-sequence';
+import * as Core from '../../core';
 // import {GoToTarget} from '../go-to-target';
 // import {PickupItem} from '../pickup-item';
 // import {StoreItemToTile} from '../store-item-to-tile';
@@ -9,7 +9,7 @@ import {MapTile} from '../../../map/tile';
 
 const targetKey = 'hauler-task-target';
 
-export class HaulerTask extends MemSequence {
+export class HaulerTask extends Core.MemSequence {
 	constructor (
 		item: number,
 		dropOffLocation: MapTile

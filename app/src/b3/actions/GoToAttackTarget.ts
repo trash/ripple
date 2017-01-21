@@ -1,21 +1,18 @@
 import {StatusBubble} from '../../data/status-bubble';
-import {Sequence} from '../core/sequence';
-import {Tick} from '../core/tick';
-
-import {Inverter} from '../core/inverter';
+import * as Core from '../core';
 import {util} from '../../util';
 import {statusBubbleUtil} from '../../entity/util/status-bubble';
 
 import * as Actions from './index';
 
-export class GoToAttackTarget extends Sequence {
+export class GoToAttackTarget extends Core.Sequence {
 	constructor (
 		targetKey: string,
 		targetTileKey: string
 	) {
 		super({
 			children: [
-				new Inverter({
+				new Core.Inverter({
 					child: new Actions.CheckIfAgentIsDead(targetKey)
 				}),
 				new Actions.ShowBubble(StatusBubble.Sword),
@@ -29,7 +26,7 @@ export class GoToAttackTarget extends Sequence {
 		});
 		this.description = 'go to attack target';
 	}
-	close (tick: Tick) {
+	close (tick: Core.Tick) {
 		super.close(tick);
 
 		statusBubbleUtil.removeStatusBubble(tick.target.id, StatusBubble.Sword);

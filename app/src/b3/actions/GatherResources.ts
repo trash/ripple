@@ -1,35 +1,32 @@
 import {dropOffTargetKeyOrFunctionType} from '../../interfaces';
 import {ResourceRequirements} from '../../resource-requirements';
-import {Sequence} from '../core/sequence';
-import {MemPriority} from '../core/mem-priority';
-import {MemSequence} from '../core/mem-sequence';
-import {Inverter} from '../core/inverter';
+import * as Core from '../core';
 
 import * as Actions from './index';
 
 const requiredResourceKey = 'required-resource';
 const goToTargetKey = 'required-resource-go-to-target';
 
-export class GatherResources extends Sequence {
+export class GatherResources extends Core.Sequence {
 	constructor (
 		requiredResources: ResourceRequirements,
 		dropOffLocation: dropOffTargetKeyOrFunctionType
 	) {
 		super({
 			children: [
-				new MemPriority({
+				new Core.MemPriority({
 					children: [
-						new Inverter({
-							child: new Sequence({
+						new Core.Inverter({
+							child: new Core.Sequence({
 								children: [
-									new Inverter({
+									new Core.Inverter({
 										child: new Actions.BlackboardValueExists(requiredResourceKey)
 									}),
 									new Actions.GetRequiredResource(requiredResourceKey, goToTargetKey, requiredResources, dropOffLocation)
 								]
 							}),
 						}),
-						new MemSequence({
+						new Core.MemSequence({
 							children: [
 								new Actions.GoToTarget(goToTargetKey),
 								new Actions.PickupItem(requiredResourceKey),

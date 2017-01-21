@@ -1,11 +1,10 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 
-export class ContinueSleeping extends BaseNode {
+export class ContinueSleeping extends Core.BaseNode {
 	updatesCurrentAction: boolean;
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 
 		if (agentData.sleep.isSleeping) {

@@ -1,9 +1,8 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
-export class Wander extends BaseNode {
+export class Wander extends Core.BaseNode {
 	distance: number;
 
 	constructor (distance: number = 3) {
@@ -15,7 +14,7 @@ export class Wander extends BaseNode {
 		this.distance = distance;
 	}
 
-	open (tick: Tick) {
+	open (tick: Core.Tick) {
 		const randomTile = tick.target.map.getRandomTile({
 			accessible: true,
 			range: 1,
@@ -29,7 +28,7 @@ export class Wander extends BaseNode {
 		util.blackboardSet(tick, 'destination', randomTile);
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		var arrived = util.blackboardGet(tick, 'arrived');
 		if (!arrived) {
 			util.blackboardSet(tick, 'arrived', true);

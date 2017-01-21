@@ -1,12 +1,11 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {ResourceRequirements} from '../../resource-requirements';
 import {itemUtil} from '../../entity/util/item';
 import {dropOffTargetKeyOrFunctionType, IRowColumnCoordinates} from '../../interfaces';
 
-export class GetRequiredResource extends BaseNode {
+export class GetRequiredResource extends Core.BaseNode {
 	blackboardKey: string;
 	goToTargetKey: string;
 	requiredResources: ResourceRequirements;
@@ -24,7 +23,7 @@ export class GetRequiredResource extends BaseNode {
 		this.requiredResources = requiredResources;
 		this.dropOffTargetKeyOrFunction = dropOffTargetKeyOrFunction;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 		let requiredResourceName = this.requiredResources.pickRequiredResource();
 		if (!requiredResourceName) {

@@ -1,12 +1,12 @@
 import {events} from '../events';
-import {Task} from './task';
-import {TaskQueue} from './task-queue';
+import {Task} from './Task';
+import {TaskQueue} from './TaskQueue';
 
-import {BuilderTask} from './builder-task';
-import {GathererTask} from './gatherer-task';
-import {WoodcutterTask} from './woodcutter-task';
-import {HaulerTask} from './hauler-task';
-import {MinerTask} from './miner-task';
+import {BuilderTask} from './BuilderTask';
+import {GathererTask} from './GathererTask';
+import {WoodcutterTask} from './WoodcutterTask';
+import {HaulerTask} from './HaulerTask';
+import {MinerTask} from './MinerTask';
 
 import {Professions} from '../data/professions';
 

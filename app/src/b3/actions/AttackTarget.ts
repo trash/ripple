@@ -1,10 +1,9 @@
 import {b3} from '../index';
 import {util} from '../../util';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {agentUtil} from '../../entity/util/agent';
 
-export class AttackTarget extends BaseNode {
+export class AttackTarget extends Core.BaseNode {
 	targetKey: string;
 
 	constructor (targetKey: string) {
@@ -12,7 +11,7 @@ export class AttackTarget extends BaseNode {
 		this.targetKey = targetKey;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agent = tick.target;
 		const target: number = util.blackboardGet(tick, this.targetKey);
 

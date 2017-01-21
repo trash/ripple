@@ -1,12 +1,11 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {ResourceRequirements} from '../../resource-requirements';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
 import {inventoryUtil} from '../../entity/util/inventory';
 
-export class AddResourceToRequirements extends BaseNode {
+export class AddResourceToRequirements extends Core.BaseNode {
 	blackboardKey: string;
 	requiredResources: ResourceRequirements;
 
@@ -18,7 +17,7 @@ export class AddResourceToRequirements extends BaseNode {
 		this.blackboardKey = blackboardKey;
 		this.requiredResources = requiredResources;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			target = util.blackboardGet(tick, this.blackboardKey) as IItemSearchResult;
 

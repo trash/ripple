@@ -11,7 +11,7 @@ import {HoverElement} from '../../ui/hover-element';
 import {dragSelect} from '../../ui/drag-select';
 import {cursorManager} from '../../ui/cursor-manager';
 import {EventEmitter2} from 'eventemitter2';
-import {taskQueueManager} from '../../tasks/task-queue-manager';
+import {taskQueueManager} from '../../tasks/TaskQueueManager';
 import {GameMap} from '../../map';
 import {IRowColumnCoordinates} from '../../interfaces';
 

@@ -8,7 +8,7 @@ import {IHealthBarState} from '../components/health-bar';
 import {IConstructibleState} from '../components/constructible';
 import {ICollisionState} from '../components/collision';
 import {IHealthState} from '../components/health';
-import {taskQueueManager} from '../../tasks/task-queue-manager';
+import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {Professions} from '../../data/professions';
 import {ResourceRequirements} from '../../resource-requirements';
 import {IItemSearchResult} from '../../interfaces';

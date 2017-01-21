@@ -1,12 +1,9 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Priority} from '../core/priority';
-import {Sequence} from '../core/sequence';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
-class ShouldMoveRight extends BaseNode {
-	tick (tick: Tick) {
+class ShouldMoveRight extends Core.BaseNode {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			currentTileCoords = agentData.position.tile,
 			dimension = agentData.map.dimension,
@@ -18,8 +15,8 @@ class ShouldMoveRight extends BaseNode {
 		return b3.FAILURE;
 	}
 }
-class ShouldMoveDown extends BaseNode {
-	tick (tick: Tick) {
+class ShouldMoveDown extends Core.BaseNode {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			currentTileCoords = agentData.position.tile,
 			dimension = agentData.map.dimension,
@@ -31,8 +28,8 @@ class ShouldMoveDown extends BaseNode {
 		return b3.FAILURE;
 	}
 }
-class ShouldMoveLeft extends BaseNode {
-	tick (tick: Tick) {
+class ShouldMoveLeft extends Core.BaseNode {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			currentTileCoords = agentData.position.tile,
 			dimension = agentData.map.dimension,
@@ -44,8 +41,8 @@ class ShouldMoveLeft extends BaseNode {
 		return b3.FAILURE;
 	}
 }
-class ShouldMoveUp extends BaseNode {
-	tick (tick: Tick) {
+class ShouldMoveUp extends Core.BaseNode {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			currentTileCoords = agentData.position.tile,
 			dimension = agentData.map.dimension,
@@ -58,14 +55,14 @@ class ShouldMoveUp extends BaseNode {
 	}
 }
 
-class Move extends BaseNode {
+class Move extends Core.BaseNode {
 	direction: string;
 	constructor (direction: string) {
 		super();
 		this.direction = direction;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			currentTileCoords = agentData.position.tile,
 			dimension = agentData.map.dimension;
@@ -98,29 +95,29 @@ class Move extends BaseNode {
 	}
 }
 
-export class PathAroundMap extends Priority {
+export class PathAroundMap extends Core.Priority {
 	constructor () {
 		super({
 			children: [
-				new Sequence({
+				new Core.Sequence({
 					children: [
 						new ShouldMoveUp(),
 						new Move('up')
 					]
 				}),
-				new Sequence({
+				new Core.Sequence({
 					children: [
 						new ShouldMoveRight(),
 						new Move('right')
 					]
 				}),
-				new Sequence({
+				new Core.Sequence({
 					children: [
 						new ShouldMoveDown(),
 						new Move('down')
 					]
 				}),
-				new Sequence({
+				new Core.Sequence({
 					children: [
 						new ShouldMoveLeft(),
 						new Move('left')
@@ -131,10 +128,10 @@ export class PathAroundMap extends Priority {
 	}
 }
 
-export class OldPathAroundMap extends BaseNode {
+export class OldPathAroundMap extends Core.BaseNode {
 	static description = 'Wandering.';
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target,
 			currentTileCoords = agentData.position.tile,
 			dimension = agentData.map.dimension;

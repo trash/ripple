@@ -1,11 +1,10 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 
 import {IRowColumnCoordinates} from '../../interfaces';
 import {positionUtil} from '../../entity/util/position';
 
-export class FaceTile extends BaseNode {
+export class FaceTile extends Core.BaseNode {
 	tile: IRowColumnCoordinates;
 
 	constructor (tile: IRowColumnCoordinates) {
@@ -16,7 +15,7 @@ export class FaceTile extends BaseNode {
 		}
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 		const direction = positionUtil.directionToTile(agentData.position.tile, this.tile);
 

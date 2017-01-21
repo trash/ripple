@@ -1,6 +1,5 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
 
@@ -11,7 +10,7 @@ import {IItemSearchResult} from '../../interfaces';
  *
  * @param {String} key target key
  */
-export class HandleFoodToBeEaten extends BaseNode {
+export class HandleFoodToBeEaten extends Core.BaseNode {
 	targetKey: string;
 
 	constructor (key: string) {
@@ -19,7 +18,7 @@ export class HandleFoodToBeEaten extends BaseNode {
 		this.targetKey = key;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
         const food = util.blackboardGet(tick, this.targetKey) as IItemSearchResult;
 

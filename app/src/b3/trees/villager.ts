@@ -4,98 +4,80 @@ import {Tick} from '../core/tick';
 import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/status-bubble';
 
-import {BehaviorTree} from '../core/behavior-tree';
-import {Priority} from '../core/priority';
-import {Sequence} from '../core/sequence';
-import {RandomAction} from '../core/random-action';
-import {FailureBecomesSuccess} from '../core/failure-becomes-success';
+import * as Core from '../core';
+import * as Actions from '../actions';
 
-import {WaitWander} from '../actions/wait-wander';
-import {PathAroundMap} from '../actions/path-around-map';
-import {DoCurrentTask} from '../actions/do-current-task';
-import {WasRecentlyAttacked} from '../actions/was-recently-attacked';
-import {FleeFromTarget} from '../actions/flee-from-target';
-import {GoToTarget} from '../actions/go-to-target';
-import {BuildingWithSpaceIsNearby} from '../actions/building-with-space-is-nearby';
-import {EnterBuilding} from '../actions/enter-building';
-import {ContinueSleeping} from '../actions/continue-sleeping';
-import {Sleep} from '../actions/sleep';
-import {IsTrue} from '../actions/is-true';
-import {SetBlackboardValue} from '../actions/set-blackboard-value';
-import {FindFoodAndEat} from '../actions/find-food-and-eat';
-import {ShowBubble} from '../actions/show-bubble';
-
-export let behaviorTree = new BehaviorTree();
+export let behaviorTree = new Core.BehaviorTree();
 
 const wasRecentlyAttackedKey = 'was-recently-attacked';
 const fleeBuildingKey = 'flee-building';
 const findHomeKey = 'find-home';
 
-behaviorTree.root = new Priority({
+behaviorTree.root = new Core.Priority({
 	children: [
-		new ContinueSleeping(),
+		new Actions.ContinueSleeping(),
 		// Make them flee if they've been attacked recently
-		new Sequence({
+		new Core.Sequence({
 			children: [
-				new WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
-				new Priority({
+				new Actions.WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
+				new Core.Priority({
 					children: [
-						new Sequence({
+						new Core.Sequence({
 							children: [
-								new BuildingWithSpaceIsNearby(fleeBuildingKey),
-								new GoToTarget((tick: Tick) =>
+								new Actions.BuildingWithSpaceIsNearby(fleeBuildingKey),
+								new Actions.GoToTarget((tick: Tick) =>
 									buildingUtil.getTileFromBuilding(util.blackboardGet(tick, fleeBuildingKey))),
-								new EnterBuilding(fleeBuildingKey)
+								new Actions.EnterBuilding(fleeBuildingKey)
 							]
 						}),
-						new FleeFromTarget(wasRecentlyAttackedKey)
+						new Actions.FleeFromTarget(wasRecentlyAttackedKey)
 					]
 				})
 			]
 		}),
 		// Check if they need to sleep
-		new Sequence({
+		new Core.Sequence({
 			children: [
-				new IsTrue(tick => tick.target.sleep.value >= constants.SLEEP.MAX),
-				new ShowBubble(StatusBubble.Sleep),
-				new Sequence({
+				new Actions.IsTrue(tick => tick.target.sleep.value >= constants.SLEEP.MAX),
+				new Actions.ShowBubble(StatusBubble.Sleep),
+				new Core.Sequence({
 					children: [
 						// We need the villagers to move on to sleeping even if they don't have a home
-						new FailureBecomesSuccess({
-							child: new Sequence({
+						new Core.FailureBecomesSuccess({
+							child: new Core.Sequence({
 								children: [
-									new IsTrue(tick => !!tick.target.villager.home),
-									new SetBlackboardValue(findHomeKey,
+									new Actions.IsTrue(tick => !!tick.target.villager.home),
+									new Actions.SetBlackboardValue(findHomeKey,
 										tick => tick.target.villager.home),
-									new GoToTarget((tick: Tick) =>
+									new Actions.GoToTarget((tick: Tick) =>
 										buildingUtil.getTileFromBuilding(util.blackboardGet(tick, findHomeKey))),
-									new EnterBuilding(findHomeKey)
+									new Actions.EnterBuilding(findHomeKey)
 								]
 							})
 						}),
-						new Sleep()
+						new Actions.Sleep()
 					]
 				})
 			]
 		}),
 		// Super hungry
-		new Sequence({
+		new Core.Sequence({
 			children: [
-				new IsTrue(tick => tick.target.hunger.value > constants.HUNGER.MAX * 2/3),
-				new FindFoodAndEat()
+				new Actions.IsTrue(tick => tick.target.hunger.value > constants.HUNGER.MAX * 2/3),
+				new Actions.FindFoodAndEat()
 			]
 		}),
 		// Profession stuff
-		new Sequence({
+		new Core.Sequence({
 			children: [
-				new DoCurrentTask(),
+				new Actions.DoCurrentTask(),
 			]
 		}),
 		// Idle shizz
-		new RandomAction({
+		new Core.RandomAction({
 			children: [
-				new WaitWander(20),
-				new WaitWander(10),
+				new Actions.WaitWander(20),
+				new Actions.WaitWander(10),
 				// new StareAtRandomObject()
 			]
 		})

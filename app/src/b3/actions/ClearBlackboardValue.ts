@@ -1,9 +1,8 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
-export class ClearBlackboardValue extends BaseNode {
+export class ClearBlackboardValue extends Core.BaseNode {
 	blackboardKey: string;
 
 	constructor (blackboardKey) {
@@ -11,7 +10,7 @@ export class ClearBlackboardValue extends BaseNode {
 		this.blackboardKey = blackboardKey;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		util.blackboardSet(tick, this.blackboardKey, null);
 		return b3.SUCCESS;
 	}

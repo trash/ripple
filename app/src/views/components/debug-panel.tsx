@@ -13,7 +13,7 @@ import {IConstructibleState} from '../../entity/components/constructible';
 import {IPositionState} from '../../entity/components/position';
 
 import {MapTile} from '../../map/tile';
-import {ChildStatus} from '../../b3/core/child-status';
+import {ChildStatus} from '../../b3/core';
 
 interface DebugPanelProps {
     tile: MapTile;

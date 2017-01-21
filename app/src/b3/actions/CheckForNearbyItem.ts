@@ -1,12 +1,11 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {IItemSearchOptions} from '../../interfaces';
 import {util} from '../../util';
 import {itemUtil} from '../../entity/util/item';
 import {MapUtil} from '../../map/map-util';
 
-export class CheckForNearbyItem extends BaseNode {
+export class CheckForNearbyItem extends Core.BaseNode {
 	targetKey: string;
 	searchOptions: IItemSearchOptions;
 	distance: number;
@@ -24,7 +23,7 @@ export class CheckForNearbyItem extends BaseNode {
 		this.distance = distance;
 		this.cancelItemsToBeStored = cancelItemsToBeStored;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
         const agentTile = tick.target.position.tile;
         const target = itemUtil.getNearestItem(
             agentTile,

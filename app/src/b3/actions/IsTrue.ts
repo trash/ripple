@@ -1,10 +1,9 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 
-type CheckFunction = (tick: Tick) => boolean;
+type CheckFunction = (tick: Core.Tick) => boolean;
 
-export class IsTrue extends BaseNode {
+export class IsTrue extends Core.BaseNode {
 	checkFunc: CheckFunction;
 
 	constructor (checkFunc: CheckFunction) {
@@ -12,7 +11,7 @@ export class IsTrue extends BaseNode {
 		this.checkFunc = checkFunc;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (this.checkFunc(tick)) {
 			return b3.SUCCESS;
 		} else {

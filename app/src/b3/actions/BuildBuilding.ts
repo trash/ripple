@@ -1,10 +1,9 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {IHealthState} from '../../entity/components/health';
 import {Task} from '../../tasks/task';
 
-export class BuildBuilding extends BaseNode {
+export class BuildBuilding extends Core.BaseNode {
 	buildingHealthState: IHealthState;
 	task: Task;
 
@@ -17,7 +16,7 @@ export class BuildBuilding extends BaseNode {
 		this.task = task;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 		// The amount of work the citizen will contribute is equivalent to his level right now
 		const contribution = this.task.contribute(agentData);

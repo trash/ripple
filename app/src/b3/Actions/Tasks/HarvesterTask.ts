@@ -1,8 +1,7 @@
-import {Sequence} from '../../core/sequence';
-
+import * as Core from '../../core';
 import * as Actions from '../index';
 
-export class HarvesterTask extends Sequence {
+export class HarvesterTask extends Core.Sequence {
 	constructor (resource, task) {
 		const tile = task.getTileFromResource(resource);
 		const resourceTile = resource.tile;

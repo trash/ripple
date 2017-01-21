@@ -1,9 +1,8 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {ResourceRequirements} from '../../resource-requirements';
 
-export class AllResourcesGathered extends BaseNode {
+export class AllResourcesGathered extends Core.BaseNode {
 	requiredResources: ResourceRequirements;
 
 	constructor (
@@ -13,7 +12,7 @@ export class AllResourcesGathered extends BaseNode {
 		this.requiredResources = requiredResources;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const requiredResource = this.requiredResources.pickRequiredResource();
 		if (!requiredResource) {
 			return b3.SUCCESS;

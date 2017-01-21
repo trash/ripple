@@ -26,13 +26,13 @@
  * @module Behavior3JS
  **/
 
- import {b3, StatusCode} from '../index';
+import {b3, StatusCode} from '../index';
 import * as Core from './index';
- import {uniqueId} from '../../unique-id';
+import {uniqueId} from '../../unique-id';
 
 interface LastNodeExecutionChain {
-    success: ChildStatus[];
-    full: ChildStatus[];
+    success: Core.ChildStatus[];
+    full: Core.ChildStatus[];
 }
 
 interface TreeMemoryInstance {

@@ -1,10 +1,9 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {agentUtil} from '../../entity/util/agent';
 
-export class FleeFromTarget extends BaseNode {
+export class FleeFromTarget extends Core.BaseNode {
 	blackboardKey: string;
 
 	constructor (blackboardKey: string) {
@@ -12,7 +11,7 @@ export class FleeFromTarget extends BaseNode {
 		this.blackboardKey = blackboardKey;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agent = tick.target.id;
 		const nearby = util.blackboardGet(tick, this.blackboardKey);
 

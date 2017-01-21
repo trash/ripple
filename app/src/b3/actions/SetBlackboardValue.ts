@@ -1,11 +1,10 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
-type GetValueFunction = (tick: Tick) => any;
+type GetValueFunction = (tick: Core.Tick) => any;
 
-export class SetBlackboardValue extends BaseNode {
+export class SetBlackboardValue extends Core.BaseNode {
 	blackboardKey: string;
 	getValueFunc: GetValueFunction;
 
@@ -14,7 +13,7 @@ export class SetBlackboardValue extends BaseNode {
 		this.blackboardKey = blackboardKey;
 		this.getValueFunc = getValueFunc;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		util.blackboardSet(tick, this.blackboardKey, this.getValueFunc(tick));
 		return b3.SUCCESS;
 	};

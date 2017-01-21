@@ -1,12 +1,11 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {Task} from '../../tasks/task';
 import {ComponentEnum} from '../../entity/component-enum';
 import {IHealthState} from '../../entity/components/health';
 import {harvestableUtil} from '../../entity/util/harvestable';
 
-export class HarvestResource extends BaseNode {
+export class HarvestResource extends Core.BaseNode {
 	resourceEntityId: number;
 	task: Task;
 
@@ -18,7 +17,7 @@ export class HarvestResource extends BaseNode {
 		this.resourceEntityId = resourceEntityId;
 		this.task = task;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 
 		// Calculate the citizen's contribution

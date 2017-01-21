@@ -1,16 +1,15 @@
 import * as _ from 'lodash';;
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {PathUtil} from '../../util/path';
 import {MapUtil} from '../../map/map-util';
 import {IPositionState} from '../../entity/components/position';
 import {IRowColumnCoordinates, dropOffTargetKeyOrFunctionType} from '../../interfaces';
 
-type updateDescription = (tick: Tick, target: IRowColumnCoordinates) => void;
+type updateDescription = (tick: Core.Tick, target: IRowColumnCoordinates) => void;
 
-export class GoToTarget extends BaseNode {
+export class GoToTarget extends Core.BaseNode {
 	targetKeyOrFunction: dropOffTargetKeyOrFunctionType;
 	updateDescription: updateDescription;
 
@@ -23,7 +22,7 @@ export class GoToTarget extends BaseNode {
 		this.updateDescription = updateDescription || _.noop;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 		let target: IRowColumnCoordinates = util.targetKeyOrFunction(tick, this.targetKeyOrFunction);
 		if (!target) {

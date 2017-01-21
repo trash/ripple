@@ -1,5 +1,5 @@
-import {Task} from './task';
-import {Instance} from './instance';
+import {Task} from './Task';
+import {Instance} from './Instance';
 
 /**
 * Creates a new TaskQueue object.

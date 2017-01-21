@@ -1,13 +1,12 @@
 import {b3} from '../index';
 import {util} from '../../util';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {buildingUtil} from '../../entity/util/building';
 
 /**
  * An action to just make a citizen wait for a turn
  */
-export class BuildingWithSpaceIsNearby extends BaseNode {
+export class BuildingWithSpaceIsNearby extends Core.BaseNode {
 	blackboardKey: string;
 
 	constructor (blackboardKey: string) {
@@ -15,7 +14,7 @@ export class BuildingWithSpaceIsNearby extends BaseNode {
 		this.blackboardKey = blackboardKey;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const target = tick.target;
 		const building = buildingUtil.getNearestBuildingWithOccupantSpace();
 

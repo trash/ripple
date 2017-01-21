@@ -1,5 +1,4 @@
-import {Sequence} from '../core/sequence';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {StatusBubble} from '../../data/status-bubble';
 
@@ -9,7 +8,7 @@ import {ItemProperties, IItemSearchResult} from '../../interfaces';
 
 const foodKey = 'find-food-item';
 
-export class FindFoodAndEat extends Sequence {
+export class FindFoodAndEat extends Core.Sequence {
 	description: string;
 	updatesCurrentAction: boolean;
 
@@ -31,7 +30,7 @@ export class FindFoodAndEat extends Sequence {
 		this.description = `Going to eat something.`;
 	}
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		return super.tick(tick);
 	}
 }

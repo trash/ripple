@@ -1,5 +1,5 @@
+import {HarvesterTask} from './HarvesterTask';
 import {StatusBubble} from '../data/status-bubble';
-import {HarvesterTask} from './harvester-task';
 import {Professions} from '../data/professions';
 
 /**

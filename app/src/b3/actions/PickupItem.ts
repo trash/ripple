@@ -1,19 +1,18 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
 import {itemUtil} from '../../entity/util/item';
 import {inventoryUtil} from '../../entity/util/inventory';
 
-export class PickupItem extends BaseNode {
+export class PickupItem extends Core.BaseNode {
 	targetKey: string;
 
 	constructor (targetKey: string) {
 		super();
 		this.targetKey = targetKey;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agentData = tick.target;
 		const target = util.blackboardGet(tick, this.targetKey) as IItemSearchResult;
 

@@ -1,16 +1,15 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
-export class BlackboardValueExists extends BaseNode {
+export class BlackboardValueExists extends Core.BaseNode {
 	blackboardKey: string;
 
 	constructor (blackboardKey) {
 		super();
 		this.blackboardKey = blackboardKey;
 	}
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		if (util.blackboardGet(tick, this.blackboardKey)) {
 			return b3.SUCCESS;
 		}

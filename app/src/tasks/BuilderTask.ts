@@ -1,5 +1,5 @@
-import {Task} from './task';
-import {BuilderTask as BuilderTaskAction} from '../b3/actions/tasks/builder-task';
+import {Task} from './Task';
+import * as Tasks from '../b3/Actions/Tasks';
 import {ResourceRequirements} from '../resource-requirements';
 import {Professions} from '../data/professions';
 import {StatusBubble} from '../data/status-bubble';
@@ -41,7 +41,7 @@ export class BuilderTask extends Task {
 			healthState = baseUtil._getHealthState(building),
 			buildingState = baseUtil._getBuildingState(building);
 
-		this.setBehaviorTree(new BuilderTaskAction(healthState,
+		this.setBehaviorTree(new Tasks.BuilderTask(healthState,
 			constructibleState.resourceRequirements,
 			buildingState.entranceTile, this));
 

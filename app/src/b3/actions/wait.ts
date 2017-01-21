@@ -1,11 +1,10 @@
 import {b3} from '../index';
-import {BaseNode} from '../core/base-node';
-import {Tick} from '../core/tick';
+import * as Core from '../core';
 import {util} from '../../util';
 
 const blackboardKey = 'current-wait-turn';
 
-export class Wait extends BaseNode {
+export class Wait extends Core.BaseNode {
 	hours: number;
 	turns: number;
 
@@ -22,7 +21,7 @@ export class Wait extends BaseNode {
 		this.description = 'Waiting.';
 	}
 
-	open (tick: Tick) {
+	open (tick: Core.Tick) {
 		if (!this.hours) {
 			return;
 		}
@@ -31,7 +30,7 @@ export class Wait extends BaseNode {
 		util.blackboardSet(tick, blackboardKey, 0);
 	};
 
-	tick (tick: Tick) {
+	tick (tick: Core.Tick) {
 		const agent = tick.target;
 		const currentTurn = util.blackboardGet(tick, blackboardKey);
 		if (!this.hours || currentTurn === this.turns) {

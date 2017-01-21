@@ -16,8 +16,8 @@ import {Task} from '../../tasks/task';
 import {Instance} from '../../tasks/instance';
 import {professionsList, Professions} from '../../data/professions';
 import {VillagerJobs, villagerJobsMap} from '../../data/villager-jobs';
-import {taskQueueManager} from '../../tasks/task-queue-manager';
-import {behaviorTree as villagerTree} from '../../b3/trees/villager';
+import {taskQueueManager} from '../../Tasks/TaskQueueManager';
+import {villager as villagerTree} from '../../b3/Trees';
 
 export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {

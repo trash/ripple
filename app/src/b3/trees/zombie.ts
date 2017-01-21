@@ -1,46 +1,37 @@
-import {CheckForNearbyAgent} from '../actions/check-for-nearby-agent';
-// import {CheckForNearbyFriendlyBuilding} from '../actions/check-for-nearby-friendly-building';
-// import {TargetWallIfTargetAgentIsBehindWall} from '../actions/target-wall-if-target-agent-is-behind-wall';
-// import {TargetBuildingIfTargetAgentIsInBuilding} from '../actions/target-building-if-target-agent-is-in-building';
-import {GoToAttackTarget} from '../actions/go-to-attack-target';
-import {BlackboardValueExists} from '../actions/blackboard-value-exists';
-import {ClearBlackboardValue} from '../actions/clear-blackboard-value';
-import {WaitWander} from '../actions/wait-wander';
-import {BehaviorTree} from '../core/behavior-tree';
-import {Priority} from '../core/priority';
-import {Sequence} from '../core/sequence';
+import * as Core from '../core';
+import * as Actions from '../actions';
 import {AgentTraits} from '../../interfaces';
 
-export let zombieTree = new BehaviorTree();
+export const behaviorTree = new Core.BehaviorTree();
 
 const targetKey = 'agent-to-attack';
 const targetTileKey = 'agent-to-attack-tile';
 const buildingKey = 'zombie-attack-building';
 
-zombieTree.root = new Priority({
+behaviorTree.root = new Core.Priority({
 	children: [
-		new Sequence({
+		new Core.Sequence({
 			children: [
-				new BlackboardValueExists(targetKey),
-				new GoToAttackTarget(targetKey, targetTileKey),
-				new ClearBlackboardValue(targetKey)
+				new Actions.BlackboardValueExists(targetKey),
+				new Actions.GoToAttackTarget(targetKey, targetTileKey),
+				new Actions.ClearBlackboardValue(targetKey)
 			]
 		}),
-		new Sequence({
+		new Core.Sequence({
 			children: [
-				new Priority({
+				new Core.Priority({
 					children: [
-						new CheckForNearbyAgent({
+						new Actions.CheckForNearbyAgent({
 							traits: [AgentTraits.human]
 						}, targetKey, targetTileKey, 20),
-						// new CheckForNearbyFriendlyBuilding(buildingKey)
+						// new Actions.CheckForNearbyFriendlyBuilding(buildingKey)
 					]
 				}),
-				// new TargetBuildingIfTargetAgentIsInBuilding(targetKey),
-				// new TargetWallIfTargetAgentIsBehindWall(targetKey, 20),
-				new GoToAttackTarget(targetKey, targetTileKey)
+				// new Actions.TargetBuildingIfTargetAgentIsInBuilding(targetKey),
+				// new Actions.TargetWallIfTargetAgentIsBehindWall(targetKey, 20),
+				new Actions.GoToAttackTarget(targetKey, targetTileKey)
 			]
 		}),
-		new WaitWander(20)
+		new Actions.WaitWander(20)
 	]
 });
