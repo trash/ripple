@@ -12,8 +12,8 @@ import {IPositionState} from '../components/position';
 import {IBehaviorTreeState} from '../components/behavior-tree';
 import {IStatusBubbleState} from '../components/status-bubble';
 
-import {Task} from '../../tasks/task';
-import {Instance} from '../../tasks/instance';
+import {Task} from '../../Tasks/task';
+import {Instance} from '../../Tasks/instance';
 import {professionsList, Professions} from '../../data/professions';
 import {VillagerJobs, villagerJobsMap} from '../../data/villager-jobs';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';

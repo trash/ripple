@@ -1,5 +1,5 @@
-import * as Core from '../core';
-import * as Actions from '../actions';
+import * as Core from '../Core';
+import * as Actions from '../Actions';
 
 export let behaviorTree = new Core.BehaviorTree();
 

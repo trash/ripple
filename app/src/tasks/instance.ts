@@ -2,7 +2,7 @@ import {b3} from '../b3';
 import {util} from '../util';
 import {uniqueId} from '../unique-id';
 import {Task} from './Task';
-import {BehaviorTree, Blackboard} from '../b3/core';
+import {BehaviorTree, Blackboard} from '../b3/Core';
 import {IBehaviorTreeTickTarget} from '../interfaces';
 
 export class Instance {

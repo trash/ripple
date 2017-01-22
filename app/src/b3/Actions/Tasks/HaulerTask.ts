@@ -1,11 +1,5 @@
-import * as Core from '../../core';
-// import {GoToTarget} from '../go-to-target';
-// import {PickupItem} from '../pickup-item';
-// import {StoreItemToTile} from '../store-item-to-tile';
-// import {SetBlackboardValue} from '../set-blackboard-value';
-// import {HaulerTask as Task} from '../../../core/tasks/hauler-task';
+import * as Core from '../../Core';
 import {MapTile} from '../../../map/tile';
-// import {Item} from '../../../core/items/item';
 
 const targetKey = 'hauler-task-target';
 

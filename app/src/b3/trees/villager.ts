@@ -1,11 +1,10 @@
 import {buildingUtil} from '../../entity/util/building';
 import {util} from '../../util';
-import {Tick} from '../core/tick';
 import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/status-bubble';
 
-import * as Core from '../core';
-import * as Actions from '../actions';
+import * as Core from '../Core';
+import * as Actions from '../Actions';
 
 export let behaviorTree = new Core.BehaviorTree();
 
@@ -25,7 +24,7 @@ behaviorTree.root = new Core.Priority({
 						new Core.Sequence({
 							children: [
 								new Actions.BuildingWithSpaceIsNearby(fleeBuildingKey),
-								new Actions.GoToTarget((tick: Tick) =>
+								new Actions.GoToTarget((tick: Core.Tick) =>
 									buildingUtil.getTileFromBuilding(util.blackboardGet(tick, fleeBuildingKey))),
 								new Actions.EnterBuilding(fleeBuildingKey)
 							]
@@ -49,7 +48,7 @@ behaviorTree.root = new Core.Priority({
 									new Actions.IsTrue(tick => !!tick.target.villager.home),
 									new Actions.SetBlackboardValue(findHomeKey,
 										tick => tick.target.villager.home),
-									new Actions.GoToTarget((tick: Tick) =>
+									new Actions.GoToTarget((tick: Core.Tick) =>
 										buildingUtil.getTileFromBuilding(util.blackboardGet(tick, findHomeKey))),
 									new Actions.EnterBuilding(findHomeKey)
 								]

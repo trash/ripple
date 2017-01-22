@@ -1,5 +1,5 @@
-import * as Core from '../../core';
-import {Task} from '../../../tasks/task';
+import * as Core from '../../Core';
+import {Task} from '../../../Tasks/task';
 import {ResourceRequirements} from '../../../resource-requirements';
 import {IHealthState} from '../../../entity/components/health';
 import {IRowColumnCoordinates} from '../../../interfaces';

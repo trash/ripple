@@ -1,4 +1,4 @@
-import * as Core from '../../core';
+import * as Core from '../../Core';
 import * as Actions from '../index';
 
 export class HarvesterTask extends Core.Sequence {

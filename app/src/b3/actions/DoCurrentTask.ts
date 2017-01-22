@@ -1,7 +1,7 @@
 import {b3} from '../index';
-import * as Core from '../core';
+import * as Core from '../Core';
 import {util} from '../../util';
-import {Instance} from '../../tasks/instance';
+import {Instance} from '../../Tasks/instance';
 
 export class DoCurrentTask extends Core.BaseNode {
 	updatesCurrentAction: boolean;

@@ -1,5 +1,5 @@
 import {b3} from '../index';
-import * as Core from '../core';
+import * as Core from '../Core';
 
 export class ContinueSleeping extends Core.BaseNode {
 	updatesCurrentAction: boolean;

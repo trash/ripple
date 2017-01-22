@@ -1,6 +1,6 @@
 import {dropOffTargetKeyOrFunctionType} from '../../interfaces';
 import {ResourceRequirements} from '../../resource-requirements';
-import * as Core from '../core';
+import * as Core from '../Core';
 
 import * as Actions from './index';
 

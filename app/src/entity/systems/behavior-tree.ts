@@ -12,7 +12,7 @@ import {IHungerState} from '../components/hunger';
 import {IInventoryState} from '../components/inventory';
 import {IStatusBubbleState} from '../components/status-bubble';
 
-import {Blackboard} from '../../b3/core/blackboard';
+import {Blackboard} from '../../b3/Core';
 import {events} from '../../events';
 import {GameMap} from '../../map';
 import {IBehaviorTreeTickTarget} from '../../interfaces';

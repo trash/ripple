@@ -1,6 +1,6 @@
 import {StatusBubble} from '../../data/status-bubble';
 import {b3} from '../';
-import * as Core from '../core';
+import * as Core from '../Core';
 import {statusBubbleUtil} from '../../entity/util/status-bubble';
 
 export class ShowBubble extends Core.BaseNode {

@@ -1,7 +1,7 @@
 import {IComponent} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {Task} from '../../tasks/task';
-import {Instance} from '../../tasks/instance';
+import {Task} from '../../Tasks/task';
+import {Instance} from '../../Tasks/instance';
 
 type SpriteKey = ISpriteKeyMap | string[];
 

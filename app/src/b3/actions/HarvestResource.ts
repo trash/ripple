@@ -1,6 +1,6 @@
 import {b3} from '../index';
-import * as Core from '../core';
-import {Task} from '../../tasks/task';
+import * as Core from '../Core';
+import {Task} from '../../Tasks/task';
 import {ComponentEnum} from '../../entity/component-enum';
 import {IHealthState} from '../../entity/components/health';
 import {harvestableUtil} from '../../entity/util/harvestable';

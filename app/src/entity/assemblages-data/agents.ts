@@ -1,7 +1,6 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components/behavior-tree';
-import {behaviorTree as deerTree} from '../../b3/trees/deer';
-import {zombie as zombieTree} from '../../b3/Trees';
+import {zombie as zombieTree, deer as deerTree} from '../../b3/Trees';
 import {IEntityComponentData, IAssemblageDataMap, AgentTraits} from '../../interfaces';
 
 const maxHealth = 100,

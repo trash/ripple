@@ -1,5 +1,5 @@
 import {b3} from '../';
-import * as Core from '../core';
+import * as Core from '../Core';
 import {util} from '../../util';
 import {agentUtil} from '../../entity/util/agent';
 

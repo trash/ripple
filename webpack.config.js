@@ -1,6 +1,6 @@
-const webpack = require('webpack'),
-  DashboardPlugin = require('webpack-dashboard/plugin');
-// const CircularDependencyPlugin = require('circular-dependency-plugin');
+const webpack = require('webpack');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 
 module.exports = {

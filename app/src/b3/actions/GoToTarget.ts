@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {b3} from '../index';
-import * as Core from '../core';
+import * as Core from '../Core';
 import {util} from '../../util';
 import {PathUtil} from '../../util/path';
 import {MapUtil} from '../../map/map-util';

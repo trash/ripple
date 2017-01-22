@@ -1,6 +1,6 @@
 import {MapTile} from './map/tile';
 import {Professions} from './data/professions';
-import {Tick} from './b3/core/tick';
+import {Tick} from './b3/Core';
 
 export interface ITileset {
 	name: string;

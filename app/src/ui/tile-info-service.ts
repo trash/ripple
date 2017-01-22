@@ -3,7 +3,7 @@ import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {events} from '../events';
 import {store} from '../redux/store';
-import {ChildStatus} from '../b3/core';
+import {ChildStatus} from '../b3/Core';
 // Redux actions
 import {updateHoverTile} from '../redux/actions/update-hover-tile';
 import {updateHoveredAgent} from '../redux/actions/update-hovered-agent';

@@ -1,5 +1,5 @@
 import {b3} from '../index';
-import * as Core from '../core';
+import * as Core from '../Core';
 import {ResourceRequirements} from '../../resource-requirements';
 
 export class AllResourcesGathered extends Core.BaseNode {
