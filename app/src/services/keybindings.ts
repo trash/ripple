@@ -92,7 +92,7 @@ class Keybindings {
             combos[key] = callback;
             return;
         }
-        var keyCode = keyMap[key];
+        const keyCode = keyMap[key];
         if (!this.keys[keyCode]) {
             this.keys[keyCode] = [];
         }

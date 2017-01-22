@@ -1,5 +1,5 @@
 import React = require('react');
-import {ShowHideComponent, ShowHideComponentState} from './higher-order/show-hide-component';
+import {ShowHideComponent, ShowHideComponentState} from './higherOrder/showHideComponent';
 
 interface MainMenuProps {
 	startGame: () => void;

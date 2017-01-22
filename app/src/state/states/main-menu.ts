@@ -1,6 +1,6 @@
 import React = require('react');
 import ReactDOM = require('react-dom');
-import {MainMenu as MainMenuComponent} from '../../views/main-menu';
+import {MainMenu as MainMenuComponent} from '../../views/mainMenu';
 let MainMenuComponentFactory = React.createFactory(MainMenuComponent);
 import {IState} from './state';
 import {StateManager} from '../state-manager';

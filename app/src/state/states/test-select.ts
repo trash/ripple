@@ -3,7 +3,7 @@ import ReactDOM = require('react-dom');
 import {events} from '../../events';
 import {IState} from './state';
 import {StateManager} from '../state-manager';
-import {TestSelect as TestSelectComponent} from '../../views/test-select';
+import {TestSelect as TestSelectComponent} from '../../views/testSelect';
 
 export class TestSelectState implements IState {
 	manager: StateManager;

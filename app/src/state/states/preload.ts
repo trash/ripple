@@ -2,7 +2,7 @@ import React = require('react');
 import ReactDOM = require('react-dom');
 import {MusicPlayer} from '../../game/music-player';
 const spritesDirectories = require('../../../sprites/directory.json');
-import {LoadScreen as LoadScreenComponent} from '../../views/load-screen';
+import {LoadScreen as LoadScreenComponent} from '../../views/loadScreen';
 let LoadScreen = React.createFactory(LoadScreenComponent);
 import {IState} from './state';
 import {StateManager} from '../state-manager';

@@ -1,7 +1,7 @@
 import React = require('react');
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
-import {CollisionDebugView} from './collision-debug-view';
+import {CollisionDebugView} from './collisionDebugView';
 
 import {IHungerState} from '../../entity/components/hunger';
 import {ISleepState} from '../../entity/components/sleep';

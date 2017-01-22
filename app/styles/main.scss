@@ -9,6 +9,7 @@ body {
 }
 
 $tileSize: 24px;
+$actionBarHeight: 80px;
 
 canvas {
     image-rendering: optimizeSpeed;
@@ -22,17 +23,19 @@ button {
     padding: 0.5em 0.75em;
 }
 
-.game-ui {
-	width: 40em;
-	height: 100%;
-	position: absolute;
-}
-
 .ripple {
     background: #ccc;
 }
 .capitalize {
 	text-transform: capitalize;
+}
+
+.game-ui {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	position: absolute;
 }
 
 * {
@@ -60,5 +63,15 @@ button {
 	font-family: 'Redressed', cursive;
 }
 
+.top-section {
+	flex: calc(100% - #{$actionBarHeight});
+	overflow: scroll;
+}
+.action-bar {
+	align-self: flex-end;
+	width: 100%;
+}
+
 @import 'debug-ui',
+	'action-bar',
 	'hover-tile';

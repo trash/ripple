@@ -1,8 +1,8 @@
 import React = require('react');
 import {events} from '../events';
 import {testLevels, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevels';
-import {TestLevel} from './test-level';
-import {ShowHideComponent, ShowHideComponentState} from './higher-order/show-hide-component';
+import {TestLevel} from './testLevel';
+import {ShowHideComponent, ShowHideComponentState} from './higherOrder/showHideComponent';
 
 interface TestSelectProps {
 	mainMenu: Function;

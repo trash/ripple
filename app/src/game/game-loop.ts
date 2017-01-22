@@ -73,7 +73,10 @@ export class GameLoop extends EventEmitter2 {
 	/**
 	 * Toggles stop/start state
 	 */
-	pause () {
+	pause (event?: KeyboardEvent) {
+		if (event) {
+			event.preventDefault();
+		}
 		if (!this.stopped) {
 			this.stop();
 		}
