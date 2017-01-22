@@ -1,10 +1,10 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
-import {EntitySystem, EntityManager} from '../entity-manager';
+import {EntitySystem, EntityManager} from '../entityManager';
 import {statusBubbleUtil} from '../util/status-bubble';
 import {buildingUtil} from '../util/building';
 
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 import {IVillagerState} from '../components';
 import {IAgentState} from '../components';
 import {IRenderableState} from '../components';

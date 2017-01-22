@@ -1,4 +1,4 @@
-import {EntitySystem, EntityManager} from '../entity-manager';
+import {EntitySystem, EntityManager} from '../entityManager';
 import {Position, IPositionState} from '../components';
 import {positionUtil} from '../util/position';
 

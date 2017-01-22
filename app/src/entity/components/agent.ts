@@ -1,5 +1,5 @@
-import {IComponent} from '../entity-manager';
-import {ComponentEnum} from '../component-enum';
+import {IComponent} from '../entityManager';
+import {ComponentEnum} from '../componentEnum';
 import {AgentTraits, Gender} from '../../interfaces';
 
 export interface IAgentState {

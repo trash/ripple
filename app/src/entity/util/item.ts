@@ -1,4 +1,4 @@
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';

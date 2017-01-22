@@ -1,5 +1,5 @@
-import {IComponent} from '../entity-manager';
-import {ComponentEnum} from '../component-enum';
+import {IComponent} from '../entityManager';
+import {ComponentEnum} from '../componentEnum';
 import {BehaviorTree as B3BehaviorTree, Blackboard} from '../../b3/Core';
 
 export interface IBehaviorTreeState {

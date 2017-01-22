@@ -15,8 +15,8 @@ import {updateHoveredAgentLastExecutionChain} from '../redux/actions/update-hove
 import {agentUtil} from '../entity/util/agent';
 import {collisionUtil} from '../entity/util/collision';
 
-import {EntityManager} from '../entity/entity-manager';
-import {ComponentEnum} from '../entity/component-enum';
+import {EntityManager} from '../entity/entityManager';
+import {ComponentEnum} from '../entity/componentEnum';
 
 import {
     IResourceState,

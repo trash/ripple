@@ -1,11 +1,11 @@
 import * as _ from 'lodash';;
 import {uniqueId} from '../unique-id';
-import {ComponentEnum} from './component-enum';
+import {ComponentEnum} from './componentEnum';
 import {componentsList} from './components/ComponentsList';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
-import {systemsList as sysList} from './systems/systems-list';
+import {systemsList as sysList} from './systems';
 import {EventEmitter2} from 'eventemitter2';
-import {EntitySpawner} from './entity-spawner';
+import {EntitySpawner} from './entitySpawner';
 
 // Utils
 import {BaseUtil, baseUtil} from './util/base';
@@ -85,7 +85,7 @@ export class EntityManager {
         this.spawner = new EntitySpawner(this);
 
         // Lazy load this for circular dependency reasons
-        let systemsList: typeof sysList = require('./systems/systems-list').systemsList;
+        let systemsList: typeof sysList = require('./systems/systemsList').systemsList;
 
         this.entities = [];
         this.components = {};

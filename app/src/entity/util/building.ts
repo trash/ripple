@@ -1,5 +1,5 @@
 import {IRowColumnCoordinates} from '../../interfaces';
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 import {BaseUtil} from './base';
 
 export class BuildingUtil extends BaseUtil {

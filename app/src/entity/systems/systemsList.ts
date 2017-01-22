@@ -1,25 +1,28 @@
-import {RenderableSystem} from './renderable';
-import {PositionSystem} from './position';
-import {VillagerSystem} from './villager';
-import {AgentSystem} from './agent';
-import {ResourceSystem} from './resource';
-import {ItemSystem} from './item';
-import {BuildingSystem} from './building';
-import {ConstructibleSystem} from './constructible';
-import {HarvestableSystem} from './harvestable';
-import {HealthBarSystem} from './health-bar';
-import {HungerSystem} from './hunger';
-import {SleepSystem} from './sleep';
-import {BehaviorTreeSystem} from './behavior-tree';
-import {StatusBubbleSystem} from './status-bubble';
-import {HarvestSelectSystem} from './harvest-select';
-import {CollisionSystem} from './collision';
-import {CorpseSystem} from './corpse';
-import {EntitySystem, EntityManager} from '../entity-manager';
-import {ComponentEnum} from '../component-enum';
+import {
+    RenderableSystem,
+    PositionSystem,
+    VillagerSystem,
+    AgentSystem,
+    ResourceSystem,
+    ItemSystem,
+    BuildingSystem,
+    ConstructibleSystem,
+    HarvestableSystem,
+    HealthBarSystem,
+    HungerSystem,
+    SleepSystem,
+    BehaviorTreeSystem,
+    StatusBubbleSystem,
+    HarvestSelectSystem,
+    CollisionSystem,
+    CorpseSystem,
+} from './index';
+
+import {EntitySystem, EntityManager} from '../entityManager';
+import {ComponentEnum} from '../componentEnum';
 
 // Ordered list that determines in what order systems are called (first called first)
-export let systemsList:
+export const systemsList:
     [new (manager: EntityManager, componentEnum: ComponentEnum) => EntitySystem, ComponentEnum][]
 = [
     [HarvestSelectSystem, ComponentEnum.Resource],

@@ -2,7 +2,7 @@ import * as _ from 'lodash';;
 import {Task, ITaskOptions} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
 import {StatusBubble} from '../data/status-bubble';
-import {ComponentEnum} from '../entity/component-enum';
+import {ComponentEnum} from '../entity/componentEnum';
 import {IPositionState} from '../entity/components/position';
 import {baseUtil} from '../entity/util/base';
 import {IRowColumnCoordinates} from '../interfaces';

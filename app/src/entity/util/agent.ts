@@ -1,4 +1,4 @@
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
 import {buildingUtil} from './building';

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
-import {EntitySystem, EntityManager} from '../entity-manager';
-import {ComponentEnum} from '../component-enum';
+import {EntitySystem, EntityManager} from '../entityManager';
+import {ComponentEnum} from '../componentEnum';
 import {IBuildingState} from '../components';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';

@@ -7,12 +7,12 @@ import {assemblageData as resourcesAssemblageData} from '../entity/assemblages-d
 import {assemblageData as itemsAssemblageData} from '../entity/assemblages-data/items';
 import {assemblageData as buildingsAssemblageData} from '../entity/assemblages-data/buildings';
 
-import {ComponentEnum, componentEnumToKeyMap} from '../entity/component-enum';
+import {ComponentEnum, componentEnumToKeyMap} from '../entity/componentEnum';
 
 import {IPositionState, IItemState, IRenderableState, IAgentState, IHealthState,
 	IVillagerState, IBehaviorTreeState} from '../entity/components';
 
-import {EntityManager} from '../entity/entity-manager';
+import {EntityManager} from '../entity/entityManager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/test-level';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';

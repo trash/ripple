@@ -1,4 +1,4 @@
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 
 import {
     IHealthState,
@@ -15,7 +15,7 @@ import {
     IHungerState,
 } from '../components';
 
-import {EntityManager} from '../entity-manager';
+import {EntityManager} from '../entityManager';
 import {MapTile} from '../../map/tile';
 
 export class BaseUtil {

@@ -1,5 +1,5 @@
-import {IComponent} from '../entity-manager';
-import {ComponentEnum} from '../component-enum';
+import {IComponent} from '../entityManager';
+import {ComponentEnum} from '../componentEnum';
 import {ICoordinates, IRowColumnCoordinates} from '../../interfaces';
 
 export interface IBuildingState {

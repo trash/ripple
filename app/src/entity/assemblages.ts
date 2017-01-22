@@ -1,4 +1,4 @@
-import {ComponentEnum} from './component-enum';
+import {ComponentEnum} from './componentEnum';
 
 export enum AssemblagesEnum {
     Agent,

@@ -1,5 +1,5 @@
 import TWEEN = require('tween.js');
-import {EntitySystem, EntityManager} from '../entity-manager';
+import {EntitySystem, EntityManager} from '../entityManager';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
 import {ICorpseState} from '../components';
@@ -7,7 +7,7 @@ import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 import {gameClock} from '../../game/game-clock';
 
 export class CorpseSystem extends EntitySystem {

@@ -1,5 +1,5 @@
 import {StatusBubble} from '../../data/status-bubble';
-import {ComponentEnum} from '../component-enum';
+import {ComponentEnum} from '../componentEnum';
 import {BaseUtil} from './base';
 import {IStatusBubbleState} from '../components';
 

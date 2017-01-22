@@ -20,7 +20,7 @@ import {
     Name
 } from './index';
 
-import {IComponent} from '../entity-manager';
+import {IComponent} from '../entityManager';
 
 // Order doesn't matter
 export let componentsList: IComponent[] = [
