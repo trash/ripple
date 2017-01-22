@@ -1,10 +1,10 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IItemState} from '../components/item';
-import {INameState} from '../components/name';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
+import {IItemState} from '../components';
+import {INameState} from '../components';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';

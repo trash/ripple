@@ -1,8 +1,8 @@
 import TWEEN = require('tween.js');
 import {EntitySystem, EntityManager} from '../entity-manager';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
-import {ICorpseState} from '../components/corpse';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
+import {ICorpseState} from '../components';
 import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';

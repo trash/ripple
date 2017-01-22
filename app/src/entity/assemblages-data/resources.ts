@@ -1,9 +1,10 @@
 import {IResourceState} from '../components/resource';
-import {IHarvestableState, HarvestTypesEnum} from '../components/harvestable';
+import {IHarvestableState} from '../components/harvestable';
 import {IHealthState} from '../components/health';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
 import {config} from '../../data/config';
+import {HarvestTypes} from '../../data/harvest-types';
 import {Professions} from '../../data/professions';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,
@@ -32,7 +33,7 @@ const dataList: IEntityComponentData[] = [{
             drops: [
                 'wood*1'
             ],
-            harvestType: HarvestTypesEnum.tree
+            harvestType: HarvestTypes.Tree
         },
         health: {
             maxHealth: treeHealth,
@@ -56,7 +57,7 @@ const dataList: IEntityComponentData[] = [{
             drops: [
                 'stone*2'
             ],
-            harvestType: HarvestTypesEnum.rock
+            harvestType: HarvestTypes.Rock
         },
         health: {
             maxHealth: rockHealth,
@@ -81,7 +82,7 @@ const dataList: IEntityComponentData[] = [{
             drops: [
                 'berries*2'
             ],
-            harvestType: HarvestTypesEnum.food
+            harvestType: HarvestTypes.Food
         },
         health: {
             maxHealth: bushHealth,
@@ -107,7 +108,7 @@ const dataList: IEntityComponentData[] = [{
             drops: [
                 'mushroom*2'
             ],
-            harvestType: HarvestTypesEnum.mushroom
+            harvestType: HarvestTypes.Mushroom
         },
         health: {
             maxHealth: mushroomHealth,

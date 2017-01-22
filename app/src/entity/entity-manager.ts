@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {uniqueId} from '../unique-id';
 import {ComponentEnum} from './component-enum';
-import {componentsList} from './components/components-list';
+import {componentsList} from './components/ComponentsList';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems/systems-list';
 import {EventEmitter2} from 'eventemitter2';

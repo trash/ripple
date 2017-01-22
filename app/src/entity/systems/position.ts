@@ -1,5 +1,5 @@
 import {EntitySystem, EntityManager} from '../entity-manager';
-import {Position, IPositionState} from '../components/position';
+import {Position, IPositionState} from '../components';
 import {positionUtil} from '../util/position';
 
 export class PositionSystem extends EntitySystem {

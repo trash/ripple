@@ -1,12 +1,12 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IResourceState} from '../components/resource';
-import {IHarvestableState} from '../components/harvestable';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
-import {INameState} from '../components/name';
-import {IHealthState} from '../components/health';
+import {IResourceState} from '../components';
+import {IHarvestableState} from '../components';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
+import {INameState} from '../components';
+import {IHealthState} from '../components';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {TilemapSprite} from '../../tilemap';

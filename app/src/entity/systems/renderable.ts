@@ -1,7 +1,7 @@
 import TWEEN = require('tween.js');
 import {EntitySystem, EntityManager} from '../entity-manager';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
 import {positionUtil} from '../util/position';
 import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';

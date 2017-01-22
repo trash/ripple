@@ -3,8 +3,8 @@ import {util} from '../../util';
 import {StatusBubble} from '../../data/status-bubble';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IRenderableState} from '../components/renderable';
-import {IStatusBubbleState} from '../components/status-bubble';
+import {IRenderableState} from '../components';
+import {IStatusBubbleState} from '../components';
 
 const CYCLE_TIME = 1000;
 

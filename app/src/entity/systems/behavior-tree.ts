@@ -1,16 +1,16 @@
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 
-import {IBehaviorTreeState} from '../components/behavior-tree';
-import {IPositionState} from '../components/position';
-import {IAgentState} from '../components/agent';
-import {IVillagerState} from '../components/villager';
-import {IHealthState} from '../components/health';
-import {ISleepState} from '../components/sleep';
-import {INameState} from '../components/name';
-import {IHungerState} from '../components/hunger';
-import {IInventoryState} from '../components/inventory';
-import {IStatusBubbleState} from '../components/status-bubble';
+import {IBehaviorTreeState} from '../components';
+import {IPositionState} from '../components';
+import {IAgentState} from '../components';
+import {IVillagerState} from '../components';
+import {IHealthState} from '../components';
+import {ISleepState} from '../components';
+import {INameState} from '../components';
+import {IHungerState} from '../components';
+import {IInventoryState} from '../components';
+import {IStatusBubbleState} from '../components';
 
 import {Blackboard} from '../../b3/Core';
 import {events} from '../../events';

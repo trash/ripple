@@ -2,8 +2,8 @@ import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 
-import {IHungerState} from '../components/hunger';
-import {IHealthState} from '../components/health';
+import {IHungerState} from '../components';
+import {IHealthState} from '../components';
 
 import {util} from '../../util';
 import {constants} from '../../data/constants';

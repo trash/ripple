@@ -9,13 +9,8 @@ import {assemblageData as buildingsAssemblageData} from '../entity/assemblages-d
 
 import {ComponentEnum, componentEnumToKeyMap} from '../entity/component-enum';
 
-import {IPositionState} from '../entity/components/position';
-import {IItemState} from '../entity/components/item';
-import {IRenderableState} from '../entity/components/renderable';
-import {IAgentState} from '../entity/components/agent';
-import {IHealthState} from '../entity/components/health';
-import {IVillagerState} from '../entity/components/villager';
-import {IBehaviorTreeState} from '../entity/components/behavior-tree';
+import {IPositionState, IItemState, IRenderableState, IAgentState, IHealthState,
+	IVillagerState, IBehaviorTreeState} from '../entity/components';
 
 import {EntityManager} from '../entity/entity-manager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/test-level';

@@ -3,13 +3,7 @@ import {ComponentEnum} from '../component-enum';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 import {Professions} from '../../data/professions';
-
-export enum HarvestTypesEnum {
-    tree,
-    food,
-    rock,
-    mushroom
-}
+import {HarvestTypes} from '../../data/harvest-types';
 
 export interface IHarvestableState {
     highlighted: boolean;
@@ -18,7 +12,7 @@ export interface IHarvestableState {
     profession: Professions;
     drops: string[];
     itemsDropped?: boolean;
-    harvestType: HarvestTypesEnum;
+    harvestType: HarvestTypes;
 }
 
 export interface IHarvestableComponent extends IComponent {

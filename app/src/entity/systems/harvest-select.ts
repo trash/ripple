@@ -1,9 +1,10 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IHarvestableState, HarvestTypesEnum} from '../components/harvestable';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
+import {IHarvestableState} from '../components';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
+import {HarvestTypes} from '../../data/harvest-types';
 import {util} from '../../util';
 import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
@@ -26,7 +27,7 @@ events.on('map-update', (map: GameMap) => {
 
 
 export class HarvestSelectSystem extends EntitySystem {
-    harvestTypes: HarvestTypesEnum[];
+    harvestTypes: HarvestTypes[];
     hoverListener: Function;
     cancel: Function;
     tileHoverElement: HoverElement;
@@ -38,7 +39,7 @@ export class HarvestSelectSystem extends EntitySystem {
 		super(manager, componentEnum);
         this.active = false;
 		this.tileHoverElement = new HoverElement();
-        this.harvestTypes = [HarvestTypesEnum.tree, HarvestTypesEnum.food];
+        this.harvestTypes = [HarvestTypes.Tree, HarvestTypes.Food];
 		this.tiles = null;
 		this.highlighted = [];
 
@@ -102,7 +103,7 @@ export class HarvestSelectSystem extends EntitySystem {
         });
 	}
 
-    toggleHarvestType (harvestType: HarvestTypesEnum) {
+    toggleHarvestType (harvestType: HarvestTypes) {
 		let indexOf = this.harvestTypes.indexOf(harvestType);
 		if (indexOf !== -1) {
 			this.harvestTypes.splice(indexOf, 1);

@@ -195,25 +195,26 @@ export interface IBuildingNamesDefinition {
 
 export type Direction = 'left' | 'right' | 'up' | 'down';
 
-
-import {IPositionState} from './entity/components/position';
-import {IResourceState} from './entity/components/resource';
-import {IHarvestableState} from './entity/components/harvestable';
-import {IHealthState} from './entity/components/health';
-import {IHealthBarState} from './entity/components/health-bar';
-import {IItemState} from './entity/components/item';
-import {IAgentState} from './entity/components/agent';
-import {INameState} from './entity/components/name';
-import {IBehaviorTreeState} from './entity/components/behavior-tree';
-import {IBuildingState} from './entity/components/building';
-import {IConstructibleState} from './entity/components/constructible';
-import {ICollisionState} from './entity/components/collision';
-import {ICorpseState} from './entity/components/corpse';
-import {IVillagerState} from './entity/components/villager';
-import {IStatusBubbleState} from './entity/components/status-bubble';
-import {IInventoryState} from './entity/components/inventory';
-import {ISleepState} from './entity/components/sleep';
-import {IHungerState} from './entity/components/hunger';
+import {
+	IPositionState,
+	IResourceState,
+	IHarvestableState,
+	IHealthState,
+	IHealthBarState,
+	IItemState,
+	IAgentState,
+	INameState,
+	IBehaviorTreeState,
+	IBuildingState,
+	IConstructibleState,
+	ICollisionState,
+	ICorpseState,
+	IVillagerState,
+	IStatusBubbleState,
+	IInventoryState,
+	ISleepState,
+	IHungerState,
+} from './entity/components';
 
 export interface IEntityComponentData {
 	position?: IPositionState;

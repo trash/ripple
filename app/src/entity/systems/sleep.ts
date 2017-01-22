@@ -2,8 +2,8 @@ import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
 
-import {ISleepState} from '../components/sleep';
-import {IVillagerState} from '../components/villager';
+import {ISleepState} from '../components';
+import {IVillagerState} from '../components';
 
 import {statusBubbleUtil} from '../util/status-bubble';
 

@@ -1,8 +1,8 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {ICollisionState} from '../components/collision';
-import {IPositionState} from '../components/position';
+import {ICollisionState} from '../components';
+import {IPositionState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';

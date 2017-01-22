@@ -1,5 +1,5 @@
 import {IAgentState} from '../components/agent';
-import {IBehaviorTreeState} from '../components/behavior-tree';
+import {IBehaviorTreeState} from '../components';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 
 const hutEntrance = {

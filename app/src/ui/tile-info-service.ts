@@ -18,17 +18,19 @@ import {collisionUtil} from '../entity/util/collision';
 import {EntityManager} from '../entity/entity-manager';
 import {ComponentEnum} from '../entity/component-enum';
 
-import {IResourceState} from '../entity/components/resource';
-import {IAgentState} from '../entity/components/agent';
-import {IHungerState} from '../entity/components/hunger';
-import {ISleepState} from '../entity/components/sleep';
-import {IItemState} from '../entity/components/item';
-import {IBuildingState} from '../entity/components/building';
-import {IConstructibleState} from '../entity/components/constructible';
-import {INameState} from '../entity/components/name';
-import {IPositionState} from '../entity/components/position';
-import {ICollisionState} from '../entity/components/collision';
-import {IBehaviorTreeState} from '../entity/components/behavior-tree';
+import {
+    IResourceState,
+    IAgentState,
+    IHungerState,
+    ISleepState,
+    IItemState,
+    IBuildingState,
+    IConstructibleState,
+    INameState,
+    IPositionState,
+    ICollisionState,
+    IBehaviorTreeState,
+} from '../entity/components';
 
 const filterEntityByTile = (
     entityManager: EntityManager,

@@ -1,7 +1,7 @@
 import {StatusBubble} from '../../data/status-bubble';
 import {ComponentEnum} from '../component-enum';
 import {BaseUtil} from './base';
-import {IStatusBubbleState} from '../components/status-bubble';
+import {IStatusBubbleState} from '../components';
 
 export class StatusBubbleUtil extends BaseUtil {
     _getStatusBubbleState (id: number): IStatusBubbleState {

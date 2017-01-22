@@ -2,12 +2,12 @@ import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IBuildingState} from '../components/building';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
-import {IConstructibleState} from '../components/constructible';
-import {IHealthState} from '../components/health';
-import {INameState} from '../components/name';
+import {IBuildingState} from '../components';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
+import {IConstructibleState} from '../components';
+import {IHealthState} from '../components';
+import {INameState} from '../components';
 import {mapUtil} from '../util/map';
 
 export class BuildingSystem extends EntitySystem {

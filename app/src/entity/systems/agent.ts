@@ -1,12 +1,12 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IAgentState} from '../components/agent';
-import {IRenderableState} from '../components/renderable';
-import {IHealthState} from '../components/health';
-import {IHealthBarState} from '../components/health-bar';
-import {IPositionState} from '../components/position';
-import {INameState} from '../components/name';
+import {IAgentState} from '../components';
+import {IRenderableState} from '../components';
+import {IHealthState} from '../components';
+import {IHealthBarState} from '../components';
+import {IPositionState} from '../components';
+import {INameState} from '../components';
 import {IAgentSprite} from '../../interfaces';
 import {util} from '../../util';
 import {events} from '../../events';

@@ -5,12 +5,12 @@ import {statusBubbleUtil} from '../util/status-bubble';
 import {buildingUtil} from '../util/building';
 
 import {ComponentEnum} from '../component-enum';
-import {IVillagerState} from '../components/villager';
-import {IAgentState} from '../components/agent';
-import {IRenderableState} from '../components/renderable';
-import {IPositionState} from '../components/position';
-import {IBehaviorTreeState} from '../components/behavior-tree';
-import {IStatusBubbleState} from '../components/status-bubble';
+import {IVillagerState} from '../components';
+import {IAgentState} from '../components';
+import {IRenderableState} from '../components';
+import {IPositionState} from '../components';
+import {IBehaviorTreeState} from '../components';
+import {IStatusBubbleState} from '../components';
 
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';

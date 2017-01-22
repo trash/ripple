@@ -1,9 +1,9 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entity-manager';
 import {ComponentEnum} from '../component-enum';
-import {IHealthState} from '../components/health';
-import {IHealthBarState} from '../components/health-bar';
-import {IRenderableState} from '../components/renderable';
+import {IHealthState} from '../components';
+import {IHealthBarState} from '../components';
+import {IRenderableState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
