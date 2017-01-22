@@ -1,12 +1,13 @@
 import {MapTile} from '../../map/tile';
 import {actionTypes} from './types';
+import {
+    IAgentState,
+    IHungerState,
+    ISleepState,
+    IPositionState
+} from '../../entity/components';
 
-import {IAgentState} from '../../entity/components/agent';
-import {IHungerState} from '../../entity/components/hunger';
-import {ISleepState} from '../../entity/components/sleep';
-import {IPositionState} from '../../entity/components/position';
-
-export interface UpdateHoveredAgentAction {
+export interface UpdateHoveredAgent {
     type: string;
     agent: IAgentState;
     hunger: IHungerState;
@@ -19,7 +20,7 @@ export function updateHoveredAgent (
     hunger: IHungerState,
     sleep: ISleepState,
     position: IPositionState,
-): UpdateHoveredAgentAction {
+): UpdateHoveredAgent {
     return {
         type: actionTypes.UPDATE_HOVERED_AGENT,
         agent: agent,

@@ -1,26 +1,30 @@
 import {createStore} from 'redux';
 import {actionTypes} from './actions/types';
 
-import {IAgentState} from '../entity/components/agent';
-import {IHungerState} from '../entity/components/hunger';
-import {ISleepState} from '../entity/components/sleep';
-import {IItemState} from '../entity/components/item';
-import {IResourceState} from '../entity/components/resource';
-import {IBuildingState} from '../entity/components/building';
-import {IConstructibleState} from '../entity/components/constructible';
-import {IPositionState} from '../entity/components/position';
+import {
+    IAgentState,
+    IHungerState,
+    ISleepState,
+    IItemState,
+    IResourceState,
+    IBuildingState,
+    IConstructibleState,
+    IPositionState
+} from '../entity/components';
 
 import {MapTile} from '../map/tile';
 import {ChildStatus} from '../b3/Core';
 
 // Actions
-import {UpdateClockTime} from './actions/update-clock-time';
-import {UpdateHoveredAgentAction} from './actions/update-hovered-agent';
-import {UpdateHoveredAgentLastExecutionChainAction} from './actions/update-hovered-agent-last-execution-chain';
-import {UpdateHoveredItemAction} from './actions/update-hovered-item';
-import {UpdateHoveredBuildingAction} from './actions/update-hovered-building';
-import {UpdateHoveredResourceAction} from './actions/update-hovered-resource';
-import {UpdateHoverTileAction} from './actions/update-hover-tile';
+import {
+    UpdateClockTime,
+    UpdateHoveredAgent,
+    UpdateHoveredAgentLastExecutionChain,
+    UpdateHoveredItem,
+    UpdateHoveredBuilding,
+    UpdateHoveredResource,
+    UpdateHoverTile,
+} from './actions';
 
 export interface StoreState {
     tile: MapTile;
@@ -41,26 +45,26 @@ const initialState = {} as StoreState;
 const mainReducer = (previousState = initialState, action) => {
     const newState = _.extend({}, previousState);
     if (action.type === actionTypes.UPDATE_HOVER_TILE) {
-        newState.tile = (action as UpdateHoverTileAction).tile;
+        newState.tile = (action as UpdateHoverTile).tile;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_AGENT) {
-        const updateAction = action as UpdateHoveredAgentAction;
+        const updateAction = action as UpdateHoveredAgent;
         newState.hoveredAgent = updateAction.agent;
         newState.hoveredAgentHunger = updateAction.hunger;
         newState.hoveredAgentSleep = updateAction.sleep;
         newState.hoveredAgentPosition = updateAction.position;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
-        newState.hoveredResource = (action as UpdateHoveredResourceAction).resource;
+        newState.hoveredResource = (action as UpdateHoveredResource).resource;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_ITEM) {
-        newState.hoveredItem = (action as UpdateHoveredItemAction).item;
+        newState.hoveredItem = (action as UpdateHoveredItem).item;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_AGENT_LAST_EXECUTION_CHAIN) {
-        newState.hoveredAgentLastExecutionChain = (action as UpdateHoveredAgentLastExecutionChainAction).executionChain;
+        newState.hoveredAgentLastExecutionChain = (action as UpdateHoveredAgentLastExecutionChain).executionChain;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_BUILDING) {
-        let updateAction = action as UpdateHoveredBuildingAction;
+        let updateAction = action as UpdateHoveredBuilding;
         newState.hoveredBuildingState = updateAction.building;
         newState.hoveredBuildingConstructibleState = updateAction.constructible;
     }

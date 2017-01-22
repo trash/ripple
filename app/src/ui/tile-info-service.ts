@@ -5,12 +5,14 @@ import {events} from '../events';
 import {store} from '../redux/store';
 import {ChildStatus} from '../b3/Core';
 // Redux actions
-import {updateHoverTile} from '../redux/actions/update-hover-tile';
-import {updateHoveredAgent} from '../redux/actions/update-hovered-agent';
-import {updateHoveredResource} from '../redux/actions/update-hovered-resource';
-import {updateHoveredItem} from '../redux/actions/update-hovered-item';
-import {updateHoveredBuilding} from '../redux/actions/update-hovered-building';
-import {updateHoveredAgentLastExecutionChain} from '../redux/actions/update-hovered-agent-last-execution-chain';
+import {
+    updateHoverTile,
+    updateHoveredAgent,
+    updateHoveredResource,
+    updateHoveredItem,
+    updateHoveredBuilding,
+    updateHoveredAgentLastExecutionChain
+} from '../redux/actions';
 
 import {agentUtil, collisionUtil} from '../entity/util';
 
