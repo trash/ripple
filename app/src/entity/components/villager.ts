@@ -1,6 +1,6 @@
 import {IComponent} from '../entityManager';
 import {ComponentEnum} from '../componentEnum';
-import {VillagerJobs} from '../../data/villager-jobs';
+import {VillagerJobs} from '../../data/villagerJobs';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 

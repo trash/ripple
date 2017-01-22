@@ -9,7 +9,7 @@ import {statusBubbleUtil} from '../util';
 
 import {util} from '../../util';
 import {constants} from '../../data/constants';
-import {StatusBubble} from '../../data/status-bubble';
+import {StatusBubble} from '../../data/statusBubble';
 
 export class SleepSystem extends EntitySystem {
     readonly updateInterval = 10;

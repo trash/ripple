@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
-import {StatusBubble} from '../../data/status-bubble';
+import {StatusBubble} from '../../data/statusBubble';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {ComponentEnum} from '../componentEnum';
 import {IRenderableState} from '../components';

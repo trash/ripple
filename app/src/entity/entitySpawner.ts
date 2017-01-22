@@ -1,19 +1,27 @@
-// import {behaviorTree as villagerTree} from '../agents/villager-tree';
 import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 
-import {assemblageData as agentsAssemblageData} from '../entity/assemblages-data/agents';
-import {assemblageData as resourcesAssemblageData} from '../entity/assemblages-data/resources';
-import {assemblageData as itemsAssemblageData} from '../entity/assemblages-data/items';
-import {assemblageData as buildingsAssemblageData} from '../entity/assemblages-data/buildings';
+import {
+	agents as agentsAssemblageData,
+	resources as resourcesAssemblageData,
+	items as itemsAssemblageData,
+	buildings as buildingsAssemblageData
+} from '../entity/assemblagesData';
 
 import {ComponentEnum, componentEnumToKeyMap} from '../entity/componentEnum';
 
-import {IPositionState, IItemState, IRenderableState, IAgentState, IHealthState,
-	IVillagerState, IBehaviorTreeState} from '../entity/components';
+import {
+	IPositionState,
+	IItemState,
+	IRenderableState,
+	IAgentState,
+	IHealthState,
+	IVillagerState,
+	IBehaviorTreeState
+} from '../entity/components';
 
 import {EntityManager} from '../entity/entityManager';
-import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/test-level';
+import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testLevel';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util';

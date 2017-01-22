@@ -4,7 +4,7 @@ import {ComponentEnum} from '../componentEnum';
 import {IHarvestableState} from '../components';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
-import {HarvestTypes} from '../../data/harvest-types';
+import {HarvestTypes} from '../../data/harvestTypes';
 import {util} from '../../util';
 import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';

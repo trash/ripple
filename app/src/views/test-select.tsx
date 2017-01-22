@@ -1,6 +1,6 @@
 import React = require('react');
 import {events} from '../events';
-import {testLevels, ITestLevelGroup, lastLoadedLevelGroup} from '../data/test-levels';
+import {testLevels, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevels';
 import {TestLevel} from './test-level';
 import {ShowHideComponent, ShowHideComponentState} from './higher-order/show-hide-component';
 

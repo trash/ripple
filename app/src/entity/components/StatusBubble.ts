@@ -1,4 +1,4 @@
-import {StatusBubble as StatusBubbleEnum} from '../../data/status-bubble';
+import {StatusBubble as StatusBubbleEnum} from '../../data/statusBubble';
 import {IComponent} from '../entityManager';
 import {ComponentEnum} from '../componentEnum';
 import {Task} from '../../Tasks/task';

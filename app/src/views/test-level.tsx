@@ -1,5 +1,5 @@
 import React = require('react');
-import {ITestLevel} from '../data/test-level';
+import {ITestLevel} from '../data/testLevel';
 
 interface TestLevelProps {
 	startTest: Function;

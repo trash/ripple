@@ -7,7 +7,7 @@ import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
-import {StatusBubble} from '../../data/status-bubble';
+import {StatusBubble} from '../../data/statusBubble';
 import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
 import {cacheService} from '../../services/cache';
 import {statusBubbleUtil} from './statusBubble';

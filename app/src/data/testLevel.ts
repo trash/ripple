@@ -1,4 +1,4 @@
-import {VillagerJobs} from './villager-jobs';
+import {VillagerJobs} from './villagerJobs';
 
 import {IEntityComponentData} from '../interfaces';
 

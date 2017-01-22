@@ -4,7 +4,7 @@ import {IHealthState} from '../components/health';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
 import {config} from '../../data/config';
-import {HarvestTypes} from '../../data/harvest-types';
+import {HarvestTypes} from '../../data/harvestTypes';
 import {Professions} from '../../data/professions';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,

@@ -1,8 +1,8 @@
 import {constants} from '../data/constants';
 
-import {ITestLevel} from './test-level';
-import {gameLevelFactory} from './game-level-factory';
-import {VillagerJobs} from './villager-jobs';
+import {ITestLevel} from './testLevel';
+import {gameLevelFactory} from './gameLevelFactory';
+import {VillagerJobs} from './villagerJobs';
 
 import {IPositionState} from '../entity/components/position';
 import {IBuildingState} from '../entity/components/building';

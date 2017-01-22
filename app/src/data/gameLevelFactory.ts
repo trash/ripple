@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
-import {VillagerJobs} from './villager-jobs';
-import {ITestLevel} from './test-level';
+import {VillagerJobs} from './villagerJobs';
+import {ITestLevel} from './testLevel';
 
 const regularLevel: ITestLevel = {
 	name: 'Regular Level',

@@ -3,7 +3,7 @@ import {ComponentEnum} from '../componentEnum';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 import {Professions} from '../../data/professions';
-import {HarvestTypes} from '../../data/harvest-types';
+import {HarvestTypes} from '../../data/harvestTypes';
 
 export interface IHarvestableState {
     highlighted: boolean;

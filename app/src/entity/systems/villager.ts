@@ -17,7 +17,7 @@ import {
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 import {professionsList, Professions} from '../../data/professions';
-import {VillagerJobs, villagerJobsMap} from '../../data/villager-jobs';
+import {VillagerJobs, villagerJobsMap} from '../../data/villagerJobs';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {villager as villagerTree} from '../../b3/Trees';
 
