@@ -2,7 +2,7 @@ import {b3} from '../index';
 import * as Core from '../Core';
 
 import {IRowColumnCoordinates} from '../../interfaces';
-import {positionUtil} from '../../entity/util/position';
+import {positionUtil} from '../../entity/util';
 
 export class FaceTile extends Core.BaseNode {
 	tile: IRowColumnCoordinates;

@@ -2,7 +2,7 @@ import {b3} from '../index';
 import * as Core from '../Core';
 import {IItemSearchOptions} from '../../interfaces';
 import {util} from '../../util';
-import {itemUtil} from '../../entity/util/item';
+import {itemUtil} from '../../entity/util';
 import {MapUtil} from '../../map/map-util';
 
 export class CheckForNearbyItem extends Core.BaseNode {

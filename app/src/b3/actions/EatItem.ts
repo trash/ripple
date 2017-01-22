@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
-import {agentUtil} from '../../entity/util/agent';
+import {agentUtil} from '../../entity/util';
 import {IItemSearchResult} from '../../interfaces';
 
 export class EatItem extends Core.BaseNode {

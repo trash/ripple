@@ -3,8 +3,8 @@ import {Task, ITaskOptions} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
 import {StatusBubble} from '../data/status-bubble';
 import {ComponentEnum} from '../entity/componentEnum';
-import {IPositionState} from '../entity/components/position';
-import {baseUtil} from '../entity/util/base';
+import {IPositionState} from '../entity/components';
+import {baseUtil} from '../entity/util';
 import {IRowColumnCoordinates} from '../interfaces';
 
 /**

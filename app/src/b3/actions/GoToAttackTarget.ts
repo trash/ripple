@@ -1,7 +1,7 @@
 import {StatusBubble} from '../../data/status-bubble';
 import * as Core from '../Core';
 import {util} from '../../util';
-import {statusBubbleUtil} from '../../entity/util/status-bubble';
+import {statusBubbleUtil} from '../../entity/util';
 
 import * as Actions from './index';
 

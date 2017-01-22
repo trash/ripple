@@ -1,16 +1,18 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
-import {statusBubbleUtil} from '../util/status-bubble';
+import {statusBubbleUtil} from '../util';
 import {buildingUtil} from '../util/building';
 
 import {ComponentEnum} from '../componentEnum';
-import {IVillagerState} from '../components';
-import {IAgentState} from '../components';
-import {IRenderableState} from '../components';
-import {IPositionState} from '../components';
-import {IBehaviorTreeState} from '../components';
-import {IStatusBubbleState} from '../components';
+import {
+	IVillagerState,
+	IAgentState,
+	IRenderableState,
+	IPositionState,
+	IBehaviorTreeState,
+	IStatusBubbleState,
+} from '../components';
 
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';

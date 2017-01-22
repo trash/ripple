@@ -12,8 +12,7 @@ import {updateHoveredItem} from '../redux/actions/update-hovered-item';
 import {updateHoveredBuilding} from '../redux/actions/update-hovered-building';
 import {updateHoveredAgentLastExecutionChain} from '../redux/actions/update-hovered-agent-last-execution-chain';
 
-import {agentUtil} from '../entity/util/agent';
-import {collisionUtil} from '../entity/util/collision';
+import {agentUtil, collisionUtil} from '../entity/util';
 
 import {EntityManager} from '../entity/entityManager';
 import {ComponentEnum} from '../entity/componentEnum';

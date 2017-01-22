@@ -1,4 +1,4 @@
-import {buildingUtil} from '../../entity/util/building';
+import {buildingUtil} from '../../entity/util';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/status-bubble';

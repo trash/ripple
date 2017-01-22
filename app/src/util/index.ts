@@ -5,7 +5,7 @@ import {MapGenTile} from '../map/map-gen-tile';
 import {INearestTile, ICoordinates, IRowColumnCoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {ComponentEnum} from '../entity/componentEnum';
-import {positionUtil} from '../entity/util/position';
+import {positionUtil} from '../entity/util';
 import {Tick} from '../b3/Core';
 
 // This is 1 minute of real time at regular speed

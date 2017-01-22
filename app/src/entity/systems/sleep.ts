@@ -5,7 +5,7 @@ import {ComponentEnum} from '../componentEnum';
 import {ISleepState} from '../components';
 import {IVillagerState} from '../components';
 
-import {statusBubbleUtil} from '../util/status-bubble';
+import {statusBubbleUtil} from '../util';
 
 import {util} from '../../util';
 import {constants} from '../../data/constants';

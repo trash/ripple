@@ -16,7 +16,7 @@ import {EntityManager} from '../entity/entityManager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/test-level';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
-import {baseUtil} from '../entity/util/base';
+import {baseUtil} from '../entity/util';
 import {util} from '../util';
 import {events} from '../events';
 

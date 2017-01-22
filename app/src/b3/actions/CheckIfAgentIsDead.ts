@@ -1,7 +1,7 @@
 import {b3} from '../';
 import * as Core from '../Core';
 import {util} from '../../util';
-import {agentUtil} from '../../entity/util/agent';
+import {agentUtil} from '../../entity/util';
 
 export class CheckIfAgentIsDead extends Core.BaseNode {
 	targetKey: string;

@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import {util} from '../../util';
 import * as Core from '../Core';
-import {buildingUtil} from '../../entity/util/building';
+import {buildingUtil} from '../../entity/util';
 
 /**
  * An action to just make a citizen wait for a turn

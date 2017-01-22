@@ -8,15 +8,18 @@ import {EventEmitter2} from 'eventemitter2';
 import {EntitySpawner} from './entitySpawner';
 
 // Utils
-import {BaseUtil, baseUtil} from './util/base';
-import {agentUtil} from './util/agent';
-import {collisionUtil} from './util/collision';
-import {itemUtil} from './util/item';
-import {mapUtil} from './util/map';
-import {harvestableUtil} from './util/harvestable';
-import {positionUtil} from './util/position';
-import {buildingUtil} from './util/building';
-import {statusBubbleUtil} from './util/status-bubble';
+import {
+    BaseUtil,
+    baseUtil,
+    agentUtil,
+    collisionUtil,
+    itemUtil,
+    mapUtil,
+    harvestableUtil,
+    positionUtil,
+    buildingUtil,
+    statusBubbleUtil
+} from './util';
 
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;

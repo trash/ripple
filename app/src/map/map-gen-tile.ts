@@ -1,5 +1,5 @@
 import {Direction, IRowColumnCoordinates} from '../interfaces';
-import {positionUtil} from '../entity/util/position';
+import {positionUtil} from '../entity/util';
 import {MapUtil} from './map-util';
 import {BaseTile} from './base-tile';
 

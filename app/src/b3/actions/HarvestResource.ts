@@ -3,7 +3,7 @@ import * as Core from '../Core';
 import {Task} from '../../Tasks/task';
 import {ComponentEnum} from '../../entity/componentEnum';
 import {IHealthState} from '../../entity/components/health';
-import {harvestableUtil} from '../../entity/util/harvestable';
+import {harvestableUtil} from '../../entity/util';
 
 export class HarvestResource extends Core.BaseNode {
 	resourceEntityId: number;

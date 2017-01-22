@@ -3,7 +3,7 @@ import * as Core from '../Core';
 import {ResourceRequirements} from '../../resource-requirements';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
-import {inventoryUtil} from '../../entity/util/inventory';
+import {inventoryUtil} from '../../entity/util';
 
 export class AddResourceToRequirements extends Core.BaseNode {
 	blackboardKey: string;

@@ -3,7 +3,7 @@ import {b3} from '../index';
 import {util} from '../../util';
 import * as Core from '../Core';
 import {IAgentSearchOptions} from '../../interfaces';
-import {agentUtil} from '../../entity/util/agent';
+import {agentUtil} from '../../entity/util';
 
 export class CheckForNearbyAgent extends Core.BaseNode {
 	options: IAgentSearchOptions;

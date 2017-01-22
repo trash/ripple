@@ -2,8 +2,8 @@ import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
-import {itemUtil} from '../../entity/util/item';
-import {inventoryUtil} from '../../entity/util/inventory';
+import {itemUtil} from '../../entity/util';
+import {inventoryUtil} from '../../entity/util';
 
 export class PickupItem extends Core.BaseNode {
 	targetKey: string;

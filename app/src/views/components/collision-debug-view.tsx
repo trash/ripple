@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {collisionUtil} from '../../entity/util/collision';
+import {collisionUtil} from '../../entity/util';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {events} from '../../events';
 import {GameMap} from '../../map';

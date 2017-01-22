@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import {util} from '../../util';
 import * as Core from '../Core';
-import {agentUtil} from '../../entity/util/agent';
+import {agentUtil} from '../../entity/util';
 
 export class AttackTarget extends Core.BaseNode {
 	targetKey: string;

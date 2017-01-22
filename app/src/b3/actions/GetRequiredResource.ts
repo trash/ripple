@@ -2,7 +2,7 @@ import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
 import {ResourceRequirements} from '../../resource-requirements';
-import {itemUtil} from '../../entity/util/item';
+import {itemUtil} from '../../entity/util';
 import {dropOffTargetKeyOrFunctionType, IRowColumnCoordinates} from '../../interfaces';
 
 export class GetRequiredResource extends Core.BaseNode {

@@ -10,7 +10,7 @@ import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/status-bubble';
 import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
 import {cacheService} from '../../services/cache';
-import {statusBubbleUtil} from './status-bubble';
+import {statusBubbleUtil} from './statusBubble';
 
 export class AgentUtil extends BaseUtil {
     /**
