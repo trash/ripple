@@ -2,12 +2,15 @@ import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {ComponentEnum} from '../componentEnum';
-import {IBuildingState} from '../components';
-import {IRenderableState} from '../components';
-import {IPositionState} from '../components';
-import {IConstructibleState} from '../components';
-import {IHealthState} from '../components';
-import {INameState} from '../components';
+import {
+    IBuildingState,
+    IRenderableState,
+    IPositionState,
+    IConstructibleState,
+    IHealthState,
+    INameState,
+    ICollisionState
+} from '../components';
 import {mapUtil} from '../util/map';
 
 export class BuildingSystem extends EntitySystem {
@@ -25,6 +28,8 @@ export class BuildingSystem extends EntitySystem {
                     ComponentEnum.Constructible, id) as IConstructibleState;
             const renderableState = this.manager.getComponentDataForEntity(
                     ComponentEnum.Renderable, id) as IRenderableState;
+            const collisionState = this.manager.getComponentDataForEntity(
+                ComponentEnum.Collision, id) as ICollisionState;
 
             if (renderableState.spriteGroup && !constructibleState.completedSpriteName) {
                 this.initSprites(positionState, buildingState, constructibleState, renderableState);
@@ -32,8 +37,8 @@ export class BuildingSystem extends EntitySystem {
             const tile = positionState.tile;
             if (!buildingState.entranceTile && tile) {
                 buildingState.entranceTile = mapUtil.getTile(
-                    tile.row + buildingState.entrancePosition.y,
-			        tile.column + buildingState.entrancePosition.x);
+                    tile.row + collisionState.entrance.y,
+			        tile.column + collisionState.entrance.x);
             }
             if (!nameState.name) {
                 if (nameState.isStatic) {

@@ -9,5 +9,12 @@
         list-style: none;
         flex: auto;
         margin: 0;
+        border: 1px solid #444;
+        background: #333;
+        color: #fff;
+
+        img {
+            height: 60px;
+        }
     }
 }

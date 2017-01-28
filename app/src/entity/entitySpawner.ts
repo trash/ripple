@@ -6,7 +6,7 @@ import {
 	resources as resourcesAssemblageData,
 	items as itemsAssemblageData,
 	buildings as buildingsAssemblageData
-} from '../entity/assemblagesData';
+} from '../entity/assemblageData';
 
 import {ComponentEnum, componentEnumToKeyMap} from '../entity/componentEnum';
 

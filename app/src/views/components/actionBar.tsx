@@ -2,18 +2,7 @@ import React = require('react');
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {showBuildingsList} from '../../redux/actions';
-
-class BuildingsList extends React.Component<void, void> {
-    render() {
-        return (
-        <ul className="buildings-list">
-            <li>Building 1</li>
-            <li>Building 2</li>
-            <li>Building 3</li>
-        </ul>
-        );
-    }
-}
+import {BuildingsList} from './BuildingsList';
 
 interface ActionBarProps {
     buildingsListShown: boolean;

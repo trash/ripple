@@ -27,6 +27,12 @@ export class BuildingUtil extends BaseUtil {
 		return buildingState.occupants.length < buildingState.maxOccupants;
 	}
 
+	getImagePath(
+		buildingName: string
+	): string {
+		return `/sprites/buildings/${buildingName}.png`;
+	}
+
 	addOccupant(
 		building: number,
 		agent: number

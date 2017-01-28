@@ -4,7 +4,6 @@ import {ICoordinates, IRowColumnCoordinates} from '../../interfaces';
 
 export interface IBuildingState {
     name: string;
-    entrancePosition: ICoordinates;
     entranceTile?: IRowColumnCoordinates;
 
     maxOccupants?: number;
@@ -20,7 +19,6 @@ export let Building: IBuildingComponent = {
     enum: ComponentEnum.Building,
     state: {
         name: null,
-        entrancePosition: null,
         entranceTile: null,
         occupants: [],
         maxOccupants: 0

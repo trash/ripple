@@ -37,7 +37,7 @@ interface DebugPanelProps {
 
 interface DebugPanelState {
     collisionDebugToggle?: boolean;
-    hiddenDebugGroups: Map<string, boolean>;
+    hiddenDebugGroups?: Map<string, boolean>;
 }
 
 export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState> {
@@ -74,7 +74,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 {!hidden &&
                     <ul>
                     { values.map(value =>
-                        <li>{value}</li>
+                        <li key={value}>{value}</li>
                     )}
                     </ul>
                 }
@@ -95,7 +95,9 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         return (
         <div className="debug-ui">
             {this.renderDebugGroup('Tile',
-                [this.props.tile && this.props.tile.toString()])}
+                [this.props.tile
+                    && this.props.tile.toString()
+                    || 'Tile'])}
             {this.renderDebugGroup('Agent',
                 this.stringifiedList(this.props.agent))}
             {this.renderDebugGroup('Agent Position',
@@ -112,8 +114,11 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 this.stringifiedList(this.props.resource))}
             {this.renderDebugGroup('Building Info',
                 this.stringifiedList(this.props.building).concat(
-                    this.props.buildingConstructible &&
-                    this.props.buildingConstructible.resourceRequirements.toString()
+                    this.props.buildingConstructible
+                        && this.props.buildingConstructible
+                            .resourceRequirements
+                            .toString()
+                        || 'Building Info'
                 ))}
             <h5>Collision Debug: <input onClick={() => this.setState({
                 collisionDebugToggle: !this.state.collisionDebugToggle

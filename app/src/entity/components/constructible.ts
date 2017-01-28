@@ -5,15 +5,16 @@ import {IRequiredResources} from '../../interfaces';
 
 export interface IConstructibleState {
     requiredResources: IRequiredResources;
-    resourceRequirements: ResourceRequirements;
-    completedSpriteName: string;
     progressSpriteName: string;
     floorSpriteName: string;
-    progressSprite: PIXI.Sprite;
-    completedSprite: PIXI.Sprite;
-    floorSprite: PIXI.Sprite;
-    healthbarSpritesInitialized: boolean;
-    taskCreated: boolean;
+
+    resourceRequirements?: ResourceRequirements;
+    completedSpriteName?: string;
+    progressSprite?: PIXI.Sprite;
+    completedSprite?: PIXI.Sprite;
+    floorSprite?: PIXI.Sprite;
+    healthbarSpritesInitialized?: boolean;
+    taskCreated?: boolean;
 }
 
 export interface IConstructibleComponent extends IComponent {
