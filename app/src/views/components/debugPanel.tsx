@@ -2,6 +2,7 @@ import React = require('react');
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collisionDebugView';
+import {Map} from 'immutable';
 
 import {IHungerState} from '../../entity/components/hunger';
 import {ISleepState} from '../../entity/components/sleep';
@@ -14,6 +15,10 @@ import {IPositionState} from '../../entity/components/position';
 
 import {MapTile} from '../../map/tile';
 import {ChildStatus} from '../../b3/Core';
+
+type PlainObject = {
+    [key: string]: any;
+}
 
 interface DebugPanelProps {
     tile: MapTile;
@@ -31,18 +36,21 @@ interface DebugPanelProps {
 }
 
 interface DebugPanelState {
-    collisionDebugToggle: boolean;
+    collisionDebugToggle?: boolean;
+    hiddenDebugGroups: Map<string, boolean>;
 }
 
 export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState> {
+
     constructor(props: DebugPanelProps) {
         super(props);
         this.state = {
-            collisionDebugToggle: false
+            collisionDebugToggle: false,
+            hiddenDebugGroups: Map<string, boolean>()
         };
     }
 
-    stringifiedList (object: any): string[] {
+    stringifiedList (object: PlainObject): string[] {
         if (!object) {
             return [];
         }
@@ -51,15 +59,25 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         );
     }
 
+    hideDebugGroup(title: string) {
+        const hidden = this.state.hiddenDebugGroups.get(title);
+        this.setState({
+            hiddenDebugGroups: this.state.hiddenDebugGroups.set(title, !hidden)
+        });
+    }
+
     renderDebugGroup (title: string, values: string[]) {
+        const hidden = this.state.hiddenDebugGroups.get(title);
         return (
-            <div>
-                <h5>{title}</h5>
-                <ul>
-                { values.map(value =>
-                    <li>{value}</li>
-                )}
-                </ul>
+            <div onClick={() => this.hideDebugGroup(title)}>
+                <h5>{`${title} [${hidden ? `+${values.length}` : '-'}]`}</h5>
+                {!hidden &&
+                    <ul>
+                    { values.map(value =>
+                        <li>{value}</li>
+                    )}
+                    </ul>
+                }
             </div>
         );
     }
