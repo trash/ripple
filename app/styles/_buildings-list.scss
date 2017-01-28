@@ -1,0 +1,13 @@
+.buildings-list {
+    background: blue;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+
+    li {
+        list-style: none;
+        flex: auto;
+        margin: 0;
+    }
+}

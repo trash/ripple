@@ -24,6 +24,7 @@ import {
     UpdateHoveredBuilding,
     UpdateHoveredResource,
     UpdateHoverTile,
+    ShowBuildingsList,
 } from './actions';
 
 export interface StoreState {
@@ -39,6 +40,7 @@ export interface StoreState {
     hoveredAgentLastExecutionChain: ChildStatus[];
     hours: number;
     days: number;
+    buildingsListShown: boolean;
 }
 
 const initialState = {} as StoreState;
@@ -73,6 +75,12 @@ const mainReducer = (previousState = initialState, action) => {
         newState.hours = updateAction.hours;
         newState.days = updateAction.days;
     }
+
+    if (action.type === actionTypes.SHOW_BUILDINGS_LIST) {
+        const showAction = action as ShowBuildingsList;
+        newState.buildingsListShown = action.show;
+    }
+
     return newState;
 };
 

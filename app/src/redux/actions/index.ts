@@ -6,3 +6,19 @@ export {updateHoveredAgentLastExecutionChain, UpdateHoveredAgentLastExecutionCha
 export {updateHoveredBuilding, UpdateHoveredBuilding} from './updateHoveredBuilding';
 export {updateHoveredItem, UpdateHoveredItem} from './updateHoveredItem';
 export {updateHoveredResource, UpdateHoveredResource} from './updateHoveredResource';
+
+import {actionTypes} from './types';
+
+export interface ShowBuildingsList {
+    type: string;
+    show: boolean;
+}
+
+export function showBuildingsList (
+    show: boolean
+): ShowBuildingsList {
+    return {
+        type: actionTypes.SHOW_BUILDINGS_LIST,
+        show: show
+    };
+}

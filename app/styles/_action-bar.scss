@@ -1,8 +1,7 @@
 .action-bar {
     height: $actionBarHeight;
-    background: #ccc;
 
-     display: flex;
+    display: flex;
 
     /* Then we define the flow direction and if we allow the items to wrap
     * Remember this is the same as:
@@ -14,7 +13,21 @@
     /* Then we define how is distributed the remaining space */
     justify-content: flex-start;
 
-    button {
-        margin: 0;
+    .action-bar-upper, .action-bar-buttons {
+        height: 0.5 * $actionBarHeight;
+        width: 100%;
+    }
+
+    .action-bar-upper {
+        order: -1;
+    }
+    .action-bar-buttons {
+        order: 0;
+        background: #666;
+
+        button {
+            margin: 0;
+            height: 100%;
+        }
     }
 }

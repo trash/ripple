@@ -9,7 +9,7 @@ body {
 }
 
 $tileSize: 24px;
-$actionBarHeight: 80px;
+$actionBarHeight: 160px;
 
 canvas {
     image-rendering: optimizeSpeed;
@@ -74,4 +74,5 @@ button {
 
 @import 'debug-ui',
 	'action-bar',
+	'buildings-list',
 	'hover-tile';
