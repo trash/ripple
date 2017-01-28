@@ -1,5 +1,11 @@
 .debug-ui {
-    padding: 1em;
+    padding: 0 16px;
     color: #ccc;
 	width: 40em;
+
+    font-family: monospace;
+
+    h5 {
+        font-size: 16px;
+    }
 }

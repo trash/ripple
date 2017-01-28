@@ -9,6 +9,7 @@ body {
 }
 
 $tileSize: 24px;
+$topSectionHeight: 80px;
 $actionBarHeight: 160px;
 
 canvas {
@@ -64,7 +65,14 @@ button {
 }
 
 .top-section {
-	flex: calc(100% - #{$actionBarHeight});
+	height: $topSectionHeight;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: column;
+}
+
+.middle-section {
+	flex: calc(100% - #{$actionBarHeight + $topSectionHeight});
 	overflow: scroll;
 }
 .action-bar {
@@ -75,4 +83,5 @@ button {
 @import 'debug-ui',
 	'action-bar',
 	'buildings-list',
+	'clock',
 	'hover-tile';

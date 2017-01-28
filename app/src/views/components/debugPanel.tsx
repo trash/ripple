@@ -42,12 +42,25 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         };
     }
 
-    stringifiedList (object: any): JSX.Element[] {
+    stringifiedList (object: any): string[] {
         if (!object) {
-            return null;
+            return [];
         }
         return Object.keys(object).map(property =>
-            <li key={property}>{property}: {JSON.stringify(object[property])}</li>
+            `${property}: ${JSON.stringify(object[property])}`
+        );
+    }
+
+    renderDebugGroup (title: string, values: string[]) {
+        return (
+            <div>
+                <h5>{title}</h5>
+                <ul>
+                { values.map(value =>
+                    <li>{value}</li>
+                )}
+                </ul>
+            </div>
         );
     }
 
@@ -63,42 +76,30 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
         return (
         <div className="debug-ui">
-            <h4>Day: {this.props.days} Hour: {this.props.hours}</h4>
-            <h4>Tile: {this.props.tile && this.props.tile.toString()}</h4>
-            <h4>Agent:</h4>
-            <ul>
-                {this.stringifiedList(this.props.agent)}
-            </ul>
-            <h4>Agent Position:</h4>
-            <ul>
-                {this.stringifiedList(this.props.agentPosition)}
-            </ul>
-            <h4>Agent Hunger:</h4>
-            <ul>
-                {this.stringifiedList(this.props.agentHunger)}
-            </ul>
-            <h4>Agent Sleep:</h4>
-            <ul>
-                {this.stringifiedList(this.props.agentSleep)}
-            </ul>
-            <h4>Last Action: {lastAction}</h4>
-            <h4>Item:</h4>
-            <ul>
-                {this.stringifiedList(this.props.item)}
-            </ul>
-            <h4>Resource:</h4>
-            <ul>
-                {this.stringifiedList(this.props.resource)}
-            </ul>
-            <h4>Building Info:</h4>
-            <ul>
-                {this.stringifiedList(building)}
-                <li>{this.props.buildingConstructible &&
-                    this.props.buildingConstructible.resourceRequirements.toString()}</li>
-            </ul>
-            <h4>Collision Debug: <input onClick={() => this.setState({
+            {this.renderDebugGroup('Tile',
+                [this.props.tile && this.props.tile.toString()])}
+            {this.renderDebugGroup('Agent',
+                this.stringifiedList(this.props.agent))}
+            {this.renderDebugGroup('Agent Position',
+                this.stringifiedList(this.props.agentPosition))}
+            {this.renderDebugGroup('Agent Hunger',
+                this.stringifiedList(this.props.agentHunger))}
+            {this.renderDebugGroup('Agent Sleep',
+                this.stringifiedList(this.props.agentSleep))}
+            {this.renderDebugGroup('Last Action',
+                [lastAction])}
+            {this.renderDebugGroup('Item',
+                this.stringifiedList(this.props.item))}
+            {this.renderDebugGroup('Resource',
+                this.stringifiedList(this.props.resource))}
+            {this.renderDebugGroup('Building Info',
+                this.stringifiedList(this.props.building).concat(
+                    this.props.buildingConstructible &&
+                    this.props.buildingConstructible.resourceRequirements.toString()
+                ))}
+            <h5>Collision Debug: <input onClick={() => this.setState({
                 collisionDebugToggle: !this.state.collisionDebugToggle
-            })} type="checkbox"/></h4>
+            })} type="checkbox"/></h5>
             <CollisionDebugView show={this.state.collisionDebugToggle}/>
         </div>
         );
