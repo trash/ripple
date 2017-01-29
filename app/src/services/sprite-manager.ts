@@ -52,11 +52,11 @@ export class SpriteManager {
 		column: number,
 		row: number
 	): ISpriteText {
-		let fill = options.fill || 0xff1010,
-			align = options.align || 'center',
-			fontSize = options.fontSize || 16;
+		const fill = options.fill || 0xff1010;
+		const align = options.align || 'center';
+		const fontSize = options.fontSize || 16;
 
-		let font = `${fontSize}px Arial`,
+		const font = `${fontSize}px Arial`,
 			textSprite: ISpriteText = new PIXI.Text(text, {
 				font: font,
 				fill: fill,
@@ -69,8 +69,8 @@ export class SpriteManager {
 		return textSprite;
 	}
 
-	createHoverSprite (name: string): any {
-		var sprite = PIXI.Sprite.fromFrame(name);
+	createHoverSprite (name: string): PIXI.Sprite {
+		const sprite = PIXI.Sprite.fromFrame(name);
 
 		this.tilemap.hoverLayer.addChild(sprite);
 

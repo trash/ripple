@@ -8,6 +8,7 @@ export interface IBuildingState {
 
     maxOccupants?: number;
     occupants?: number[];
+    mustBeNextToWater?: boolean;
 }
 
 export interface IBuildingComponent extends IComponent {
@@ -21,6 +22,7 @@ export let Building: IBuildingComponent = {
         name: null,
         entranceTile: null,
         occupants: [],
-        maxOccupants: 0
+        maxOccupants: 0,
+        mustBeNextToWater: false
     }
 };

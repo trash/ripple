@@ -31,8 +31,11 @@ export class BuildingSystem extends EntitySystem {
             const collisionState = this.manager.getComponentDataForEntity(
                 ComponentEnum.Collision, id) as ICollisionState;
 
-            if (renderableState.spriteGroup && !constructibleState.completedSpriteName) {
-                this.initSprites(positionState, buildingState, constructibleState, renderableState);
+            if (renderableState.spriteGroup
+                && !constructibleState.completedSpriteName
+            ) {
+                this.initSprites(positionState, buildingState,
+                    constructibleState, renderableState);
             }
             const tile = positionState.tile;
             if (!buildingState.entranceTile && tile) {
