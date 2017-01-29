@@ -16,6 +16,10 @@ export class CollisionUtil extends BaseUtil {
     ): IRowColumnCoordinates[] {
         const positionState = this._getPositionState(id);
         const tile = positionState.tile;
+        // Ignore collision entities without a position
+        if (!tile) {
+            return [];
+        }
         const collisionState = this._getCollisionState(id);
         const tiles: IRowColumnCoordinates[] = [];
         for (let x = tile.column; x < tile.column + collisionState.size.x; x++) {

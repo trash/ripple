@@ -75,8 +75,8 @@ export const dataList: IEntityComponentData[] = [
         },
         collision: {
             size: {
-                x: 5,
-                y: 4
+                x: 4,
+                y: 5
             },
             entrance: {
                 x: 3,

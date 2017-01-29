@@ -17,6 +17,8 @@ interface CollisionDebugViewProps {
     show: boolean;
 }
 
+type IdsAndTiles = [number, IRowColumnCoordinates[]];
+
 export class CollisionDebugView extends React.Component<CollisionDebugViewProps, void> {
     componentWillMount () {
         setInterval(() => {
@@ -30,22 +32,33 @@ export class CollisionDebugView extends React.Component<CollisionDebugViewProps,
         if (!this.props.show) {
             return null;
         }
-        const ids = collisionUtil.getAllCollisionEntities();
-        const tiles = ids.reduce((tiles, id) => {
-            return tiles.concat(collisionUtil.getTilesFromCollisionEntity(id, true));
-        }, [] as IRowColumnCoordinates[]);
+        const ids = collisionUtil.getAllCollisionEntities()
+            // Filter down to just the ones that aren't ignored
+            .filter(id => {
+                return collisionUtil._getCollisionState(id).updatesTile;
+            });
+        const idsAndTiles = ids.map(id => {
+            const tiles = collisionUtil.getTilesFromCollisionEntity(id, true);
+            return [
+                id,
+                tiles
+            ];
+        });
 
         return (
-            <div>{tiles.map(tile => {
-                const elementPosition = globalRefs.map.getElementPositionFromTile(tile);
+        <div>{idsAndTiles.map(([id, tiles]) => {
+            return (tiles as IRowColumnCoordinates[]).map(tile => {
+                const elementPosition = globalRefs.map
+                    .getElementPositionFromTile(tile);
                 return <div className="hover-tile"
-                    key={tile.row * 1000 + tile.column}
+                    key={`${id}-${tile.row * 1000 + tile.column}`}
                     style={{
                         display: 'block',
                         top: elementPosition.top,
                         left: elementPosition.left
                     }}/>
-            })}</div>
+            })
+        })}</div>
         );
     }
 }
