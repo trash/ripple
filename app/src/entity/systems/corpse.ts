@@ -7,18 +7,18 @@ import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {gameClock} from '../../game/game-clock';
 
 export class CorpseSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Renderable, id) as IRenderableState,
+					Components.Renderable, id) as IRenderableState,
                 corpseState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Corpse, id) as ICorpseState,
+					Components.Corpse, id) as ICorpseState,
 				positionState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Position, id) as IPositionState;
+					Components.Position, id) as IPositionState;
 
             if (renderableState.spriteGroup && !renderableState.sprite) {
                 renderableState.sprite = PIXI.Sprite.fromFrame(

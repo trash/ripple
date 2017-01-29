@@ -3,7 +3,7 @@ import * as Tasks from '../b3/Actions/Tasks';
 import {ResourceRequirements} from '../resource-requirements';
 import {Professions} from '../data/professions';
 import {StatusBubble} from '../data/statusBubble';
-import {ComponentEnum} from '../entity/componentEnum';
+import {Components} from '../entity/ComponentsEnum';
 
 import {IPositionState, IBuildingState, IConstructibleState,
 	IHealthState} from '../entity/components';

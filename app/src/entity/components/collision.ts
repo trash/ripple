@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {ICoordinates} from '../../interfaces';
 
 export interface ICollisionState {
@@ -7,6 +7,7 @@ export interface ICollisionState {
     entrance?: ICoordinates;
     previousActiveState?: boolean;
     activeState?: boolean;
+    updatesTile?: boolean;
 }
 
 export interface ICollisionComponent extends IComponent {
@@ -15,11 +16,12 @@ export interface ICollisionComponent extends IComponent {
 
 export let Collision: ICollisionComponent = {
     name: 'collision',
-    enum: ComponentEnum.Collision,
+    enum: Components.Collision,
     state: {
         size: null,
         previousActiveState: false,
         activeState: true,
-        entrance: null
+        entrance: null,
+        updatesTile: true
     }
 };

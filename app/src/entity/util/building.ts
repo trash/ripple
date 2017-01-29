@@ -1,10 +1,10 @@
 import {IRowColumnCoordinates} from '../../interfaces';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {BaseUtil} from './base';
 
 export class BuildingUtil extends BaseUtil {
 	private getAllBuildings (): number[] {
-        return this.entityManager.getEntityIdsForComponent(ComponentEnum.Building);
+        return this.entityManager.getEntityIdsForComponent(Components.Building);
     }
 
 	getTileFromBuilding (building: number): IRowColumnCoordinates {

@@ -1,0 +1,10 @@
+.building-blueprint-sprite {
+	position: absolute;
+
+	.blueprint-square {
+		position: absolute;
+		background: #000;
+		border: 1px solid #0af;
+		opacity: 0.5;
+	}
+}

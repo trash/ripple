@@ -1,4 +1,4 @@
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
 import {buildingUtil} from './building';
@@ -33,7 +33,7 @@ export class AgentUtil extends BaseUtil {
 	}
 
     private getAllAgents (): number[] {
-        return this.entityManager.getEntityIdsForComponent(ComponentEnum.Agent);
+        return this.entityManager.getEntityIdsForComponent(Components.Agent);
     }
 
 	private entityIdToAgentSearchResult (id: number): AgentSearchResult {

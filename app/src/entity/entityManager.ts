@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {uniqueId} from '../unique-id';
-import {ComponentEnum} from './componentEnum';
+import {Components} from './ComponentsEnum';
 import {componentsList} from './components/ComponentsList';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems';
@@ -23,23 +23,23 @@ import {
 
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;
-    componentEnum: ComponentEnum;
+    ComponentsEnum: Components;
     updateInterval?: number;
 
     constructor (
         manager: EntityManager,
-        componentEnum: ComponentEnum
+        ComponentsEnum: Components
     ) {
         super();
         this.manager = manager;
-        this.componentEnum = componentEnum;
+        this.ComponentsEnum = ComponentsEnum;
     }
     destroyComponent (id: number) {}
     update (entities: number[], turn?: number, stopped?: boolean) {};
 }
 
 export interface IComponent {
-    enum: ComponentEnum;
+    enum: Components;
     name: string;
     state: {[key: string]: any;}
 }
@@ -102,8 +102,8 @@ export class EntityManager {
         });
         systemsList.forEach(SystemComponentPair => {
             const System = SystemComponentPair[0],
-                componentEnum = SystemComponentPair[1];
-            this.addSystem(new System(this, componentEnum));
+                ComponentsEnum = SystemComponentPair[1];
+            this.addSystem(new System(this, ComponentsEnum));
         });
         utilList.forEach(util => {
             util.intialize(this);
@@ -119,12 +119,12 @@ export class EntityManager {
             if (system.updateInterval && turn % system.updateInterval !== 1) {
                 return;
             }
-            const entityIds = this.getEntityIdsForComponent(system.componentEnum);
+            const entityIds = this.getEntityIdsForComponent(system.ComponentsEnum);
             system.update(entityIds, turn, stopped);
         });
     }
 
-    createEntity (componentNames: ComponentEnum[]): number {
+    createEntity (componentNames: Components[]): number {
         const entityId = parseInt(uniqueId.get());
 
         componentNames.forEach(componentName => {
@@ -139,11 +139,11 @@ export class EntityManager {
         return this.createEntity(assemblages[assemblageEnum]);
     }
 
-    _getSystemForComponent (component: ComponentEnum): EntitySystem {
-        return this.systems.find(system => system.componentEnum === component);
+    _getSystemForComponent (component: Components): EntitySystem {
+        return this.systems.find(system => system.ComponentsEnum === component);
     }
 
-    removeComponentDataEntry (entityId: number, componentName: ComponentEnum) {
+    removeComponentDataEntry (entityId: number, componentName: Components) {
         const componentEntry = this.entityComponentDataMap[componentName];
         if (entityId in componentEntry) {
             const system = this._getSystemForComponent(componentName);
@@ -171,11 +171,11 @@ export class EntityManager {
         this.removedEntities[entityId] = true;
     }
 
-    createNewComponentDataMapEntry (componentName: ComponentEnum) {
+    createNewComponentDataMapEntry (componentName: Components) {
         return _.extend({}, this.components[componentName].state);
     }
 
-    addComponentToEntity (entityId: number, componentName: ComponentEnum) {
+    addComponentToEntity (entityId: number, componentName: Components) {
         // console.log(`Adding component: ${this.components[componentName].name} to entity with id: ${entityId}`);
         const componentDataMapEntry = this.getComponentDataForEntity(componentName, entityId);
         if (componentDataMapEntry) {
@@ -196,7 +196,7 @@ export class EntityManager {
         this.systems.push(system);
     }
 
-    getEntitiesWithComponent (componentName: ComponentEnum): IEntityComponentDataMap {
+    getEntitiesWithComponent (componentName: Components): IEntityComponentDataMap {
         const entities = this.entityComponentDataMap[componentName];
         // This means you prolly forgot to add the component to the componentlist
         if (!entities) {
@@ -205,14 +205,14 @@ export class EntityManager {
         return entities;
     }
 
-    getComponentDataForEntity (componentName: ComponentEnum, entityId: number) {
+    getComponentDataForEntity (componentName: Components, entityId: number) {
         return this.getEntitiesWithComponent(componentName)[entityId];
     }
 
     // Useful for debugging entities
     _getAllComponentsForEntity (entityId: number) {
         const data = {};
-        Object.keys(ComponentEnum).forEach(component => {
+        Object.keys(Components).forEach(component => {
             const componentNumber = parseInt(component);
             if (!isNaN(componentNumber)) {
                 data[component] = this.getComponentDataForEntity(componentNumber, entityId);
@@ -221,7 +221,7 @@ export class EntityManager {
         return data;
     }
 
-    getEntityIdsForComponent (componentName: ComponentEnum): number[] {
+    getEntityIdsForComponent (componentName: Components): number[] {
         return this.entityComponentToIdListMap[componentName];
     }
 }

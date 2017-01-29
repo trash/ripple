@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 
 import {IHungerState} from '../components';
 import {IHealthState} from '../components';
@@ -18,7 +18,7 @@ export class HungerSystem extends EntitySystem {
         }
         entityIds.forEach(id => {
             const hungerState = this.manager.getComponentDataForEntity(
-                ComponentEnum.Hunger, id) as IHungerState;
+                Components.Hunger, id) as IHungerState;
 
             hungerState.value += this.updateInterval;
             // Check bounds
@@ -27,7 +27,7 @@ export class HungerSystem extends EntitySystem {
             // They starved
             if (hungerState.value === hungerState.max) {
                 const healthState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Health, id) as IHealthState;
+                    Components.Health, id) as IHealthState;
                 healthState.currentHealth = 0;
             }
         });

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {IHarvestableState} from '../components';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
@@ -35,8 +35,8 @@ export class HarvestSelectSystem extends EntitySystem {
 	highlighted: IHarvestableState[];
     active: boolean;
 
-    constructor (manager: EntityManager, componentEnum: ComponentEnum) {
-		super(manager, componentEnum);
+    constructor (manager: EntityManager, ComponentsEnum: Components) {
+		super(manager, ComponentsEnum);
         this.active = false;
 		this.tileHoverElement = new HoverElement();
         this.harvestTypes = [HarvestTypes.Tree, HarvestTypes.Food];
@@ -64,7 +64,7 @@ export class HarvestSelectSystem extends EntitySystem {
 
         selectedEntityIds.forEach(id => {
             const harvestableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Harvestable, id) as IHarvestableState;
+                    Components.Harvestable, id) as IHarvestableState;
 
 			harvestableState.highlighted = true;
 			this.highlighted.push(harvestableState);
@@ -78,7 +78,7 @@ export class HarvestSelectSystem extends EntitySystem {
 		const entityIds = this.getSelectedEntities();
 		entityIds.forEach(id => {
 			const harvestableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Harvestable, id) as IHarvestableState;
+                    Components.Harvestable, id) as IHarvestableState;
 			console.info(`queue up HarvestTask for entity with id: ${id}`);
 			harvestableState.queued = true;
 
@@ -94,11 +94,11 @@ export class HarvestSelectSystem extends EntitySystem {
 	 * @returns [Number] The list of entity ids
 	 */
 	getSelectedEntities (): number[] {
-		const entityIds = this.manager.getEntityIdsForComponent(ComponentEnum.Resource);
+		const entityIds = this.manager.getEntityIdsForComponent(Components.Resource);
 
         return entityIds.filter(id => {
             const positionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState;
+                    Components.Position, id) as IPositionState;
 			return this.tiles.includes(positionState.tile);
         });
 	}

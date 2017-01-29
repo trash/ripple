@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {IResourceState} from '../components';
 import {IHarvestableState} from '../components';
 import {IRenderableState} from '../components';
@@ -18,17 +18,17 @@ export class ResourceSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Renderable, id) as IRenderableState,
+                    Components.Renderable, id) as IRenderableState,
                 harvestableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Harvestable, id) as IHarvestableState,
+                    Components.Harvestable, id) as IHarvestableState,
                 healthState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Health, id) as IHealthState,
+                    Components.Health, id) as IHealthState,
                 resourceState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Resource, id) as IResourceState,
+                    Components.Resource, id) as IResourceState,
                 nameState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Name, id) as INameState,
+                    Components.Name, id) as INameState,
                 positionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState;
+                    Components.Position, id) as IPositionState;
 
             this.handleInit(resourceState, renderableState, positionState);
 

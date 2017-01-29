@@ -8,7 +8,7 @@ import {
 	buildings as buildingsAssemblageData
 } from '../entity/assemblageData';
 
-import {ComponentEnum, componentEnumToKeyMap} from '../entity/componentEnum';
+import {Components, ComponentsEnumToKeyMap} from '../entity/ComponentsEnum';
 
 import {
 	IPositionState,
@@ -50,7 +50,7 @@ export class EntitySpawner {
 
     copyComponentData (
 		entityId: number,
-		pair: [any, ComponentEnum]
+		pair: [any, Components]
 	) {
 		if (pair[0]) {
 			const entityState = this.entityManager.getComponentDataForEntity(
@@ -75,9 +75,9 @@ export class EntitySpawner {
 		const assemblageComponentList = assemblages[assemblageEnum];
 		const assemblageComponentPairList = [];
 
-		assemblageComponentList.forEach(componentEnum => {
-			const dataKey = componentEnumToKeyMap[componentEnum];
-			assemblageComponentPairList.push([entityComponentData[dataKey], componentEnum]);
+		assemblageComponentList.forEach(ComponentsEnum => {
+			const dataKey = ComponentsEnumToKeyMap[ComponentsEnum];
+			assemblageComponentPairList.push([entityComponentData[dataKey], ComponentsEnum]);
 		});
 		assemblageComponentPairList.forEach(pair => {
 			this.copyComponentData(entityId, pair);
@@ -103,13 +103,13 @@ export class EntitySpawner {
 
 		// Get relevant state
 		const positionState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Position, entityId) as IPositionState;
+				Components.Position, entityId) as IPositionState;
 		const agentState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Agent, entityId) as IAgentState;
+				Components.Agent, entityId) as IAgentState;
 		const villagerState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Villager, entityId) as IVillagerState;
+				Components.Villager, entityId) as IVillagerState;
 		const renderableState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Renderable, entityId) as IRenderableState;
+				Components.Renderable, entityId) as IRenderableState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agentName]);
@@ -203,7 +203,7 @@ export class EntitySpawner {
 		// Get the tile to spawn *before* creating the item or the item itself will
 		// show up in the search
 		const tileDoesntContainItem = (tile: MapTile): boolean => {
-			return !baseUtil.tileContainsEntityOfComponent(ComponentEnum.Item, tile);
+			return !baseUtil.tileContainsEntityOfComponent(Components.Item, tile);
 		};
 		const spawnTileStart = (entityComponentData.position && entityComponentData.position.tile) ||
 			globalRefs.map.getTile(0, 0);
@@ -212,9 +212,9 @@ export class EntitySpawner {
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
 
 		const positionState = this.entityManager.getComponentDataForEntity(
-			ComponentEnum.Position, entityId) as IPositionState;
+			Components.Position, entityId) as IPositionState;
 		const itemState = this.entityManager.getComponentDataForEntity(
-			ComponentEnum.Item, entityId) as IItemState;
+			Components.Item, entityId) as IItemState;
 
 		positionState.tile = spawnTile;
 		itemState.shouldBeSpawned = true;
@@ -251,13 +251,13 @@ export class EntitySpawner {
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
 
 		const positionState = this.entityManager.getComponentDataForEntity(
-			ComponentEnum.Position, entityId) as IPositionState;
+			Components.Position, entityId) as IPositionState;
 		const map = globalRefs.map;
 		positionState.tile = map.getTile(map.dimension / 4 - 1, map.dimension / 2 - 1);
 
 		if (isCompleted) {
 			const healthState = this.entityManager.getComponentDataForEntity(
-				ComponentEnum.Health, entityId) as IHealthState;
+				Components.Health, entityId) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;
 		}
 

@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {AgentTraits, Gender} from '../../interfaces';
 
 export interface IAgentState {
@@ -31,7 +31,7 @@ export interface IAgentComponent extends IComponent {
 
 export let Agent: IAgentComponent = {
     name: 'agent',
-    enum: ComponentEnum.Agent,
+    enum: Components.Agent,
     state: {
         agentName: 'zombie',
         genderEnabled: false,

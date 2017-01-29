@@ -17,7 +17,7 @@ import {
 import {agentUtil, collisionUtil} from '../entity/util';
 
 import {EntityManager} from '../entity/entityManager';
-import {ComponentEnum} from '../entity/componentEnum';
+import {Components} from '../entity/ComponentsEnum';
 
 import {
     IResourceState,
@@ -39,9 +39,9 @@ const filterEntityByTile = (
     entityId: number
 ) => {
     const collisionState = entityManager.getComponentDataForEntity(
-        ComponentEnum.Collision, entityId) as ICollisionState;
+        Components.Collision, entityId) as ICollisionState;
     const positionState = entityManager.getComponentDataForEntity(
-        ComponentEnum.Position, entityId) as IPositionState;
+        Components.Position, entityId) as IPositionState;
 
     if (!positionState || !positionState.tile) {
         return false;
@@ -60,13 +60,13 @@ const getNameFromEntity = (
     entityId: number
 ) => {
     return entityManager.getComponentDataForEntity(
-        ComponentEnum.Name, entityId);
+        Components.Name, entityId);
 };
 
 const getEntitiesWithComponentInTile = (
     entityManager: EntityManager,
     tile: MapTile,
-    componentName: ComponentEnum
+    componentName: Components
 ) => {
     return Object.keys(
         entityManager.getEntitiesWithComponent(componentName))
@@ -77,7 +77,7 @@ const getEntitiesWithComponentInTile = (
 const getNameOfEntityOccupyingTile = (
     entityManager: EntityManager,
     tile: MapTile,
-    componentName: ComponentEnum
+    componentName: Components
 ): INameState => {
     return getEntitiesWithComponentInTile(entityManager, tile, componentName)
             .map(getNameFromEntity.bind(this, entityManager))[0] as INameState;
@@ -106,36 +106,36 @@ export class TileInfoService {
 		}
         this.previousTile = tile;
 
-        const getNameOfEntityOccupyingThisTile = (componentName: ComponentEnum) => {
+        const getNameOfEntityOccupyingThisTile = (componentName: Components) => {
             return getNameOfEntityOccupyingTile(this.entityManager, tile, componentName);
         }
 
         const getEntityWithComponentInTile = (
-            component: ComponentEnum
+            component: Components
         ): number => {
             return getEntitiesWithComponentInTile(this.entityManager, tile, component)[0];
         }
 
         // Get the name of any agent occupying the tile
-        const agent = getEntityWithComponentInTile(ComponentEnum.Agent);
+        const agent = getEntityWithComponentInTile(Components.Agent);
         if (agent) {
             const agentState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Agent, agent) as IAgentState;
+                Components.Agent, agent) as IAgentState;
             const hungerState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Hunger, agent) as IHungerState;
+                Components.Hunger, agent) as IHungerState;
             const sleepState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Sleep, agent) as ISleepState;
+                Components.Sleep, agent) as ISleepState;
             const positionState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Position, agent) as IPositionState;
+                Components.Position, agent) as IPositionState;
             store.dispatch(updateHoveredAgent(agentState, hungerState, sleepState, positionState));
 
             // Expose info about the agent's behavior tree
             const behaviorTreeState = getEntitiesWithComponentInTile(
                         this.entityManager,
                         tile,
-                        ComponentEnum.Agent
+                        Components.Agent
                     ).map(entityId => this.entityManager.getComponentDataForEntity(
-                        ComponentEnum.BehaviorTree, entityId)
+                        Components.BehaviorTree, entityId)
                     )[0] as IBehaviorTreeState;
             const backupExecutionChain = behaviorTreeState.blackboard
                 .get('lastExecutionChain', behaviorTreeState.tree.id) as {
@@ -151,28 +151,28 @@ export class TileInfoService {
         }
 
         // Get the name of any resource occupying the tile
-        const resource = getEntityWithComponentInTile(ComponentEnum.Resource);
+        const resource = getEntityWithComponentInTile(Components.Resource);
         if (resource) {
             const resourceState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Resource, resource) as IResourceState;
+                Components.Resource, resource) as IResourceState;
             store.dispatch(updateHoveredResource(resourceState));
         }
 
         // Get the name of any item occupying the tile
-        const item = getEntityWithComponentInTile(ComponentEnum.Item);
+        const item = getEntityWithComponentInTile(Components.Item);
         if (item) {
             const itemState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Item, item) as IItemState;
+                Components.Item, item) as IItemState;
             store.dispatch(updateHoveredItem(itemState));
         }
 
         // Get the name of any building occupying the tile
-        const building = getEntityWithComponentInTile(ComponentEnum.Building);
+        const building = getEntityWithComponentInTile(Components.Building);
         if (building) {
             const buildingState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Building, building) as IBuildingState;
+                Components.Building, building) as IBuildingState;
             const constructibleState = this.entityManager.getComponentDataForEntity(
-                ComponentEnum.Constructible, building) as IConstructibleState;
+                Components.Constructible, building) as IConstructibleState;
             store.dispatch(updateHoveredBuilding(buildingState, constructibleState));
         }
 

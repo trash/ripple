@@ -19,27 +19,27 @@ import {
 } from './index';
 
 import {EntitySystem, EntityManager} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 
 // Ordered list that determines in what order systems are called (first called first)
 export const systemsList:
-    [new (manager: EntityManager, componentEnum: ComponentEnum) => EntitySystem, ComponentEnum][]
+    [new (manager: EntityManager, ComponentsEnum: Components) => EntitySystem, Components][]
 = [
-    [HarvestSelectSystem, ComponentEnum.Resource],
-    [VillagerSystem, ComponentEnum.Villager],
-    [BehaviorTreeSystem, ComponentEnum.Agent],
-    [PositionSystem, ComponentEnum.Position],
-    [ResourceSystem, ComponentEnum.Resource],
-    [BuildingSystem, ComponentEnum.Building],
-    [ConstructibleSystem, ComponentEnum.Constructible],
-    [CollisionSystem, ComponentEnum.Collision],
-    [ItemSystem, ComponentEnum.Item],
-    [AgentSystem, ComponentEnum.Agent],
-    [CorpseSystem, ComponentEnum.Corpse],
-    [HarvestableSystem, ComponentEnum.Harvestable],
-    [HungerSystem, ComponentEnum.Hunger],
-    [SleepSystem, ComponentEnum.Sleep],
-    [StatusBubbleSystem, ComponentEnum.StatusBubble],
-    [HealthBarSystem, ComponentEnum.HealthBar],
-    [RenderableSystem, ComponentEnum.Renderable],
+    [HarvestSelectSystem, Components.Resource],
+    [VillagerSystem, Components.Villager],
+    [BehaviorTreeSystem, Components.Agent],
+    [PositionSystem, Components.Position],
+    [ResourceSystem, Components.Resource],
+    [BuildingSystem, Components.Building],
+    [ConstructibleSystem, Components.Constructible],
+    [CollisionSystem, Components.Collision],
+    [ItemSystem, Components.Item],
+    [AgentSystem, Components.Agent],
+    [CorpseSystem, Components.Corpse],
+    [HarvestableSystem, Components.Harvestable],
+    [HungerSystem, Components.Hunger],
+    [SleepSystem, Components.Sleep],
+    [StatusBubbleSystem, Components.StatusBubble],
+    [HealthBarSystem, Components.HealthBar],
+    [RenderableSystem, Components.Renderable],
 ];

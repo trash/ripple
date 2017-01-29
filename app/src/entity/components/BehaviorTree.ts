@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {BehaviorTree as B3BehaviorTree, Blackboard} from '../../b3/Core';
 
 export interface IBehaviorTreeState {
@@ -13,7 +13,7 @@ export interface IBehaviorTreeComponent extends IComponent {
 
 export let BehaviorTree: IBehaviorTreeComponent = {
     name: 'behavior-tree',
-    enum: ComponentEnum.BehaviorTree,
+    enum: Components.BehaviorTree,
     state: {
         tree: null,
         blackboard: null,

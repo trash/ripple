@@ -4,7 +4,7 @@ import {MapTile} from '../map/tile';
 import {MapGenTile} from '../map/map-gen-tile';
 import {INearestTile, ICoordinates, IRowColumnCoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
-import {ComponentEnum} from '../entity/componentEnum';
+import {Components} from '../entity/ComponentsEnum';
 import {positionUtil} from '../entity/util';
 import {Tick} from '../b3/Core';
 

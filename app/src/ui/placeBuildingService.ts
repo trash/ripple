@@ -8,6 +8,11 @@ import {
 } from '../interfaces';
 import {spriteManager} from '../services/sprite-manager';
 import {GameMap} from '../map';
+import {EntityManager} from '../entity/entityManager';
+import {Components} from '../entity/ComponentsEnum';
+import {ICollisionState, IPositionState} from '../entity/components';
+import {collisionUtil} from '../entity/util/collision';
+import {mapUtil} from '../entity/util/map';
 
 const globalRefs: {
 	map: GameMap
@@ -23,9 +28,8 @@ const colors = constants.colors;
 
 type PlaceBuildingOptions = {
     name: string;
-    size: ICoordinates;
-	entrance: ICoordinates;
     mustBeNextToWater: boolean;
+	collision: ICollisionState;
 }
 
 const entityDataToPlaceBuildingOptions = (
@@ -33,25 +37,27 @@ const entityDataToPlaceBuildingOptions = (
 ): PlaceBuildingOptions => {
 	return {
 		name: data.building.name,
-		size: data.collision.size,
-		entrance: data.collision.entrance,
-		mustBeNextToWater: data.building.mustBeNextToWater
+		mustBeNextToWater: data.building.mustBeNextToWater,
+		collision: data.collision
 	};
 }
 
 export class PlaceBuildingService {
 	hoverSprite: PIXI.Sprite;
 	blueprintSprite: HTMLElement;
+	entity: number;
 	building: PlaceBuildingOptions;
 	removeCanvasListener: () => void;
 	followInterval: () => void;
 	active: boolean;
 	validPlacement: boolean;
     toggle: (building: IEntityComponentData) => void;
+	entityManager: EntityManager;
 
 	constructor () {
 		this.hoverSprite = null;
 		this.blueprintSprite = null;
+		this.entity = null;
 		this.building = null;
 		this.removeCanvasListener = null;
 		this.followInterval = null;
@@ -61,6 +67,10 @@ export class PlaceBuildingService {
 		// from trigger a placement at the same time
         this.toggle = (building: IEntityComponentData) => _.defer(() =>
             this._toggle(building));
+	}
+
+	setEntityManager (entityManager: EntityManager) {
+		this.entityManager = entityManager;
 	}
 
 	click (tile: IRowColumnCoordinates) {
@@ -91,7 +101,7 @@ export class PlaceBuildingService {
 		container.classList.add('building-blueprint-sprite');
 		document.body.appendChild(container);
 
-		const size = buildingData.size;
+		const size = buildingData.collision.size;
 		for (let x = 0; x < size.x; x++) {
 			for (let y = 0; y < size.y; y++) {
 				const square = document.createElement('div');
@@ -107,15 +117,15 @@ export class PlaceBuildingService {
 		}
 
 		// Check for entrance
-		if (buildingData.entrance) {
+		if (buildingData.collision.entrance) {
 			const square = document.createElement('div');
 			square.classList.add('blueprint-square');
 
 			square.style.width = `${TILE_HEIGHT}px`;
 			square.style.height = `${TILE_HEIGHT}px`;
-			square.style.left = buildingData.entrance.x * TILE_HEIGHT
+			square.style.left = buildingData.collision.entrance.x * TILE_HEIGHT
                 + 'px';
-			square.style.top = buildingData.entrance.y * TILE_HEIGHT
+			square.style.top = buildingData.collision.entrance.y * TILE_HEIGHT
                 + 'px';
 
 			container.appendChild(square);
@@ -128,13 +138,27 @@ export class PlaceBuildingService {
 		document.body.removeChild(this.blueprintSprite);
 	}
 
+	createEntity (collisionData: ICollisionState): number {
+		const entityId = this.entityManager.createEntity([
+			Components.Collision,
+			Components.Position
+		]);
+
+		const collisionState = this.entityManager.getComponentDataForEntity(
+				Components.Collision, entityId) as ICollisionState;
+		_.extend(collisionState, collisionData);
+		collisionState.updatesTile = false;
+
+		return entityId;
+	}
+
 	activate (building: PlaceBuildingOptions) {
 		this.building = building;
 		this.active = true;
 
-		if (!this.hoverSprite) {
-			this.hoverSprite = this.createHoverSprite();
-		}
+		this.entity = this.createEntity(building.collision);
+
+		this.hoverSprite = this.createHoverSprite();
 		this.hoverSprite.visible = true;
 
 		this.blueprintSprite = this.createBlueprintSprite(building);
@@ -156,7 +180,11 @@ export class PlaceBuildingService {
 		// hide our house and stop it from following the mouse
 		this.cancelFollow();
 
-		this.hoverSprite.visible = false;
+		this.entityManager.destroyEntity(this.entity);
+		this.entity = null;
+
+		spriteManager.destroyHoverSprite(this.hoverSprite);
+
 		this.active = false;
 
 		this.destroyBlueprintSprite();
@@ -172,13 +200,18 @@ export class PlaceBuildingService {
 
 	follow () {
 		this.followInterval = globalRefs.map.addTileHoverListener(tile => {
+			globalRefs.map.setSpriteToTilePosition(this.hoverSprite, tile);
+			globalRefs.map.setElementToTilePosition(this.blueprintSprite, tile);
+
+			// Update the position state for the entity
+			const positionState = this.entityManager.getComponentDataForEntity(Components.Position,
+				this.entity) as IPositionState;
+			positionState.tile = tile;
+
 			const mousePosition = {
 				x: tile.column,
 				y: tile.row
 			};
-			globalRefs.map.setSpriteToTilePosition(this.hoverSprite, tile);
-			globalRefs.map.setElementToTilePosition(this.blueprintSprite, tile);
-
 			// If it's not a valid position color the tile red
 			this.validPlacement = this.isValidPlacement(mousePosition);
 			if (!this.validPlacement) {
@@ -212,7 +245,7 @@ export class PlaceBuildingService {
 	* @return {boolean} Whether or not the position is valid
 	*/
 	isValidPlacement (mousePosition: ICoordinates): boolean {
-		const buildingSize = this.building.size;
+		const buildingSize = this.building.collision.size;
 		const checkTiles: IRowColumnCoordinates[] = [];
 
 		for (let x = mousePosition.x;
@@ -226,39 +259,25 @@ export class PlaceBuildingService {
 		}
 
 		// Check for all tiles covered by size
-		for (let i = 0; i < checkTiles.length; i++) {
-			const checkTile = checkTiles[i];
-			// it's got a tree, it's inaccessible, or it's got an item and it cna't go there
-			// if (checkTile && checkTile.resource || !checkTile.accessible ||
-				// checkTile.item || checkTile.isEntrance
-            console.info('redo building checks');
-            if (!checkTile
-			) {
+		const collisionTiles = collisionUtil.getTilesFromCollisionEntity(
+			this.entity);
+		const collisionDetected = collisionTiles.some(tile => {
+			const occupiedTile = mapUtil.getTile(tile.row, tile.column);
+			if (!occupiedTile) {
 				return false;
 			}
-		}
-		// Check for entrance
-		if (this.building.entrance) {
-			const entranceTile = globalRefs.map.getTile(mousePosition.y +
-				this.building.entrance.y,
-                mousePosition.x + this.building.entrance.x);
-            console.info('redo entrance check');
-			if (!entranceTile
-                // || entranceTile.resource
-                || !entranceTile.accessible
-                // || entranceTile.item
-                // || entranceTile.isEntrance
-            ) {
-				return false;
-			}
+			return occupiedTile.collision;
+		});
+		if (collisionDetected) {
+			return false;
 		}
 
 		// Check if it needs to be next to water
 		// If so just make sure one tile is adjacent to water
 		if (this.building.mustBeNextToWater) {
             console.info('redo checking if building is next to water');
-            return false;
 			// return checkTiles.some(tile => tile.isNextToWater());
+            return false;
 		}
 
 		return true;

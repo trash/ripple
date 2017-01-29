@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {ItemProperties} from '../../interfaces';
 
 export interface IItemState {
@@ -23,7 +23,7 @@ export interface IItemComponent extends IComponent {
 
 export let Item: IItemComponent = {
     name: 'item',
-    enum: ComponentEnum.Item,
+    enum: Components.Item,
     state: {
         name: null,
         readableName: null,

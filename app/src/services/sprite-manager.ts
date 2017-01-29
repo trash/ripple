@@ -76,6 +76,10 @@ export class SpriteManager {
 
 		return sprite;
 	}
+	destroyHoverSprite (sprite: PIXI.Sprite) {
+		this.tilemap.hoverLayer.removeChild(sprite);
+		sprite.destroy();
+	}
 
 	createContainer (
 		column: number,

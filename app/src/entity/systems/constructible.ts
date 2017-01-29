@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
 import {IHealthBarState} from '../components';
@@ -20,17 +20,17 @@ export class ConstructibleSystem extends EntitySystem {
         const manager = this.manager;
         entityIds.forEach(id => {
             const positionState = manager.getComponentDataForEntity(
-                ComponentEnum.Position, id) as IPositionState;
+                Components.Position, id) as IPositionState;
             const healthState = manager.getComponentDataForEntity(
-                ComponentEnum.Health, id) as IHealthState;
+                Components.Health, id) as IHealthState;
             const healthBarState = manager.getComponentDataForEntity(
-                ComponentEnum.HealthBar, id) as IHealthBarState;
+                Components.HealthBar, id) as IHealthBarState;
             const constructibleState = manager.getComponentDataForEntity(
-                ComponentEnum.Constructible, id) as IConstructibleState;
+                Components.Constructible, id) as IConstructibleState;
             const collisionState = manager.getComponentDataForEntity(
-                ComponentEnum.Collision, id) as ICollisionState;
+                Components.Collision, id) as ICollisionState;
             const renderableState = manager.getComponentDataForEntity(
-                ComponentEnum.Renderable, id) as IRenderableState;
+                Components.Renderable, id) as IRenderableState;
             // Wait for other systems to bootstrap
             if (!renderableState.spriteGroup || !healthBarState.sprites) {
                 return;

@@ -1,4 +1,4 @@
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
@@ -34,7 +34,7 @@ export class ItemUtil extends BaseUtil {
 
     getAllItems (): IItemSearchResult[] {
         return this.entityManager
-            .getEntityIdsForComponent(ComponentEnum.Item)
+            .getEntityIdsForComponent(Components.Item)
             .map(id => this.idToItemSearchResult(id));
     }
 

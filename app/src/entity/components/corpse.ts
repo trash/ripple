@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 
 export interface ICorpseState {
     agentBaseSpriteName: string;
@@ -13,7 +13,7 @@ export interface ICorpseComponent extends IComponent {
 
 export let Corpse: ICorpseComponent = {
     name: 'corpse',
-    enum: ComponentEnum.Corpse,
+    enum: Components.Corpse,
     state: {
         sprite: null,
         agentBaseSpriteName: null

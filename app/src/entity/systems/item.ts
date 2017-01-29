@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {IItemState} from '../components';
 import {INameState} from '../components';
 import {IRenderableState} from '../components';
@@ -15,13 +15,13 @@ export class ItemSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Renderable, id) as IRenderableState;
+                    Components.Renderable, id) as IRenderableState;
             const itemState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Item, id) as IItemState;
+                    Components.Item, id) as IItemState;
             const nameState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Name, id) as INameState;
+                    Components.Name, id) as INameState;
             const positionState = this.manager.getComponentDataForEntity(
-                    ComponentEnum.Position, id) as IPositionState;
+                    Components.Position, id) as IPositionState;
 
             if (renderableState.spriteGroup && !renderableState.sprite) {
                 renderableState.sprite = this.createSprite(itemState);

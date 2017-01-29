@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {IRowColumnCoordinates} from '../../interfaces';
 
 export interface IPositionState {
@@ -17,7 +17,7 @@ export interface IPositionComponent extends IComponent {
 
 export let Position: IPositionComponent = {
     name: 'position',
-    enum: ComponentEnum.Position,
+    enum: Components.Position,
     state: {
         tile: null,
         previousTile: null,

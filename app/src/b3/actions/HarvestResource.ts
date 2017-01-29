@@ -1,8 +1,8 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {Task} from '../../Tasks/task';
-import {ComponentEnum} from '../../entity/componentEnum';
-import {IHealthState} from '../../entity/components/health';
+import {Components} from '../../entity/ComponentsEnum';
+import {IHealthState} from '../../entity/components';
 import {harvestableUtil} from '../../entity/util';
 
 export class HarvestResource extends Core.BaseNode {

@@ -1,4 +1,4 @@
-import {ComponentEnum} from './componentEnum';
+import {Components} from './ComponentsEnum';
 
 export enum AssemblagesEnum {
     Agent,
@@ -9,59 +9,59 @@ export enum AssemblagesEnum {
     Corpse,
 };
 
-export type Assemblage = ComponentEnum[];
+export type Assemblage = Components[];
 
 export interface IAssemblagesMap {
     [key: number]: Assemblage;
 }
 
 const agentComponents = [
-    ComponentEnum.Agent,
-    ComponentEnum.Renderable,
-    ComponentEnum.Position,
-    ComponentEnum.StatusBubble,
-    ComponentEnum.Health,
-    ComponentEnum.HealthBar,
-    ComponentEnum.BehaviorTree,
-    ComponentEnum.Name,
-    ComponentEnum.Inventory
+    Components.Agent,
+    Components.Renderable,
+    Components.Position,
+    Components.StatusBubble,
+    Components.Health,
+    Components.HealthBar,
+    Components.BehaviorTree,
+    Components.Name,
+    Components.Inventory
 ];
 
 export const assemblages: IAssemblagesMap = {
     [AssemblagesEnum.Agent]: agentComponents,
     [AssemblagesEnum.Villager]: agentComponents.concat([
-        ComponentEnum.Villager,
-        ComponentEnum.Hunger,
-        ComponentEnum.Sleep,
+        Components.Villager,
+        Components.Hunger,
+        Components.Sleep,
     ]),
     [AssemblagesEnum.Resource]: [
-        ComponentEnum.Resource,
-        ComponentEnum.Renderable,
-        ComponentEnum.Position,
-        ComponentEnum.Harvestable,
-        ComponentEnum.Health,
-        ComponentEnum.Name
+        Components.Resource,
+        Components.Renderable,
+        Components.Position,
+        Components.Harvestable,
+        Components.Health,
+        Components.Name
     ],
     [AssemblagesEnum.Item]: [
-        ComponentEnum.Renderable,
-        ComponentEnum.Position,
-        ComponentEnum.Item,
-        ComponentEnum.Name
+        Components.Renderable,
+        Components.Position,
+        Components.Item,
+        Components.Name
     ],
     [AssemblagesEnum.Corpse]: [
-        ComponentEnum.Renderable,
-        ComponentEnum.Position,
-        ComponentEnum.Corpse
+        Components.Renderable,
+        Components.Position,
+        Components.Corpse
     ],
     [AssemblagesEnum.Building]: [
-        ComponentEnum.Position,
-        ComponentEnum.Renderable,
-        ComponentEnum.Building,
-        ComponentEnum.Constructible,
-        ComponentEnum.Collision,
-        // ComponentEnum.Enterable,
-        ComponentEnum.Health,
-        ComponentEnum.HealthBar,
-        ComponentEnum.Name
+        Components.Position,
+        Components.Renderable,
+        Components.Building,
+        Components.Constructible,
+        Components.Collision,
+        // ComponentsEnum.Enterable,
+        Components.Health,
+        Components.HealthBar,
+        Components.Name
     ]
 };

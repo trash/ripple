@@ -11,6 +11,7 @@ import {ITestLevel, ITestGameMapOptions} from '../data/testLevel';
 import {EntityManager} from '../entity/entityManager';
 import {GameMap, IMapOptions} from '../map';
 import {canvasService} from '../ui/canvas-service';
+import {placeBuildingService} from '../ui/placeBuildingService';
 import {util} from '../util';
 import {GameLoop} from './game-loop';
 import {GameSpeed} from './game-speed';
@@ -61,6 +62,7 @@ export class GameManager {
         this.bootstrapGameStates();
 
         this.entityManager = new EntityManager();
+        placeBuildingService.setEntityManager(this.entityManager);
         window['entityManager'] = this.entityManager;
 
         new TileInfoService(this.entityManager);
@@ -151,9 +153,11 @@ export class GameManager {
         });
 
         // Spawn agents
-        this.level.agents.forEach(agent => {
-            this.entityManager.spawner.spawnAgent(agent.name, agent.villager, agent.data);
-        });
+        if (this.level.agents) {
+            this.level.agents.forEach(agent => {
+                this.entityManager.spawner.spawnAgent(agent.name, agent.villager, agent.data);
+            });
+        }
 
         // Spawn items
         if (this.level.items) {

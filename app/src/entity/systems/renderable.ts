@@ -7,16 +7,16 @@ import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {spriteManager} from '../../services/sprite-manager';
 
 export class RenderableSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Renderable, id) as IRenderableState;
+					Components.Renderable, id) as IRenderableState;
 			const positionState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Position, id) as IPositionState;
+					Components.Position, id) as IPositionState;
 
 			if (!renderableState.spriteGroup) {
 				renderableState.spriteGroup = spriteManager.createContainer(
@@ -107,7 +107,7 @@ export class RenderableSystem extends EntitySystem {
     }
 	destroyComponent (id: number) {
 		const renderableState = this.manager.getComponentDataForEntity(
-			ComponentEnum.Renderable, id) as IRenderableState;
+			Components.Renderable, id) as IRenderableState;
 
 		spriteManager.destroy(renderableState.spriteGroup as TilemapSprite);
 	}

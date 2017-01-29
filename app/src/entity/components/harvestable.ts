@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 import {Professions} from '../../data/professions';
@@ -21,7 +21,7 @@ export interface IHarvestableComponent extends IComponent {
 
 export let Harvestable: IHarvestableComponent = {
     name: 'harvestable',
-    enum: ComponentEnum.Harvestable,
+    enum: Components.Harvestable,
     state: {
         highlighted: false,
         queued: false,

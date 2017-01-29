@@ -4,7 +4,7 @@ import {EntitySystem, EntityManager} from '../entityManager';
 import {statusBubbleUtil} from '../util';
 import {buildingUtil} from '../util/building';
 
-import {ComponentEnum} from '../componentEnum';
+import {Components} from '../ComponentsEnum';
 import {
 	IVillagerState,
 	IAgentState,
@@ -25,15 +25,15 @@ export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const agentState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Agent, id) as IAgentState;
+					Components.Agent, id) as IAgentState;
             const behaviorTreeState = this.manager.getComponentDataForEntity(
-					ComponentEnum.BehaviorTree, id) as IBehaviorTreeState;
+					Components.BehaviorTree, id) as IBehaviorTreeState;
             const positionState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Position, id) as IPositionState;
+					Components.Position, id) as IPositionState;
             const statusBubbleState = this.manager.getComponentDataForEntity(
-					ComponentEnum.StatusBubble, id) as IStatusBubbleState;
+					Components.StatusBubble, id) as IStatusBubbleState;
             const villagerState = this.manager.getComponentDataForEntity(
-					ComponentEnum.Villager, id) as IVillagerState;
+					Components.Villager, id) as IVillagerState;
 
 			if (behaviorTreeState.tree.name !== 'villager') {
 				behaviorTreeState.tree = villagerTree;
