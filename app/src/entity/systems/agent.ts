@@ -1,6 +1,6 @@
-import * as _ from 'lodash';;
+import * as _ from 'lodash';
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IAgentState} from '../components';
 import {IRenderableState} from '../components';
 import {IHealthState} from '../components';
@@ -16,17 +16,17 @@ export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    Components.Renderable, id) as IRenderableState;
+                    Component.Renderable, id) as IRenderableState;
             const agentState = this.manager.getComponentDataForEntity(
-                    Components.Agent, id) as IAgentState;
+                    Component.Agent, id) as IAgentState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Components.Health, id) as IHealthState;
+                    Component.Health, id) as IHealthState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Components.Name, id) as INameState;
+                    Component.Name, id) as INameState;
             const healthBarState = this.manager.getComponentDataForEntity(
-                    Components.HealthBar, id) as IHealthBarState;
+                    Component.HealthBar, id) as IHealthBarState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Components.Position, id) as IPositionState;
+                    Component.Position, id) as IPositionState;
 
             this.handleInit(agentState, renderableState, positionState);
 
@@ -42,7 +42,7 @@ export class AgentSystem extends EntitySystem {
             // Check to see if the agent left the building they were in
             if (agentState.buildingInsideOf) {
                 const buildingPositionState = this.manager.getComponentDataForEntity(
-                        Components.Position, agentState.buildingInsideOf) as IPositionState;
+                        Component.Position, agentState.buildingInsideOf) as IPositionState;
                 if (!util.rowColumnCoordinatesAreEqual(positionState.tile, buildingPositionState.tile)) {
                     agentState.buildingInsideOf = null;
                 }

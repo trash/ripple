@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 import {constants} from '../../data/constants';
 
@@ -17,7 +17,7 @@ export interface ISleepComponent extends IComponent {
 
 export let Sleep: ISleepComponent = {
     name: 'sleep',
-    enum: Components.Sleep,
+    enum: Component.Sleep,
     state: {
         max: constants.SLEEP.MAX,
 	    min: 0,

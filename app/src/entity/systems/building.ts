@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {
     IBuildingState,
     IRenderableState,
@@ -17,19 +17,19 @@ export class BuildingSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const buildingState = this.manager.getComponentDataForEntity(
-                    Components.Building, id) as IBuildingState;
+                    Component.Building, id) as IBuildingState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Components.Position, id) as IPositionState;
+                    Component.Position, id) as IPositionState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Components.Health, id) as IHealthState;
+                    Component.Health, id) as IHealthState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Components.Name, id) as INameState;
+                    Component.Name, id) as INameState;
             const constructibleState = this.manager.getComponentDataForEntity(
-                    Components.Constructible, id) as IConstructibleState;
+                    Component.Constructible, id) as IConstructibleState;
             const renderableState = this.manager.getComponentDataForEntity(
-                    Components.Renderable, id) as IRenderableState;
+                    Component.Renderable, id) as IRenderableState;
             const collisionState = this.manager.getComponentDataForEntity(
-                Components.Collision, id) as ICollisionState;
+                Component.Collision, id) as ICollisionState;
 
             if (renderableState.spriteGroup
                 && !constructibleState.completedSpriteName

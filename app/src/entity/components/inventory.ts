@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {ICoordinates, IRowColumnCoordinates} from '../../interfaces';
 
 export interface IInventoryState {
@@ -12,7 +12,7 @@ export interface IInventoryComponent extends IComponent {
 
 export const Inventory: IInventoryComponent = {
     name: 'inventory',
-    enum: Components.Inventory,
+    enum: Component.Inventory,
     state: {
         items: []
     }

@@ -1,10 +1,10 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IHarvestableState} from '../components';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
-import {HarvestTypes} from '../../data/harvestTypes';
+import {HarvestType} from '../../data/harvestType';
 import {util} from '../../util';
 import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
@@ -27,7 +27,7 @@ events.on('map-update', (map: GameMap) => {
 
 
 export class HarvestSelectSystem extends EntitySystem {
-    harvestTypes: HarvestTypes[];
+    harvestTypes: HarvestType[];
     hoverListener: Function;
     cancel: Function;
     tileHoverElement: HoverElement;
@@ -35,11 +35,11 @@ export class HarvestSelectSystem extends EntitySystem {
 	highlighted: IHarvestableState[];
     active: boolean;
 
-    constructor (manager: EntityManager, ComponentsEnum: Components) {
-		super(manager, ComponentsEnum);
+    constructor (manager: EntityManager, component: Component) {
+		super(manager, component);
         this.active = false;
 		this.tileHoverElement = new HoverElement();
-        this.harvestTypes = [HarvestTypes.Tree, HarvestTypes.Food];
+        this.harvestTypes = [HarvestType.Tree, HarvestType.Food];
 		this.tiles = null;
 		this.highlighted = [];
 
@@ -64,7 +64,7 @@ export class HarvestSelectSystem extends EntitySystem {
 
         selectedEntityIds.forEach(id => {
             const harvestableState = this.manager.getComponentDataForEntity(
-                    Components.Harvestable, id) as IHarvestableState;
+                    Component.Harvestable, id) as IHarvestableState;
 
 			harvestableState.highlighted = true;
 			this.highlighted.push(harvestableState);
@@ -78,7 +78,7 @@ export class HarvestSelectSystem extends EntitySystem {
 		const entityIds = this.getSelectedEntities();
 		entityIds.forEach(id => {
 			const harvestableState = this.manager.getComponentDataForEntity(
-                    Components.Harvestable, id) as IHarvestableState;
+                    Component.Harvestable, id) as IHarvestableState;
 			console.info(`queue up HarvestTask for entity with id: ${id}`);
 			harvestableState.queued = true;
 
@@ -94,16 +94,16 @@ export class HarvestSelectSystem extends EntitySystem {
 	 * @returns [Number] The list of entity ids
 	 */
 	getSelectedEntities (): number[] {
-		const entityIds = this.manager.getEntityIdsForComponent(Components.Resource);
+		const entityIds = this.manager.getEntityIdsForComponent(Component.Resource);
 
         return entityIds.filter(id => {
             const positionState = this.manager.getComponentDataForEntity(
-                    Components.Position, id) as IPositionState;
+                    Component.Position, id) as IPositionState;
 			return this.tiles.includes(positionState.tile);
         });
 	}
 
-    toggleHarvestType (harvestType: HarvestTypes) {
+    toggleHarvestType (harvestType: HarvestType) {
 		let indexOf = this.harvestTypes.indexOf(harvestType);
 		if (indexOf !== -1) {
 			this.harvestTypes.splice(indexOf, 1);

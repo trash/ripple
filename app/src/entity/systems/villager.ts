@@ -1,10 +1,10 @@
-import * as _ from 'lodash';;
+import * as _ from 'lodash';
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {statusBubbleUtil} from '../util';
 import {buildingUtil} from '../util/building';
 
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {
 	IVillagerState,
 	IAgentState,
@@ -16,8 +16,8 @@ import {
 
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
-import {professionsList, Professions} from '../../data/professions';
-import {VillagerJobs, villagerJobsMap} from '../../data/villagerJobs';
+import {professionsList, Profession} from '../../data/profession';
+import {VillagerJob, villagerJobsMap} from '../../data/villagerJob';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {villager as villagerTree} from '../../b3/Trees';
 
@@ -25,15 +25,15 @@ export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const agentState = this.manager.getComponentDataForEntity(
-					Components.Agent, id) as IAgentState;
+					Component.Agent, id) as IAgentState;
             const behaviorTreeState = this.manager.getComponentDataForEntity(
-					Components.BehaviorTree, id) as IBehaviorTreeState;
+					Component.BehaviorTree, id) as IBehaviorTreeState;
             const positionState = this.manager.getComponentDataForEntity(
-					Components.Position, id) as IPositionState;
+					Component.Position, id) as IPositionState;
             const statusBubbleState = this.manager.getComponentDataForEntity(
-					Components.StatusBubble, id) as IStatusBubbleState;
+					Component.StatusBubble, id) as IStatusBubbleState;
             const villagerState = this.manager.getComponentDataForEntity(
-					Components.Villager, id) as IVillagerState;
+					Component.Villager, id) as IVillagerState;
 
 			if (behaviorTreeState.tree.name !== 'villager') {
 				behaviorTreeState.tree = villagerTree;
@@ -86,7 +86,7 @@ export class VillagerSystem extends EntitySystem {
 		return null;
     }
 
-    hasProfession (villagerState: IVillagerState, profession: Professions): boolean {
+    hasProfession (villagerState: IVillagerState, profession: Profession): boolean {
         const job = villagerJobsMap[villagerState.job];
         return job.professions.includes(profession);
     }

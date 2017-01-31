@@ -12,7 +12,6 @@ module.exports = {
       'lodash',
       'moment',
       'react-dom',
-      'classnames',
       'pixi.js',
       'tween.js'
     ]

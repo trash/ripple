@@ -1,5 +1,8 @@
+import * as _ from 'lodash';
 import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
+import {store} from '../redux/store';
+import {addToItemList} from '../redux/actions';
 
 import {
 	agents as agentsAssemblageData,
@@ -8,7 +11,7 @@ import {
 	buildings as buildingsAssemblageData
 } from '../entity/assemblageData';
 
-import {Components, ComponentsEnumToKeyMap} from '../entity/ComponentsEnum';
+import {Component, ComponentsEnumToKeyMap} from '../entity/ComponentEnum';
 
 import {
 	IPositionState,
@@ -50,7 +53,7 @@ export class EntitySpawner {
 
     copyComponentData (
 		entityId: number,
-		pair: [any, Components]
+		pair: [any, Component]
 	) {
 		if (pair[0]) {
 			const entityState = this.entityManager.getComponentDataForEntity(
@@ -103,13 +106,13 @@ export class EntitySpawner {
 
 		// Get relevant state
 		const positionState = this.entityManager.getComponentDataForEntity(
-				Components.Position, entityId) as IPositionState;
+				Component.Position, entityId) as IPositionState;
 		const agentState = this.entityManager.getComponentDataForEntity(
-				Components.Agent, entityId) as IAgentState;
+				Component.Agent, entityId) as IAgentState;
 		const villagerState = this.entityManager.getComponentDataForEntity(
-				Components.Villager, entityId) as IVillagerState;
+				Component.Villager, entityId) as IVillagerState;
 		const renderableState = this.entityManager.getComponentDataForEntity(
-				Components.Renderable, entityId) as IRenderableState;
+				Component.Renderable, entityId) as IRenderableState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agentName]);
@@ -203,7 +206,7 @@ export class EntitySpawner {
 		// Get the tile to spawn *before* creating the item or the item itself will
 		// show up in the search
 		const tileDoesntContainItem = (tile: MapTile): boolean => {
-			return !baseUtil.tileContainsEntityOfComponent(Components.Item, tile);
+			return !baseUtil.tileContainsEntityOfComponent(Component.Item, tile);
 		};
 		const spawnTileStart = (entityComponentData.position && entityComponentData.position.tile) ||
 			globalRefs.map.getTile(0, 0);
@@ -212,12 +215,14 @@ export class EntitySpawner {
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
 
 		const positionState = this.entityManager.getComponentDataForEntity(
-			Components.Position, entityId) as IPositionState;
+			Component.Position, entityId) as IPositionState;
 		const itemState = this.entityManager.getComponentDataForEntity(
-			Components.Item, entityId) as IItemState;
+			Component.Item, entityId) as IItemState;
 
 		positionState.tile = spawnTile;
 		itemState.shouldBeSpawned = true;
+
+        store.dispatch(addToItemList(itemName));
 
 		return entityId;
 	}
@@ -255,7 +260,7 @@ export class EntitySpawner {
 
 		if (isCompleted) {
 			const healthState = this.entityManager.getComponentDataForEntity(
-				Components.Health, entityId) as IHealthState;
+				Component.Health, entityId) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;
 		}
 

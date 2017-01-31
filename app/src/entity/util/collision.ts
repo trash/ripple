@@ -1,4 +1,4 @@
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IPositionState} from '../components/position';
 import {ICollisionState} from '../components/collision';
 import {events} from '../../events';
@@ -7,7 +7,7 @@ import {IRowColumnCoordinates} from '../../interfaces';
 
 export class CollisionUtil extends BaseUtil {
     getAllCollisionEntities(): number[] {
-        return this.entityManager.getEntityIdsForComponent(Components.Collision);
+        return this.entityManager.getEntityIdsForComponent(Component.Collision);
     }
 
     getTilesFromCollisionEntity(

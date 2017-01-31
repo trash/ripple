@@ -1,5 +1,5 @@
 import {HarvesterTask} from './HarvesterTask';
-import {Professions} from '../data/professions';
+import {Profession} from '../data/profession';
 import {StatusBubble} from '../data/statusBubble';
 
 /**
@@ -17,7 +17,7 @@ export class MinerTask extends HarvesterTask {
 		// Call our parent constructor
 		super({
 			name: 'miner-task',
-			taskType: Professions.Miner,
+			taskType: Profession.Miner,
 			bubble: StatusBubble.Mine
 		}, rock);
 

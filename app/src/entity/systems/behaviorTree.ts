@@ -1,5 +1,5 @@
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 import {IBehaviorTreeState} from '../components';
 import {IPositionState} from '../components';
@@ -30,25 +30,25 @@ export class BehaviorTreeSystem extends EntitySystem {
 
         entityIds.forEach(id => {
             const behaviorTreeState = this.manager.getComponentDataForEntity(
-                    Components.BehaviorTree, id) as IBehaviorTreeState;
+                    Component.BehaviorTree, id) as IBehaviorTreeState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Components.Health, id) as IHealthState;
+                    Component.Health, id) as IHealthState;
             const agentState = this.manager.getComponentDataForEntity(
-                    Components.Agent, id) as IAgentState;
+                    Component.Agent, id) as IAgentState;
             const villagerState = this.manager.getComponentDataForEntity(
-                    Components.Villager, id) as IVillagerState;
+                    Component.Villager, id) as IVillagerState;
             const statusBubbleState = this.manager.getComponentDataForEntity(
-                    Components.StatusBubble, id) as IStatusBubbleState;
+                    Component.StatusBubble, id) as IStatusBubbleState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Components.Position, id) as IPositionState;
+                    Component.Position, id) as IPositionState;
             const inventoryState = this.manager.getComponentDataForEntity(
-                    Components.Inventory, id) as IInventoryState;
+                    Component.Inventory, id) as IInventoryState;
             const sleepState = this.manager.getComponentDataForEntity(
-                    Components.Sleep, id) as ISleepState;
+                    Component.Sleep, id) as ISleepState;
             const hungerState = this.manager.getComponentDataForEntity(
-                    Components.Hunger, id) as IHungerState;
+                    Component.Hunger, id) as IHungerState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Components.Name, id) as INameState;
+                    Component.Name, id) as INameState;
 
             // initialize blackboard
             if (!behaviorTreeState.blackboard) {

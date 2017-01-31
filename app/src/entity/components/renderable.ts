@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 export interface IRenderableState {
     sprite: PIXI.Sprite;
@@ -13,7 +13,7 @@ export interface IRenderableComponent extends IComponent {
 
 export let Renderable: IRenderableComponent = {
     name: 'renderable',
-    enum: Components.Renderable,
+    enum: Component.Renderable,
     state: {
         sprite: null,
         spriteGroup: null,

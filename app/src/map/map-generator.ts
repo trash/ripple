@@ -1,4 +1,5 @@
 /// <reference path="ndarray.d.ts" />
+import * as _ from 'lodash';
 import {perlin} from '../vendor/perlin';
 import {floodfill} from '../vendor/flood-fill';
 import {NDArray, ICoordinates, IRowColumnCoordinateWrapper} from '../interfaces';

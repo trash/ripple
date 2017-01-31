@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {ICollisionState, IPositionState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
@@ -13,9 +13,9 @@ export class CollisionSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const collisionState = this.manager.getComponentDataForEntity(
-                Components.Collision, id) as ICollisionState;
+                Component.Collision, id) as ICollisionState;
             const positionState = this.manager.getComponentDataForEntity(
-                Components.Position, id) as IPositionState;
+                Component.Position, id) as IPositionState;
 
             // Collision toggled, update tiles and then update map
             if (collisionState.previousActiveState !== collisionState.activeState

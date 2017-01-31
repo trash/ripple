@@ -1,4 +1,4 @@
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 import {
     IHealthState,
@@ -27,59 +27,59 @@ export class BaseUtil {
 
     _getHealthState (id: number): IHealthState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Health, id) as IHealthState;
+            Component.Health, id) as IHealthState;
     }
     _getAgentState (id: number): IAgentState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Agent, id) as IAgentState;
+            Component.Agent, id) as IAgentState;
     }
     _getItemState (id: number): IItemState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Item, id) as IItemState;
+            Component.Item, id) as IItemState;
     }
     _getPositionState (id: number): IPositionState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Position, id) as IPositionState;
+            Component.Position, id) as IPositionState;
     }
     _getRenderableState (id: number): IRenderableState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Renderable, id) as IRenderableState;
+            Component.Renderable, id) as IRenderableState;
     }
     _getConstructibleState (id: number): IConstructibleState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Constructible, id) as IConstructibleState;
+            Component.Constructible, id) as IConstructibleState;
     }
     _getBuildingState (id: number): IBuildingState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Building, id) as IBuildingState;
+            Component.Building, id) as IBuildingState;
     }
     _getHealthBarState (id: number): IHealthBarState {
         return this.entityManager.getComponentDataForEntity(
-            Components.HealthBar, id) as IHealthBarState;
+            Component.HealthBar, id) as IHealthBarState;
     }
     _getCollisionState (id: number): ICollisionState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Collision, id) as ICollisionState;
+            Component.Collision, id) as ICollisionState;
     }
     _getVillagerState (id: number): IVillagerState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Villager, id) as IVillagerState;
+            Component.Villager, id) as IVillagerState;
     }
     _getSleepState (id: number): ISleepState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Sleep, id) as ISleepState;
+            Component.Sleep, id) as ISleepState;
     }
     _getHungerState (id: number): IHungerState {
         return this.entityManager.getComponentDataForEntity(
-            Components.Hunger, id) as IHungerState;
+            Component.Hunger, id) as IHungerState;
     }
 
-    tileContainsEntityOfComponent (componentName: Components, tile: MapTile): boolean {
+    tileContainsEntityOfComponent (componentName: Component, tile: MapTile): boolean {
         return Object.keys(this.entityManager.getEntitiesWithComponent(componentName))
             .map(entityId => parseInt(entityId))
             .filter(entityId => {
                 const positionState = this.entityManager.getComponentDataForEntity(
-                    Components.Position, entityId) as IPositionState;
+                    Component.Position, entityId) as IPositionState;
                 return positionState.tile && tile.isEqualToCoords(positionState.tile);
             }).length !== 0;
     }

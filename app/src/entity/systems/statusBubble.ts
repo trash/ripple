@@ -2,7 +2,7 @@ import * as _ from 'lodash';;
 import {util} from '../../util';
 import {StatusBubble} from '../../data/statusBubble';
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IRenderableState} from '../components';
 import {IStatusBubbleState} from '../components';
 
@@ -11,7 +11,7 @@ const CYCLE_TIME = 1000;
 export class StatusBubbleSystem extends EntitySystem {
     lastCycle: number;
 
-    constructor (manager: EntityManager, ComponentsEnum: Components) {
+    constructor (manager: EntityManager, ComponentsEnum: Component) {
         super(manager, ComponentsEnum);
         this.lastCycle = performance.now();
     }
@@ -25,9 +25,9 @@ export class StatusBubbleSystem extends EntitySystem {
             this.lastCycle = performance.now();
 
             const statusBubbleState = this.manager.getComponentDataForEntity(
-                Components.StatusBubble, id) as IStatusBubbleState;
+                Component.StatusBubble, id) as IStatusBubbleState;
             const renderableState = this.manager.getComponentDataForEntity(
-                Components.Renderable, id) as IRenderableState;
+                Component.Renderable, id) as IRenderableState;
 
             // Init active bubbleName
             if (!statusBubbleState.activeBubbleName) {

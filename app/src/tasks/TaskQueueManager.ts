@@ -8,38 +8,38 @@ import {WoodcutterTask} from './WoodcutterTask';
 import {HaulerTask} from './HaulerTask';
 import {MinerTask} from './MinerTask';
 
-import {Professions} from '../data/professions';
+import {Profession} from '../data/profession';
 
 interface IProfessionTaskQueueMap {
 	[key: number]: TaskQueue;
 }
 
 const professionTaskQueueMap: IProfessionTaskQueueMap = {
-	[Professions.Builder]: new TaskQueue(
+	[Profession.Builder]: new TaskQueue(
 		'builder',
 		(building: number) => {
 			return new BuilderTask(building);
 		}
 	),
-	[Professions.Gatherer]: new TaskQueue(
+	[Profession.Gatherer]: new TaskQueue(
 		'gatherer',
 		(resource: number) => {
 			return new GathererTask(resource);
 		}
 	),
-	[Professions.Woodcutter]: new TaskQueue(
+	[Profession.Woodcutter]: new TaskQueue(
 		'woodcutter',
 		(tree: number) =>{
 			return new WoodcutterTask(tree);
 		}
 	),
-	[Professions.Citizen]: new TaskQueue(
+	[Profession.Citizen]: new TaskQueue(
 		'citizen',
 		(item: number) => {
 			return new HaulerTask(item);
 		}
 	),
-	[Professions.Miner]: new TaskQueue(
+	[Profession.Miner]: new TaskQueue(
 		'miner',
 		(rock: number) => {
 			return new MinerTask(rock);

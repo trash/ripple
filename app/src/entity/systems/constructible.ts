@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
 import {IHealthBarState} from '../components';
@@ -9,7 +9,7 @@ import {IConstructibleState} from '../components';
 import {ICollisionState} from '../components';
 import {IHealthState} from '../components';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
-import {Professions} from '../../data/professions';
+import {Profession} from '../../data/profession';
 import {ResourceRequirements} from '../../resource-requirements';
 import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';
@@ -20,17 +20,17 @@ export class ConstructibleSystem extends EntitySystem {
         const manager = this.manager;
         entityIds.forEach(id => {
             const positionState = manager.getComponentDataForEntity(
-                Components.Position, id) as IPositionState;
+                Component.Position, id) as IPositionState;
             const healthState = manager.getComponentDataForEntity(
-                Components.Health, id) as IHealthState;
+                Component.Health, id) as IHealthState;
             const healthBarState = manager.getComponentDataForEntity(
-                Components.HealthBar, id) as IHealthBarState;
+                Component.HealthBar, id) as IHealthBarState;
             const constructibleState = manager.getComponentDataForEntity(
-                Components.Constructible, id) as IConstructibleState;
+                Component.Constructible, id) as IConstructibleState;
             const collisionState = manager.getComponentDataForEntity(
-                Components.Collision, id) as ICollisionState;
+                Component.Collision, id) as ICollisionState;
             const renderableState = manager.getComponentDataForEntity(
-                Components.Renderable, id) as IRenderableState;
+                Component.Renderable, id) as IRenderableState;
             // Wait for other systems to bootstrap
             if (!renderableState.spriteGroup || !healthBarState.sprites) {
                 return;
@@ -98,7 +98,7 @@ export class ConstructibleSystem extends EntitySystem {
 	}
 
     createTask (id: number) {
-        const builderTaskQueue = taskQueueManager.professionTaskQueue(Professions.Builder);
+        const builderTaskQueue = taskQueueManager.professionTaskQueue(Profession.Builder);
 		// Add the build job to the task queue
 		builderTaskQueue.push(id);
     }

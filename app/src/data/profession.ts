@@ -1,7 +1,7 @@
 // Ordered list of professions
 // Ordered by priority. Thus a citizen with both the 'woodcutter' and 'citizen'
 // professions would choose to complete a woodcutter job before a citizen job
-export enum Professions {
+export enum Profession {
 	Guard,
 	Gatherer,
 	Farmer,
@@ -19,7 +19,7 @@ export enum Professions {
 	Shopkeeper
 }
 
-const professionsKeys = Object.keys(Professions);
+const professionsKeys = Object.keys(Profession);
 
 // Make sure we don't get the first half of the keys which will be their
 // enum values (0, 1, 2, etc)

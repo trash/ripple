@@ -1,9 +1,10 @@
 import {Task} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
 import {ResourceRequirements} from '../resource-requirements';
-import {Professions} from '../data/professions';
+import {Profession} from '../data/profession';
 import {StatusBubble} from '../data/statusBubble';
-import {Components} from '../entity/ComponentsEnum';
+import {Component} from '../entity/ComponentEnum';
+import {events} from '../events';
 
 import {IPositionState, IBuildingState, IConstructibleState,
 	IHealthState} from '../entity/components';
@@ -29,7 +30,7 @@ export class BuilderTask extends Task {
 	constructor (building: number) {
 		// Call our parent constructor
 		super({
-			taskType: Professions.Builder,
+			taskType: Profession.Builder,
 			name: 'builder-task',
 			maxInstancePool: 4,
 		});
@@ -70,10 +71,25 @@ export class BuilderTask extends Task {
 		this.bindSuspendEvents();
 	}
 
+	// Bind to events for resources being added and removed and suspend appropriately
+	// this should only be called by tasks that require resources to be completed
+	bindSuspendEvents () {
+		events.on('remove-from-resource', () => {
+			if (!this.completed && this.isReady() && !this.checkIfReady()) {
+				this.suspend();
+			}
+		});
+		events.on(['resources', '*', 'add'], () => {
+			if (!this.isReady() && this.checkIfReady()) {
+				this.unsuspend();
+			}
+		});
+	}
+
 	checkIfReady (): boolean {
 		return true;
 		// return this.building.requiredResources.claimedResourcesExist();
-	};
+	}
 
 	/**
 	 * Call the complete method on the buildign and complete the task
@@ -85,5 +101,5 @@ export class BuilderTask extends Task {
 		}
 
 		Task.prototype.complete.call(this);
-	};
-};
+	}
+}

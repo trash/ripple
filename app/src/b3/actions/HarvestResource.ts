@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {Task} from '../../Tasks/task';
-import {Components} from '../../entity/ComponentsEnum';
+import {Component} from '../../entity/ComponentEnum';
 import {IHealthState} from '../../entity/components';
 import {harvestableUtil} from '../../entity/util';
 

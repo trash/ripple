@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {ResourceRequirements} from '../../resource-requirements';
 import {IRequiredResources} from '../../interfaces';
 
@@ -23,7 +23,7 @@ export interface IConstructibleComponent extends IComponent {
 
 export let Constructible: IConstructibleComponent = {
     name: 'constructible',
-    enum: Components.Constructible,
+    enum: Component.Constructible,
     state: {
         requiredResources: {},
         completedSpriteName: null,

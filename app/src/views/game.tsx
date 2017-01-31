@@ -1,36 +1,40 @@
+import * as Immutable from 'immutable';
 import React = require('react');
 import {Provider, connect} from 'react-redux';
-import {ConnectedDebugPanel} from './components/debugPanel';
-import {ConnectedActionBar} from './components/actionBar';
 import {store, StoreState} from '../redux/store';
 
-export interface ClockProps {
-    hours: number;
-    days: number;
+import {ConnectedDebugPanel} from './components/debugPanel';
+import {ConnectedActionBar} from './components/actionBar';
+import {ConnectedClock} from './components/Clock';
+
+export interface ItemListProps {
+    itemList: Immutable.Map<string, number>;
 }
 
-export class Clock extends React.Component<ClockProps, void> {
+export class ItemList extends React.Component<ItemListProps, void> {
     render () {
         return (
-            <div className="clock">
-                Day: {this.props.days} Hour: {this.props.hours}
-            </div>
+            <ul className="item-list">
+                {this.props.itemList.entrySeq().map(([itemName, count]) => {
+                    return <li key={itemName}>{`${itemName}:${count}`}</li>
+                })}
+            </ul>
         );
     }
 }
 
-export const ConnectedClock = connect((state: StoreState) => {
+export const ConnectedItemList = connect((state: StoreState) => {
     return {
-        days: state.days,
-        hours: state.hours
+        itemList: state.items
     };
-})(Clock);
+})(ItemList);
 
 export class InnerGameComponent extends React.Component<null, null> {
     render() {
         return (
         <div className="game-ui">
             <div className="top-section">
+                <ConnectedItemList/>
                 <ConnectedClock/>
             </div>
             <div className="middle-section">

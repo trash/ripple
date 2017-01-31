@@ -1,11 +1,11 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
-import {VillagerJobs} from '../../data/villagerJobs';
+import {Component} from '../ComponentEnum';
+import {VillagerJob} from '../../data/villagerJob';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 
 export interface IVillagerState {
-    job: VillagerJobs;
+    job: VillagerJob;
     currentTask: Instance;
     home: number;
 }
@@ -16,9 +16,9 @@ export interface IVillagerComponent extends IComponent {
 
 export let Villager: IVillagerComponent = {
     name: 'villager',
-    enum: Components.Villager,
+    enum: Component.Villager,
     state: {
-        job: VillagerJobs.Unemployed,
+        job: VillagerJob.Unemployed,
         currentTask: null,
         home: null
     }

@@ -1,4 +1,4 @@
-export enum HarvestTypes {
+export enum HarvestType {
     Tree,
     Food,
     Rock,

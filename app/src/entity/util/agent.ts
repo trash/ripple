@@ -1,4 +1,5 @@
-import {Components} from '../ComponentsEnum';
+import * as _ from 'lodash';
+import {Component} from '../ComponentEnum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
 import {buildingUtil} from './building';
@@ -33,7 +34,7 @@ export class AgentUtil extends BaseUtil {
 	}
 
     private getAllAgents (): number[] {
-        return this.entityManager.getEntityIdsForComponent(Components.Agent);
+        return this.entityManager.getEntityIdsForComponent(Component.Agent);
     }
 
 	private entityIdToAgentSearchResult (id: number): AgentSearchResult {

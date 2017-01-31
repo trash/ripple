@@ -10,7 +10,7 @@ import {spriteManager} from '../services/sprite-manager';
 import {GameMap} from '../map';
 import {EntityManager} from '../entity/entityManager';
 import {EntitySpawner} from '../entity/entitySpawner';
-import {Components} from '../entity/ComponentsEnum';
+import {Component} from '../entity/ComponentEnum';
 import {ICollisionState, IPositionState} from '../entity/components';
 import {collisionUtil} from '../entity/util/collision';
 import {mapUtil} from '../entity/util/map';
@@ -149,12 +149,12 @@ export class PlaceBuildingService {
 
 	createEntity (collisionData: ICollisionState): number {
 		const entityId = this.entityManager.createEntity([
-			Components.Collision,
-			Components.Position
+			Component.Collision,
+			Component.Position
 		]);
 
 		const collisionState = this.entityManager.getComponentDataForEntity(
-				Components.Collision, entityId) as ICollisionState;
+				Component.Collision, entityId) as ICollisionState;
 		_.extend(collisionState, collisionData);
 		collisionState.updatesTile = false;
 
@@ -213,7 +213,7 @@ export class PlaceBuildingService {
 			globalRefs.map.setElementToTilePosition(this.blueprintSprite, tile);
 
 			// Update the position state for the entity
-			const positionState = this.entityManager.getComponentDataForEntity(Components.Position,
+			const positionState = this.entityManager.getComponentDataForEntity(Component.Position,
 				this.entity) as IPositionState;
 			positionState.tile = tile;
 

@@ -2,7 +2,7 @@ import {Task} from './Task';
 // import {storage} from '../services/storage';
 import * as Tasks from '../b3/Actions/Tasks';
 import {MapTile} from '../map/tile';
-import {Professions} from '../data/professions';
+import {Profession} from '../data/profession';
 
 /**
 * Creates a new HaulerTask object.
@@ -39,7 +39,7 @@ export class HaulerTask extends Task {
 		// Call our parent constructor
 		super({
 			name: 'hauler-task',
-			taskType: Professions.Citizen,
+			taskType: Profession.Citizen,
 			behaviorTree: new Tasks.HaulerTask(item, dropOffLocation)
 		});
 

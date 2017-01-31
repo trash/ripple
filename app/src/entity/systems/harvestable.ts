@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
 
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IHealthState} from '../components';
 import {IItemState} from '../components';
 import {IHarvestableState} from '../components';
@@ -16,11 +16,11 @@ export class HarvestableSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const healthState = this.manager.getComponentDataForEntity(
-                    Components.Health, id) as IHealthState;
+                    Component.Health, id) as IHealthState;
             const harvestableState = this.manager.getComponentDataForEntity(
-                    Components.Harvestable, id) as IHarvestableState;
+                    Component.Harvestable, id) as IHarvestableState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Components.Position, id) as IPositionState;
+                    Component.Position, id) as IPositionState;
 
             if (healthState.currentHealth <= 0) {
                 console.info(`should be spawning items dropped by

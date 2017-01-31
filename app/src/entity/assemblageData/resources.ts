@@ -4,8 +4,8 @@ import {IHealthState} from '../components/health';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
 import {config} from '../../data/config';
-import {HarvestTypes} from '../../data/harvestTypes';
-import {Professions} from '../../data/professions';
+import {HarvestType} from '../../data/harvestType';
+import {Profession} from '../../data/profession';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,
     rockHealth = 200,
@@ -26,14 +26,14 @@ const dataList: IEntityComponentData[] = [{
             }
         },
         harvestable: {
-            profession: Professions.Woodcutter,
+            profession: Profession.Woodcutter,
             highlighted: false,
             queued: false,
             task: null,
             drops: [
                 'wood*1'
             ],
-            harvestType: HarvestTypes.Tree
+            harvestType: HarvestType.Tree
         },
         health: {
             maxHealth: treeHealth,
@@ -50,14 +50,14 @@ const dataList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: Professions.Miner,
+            profession: Profession.Miner,
             highlighted: false,
             queued: false,
             task: null,
             drops: [
                 'stone*2'
             ],
-            harvestType: HarvestTypes.Rock
+            harvestType: HarvestType.Rock
         },
         health: {
             maxHealth: rockHealth,
@@ -75,14 +75,14 @@ const dataList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: Professions.Gatherer,
+            profession: Profession.Gatherer,
             highlighted: false,
             queued: false,
             task: null,
             drops: [
                 'berries*2'
             ],
-            harvestType: HarvestTypes.Food
+            harvestType: HarvestType.Food
         },
         health: {
             maxHealth: bushHealth,
@@ -101,14 +101,14 @@ const dataList: IEntityComponentData[] = [{
 			],
         },
         harvestable: {
-            profession: Professions.Gatherer,
+            profession: Profession.Gatherer,
             highlighted: false,
             queued: false,
             task: null,
             drops: [
                 'mushroom*2'
             ],
-            harvestType: HarvestTypes.Mushroom
+            harvestType: HarvestType.Mushroom
         },
         health: {
             maxHealth: mushroomHealth,

@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 import {constants} from '../../data/constants';
 
@@ -15,7 +15,7 @@ export interface IHungerComponent extends IComponent {
 
 export let Hunger: IHungerComponent = {
     name: 'hunger',
-    enum: Components.Hunger,
+    enum: Component.Hunger,
     state: {
         max: constants.HUNGER.MAX,
 	    min: 0,

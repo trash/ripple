@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 export interface IHealthState {
     maxHealth: number;
@@ -12,7 +12,7 @@ export interface IHealthComponent extends IComponent {
 
 export const Health: IHealthComponent = {
     name: 'health',
-    enum: Components.Health,
+    enum: Component.Health,
     state: {
         currentHealth: null,
         maxHealth: null

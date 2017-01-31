@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IItemState} from '../components';
 import {INameState} from '../components';
 import {IRenderableState} from '../components';
@@ -10,18 +10,28 @@ import {events} from '../../events';
 import {constants} from '../../data/constants';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager} from '../../services/sprite-manager';
+import {store} from '../../redux/store';
+import {addToItemList, removeFromItemList} from '../../redux/actions';
 
 export class ItemSystem extends EntitySystem {
+    constructor (manager: EntityManager, component: Component) {
+        super(manager, component);
+
+        events.on('remove-from-resource', (entity: number) => {
+            this.destroyComponent(entity);
+        })
+    }
+
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    Components.Renderable, id) as IRenderableState;
+                    Component.Renderable, id) as IRenderableState;
             const itemState = this.manager.getComponentDataForEntity(
-                    Components.Item, id) as IItemState;
+                    Component.Item, id) as IItemState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Components.Name, id) as INameState;
+                    Component.Name, id) as INameState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Components.Position, id) as IPositionState;
+                    Component.Position, id) as IPositionState;
 
             if (renderableState.spriteGroup && !renderableState.sprite) {
                 renderableState.sprite = this.createSprite(itemState);
@@ -35,6 +45,12 @@ export class ItemSystem extends EntitySystem {
                 nameState.name = itemState.readableName;
             }
         });
+    }
+
+    destroyComponent (id: number) {
+        const itemState = this.manager.getComponentDataForEntity(
+            Component.Item, id) as IItemState;
+        store.dispatch(removeFromItemList(itemState.name));
     }
 
     spawn (

@@ -1,6 +1,6 @@
 import {StatusBubble as StatusBubbleEnum} from '../../data/statusBubble';
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 
@@ -16,7 +16,7 @@ export interface IStatusBubbleComponent extends IComponent {
 
 export let StatusBubble: IStatusBubbleComponent = {
     name: 'status-bubble',
-    enum: Components.StatusBubble,
+    enum: Component.StatusBubble,
     state: {
         activeBubbles: [],
         activeBubbleName: null,

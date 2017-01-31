@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 export interface IHealthBarState {
     size: number;
@@ -18,7 +18,7 @@ export interface IHealthBarComponent extends IComponent {
 
 export let HealthBar: IHealthBarComponent = {
     name: 'health-bar',
-    enum: Components.HealthBar,
+    enum: Component.HealthBar,
     state: {
         size: 5,
         shown: false,

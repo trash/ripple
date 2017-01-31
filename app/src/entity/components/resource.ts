@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
 
@@ -21,7 +21,7 @@ export interface IResourceComponent extends IComponent {
 
 export let Resource: IResourceComponent = {
     name: 'resource',
-    enum: Components.Resource,
+    enum: Component.Resource,
     state: {
         name: null,
         anchor: null,

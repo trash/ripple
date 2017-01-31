@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {IHealthState} from '../components';
 import {IHealthBarState} from '../components';
 import {IRenderableState} from '../components';
@@ -14,11 +14,11 @@ export class HealthBarSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    Components.Renderable, id) as IRenderableState;
+                    Component.Renderable, id) as IRenderableState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Components.Health, id) as IHealthState;
+                    Component.Health, id) as IHealthState;
             const healthBarState = this.manager.getComponentDataForEntity(
-                    Components.HealthBar, id) as IHealthBarState;
+                    Component.HealthBar, id) as IHealthBarState;
 
             if (renderableState.spriteGroup && !healthBarState.sprites) {
                 this.initSprites(healthBarState, renderableState);

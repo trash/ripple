@@ -1,12 +1,12 @@
 import {StatusBubble} from '../../data/statusBubble';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {IStatusBubbleState} from '../components';
 
 export class StatusBubbleUtil extends BaseUtil {
     _getStatusBubbleState (id: number): IStatusBubbleState {
         return this.entityManager.getComponentDataForEntity(
-            Components.StatusBubble, id) as IStatusBubbleState;
+            Component.StatusBubble, id) as IStatusBubbleState;
     }
 
     addStatusBubble (

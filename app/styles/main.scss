@@ -67,8 +67,7 @@ button {
 .top-section {
 	height: $topSectionHeight;
 	display: flex;
-	align-items: flex-end;
-	flex-direction: column;
+	flex-direction: row;
 }
 
 .middle-section {
@@ -84,5 +83,6 @@ button {
 	'action-bar',
 	'buildings-list',
 	'place-building-service',
+	'item-list',
 	'clock',
 	'hover-tile';

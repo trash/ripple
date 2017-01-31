@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 import {ISleepState} from '../components';
 import {IVillagerState} from '../components';
@@ -21,7 +21,7 @@ export class SleepSystem extends EntitySystem {
         }
         entityIds.forEach(id => {
             const sleepState = this.manager.getComponentDataForEntity(
-                Components.Sleep, id) as ISleepState;
+                Component.Sleep, id) as ISleepState;
 
             if (sleepState.isSleeping) {
                 let sleepValue = constants.SLEEP.RECOVER_TICK;

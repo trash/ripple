@@ -19,27 +19,27 @@ import {
 } from './index';
 
 import {EntitySystem, EntityManager} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 
 // Ordered list that determines in what order systems are called (first called first)
 export const systemsList:
-    [new (manager: EntityManager, ComponentsEnum: Components) => EntitySystem, Components][]
+    [new (manager: EntityManager, ComponentsEnum: Component) => EntitySystem, Component][]
 = [
-    [HarvestSelectSystem, Components.Resource],
-    [VillagerSystem, Components.Villager],
-    [BehaviorTreeSystem, Components.Agent],
-    [PositionSystem, Components.Position],
-    [ResourceSystem, Components.Resource],
-    [BuildingSystem, Components.Building],
-    [ConstructibleSystem, Components.Constructible],
-    [CollisionSystem, Components.Collision],
-    [ItemSystem, Components.Item],
-    [AgentSystem, Components.Agent],
-    [CorpseSystem, Components.Corpse],
-    [HarvestableSystem, Components.Harvestable],
-    [HungerSystem, Components.Hunger],
-    [SleepSystem, Components.Sleep],
-    [StatusBubbleSystem, Components.StatusBubble],
-    [HealthBarSystem, Components.HealthBar],
-    [RenderableSystem, Components.Renderable],
+    [HarvestSelectSystem, Component.Resource],
+    [VillagerSystem, Component.Villager],
+    [BehaviorTreeSystem, Component.Agent],
+    [PositionSystem, Component.Position],
+    [ResourceSystem, Component.Resource],
+    [BuildingSystem, Component.Building],
+    [ConstructibleSystem, Component.Constructible],
+    [CollisionSystem, Component.Collision],
+    [ItemSystem, Component.Item],
+    [AgentSystem, Component.Agent],
+    [CorpseSystem, Component.Corpse],
+    [HarvestableSystem, Component.Harvestable],
+    [HungerSystem, Component.Hunger],
+    [SleepSystem, Component.Sleep],
+    [StatusBubbleSystem, Component.StatusBubble],
+    [HealthBarSystem, Component.HealthBar],
+    [RenderableSystem, Component.Renderable],
 ];

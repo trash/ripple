@@ -1,4 +1,5 @@
-import {Components} from '../ComponentsEnum';
+import * as _ from 'lodash';
+import {Component} from '../ComponentEnum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
@@ -34,7 +35,7 @@ export class ItemUtil extends BaseUtil {
 
     getAllItems (): IItemSearchResult[] {
         return this.entityManager
-            .getEntityIdsForComponent(Components.Item)
+            .getEntityIdsForComponent(Component.Item)
             .map(id => this.idToItemSearchResult(id));
     }
 

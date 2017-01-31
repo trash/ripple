@@ -1,5 +1,5 @@
 import {HarvesterTask} from './HarvesterTask';
-import {Professions} from '../data/professions';
+import {Profession} from '../data/profession';
 import {StatusBubble} from '../data/statusBubble';
 
 /**
@@ -16,7 +16,7 @@ export class WoodcutterTask extends HarvesterTask {
 	constructor (tree: number) {
 		super({
 			name: 'woodcutter-task',
-			taskType: Professions.Woodcutter,
+			taskType: Profession.Woodcutter,
 			bubble: StatusBubble.Mine
 		}, tree);
 

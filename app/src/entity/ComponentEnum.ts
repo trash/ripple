@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 
 // Order doesn't matter
-export enum Components {
+export enum Component {
     Position,
     Renderable,
     Agent,
@@ -29,11 +29,11 @@ interface IComponentsEnumToKeyMap {
 
 export const ComponentsEnumToKeyMap: IComponentsEnumToKeyMap = {};
 
-Object.keys(Components).forEach(component => {
+Object.keys(Component).forEach(component => {
     const componentNumber = parseInt(component);
     // Actual enum number not string keys
     if (!isNaN(componentNumber)) {
-        const componentName = Components[componentNumber];
+        const componentName = Component[componentNumber];
         ComponentsEnumToKeyMap[componentNumber] = _.camelCase(componentName);
     }
 });

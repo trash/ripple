@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {cacheService} from '../services/cache';
 import {util} from './index';
 import {GameMap} from '../map';

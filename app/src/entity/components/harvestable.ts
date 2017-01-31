@@ -1,18 +1,18 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {Task} from '../../Tasks/task';
 import {Instance} from '../../Tasks/instance';
-import {Professions} from '../../data/professions';
-import {HarvestTypes} from '../../data/harvestTypes';
+import {Profession} from '../../data/profession';
+import {HarvestType} from '../../data/harvestType';
 
 export interface IHarvestableState {
     highlighted: boolean;
     queued: boolean;
     task: Task;
-    profession: Professions;
+    profession: Profession;
     drops: string[];
     itemsDropped?: boolean;
-    harvestType: HarvestTypes;
+    harvestType: HarvestType;
 }
 
 export interface IHarvestableComponent extends IComponent {
@@ -21,7 +21,7 @@ export interface IHarvestableComponent extends IComponent {
 
 export let Harvestable: IHarvestableComponent = {
     name: 'harvestable',
-    enum: Components.Harvestable,
+    enum: Component.Harvestable,
     state: {
         highlighted: false,
         queued: false,

@@ -1,5 +1,5 @@
 import {IComponent} from '../entityManager';
-import {Components} from '../ComponentsEnum';
+import {Component} from '../ComponentEnum';
 import {ICoordinates, IRowColumnCoordinates} from '../../interfaces';
 
 export interface IBuildingState {
@@ -17,7 +17,7 @@ export interface IBuildingComponent extends IComponent {
 
 export let Building: IBuildingComponent = {
     name: 'building',
-    enum: Components.Building,
+    enum: Component.Building,
     state: {
         name: null,
         entranceTile: null,

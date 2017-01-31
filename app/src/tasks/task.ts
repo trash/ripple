@@ -1,18 +1,19 @@
+import * as _ from 'lodash';
 import {Instance} from './Instance';
 import {util} from '../util';
 import {events} from '../events';
 import {BehaviorTree} from '../b3/Core';
 import {TaskQueue} from './TaskQueue';
-import {Professions} from '../data/professions';
+import {Profession} from '../data/profession';
 import {StatusBubble} from '../data/statusBubble';
 import {IBehaviorTreeTickTarget} from '../interfaces';
 
-const debouncedError = _.debounce(console.error, 1000),
-	debouncedError2 = _.debounce(console.error, 1000);
+const debouncedError = _.debounce(console.error, 1000);
+const debouncedError2 = _.debounce(console.error, 1000);
 
 export interface ITaskOptions {
 	behaviorTree?: any;
-	taskType: Professions;
+	taskType: Profession;
 	name: string;
 	description?: string;
 	effortRating?: number;
@@ -31,7 +32,7 @@ export class Task {
 	ready: boolean;
 	name: string;
 	behaviorTree: any;
-	taskType: Professions;
+	taskType: Profession;
 	contributions: any;
 	bubble: StatusBubble;
 	description: string;
@@ -92,27 +93,12 @@ export class Task {
 	suspend () {
 		console.log('this task should be suspended');
 		this.ready = false;
-	};
+	}
 
 	unsuspend () {
 		console.log('this task should be unsuspended');
 		this.ready = true;
-	};
-
-	// Bind to events for resources being added and removed and suspend appropriately
-	// this should only be called by tasks that require resources to be completed
-	bindSuspendEvents () {
-		events.on('remove-from-resource', function () {
-			if (!this.completed && this.isReady() && !this.checkIfReady()) {
-				this.suspend();
-			}
-		}.bind(this));
-		events.on(['resources', '*', 'add'], function () {
-			if (!this.isReady() && this.checkIfReady()) {
-				this.unsuspend();
-			}
-		}.bind(this));
-	};
+	}
 
 	/**
 	 * Make the citizen more hungry based on the task's effort rating
@@ -120,7 +106,7 @@ export class Task {
 	citizenEffort (agentData: IBehaviorTreeTickTarget) {
 		debouncedError('reimplement citizen effort');
 		// citizen.status.hunger.value += this.effortRating;
-	};
+	}
 
 	getCitizenEffectiveness (agentData: IBehaviorTreeTickTarget) {
 		debouncedError2('reimplement citizen effectiveness');
@@ -149,7 +135,7 @@ export class Task {
 		this.contributions[agentData.id] += contribution;
 
 		return contribution;
-	};
+	}
 
 	/**
 	 * Stubbed method.
@@ -162,18 +148,16 @@ export class Task {
 	 */
 	isComplete (): boolean {
 		return this.completed;
-	};
+	}
 
 	isReady (): boolean {
 		return this.ready;
-	};
+	}
 
 	/**
 	 * If a task is cancelled, this method will be called
 	 */
-	cancel () {
-
-	};
+	cancel () {}
 
 	/**
 	 * Spawns a unique instance of a task for a given citizen.
@@ -200,7 +184,7 @@ export class Task {
 		}
 
 		return instance;
-	};
+	}
 
 	dropInstance (instance: Instance) {
 		var isntInQueue = this.instancePool.length === this.maxInstancePool;
@@ -212,7 +196,7 @@ export class Task {
 		if (isntInQueue) {
 			this.putInQueue(true);
 		}
-	};
+	}
 
 
 	/**
@@ -237,7 +221,7 @@ export class Task {
 			});
 		}
 		this.removeFromQueue();
-	};
+	}
 
 	/**
 	 * Crappy method for getting the task queue for a task without causing circular dependency by importing in the
@@ -252,7 +236,7 @@ export class Task {
 	getTaskQueue (callback: (taskQueue: TaskQueue) => void) {
 		events.emit(['task-queue-manager', 'get-task-queue'], this.taskType, callback);
 		// return TaskQueueManager.professionTaskQueue(this.taskType);
-	};
+	}
 
 	/**
 	* Calls the function on the queue to remove this task from it.
@@ -261,7 +245,7 @@ export class Task {
 		this.getTaskQueue(taskQueue => {
 			taskQueue.removeTask(this);
 		});
-	};
+	}
 
 	/**
 	* Puts the task in it's corresponding queue.
@@ -270,7 +254,7 @@ export class Task {
 		this.getTaskQueue(taskQueue => {
 			taskQueue.push(this, front);
 		});
-	};
+	}
 
 	/**
 	* Handles adding experience to the citizen for completing the task.
@@ -281,5 +265,5 @@ export class Task {
 	addExperience (villager: number, contribution: number) {
 		// citizen.addExperience(this.taskType, contribution);
 		console.info('reimplement villager experience')
-	};
-};
+	}
+}

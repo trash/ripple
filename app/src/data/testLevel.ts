@@ -1,4 +1,4 @@
-import {VillagerJobs} from './villagerJobs';
+import {VillagerJob} from './villagerJob';
 
 import {IEntityComponentData} from '../interfaces';
 
@@ -6,7 +6,7 @@ import {IPositionState} from '../entity/components/position';
 import {IHungerState} from '../entity/components/hunger';
 
 export interface IVillagerComponentOptions {
-	job?: VillagerJobs
+	job?: VillagerJob
 }
 
 export interface IAgentAssemblageTestData {
