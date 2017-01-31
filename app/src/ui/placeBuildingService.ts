@@ -9,6 +9,7 @@ import {
 import {spriteManager} from '../services/sprite-manager';
 import {GameMap} from '../map';
 import {EntityManager} from '../entity/entityManager';
+import {EntitySpawner} from '../entity/entitySpawner';
 import {Components} from '../entity/ComponentsEnum';
 import {ICollisionState, IPositionState} from '../entity/components';
 import {collisionUtil} from '../entity/util/collision';
@@ -53,6 +54,7 @@ export class PlaceBuildingService {
 	validPlacement: boolean;
     toggle: (building: IEntityComponentData) => void;
 	entityManager: EntityManager;
+	entitySpawner: EntitySpawner;
 
 	constructor () {
 		this.hoverSprite = null;
@@ -72,13 +74,20 @@ export class PlaceBuildingService {
 	setEntityManager (entityManager: EntityManager) {
 		this.entityManager = entityManager;
 	}
+	setEntitySpawner (entitySpawner: EntitySpawner) {
+		this.entitySpawner = entitySpawner;
+	}
 
 	click (tile: IRowColumnCoordinates) {
         if (!this.active) {
             return;
         }
 		if (this.validPlacement) {
-            console.info('Place new building', tile, this.building);
+			this.entitySpawner.spawnBuilding(this.building.name, false, {
+				position: {
+					tile: tile
+				}
+			});
 		}
 	}
 

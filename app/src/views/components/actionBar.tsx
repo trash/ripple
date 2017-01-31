@@ -21,8 +21,8 @@ export class ActionBar extends React.Component<ActionBarProps, ActionBarState> {
                 <BuildingsList/>}
             </div>
             <div className="action-bar-buttons">
-                <button onClick={ () =>
-                    store.dispatch(showBuildingsList(!this.props.buildingsListShown)) }
+                <button onClick={ () => store.dispatch(
+                    showBuildingsList(!this.props.buildingsListShown)) }
                 >Buildings</button>
             </div>
         </div>

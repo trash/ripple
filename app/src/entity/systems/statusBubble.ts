@@ -24,8 +24,10 @@ export class StatusBubbleSystem extends EntitySystem {
             }
             this.lastCycle = performance.now();
 
-            const statusBubbleState = this.manager.getComponentDataForEntity(Components.StatusBubble, id) as IStatusBubbleState,
-                renderableState = this.manager.getComponentDataForEntity(Components.Renderable, id) as IRenderableState;
+            const statusBubbleState = this.manager.getComponentDataForEntity(
+                Components.StatusBubble, id) as IStatusBubbleState;
+            const renderableState = this.manager.getComponentDataForEntity(
+                Components.Renderable, id) as IRenderableState;
 
             // Init active bubbleName
             if (!statusBubbleState.activeBubbleName) {
@@ -40,9 +42,11 @@ export class StatusBubbleSystem extends EntitySystem {
             }
 
             // Cycle to next bubble
-            const nextBubbleName = this.getNextBubbleName(statusBubbleState.activeBubbles, statusBubbleState.activeBubbleName);
+            const nextBubbleName = this.getNextBubbleName(
+                statusBubbleState.activeBubbles,
+                statusBubbleState.activeBubbleName);
             statusBubbleState.activeBubbleName = nextBubbleName;
-            if (nextBubbleName) {
+            if (nextBubbleName !== null) {
                 const sprite = this.createSprite(nextBubbleName);
                 statusBubbleState.activeBubbleSprite = sprite;
                 renderableState.spriteGroup.addChild(sprite);
@@ -50,7 +54,10 @@ export class StatusBubbleSystem extends EntitySystem {
         });
     }
 
-    getNextBubbleName (activeBubbles: StatusBubble[], activeBubbleName: StatusBubble) {
+    getNextBubbleName (
+        activeBubbles: StatusBubble[],
+        activeBubbleName: StatusBubble
+    ): StatusBubble {
         if (!activeBubbles.length) {
             return null;
         }
@@ -66,7 +73,10 @@ export class StatusBubbleSystem extends EntitySystem {
         return activeBubbles[previousIndex + 1];
     }
 
-    createSprite (bubbleName): PIXI.Sprite {
+    createSprite (
+        bubble: StatusBubble
+    ): PIXI.Sprite {
+        const bubbleName = StatusBubble[bubble].toLowerCase();
         const bubbleSprite = PIXI.Sprite.fromFrame('bubble-' + bubbleName);
         bubbleSprite.position.x = 0;
         bubbleSprite.position.y = -20;

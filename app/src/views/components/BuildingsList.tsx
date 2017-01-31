@@ -4,11 +4,11 @@ import {buildingUtil} from '../../entity/util/building';
 import {IEntityComponentData} from '../../interfaces';
 import {placeBuildingService} from '../../ui/placeBuildingService';
 
-export class BuildingsList extends React.Component<void, void> {
-    onBuildingClick (buildingData: IEntityComponentData) {
-        placeBuildingService.toggle(buildingData);
-    }
+const onBuildingClick = (buildingData: IEntityComponentData) => {
+    placeBuildingService.toggle(buildingData);
+}
 
+export class BuildingsList extends React.Component<void, void> {
     render() {
         return (
         <ul className="buildings-list">
@@ -16,7 +16,7 @@ export class BuildingsList extends React.Component<void, void> {
             const name = buildingData.building.name;
             return (
             <li key={name}
-                onClick={() => this.onBuildingClick(buildingData)}>
+                onClick={() => onBuildingClick(buildingData)}>
                 <img src={buildingUtil.getImagePath(name)}/>
                 <p>{name}</p>
             </li>

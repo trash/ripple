@@ -241,6 +241,9 @@ export class EntitySpawner {
 		isCompleted: boolean = false,
         entityComponentData: IEntityComponentData = {}
     ): number {
+		if (!entityComponentData.position.tile) {
+			console.error('Spawning a building without a tile.');
+		}
 		const assemblageData = _.extend({}, buildingsAssemblageData[buildingName]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 
@@ -249,11 +252,6 @@ export class EntitySpawner {
 		console.info(`Spawning: ${buildingName} with entityId: ${entityId}`);
 
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
-
-		const positionState = this.entityManager.getComponentDataForEntity(
-			Components.Position, entityId) as IPositionState;
-		const map = globalRefs.map;
-		positionState.tile = map.getTile(map.dimension / 4 - 1, map.dimension / 2 - 1);
 
 		if (isCompleted) {
 			const healthState = this.entityManager.getComponentDataForEntity(

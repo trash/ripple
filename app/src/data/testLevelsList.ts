@@ -4,8 +4,8 @@ import {ITestLevel} from './testLevel';
 import {gameLevelFactory} from './gameLevelFactory';
 import {VillagerJobs} from './villagerJobs';
 
-import {IPositionState} from '../entity/components/position';
-import {IBuildingState} from '../entity/components/building';
+import {IPositionState, IBuildingState} from '../entity/components';
+import {dataList as buildingsList} from '../entity/assemblageData/buildings';
 
 export interface ITestLevelGroup {
     name: string;
@@ -109,7 +109,7 @@ export interface ITestLevelGroup {
 		name: 'Professions Tests',
 		list: [
 			{
-				name: 'Villagers Can Harvest',
+				name: 'Villagers Harvest',
 				agents: [{
 					name: 'human',
 					villager: {
@@ -122,12 +122,22 @@ export interface ITestLevelGroup {
 					allLand: true,
 					seed: 666
 				}
+			},
+			{
+				name: 'Villagers Build',
+				agents: [{
+					name: 'human',
+					villager: {
+						job: VillagerJobs.Builder
+					}
+				}],
+				items: buildingsList[0].constructible.requiredResources
 			}
 		]
 	}
 ];
 
-export let testLevels = testLevelsData.map(group => {
+export let testLevelsList = testLevelsData.map(group => {
 	group.list = group.list.map(levelData => gameLevelFactory.getTestLevel(levelData));
 	return group;
 });

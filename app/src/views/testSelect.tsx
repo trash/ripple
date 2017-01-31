@@ -1,6 +1,6 @@
 import React = require('react');
 import {events} from '../events';
-import {testLevels, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevels';
+import {testLevelsList, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevelsList';
 import {TestLevel} from './testLevel';
 import {ShowHideComponent, ShowHideComponentState} from './higherOrder/showHideComponent';
 
@@ -52,7 +52,7 @@ export class TestSelect extends ShowHideComponent<TestSelectState> {
 					<h4 className="menu-header">Tutorials</h4>
 					<button onClick={ this.props.mainMenu }>Main Menu</button>
 					{ lastLoadedLevelGroup.list[0] && this.renderMenuBlock(lastLoadedLevelGroup) }
-					{testLevels.map(group => this.renderMenuBlock(group))}
+					{testLevelsList.map(group => this.renderMenuBlock(group))}
 				</div>
 			</div>
 		);

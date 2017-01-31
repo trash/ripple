@@ -19,7 +19,6 @@ import {GameCamera} from './game-camera';
 import {gameClock} from './game-clock';
 import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/sprite-manager';
-import {EntitySpawner} from '../entity/entitySpawner';
 import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/gameLevelFactory';
 import {keybindings} from '../services/keybindings';
@@ -63,6 +62,7 @@ export class GameManager {
 
         this.entityManager = new EntityManager();
         placeBuildingService.setEntityManager(this.entityManager);
+        placeBuildingService.setEntitySpawner(this.entityManager.spawner);
         window['entityManager'] = this.entityManager;
 
         new TileInfoService(this.entityManager);
