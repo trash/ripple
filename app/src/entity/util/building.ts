@@ -1,6 +1,7 @@
 import {IRowColumnCoordinates} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
+import {constants} from '../../data/constants';
 
 export class BuildingUtil extends BaseUtil {
 	private getAllBuildings (): number[] {
@@ -30,7 +31,7 @@ export class BuildingUtil extends BaseUtil {
 	getImagePath(
 		buildingName: string
 	): string {
-		return `/sprites/buildings/${buildingName}.png`;
+		return `${constants.SPRITE_PATH}buildings/${buildingName}.png`;
 	}
 
 	addOccupant(

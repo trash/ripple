@@ -79,7 +79,7 @@ export class ItemSystem extends EntitySystem {
 
     createSprite (itemState: IItemState) {
         // Just default to first row initially
-        const sprite = PIXI.Sprite.fromFrame(itemState.spriteName);
+        const sprite = PIXI.Sprite.fromFrame(itemState.name);
 
 		// for tooltips
 		sprite.interactive = true;

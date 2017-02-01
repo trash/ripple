@@ -5,7 +5,6 @@ import {ItemProperties} from '../../interfaces';
 export interface IItemState {
     name?: string;
     readableName?: string;
-    spriteName?: string;
     description?: string;
     shouldBeSpawned?: boolean;
     hasBeenSpawned?: boolean;
@@ -27,7 +26,6 @@ export let Item: IItemComponent = {
     state: {
         name: null,
         readableName: null,
-        spriteName: null,
         description: null,
         shouldBeSpawned: false,
         hasBeenSpawned: false,

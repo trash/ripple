@@ -1,4 +1,5 @@
 import {constants} from '../data/constants';
+import {util} from '../util';
 
 import {ITestLevel} from './testLevel';
 import {gameLevelFactory} from './gameLevelFactory';
@@ -6,13 +7,19 @@ import {VillagerJob} from './villagerJob';
 
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
+import {dataList as itemsList} from '../entity/assemblageData/items';
 
 export interface ITestLevelGroup {
     name: string;
     list: ITestLevel[];
 }
 
- let testLevelsData: ITestLevelGroup[]  = [
+const allItemsMap = {};
+itemsList.forEach(itemData => {
+	allItemsMap[itemData.item.name] = util.randomInRange(5, 12)
+});
+
+let testLevelsData: ITestLevelGroup[]  = [
 	{
 		name: 'Building Tests',
 		list: [
@@ -134,6 +141,13 @@ export interface ITestLevelGroup {
 				items: buildingsList[0].constructible.requiredResources
 			}
 		]
+	},
+	{
+		name: 'Items Tests',
+		list: [{
+			name: 'Spawn All Items Test',
+			items: allItemsMap
+		}]
 	}
 ];
 

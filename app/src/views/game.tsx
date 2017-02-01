@@ -6,28 +6,8 @@ import {store, StoreState} from '../redux/store';
 import {ConnectedDebugPanel} from './components/debugPanel';
 import {ConnectedActionBar} from './components/actionBar';
 import {ConnectedClock} from './components/Clock';
+import {ConnectedItemList} from './components/ItemList';
 
-export interface ItemListProps {
-    itemList: Immutable.Map<string, number>;
-}
-
-export class ItemList extends React.Component<ItemListProps, void> {
-    render () {
-        return (
-            <ul className="item-list">
-                {this.props.itemList.entrySeq().map(([itemName, count]) => {
-                    return <li key={itemName}>{`${itemName}:${count}`}</li>
-                })}
-            </ul>
-        );
-    }
-}
-
-export const ConnectedItemList = connect((state: StoreState) => {
-    return {
-        itemList: state.items
-    };
-})(ItemList);
 
 export class InnerGameComponent extends React.Component<null, null> {
     render() {

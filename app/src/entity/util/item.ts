@@ -7,6 +7,7 @@ import {events} from '../../events';
 import {BaseUtil} from './base';
 import {IItemSearchResult, IRowColumnCoordinates, ItemProperties, IItemSearchOptions} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
+import {constants} from '../../data/constants';
 
 export class ItemUtil extends BaseUtil {
     removeFromTile (id: number) {
@@ -24,6 +25,12 @@ export class ItemUtil extends BaseUtil {
         renderableState.shown = false;
         positionState.tile = null;
     }
+
+	getImagePath(
+		itemName: string
+	): string {
+		return `${constants.SPRITE_PATH}items/${itemName}.png`;
+	}
 
 	private idToItemSearchResult (id: number): IItemSearchResult {
 		return {

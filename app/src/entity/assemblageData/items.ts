@@ -3,12 +3,11 @@ import {IEntityComponentData, IAssemblageDataMap, ItemProperties} from '../../in
 import {util} from '../../util';
 import {config} from '../../data/config';
 
-const dataList: IEntityComponentData[] = [{
+export const dataList: IEntityComponentData[] = [{
         item: {
             name: 'wood',
             readableName: 'wood',
             description: 'A pile of wood.',
-            spriteName: 'wood',
             value: 1,
             properties: [ItemProperties.resource, ItemProperties.wood],
             shouldBeSpawned: null,
@@ -23,7 +22,6 @@ const dataList: IEntityComponentData[] = [{
             value: 1,
             name: 'berries',
             readableName: 'berries',
-            spriteName: 'berries',
             description: 'Some delicious red berries probably found on the ground.',
             properties: [ItemProperties.food, ItemProperties.farmable],
             shouldBeSpawned: null,
@@ -38,7 +36,6 @@ const dataList: IEntityComponentData[] = [{
             value: 1,
             name: 'mushroom',
             readableName: 'mushroom',
-            spriteName: 'purple-mushroom',
             description: 'Purple mushrooms that can be used in alchemists recipes.',
             properties: []
         }
@@ -48,7 +45,6 @@ const dataList: IEntityComponentData[] = [{
             value: 4,
             name: 'stone',
             readableName: 'stone',
-            spriteName: 'stone',
             description: 'A pile of stone.',
             properties: [ItemProperties.resource]
         }
