@@ -14,7 +14,7 @@ import {
     updateHoveredAgentLastExecutionChain
 } from '../redux/actions';
 
-import {agentUtil, collisionUtil} from '../entity/util';
+import {agentUtil, collisionUtil, positionUtil} from '../entity/util';
 
 import {EntityManager} from '../entity/entityManager';
 import {Component} from '../entity/ComponentEnum';
@@ -33,28 +33,6 @@ import {
     IBehaviorTreeState,
 } from '../entity/components';
 
-const filterEntityByTile = (
-    entityManager: EntityManager,
-    tile: MapTile,
-    entityId: number
-) => {
-    const collisionState = entityManager.getComponentDataForEntity(
-        Component.Collision, entityId) as ICollisionState;
-    const positionState = entityManager.getComponentDataForEntity(
-        Component.Position, entityId) as IPositionState;
-
-    if (!positionState || !positionState.tile) {
-        return false;
-    }
-
-    // Need to check each tile occupied by the collidable body
-    if (collisionState) {
-        return collisionUtil.getTilesFromCollisionEntity(entityId).some(coords => {
-            return tile.isEqualToCoords(coords);
-        });
-    }
-    return tile.isEqualToCoords(positionState.tile);
-};
 const getNameFromEntity = (
     entityManager: EntityManager,
     entityId: number
@@ -63,23 +41,12 @@ const getNameFromEntity = (
         Component.Name, entityId);
 };
 
-const getEntitiesWithComponentInTile = (
-    entityManager: EntityManager,
-    tile: MapTile,
-    componentName: Component
-) => {
-    return Object.keys(
-        entityManager.getEntitiesWithComponent(componentName))
-            .map(entityId => parseInt(entityId))
-            .filter(filterEntityByTile.bind(this, entityManager, tile));
-}
-
 const getNameOfEntityOccupyingTile = (
     entityManager: EntityManager,
     tile: MapTile,
     componentName: Component
 ): INameState => {
-    return getEntitiesWithComponentInTile(entityManager, tile, componentName)
+    return positionUtil.getEntitiesWithComponentInTile(tile, componentName)
             .map(getNameFromEntity.bind(this, entityManager))[0] as INameState;
 };
 
@@ -113,7 +80,7 @@ export class TileInfoService {
         const getEntityWithComponentInTile = (
             component: Component
         ): number => {
-            return getEntitiesWithComponentInTile(this.entityManager, tile, component)[0];
+            return positionUtil.getEntitiesWithComponentInTile(tile, component)[0];
         }
 
         // Get the name of any agent occupying the tile
@@ -130,8 +97,7 @@ export class TileInfoService {
             store.dispatch(updateHoveredAgent(agentState, hungerState, sleepState, positionState));
 
             // Expose info about the agent's behavior tree
-            const behaviorTreeState = getEntitiesWithComponentInTile(
-                        this.entityManager,
+            const behaviorTreeState = positionUtil.getEntitiesWithComponentInTile(
                         tile,
                         Component.Agent
                     ).map(entityId => this.entityManager.getComponentDataForEntity(

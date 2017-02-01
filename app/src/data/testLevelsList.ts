@@ -26,7 +26,15 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Buildings can be built',
 				buildings: [{
-					buildingName: 'hut'
+					buildingName: 'hut',
+					data: {
+						position: {
+							tile: {
+								row: 5,
+								column: 5
+							}
+						}
+					}
 				}],
 				agents: [{
 					name: 'human',

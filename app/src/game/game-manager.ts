@@ -23,7 +23,7 @@ import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/gameLevelFactory';
 import {keybindings} from '../services/keybindings';
 import {GameComponent} from '../views/game';
-import {TileInfoService} from '../ui/tile-info-service';
+import {TileInfoService} from '../ui/TileInfoService';
 import {constants} from '../data/constants';
 
 const defaultLevel = gameLevelFactory.getDefaultTestLevel();
@@ -171,7 +171,10 @@ export class GameManager {
         // Spawn buildings
         if (this.level.buildings) {
             this.level.buildings.forEach(building => {
-                this.entityManager.spawner.spawnBuilding(building.buildingName, building.isCompleted, building);
+                this.entityManager.spawner.spawnBuilding(
+                    building.buildingName,
+                    building.isCompleted,
+                    building.data);
             });
         }
 

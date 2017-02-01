@@ -5,6 +5,8 @@ import {cursorManager} from '../../ui/cursorManager';
 import {Cursor} from '../../ui/Cursor';
 import {GameMap} from '../../map';
 import {events} from '../../events';
+import {positionUtil} from '../../entity/util/position';
+import {Component} from '../../entity/ComponentEnum';
 
 const globalRefs: {
 	map: GameMap
@@ -17,24 +19,24 @@ events.on('map-update', (map: GameMap) => {
 
 export class KillEntityService {
 	active: boolean;
-	type: string;
+	entityType: Component;
 	listenerOff: () => void;
 
 	constructor () {
 		this.active = false;
 		keybindings.addKeyListener('escape', () => this.off());
-		this.type = null;
+		this.entityType = null;
 	}
 
-	on (type: string) {
+	on (type: Component) {
 		this.active = true;
-		this.type = type;
+		this.entityType = type;
 		cursorManager.showCursor(Cursor.Attack);
-		this.listenerOff = globalRefs.map.addTileClickListener(tile => {
-            console.log(`should be killing an entity of `
-                +`type:${this.type} in tile:${tile}`)
-		});
-	};
+		this.listenerOff = globalRefs.map.addTileClickListener(tile =>
+            positionUtil.destroyEntityOfComponentTypeInTile(
+                tile,
+                this.entityType));
+	}
 
 	off () {
 		if (!this.active) {
@@ -43,30 +45,30 @@ export class KillEntityService {
 		this.active = false;
 		cursorManager.hideCursor();
 		this.listenerOff();
-	};
+	}
 
-	toggle (type: string) {
+	toggle (type: Component) {
 		if (this.active) {
 			return this.off();
 		}
 		this.on(type);
-	};
-};
+	}
+}
 
 const killEntityService = new KillEntityService();
 
 const actions = [
     {
         name: 'Destroy Agent',
-        action: 'kill-agent'
+        action: Component.Agent
     },
     {
         name: 'Destroy Item',
-        action: 'kill-item'
+        action: Component.Item
     },
     {
         name: 'Destroy Building',
-        action: 'kill-building'
+        action: Component.Building
     }
 ];
 

@@ -18,6 +18,7 @@ export interface IAgentAssemblageTestData {
 export interface IBuildingAssemblageTestData {
 	buildingName: string;
     isCompleted?: boolean;
+    data?: IEntityComponentData;
 }
 
 export interface ITestGameMapOptions {
