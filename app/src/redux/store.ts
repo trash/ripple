@@ -28,7 +28,8 @@ import {
     UpdateHoverTile,
     ShowBuildingsList,
     AddToItemList,
-    RemoveFromItemList
+    RemoveFromItemList,
+    ShowDebugBar
 } from './actions';
 
 export interface StoreState {
@@ -46,6 +47,7 @@ export interface StoreState {
     hours: number;
     days: number;
     buildingsListShown: boolean;
+    debugBarShown: boolean;
 }
 
 const initialState = {
@@ -86,6 +88,11 @@ const mainReducer = (previousState = initialState, action) => {
     if (action.type === actionTypes.SHOW_BUILDINGS_LIST) {
         const showAction = action as ShowBuildingsList;
         newState.buildingsListShown = action.show;
+    }
+
+    if (action.type === actionTypes.SHOW_DEBUG_BAR) {
+        const showAction = action as ShowDebugBar;
+        newState.debugBarShown = action.show;
     }
 
     if (action.type === actionTypes.ADD_TO_ITEM_LIST

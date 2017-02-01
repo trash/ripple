@@ -31,3 +31,17 @@ export function showBuildingsList (
         show: show
     };
 }
+
+export interface ShowDebugBar {
+    type: string;
+    show: boolean;
+}
+
+export function showDebugBar (
+    show: boolean
+): ShowBuildingsList {
+    return {
+        type: actionTypes.SHOW_DEBUG_BAR,
+        show: show
+    };
+}
