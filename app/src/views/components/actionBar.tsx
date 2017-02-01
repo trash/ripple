@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {showBuildingsList, showDebugBar} from '../../redux/actions';
 import {BuildingsList} from './BuildingsList';
+import {DebugBar} from './DebugBar';
 
 interface ActionBarProps {
     buildingsListShown: boolean;
@@ -17,7 +18,7 @@ export class ActionBar extends React.Component<ActionBarProps, null> {
                 { this.props.buildingsListShown &&
                 <BuildingsList/>}
                 { this.props.debugBarShown &&
-                <h1>im da debug bar mon</h1>}
+                <DebugBar/>}
             </div>
             <div className="action-bar-buttons">
                 <button onClick={ () => store.dispatch(

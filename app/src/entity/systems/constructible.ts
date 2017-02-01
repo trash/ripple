@@ -74,7 +74,7 @@ export class ConstructibleSystem extends EntitySystem {
     ) {
 		const coords = this.getFloatSpriteCoords(renderableState);
         const itemState = itemSearchResult.state;
-		const sprite = spriteManager.create(itemState.spriteName,
+		const sprite = spriteManager.create(itemState.name,
             positionState.tile.column, positionState.tile.row, true);
 
 		renderableState.spriteGroup.addChild(sprite);

@@ -10,7 +10,8 @@ import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
 import {HoverElement} from '../../ui/hover-element';
 import {dragSelect} from '../../ui/drag-select';
-import {cursorManager} from '../../ui/cursor-manager';
+import {cursorManager} from '../../ui/cursorManager';
+import {Cursor} from '../../ui/Cursor';
 import {EventEmitter2} from 'eventemitter2';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {GameMap} from '../../map';
@@ -126,7 +127,9 @@ export class HarvestSelectSystem extends EntitySystem {
 	}
 
     turnOn (destroy: boolean, cancelHarvest: boolean): boolean {
-		cursorManager.showCursor(cancelHarvest ? 'cancelHarvest' : 'harvest');
+		cursorManager.showCursor(cancelHarvest ?
+			Cursor.CancelHarvest :
+			Cursor.Harvest);
 
 		this.tileHoverElement.show();
 
