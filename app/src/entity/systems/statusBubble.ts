@@ -5,6 +5,7 @@ import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {IRenderableState} from '../components';
 import {IStatusBubbleState} from '../components';
+import {SpriteManager} from '../../services/sprite-manager';
 
 const CYCLE_TIME = 1000;
 
@@ -77,7 +78,7 @@ export class StatusBubbleSystem extends EntitySystem {
         bubble: StatusBubble
     ): PIXI.Sprite {
         const bubbleName = StatusBubble[bubble].toLowerCase();
-        const bubbleSprite = PIXI.Sprite.fromFrame('bubble-' + bubbleName);
+        const bubbleSprite = SpriteManager.Sprite.fromFrame('bubble-' + bubbleName);
         bubbleSprite.position.x = 0;
         bubbleSprite.position.y = -20;
         return bubbleSprite;

@@ -9,7 +9,7 @@ import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
 import {IRowColumnCoordinates} from '../../interfaces';
-import {spriteManager} from '../../services/sprite-manager';
+import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 import {store} from '../../redux/store';
 import {addToItemList, removeFromItemList} from '../../redux/actions';
 
@@ -79,7 +79,7 @@ export class ItemSystem extends EntitySystem {
 
     createSprite (itemState: IItemState) {
         // Just default to first row initially
-        const sprite = PIXI.Sprite.fromFrame(itemState.name);
+        const sprite = SpriteManager.Sprite.fromFrame(itemState.name);
 
 		// for tooltips
 		sprite.interactive = true;

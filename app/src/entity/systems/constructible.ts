@@ -2,18 +2,20 @@ import * as _ from 'lodash';;
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {IRenderableState} from '../components';
-import {IPositionState} from '../components';
-import {IHealthBarState} from '../components';
-import {IConstructibleState} from '../components';
-import {ICollisionState} from '../components';
-import {IHealthState} from '../components';
+import {
+    IRenderableState,
+    IPositionState,
+    IHealthBarState,
+    IConstructibleState,
+    ICollisionState,
+    IHealthState
+} from '../components';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {Profession} from '../../data/profession';
 import {ResourceRequirements} from '../../resource-requirements';
 import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';
-import {spriteManager} from '../../services/sprite-manager';
+import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 
 export class ConstructibleSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -116,13 +118,13 @@ export class ConstructibleSystem extends EntitySystem {
         const spriteGroup = renderableState.spriteGroup;
 
         // The actual sprite
-        const completedSprite = PIXI.Sprite.fromFrame(constructibleState.completedSpriteName);
+        const completedSprite = SpriteManager.Sprite.fromFrame(constructibleState.completedSpriteName);
         constructibleState.completedSprite = completedSprite;
         completedSprite.visible = false;
 
-        const progressSprite = PIXI.Sprite.fromFrame(constructibleState.progressSpriteName);
+        const progressSprite = SpriteManager.Sprite.fromFrame(constructibleState.progressSpriteName);
         constructibleState.progressSprite = progressSprite;
-        const floorSprite = PIXI.Sprite.fromFrame(constructibleState.floorSpriteName);
+        const floorSprite = SpriteManager.Sprite.fromFrame(constructibleState.floorSpriteName);
         constructibleState.floorSprite = floorSprite;
 
         [floorSprite, completedSprite, progressSprite]

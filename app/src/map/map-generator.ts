@@ -5,7 +5,7 @@ import {floodfill} from '../vendor/flood-fill';
 import {NDArray, ICoordinates, IRowColumnCoordinateWrapper} from '../interfaces';
 import ndarray = require('ndarray');
 import {MapGenTile} from './map-gen-tile';
-import Immutable = require('immutable');
+import * as Immutable from 'immutable';
 import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
 import {util, Util} from '../util';
@@ -18,18 +18,24 @@ export interface IMapGenReturn {
 	resourceList: string[]
 };
 
-const isValidResourceTile = (resource: string, i: number, tiles: Immutable.List<MapGenTile>): boolean =>
-			!resource && !tiles.get(i).isWater;
+const isValidResourceTile = (
+	resource: string,
+	i: number,
+	tiles: Immutable.List<MapGenTile>
+): boolean => !resource && !tiles.get(i).isWater;
 
-const waterCheckFunction: NeighborCheckFunction<string> = (neighbor: string): boolean => {
+const waterCheckFunction: NeighborCheckFunction<string>
+	= (neighbor: string): boolean => {
 		if (!neighbor) {
 			return true;
 		}
 		// Check if they're water tiles. If they're at the edge of the map (no neighbor)
 		// then just act like the water continues off the map
-		return neighbor.indexOf('water') !== -1 && neighbor.indexOf('bridge') === -1;
-	},
-	hillCheckFunction: NeighborCheckFunction<MapGenTile> = (tile: MapGenTile) => !!tile;
+		return neighbor.indexOf('water') !== -1
+			&& neighbor.indexOf('bridge') === -1;
+	}
+const hillCheckFunction: NeighborCheckFunction<MapGenTile>
+	= (tile: MapGenTile) => !!tile;
 
 type NeighborMap<T> = {
     left: T;
@@ -403,8 +409,12 @@ export class MapGenerator {
 		return tiles;
 	}
 
-	getUnmarkedLandTiles (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
-		return tiles.filter(tile => tile.accessible && !tile.zoneNumber);
+	getUnmarkedLandTiles (
+		tiles: Immutable.List<MapGenTile>
+	): Immutable.List<MapGenTile> {
+		return tiles
+			.filter(tile => tile.accessible && !tile.zoneNumber)
+			.toList();
 	}
 
     /**

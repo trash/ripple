@@ -10,11 +10,11 @@ export class SpriteUtil {
 	 */
 	flashSprite (sprite: any, options?: any) {
 		options = options || {};
-		let time = options.time,
-			color = options.color || constants.colors.DARK_RED;
+		const time = options.time;
+		const color = options.color || constants.colors.DARK_RED;
 
 		// We don't want the color to get stuck
-		let originalTint = sprite.tint !== color ? sprite.tint : constants.colors.WHITE;
+		const originalTint = sprite.tint !== color ? sprite.tint : constants.colors.WHITE;
 		sprite.tint = color;
 		setTimeout(function () {
 			sprite.tint = originalTint;
@@ -24,7 +24,7 @@ export class SpriteUtil {
 	floatSprite (sprite: any) {
 		sprite.count = 0;
 
-		var spriteFloatInterval = setInterval(() => {
+		const spriteFloatInterval = setInterval(() => {
 			if (sprite.count > 20) {
 				if (sprite.parent) {
 					sprite.parent.removeChild(sprite);
@@ -37,8 +37,10 @@ export class SpriteUtil {
 	}
 
 	showDamageNumber (spriteGroup: any, damage: string, x: number, y: number) {
-		var textNode = new PIXI.Text(damage, {
-			font: 'bold 16px Lora',
+		const textNode = new PIXI.Text(damage, {
+			fontSize: '16px',
+			fontFamily: 'Lora',
+			fontStyle: 'bold',
 			fill: '#c13934',
 			stroke: '#000',
 			strokeThickness: 2,

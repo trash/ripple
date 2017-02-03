@@ -1,5 +1,12 @@
 import {constants} from './data/constants';
-import {ICoordinates, ITilemapData, ILayerData, ICameraView} from './interfaces';
+import {
+	ICoordinates,
+	ITilemapData,
+	ILayerData,
+	ICameraView
+} from './interfaces';
+import {PixelateFilter} from 'pixi-filters';
+import {SpriteManager} from './services/sprite-manager';
 
 const tileSize = constants.TILE_HEIGHT,
 	defaultSubContainerLayer = 1;
@@ -50,7 +57,8 @@ export class Tilemap extends PIXI.Container {
 
 		this.subContainerDimension = 20;
 
-		const subContainersCount = (this.dimension * this.dimension) / (this.subContainerDimension * this.subContainerDimension);
+		const subContainersCount = (this.dimension * this.dimension)
+			/ (this.subContainerDimension * this.subContainerDimension);
 		this.subContainersCount = subContainersCount;
 		this.subContainers = [];
 
@@ -64,8 +72,10 @@ export class Tilemap extends PIXI.Container {
 			subContainer.subY = Math.floor(i / Math.sqrt(subContainersCount));
 
 			// Position them properly
-			subContainer.position.x = subContainer.subX * this.subContainerDimension * tileSize;
-			subContainer.position.y = subContainer.subY * this.subContainerDimension * tileSize;
+			subContainer.position.x = subContainer.subX
+				* this.subContainerDimension * tileSize;
+			subContainer.position.y = subContainer.subY
+				* this.subContainerDimension * tileSize;
 
 			this.addChild(subContainer);
 			this.subContainers.push(subContainer);
@@ -78,7 +88,8 @@ export class Tilemap extends PIXI.Container {
 		this.subContainerLayerCount = 2;
 
 		// Load the initial layers of sprites
-		data.layers.forEach(this.addBackgroundSpriteFromLayerData.bind(this));
+		data.layers.forEach((layer, index) =>
+			this.addBackgroundSpriteFromLayerData(layer, index));
 
 		// Add the third layer for each sub container
 		this.subContainers.forEach(subContainer => {
@@ -108,17 +119,17 @@ export class Tilemap extends PIXI.Container {
 			return;
 		}
 
-		let pixelateFilter = new PIXI.filters.PixelateFilter();
+		let pixelateFilter = new PixelateFilter();
 		pixelateFilter.size.x = pixelateFilter.size.y = 4;
 
-		let sepiaFilter = new PIXI.filters.SepiaFilter();
-		sepiaFilter.sepia = 0.7;
+		let sepiaFilter = new PIXI.filters.ColorMatrixFilter();
+		sepiaFilter.sepia();// = 0.7;
 
-		let colorStepFilter = new PIXI.filters.ColorStepFilter();
-		colorStepFilter.step = 2.5;
+		// let colorStepFilter = new PIXI.filters.ColorStepFilter();
+		// colorStepFilter.step = 2.5;
 		// colorStepFilter.step = 3.5; // dusk
 
-		this.filters = [sepiaFilter, colorStepFilter];
+		this.filters = [sepiaFilter];
 	};
 
 	addBackgroundSpriteFromLayerData (
@@ -141,8 +152,10 @@ export class Tilemap extends PIXI.Container {
 		}
 
 		// Render each background layer as a render texture
-		const texture = new PIXI.RenderTexture(this.renderer, this.dimension * tileSize, this.dimension * tileSize);
-		texture.render(layer);
+		const texture = PIXI.RenderTexture.create(
+				this.dimension * tileSize,
+				this.dimension * tileSize);
+		this.renderer.render(layer, texture);
 
 		// Write the render texture to a sprite and add it to the the tilemap
 		const background = new PIXI.Sprite(texture);
@@ -228,7 +241,7 @@ export class Tilemap extends PIXI.Container {
 		if (this.test) {
 			return new PIXI.Sprite();
 		}
-		return 	PIXI.Sprite.fromFrame(frame);
+		return 	SpriteManager.Sprite.fromFrame(frame);
 	}
 
 	/**

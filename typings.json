@@ -1,14 +1,5 @@
 {
   "globalDependencies": {
-    "immutable": "registry:dt/immutable#3.8.1+20160608070634",
-    "moment": "registry:dt/moment#2.8.0+20160316155526",
-    "moment-node": "registry:dt/moment-node#2.11.1+20160511043338",
-    "pixi.js": "registry:dt/pixi.js#3.0.9+20160825215559",
-    "react": "registry:dt/react#0.14.0+20160817201227",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
-    "react-redux": "registry:dt/react-redux#4.4.0+20160908183346",
-    "redux": "registry:dt/redux#3.5.2+20160703092728",
-    "require": "registry:dt/require#2.1.20+20160316155526",
-    "tween.js": "registry:dt/tween.js#0.0.0+20160608102153"
+    "require": "registry:dt/require#2.1.20+20160316155526"
   }
 }

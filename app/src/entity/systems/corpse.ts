@@ -1,14 +1,17 @@
 import TWEEN = require('tween.js');
 import {EntitySystem, EntityManager} from '../entityManager';
-import {IRenderableState} from '../components';
-import {IPositionState} from '../components';
-import {ICorpseState} from '../components';
+import {
+    IRenderableState,
+    IPositionState,
+    ICorpseState
+} from '../components';
 import {ICoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';
 import {Component} from '../ComponentEnum';
 import {gameClock} from '../../game/game-clock';
+import {SpriteManager} from '../../services/sprite-manager';
 
 export class CorpseSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {
@@ -21,7 +24,7 @@ export class CorpseSystem extends EntitySystem {
 					Component.Position, id) as IPositionState;
 
             if (renderableState.spriteGroup && !renderableState.sprite) {
-                renderableState.sprite = PIXI.Sprite.fromFrame(
+                renderableState.sprite = SpriteManager.Sprite.fromFrame(
                     `${corpseState.agentBaseSpriteName}-corpse`);
                 renderableState.spriteGroup.addChild(renderableState.sprite);
                 gameClock.timer(72, () => {

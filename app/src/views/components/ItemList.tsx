@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import {StoreState} from '../../redux/store';
 import * as React from 'react';
 import {itemUtil} from '../../entity/util/item';
+import * as Immutable from 'immutable';
 
 export interface ItemListProps {
     itemList: Immutable.Map<string, number>;

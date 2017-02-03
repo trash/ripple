@@ -37,7 +37,7 @@ export class SpriteManager {
 			console.error('SpriteManager does not have a tilemap.');
 		}
 
-		const sprite = PIXI.Sprite.fromFrame(name);
+		const sprite = SpriteManager.Sprite.fromFrame(name);
 
 		if (!outsideTilemap) {
 			this.tilemap.addChildToPosition(sprite as TilemapSprite, column, row);
@@ -58,7 +58,8 @@ export class SpriteManager {
 
 		const font = `${fontSize}px Arial`,
 			textSprite: ISpriteText = new PIXI.Text(text, {
-				font: font,
+				fontSize: `${fontSize}px`,
+				fontFamily: 'Arial',
 				fill: fill,
 				align: align,
 				stroke: options.stroke,
@@ -69,8 +70,15 @@ export class SpriteManager {
 		return textSprite;
 	}
 
+	static Sprite = {
+		fromFrame(name: string): PIXI.Sprite {
+			const sprite = PIXI.Sprite.fromFrame(name);
+			return sprite;
+		}
+	}
+
 	createHoverSprite (name: string): PIXI.Sprite {
-		const sprite = PIXI.Sprite.fromFrame(name);
+		const sprite = SpriteManager.Sprite.fromFrame(name);
 
 		this.tilemap.hoverLayer.addChild(sprite);
 

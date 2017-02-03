@@ -1,16 +1,19 @@
 import * as _ from 'lodash';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {IAgentState} from '../components';
-import {IRenderableState} from '../components';
-import {IHealthState} from '../components';
-import {IHealthBarState} from '../components';
-import {IPositionState} from '../components';
-import {INameState} from '../components';
+import {
+    IAgentState,
+    IRenderableState,
+    IHealthState,
+    IHealthBarState,
+    IPositionState,
+    INameState
+} from '../components';
 import {IAgentSprite} from '../../interfaces';
 import {util} from '../../util';
 import {events} from '../../events';
 import {names} from '../../names';
+import {SpriteManager} from '../../services/sprite-manager';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -140,7 +143,7 @@ export class AgentSystem extends EntitySystem {
         const spriteName = this.getSpriteName(agentState, positionState.direction);
 
         // The actual sprite
-        const sprite: IAgentSprite = PIXI.Sprite.fromFrame(spriteName);
+        const sprite: IAgentSprite = SpriteManager.Sprite.fromFrame(spriteName);
         // Set the frame to the default if they specify
         sprite.frame = agentState.defaultSpriteFrame;
         // Enabled input for hover, click, etc.

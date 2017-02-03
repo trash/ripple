@@ -1,4 +1,5 @@
-import React = require('react');
+import * as _ from 'lodash';
+import * as React from 'react';
 import {events} from '../events';
 import {testLevelsList, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevelsList';
 import {TestLevel} from './testLevel';
@@ -15,7 +16,9 @@ interface TestSelectState extends ShowHideComponentState {
 export class TestSelect extends ShowHideComponent<TestSelectState> {
 	constructor (props, context) {
 		super(props, context);
-		this.state.expandedGroup = lastLoadedLevelGroup.name;
+		this.state = _.extend(this.state, {
+			expandedGroup: lastLoadedLevelGroup.name
+		});
 	}
 
 	groupClick (group) {

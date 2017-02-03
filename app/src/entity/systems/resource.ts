@@ -10,7 +10,7 @@ import {IHealthState} from '../components';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {TilemapSprite} from '../../tilemap';
-import {spriteManager} from '../../services/sprite-manager';
+import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 
 export class ResourceSystem extends EntitySystem {
     readonly updateInterval = 10;
@@ -68,7 +68,7 @@ export class ResourceSystem extends EntitySystem {
             const spriteGroup = spriteManager.createContainer(
                     positionState.tile.column,
                     positionState.tile.row);
-            const sprite = PIXI.Sprite.fromFrame(this.getSpriteName(resourceState));
+            const sprite = SpriteManager.Sprite.fromFrame(this.getSpriteName(resourceState));
 
             spriteGroup.addChild(sprite);
 
@@ -85,7 +85,7 @@ export class ResourceSystem extends EntitySystem {
                 sprite.anchor.y = anchorY;
             }
             // Init shadow
-            const shadow = PIXI.Sprite.fromFrame('shadow');
+            const shadow = SpriteManager.Sprite.fromFrame('shadow');
 			shadow.position.y = -5;
 			spriteGroup.addChildAt(shadow, 0);
         }

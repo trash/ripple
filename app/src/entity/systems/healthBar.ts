@@ -7,6 +7,7 @@ import {IRenderableState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
+import {SpriteManager} from '../../services/sprite-manager';
 
 const healthBarAutoHideTime = 1000;
 
@@ -64,7 +65,7 @@ export class HealthBarSystem extends EntitySystem {
         const size = healthBarState.size;
         healthBarState.sprites = [];
         for (let i = 0; i < size + 1; i++) {
-			const healthBar = PIXI.Sprite.fromFrame(`health-bar-${i}-${size}`);
+			const healthBar = SpriteManager.Sprite.fromFrame(`health-bar-${i}-${size}`);
 			healthBar.position.x = healthBarState.positionX;
 			healthBar.position.y = healthBarState.positionY;
 			healthBar.visible = false;
