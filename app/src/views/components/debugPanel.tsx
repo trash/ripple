@@ -13,6 +13,7 @@ import {
     IResourceState,
     IBuildingState,
     IConstructibleState,
+    Constructible,
     IPositionState,
     IVillagerState
 } from '../../entity/components';
@@ -59,7 +60,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         };
     }
 
-    getComponentPropertyKey (componentName: string, property: string): string {
+    getComponentPropertyKey (
+        componentName: string,
+        property: string
+    ): string {
         return `${componentName}:${property}`;
     }
 
@@ -86,8 +90,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         editing: boolean
     ) {
         this.setState({
-            editingComponentProperties: this.state.editingComponentProperties.set(editingKey, !editing),
-            componentPropertiesValues: this.state.componentPropertiesValues.set(editingKey, value)
+            editingComponentProperties: this.state
+                .editingComponentProperties.set(editingKey, !editing),
+            componentPropertiesValues: this.state
+                .componentPropertiesValues.set(editingKey, value)
         });
         // Focus the newly created input after it's been created
         if (!editing) {
@@ -157,28 +163,43 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         }
     }
 
-    renderEditableDebugGroup (title: string, object: any) {
+    renderEditableDebugGroup (
+        title: string,
+        object: any,
+        blacklistedProperties: string[] = []
+    ) {
         const hidden = this.state.hiddenDebugGroups.get(title);
 
-        const properties = object
+        let properties = object
             ? Object.keys(object)
             : [];
+        properties = _.difference(properties, blacklistedProperties);
         return (
-            <div onClick={() => this.hideDebugGroup(title)}>
+            <div key={title}
+                onClick={() => this.hideDebugGroup(title)}>
                 <h5>{`${title} [${hidden ? `+${properties.length}` : '-'}]`}</h5>
                 {!hidden &&
                     <ul>
                     { properties.map(property => {
-                        const editingKey = this.getComponentPropertyKey(title, property);
-                        const editing = this.state.editingComponentProperties.get(editingKey);
+                        const editingKey = this
+                            .getComponentPropertyKey(title, property);
+                        const editing = this.state
+                            .editingComponentProperties.get(editingKey);
                         const value = object[property];
-                        const editingValue = this.state.componentPropertiesValues.get(editingKey);
+                        const editingValue = this.state
+                            .componentPropertiesValues.get(editingKey);
                         const inputType = this.valueToInputType(value);
-                        const itemOnClick = (e: React.MouseEvent<any>) => this.editableDebugItemOnClick(e, editingKey, value, editing);
-                        const saveCallback = () => this.editableDebugItemOnSave(editingKey, object, property);
+                        const itemOnClick = (e: React.MouseEvent<any>) =>
+                                this.editableDebugItemOnClick(
+                                    e, editingKey, value, editing);
+                        const saveCallback = () => this.editableDebugItemOnSave(
+                            editingKey, object, property);
                         return (
                         <li key={property}
-                            onClick={event => {event.preventDefault();event.stopPropagation();}}>
+                            onClick={event => {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }}>
                             <span onClick={itemOnClick}
                                 >{property}:</span>
                             { !editing
@@ -187,7 +208,12 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                                     <input type={inputType}
                                         value={editingValue}
                                         checked={editingValue}
-                                        onChange={e => this.editableDebugItemOnChange(e, inputType, editingKey)}/>
+                                        onChange={e =>
+                                            this.editableDebugItemOnChange(
+                                                e,
+                                                inputType,
+                                                editingKey)
+                                        }/>
                                     <button onClick={saveCallback}
                                         >Save</button>
                                 </form>}
@@ -203,7 +229,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
     renderDebugGroup (
         title: string,
         values: string[],
-        entryOnClick: (e: React.MouseEvent<HTMLLIElement>, value: string) => void = ()=>{}
+        entryOnClick: (
+            e: React.MouseEvent<HTMLLIElement>,
+            value: string
+        ) => void = ()=>{}
     ) {
         const hidden = this.state.hiddenDebugGroups.get(title);
         return (
@@ -212,12 +241,29 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 {!hidden &&
                     <ul>
                     { values.map(value =>
-                        <li onClick={e => entryOnClick(e, value)} key={value}>{value}</li>
+                        <li key={value}
+                            onClick={e => entryOnClick(e, value)}
+                        >{value}</li>
                     )}
                     </ul>
                 }
             </div>
         );
+    }
+
+    getDebugGroups (): [string, any, string[]][] {
+        return [
+            ['Agent', this.props.agent, []],
+            ['Agent Position', this.props.agentPosition, []],
+            ['Villager', this.props.villager, []],
+            ['Agent Hunger', this.props.agentHunger, []],
+            ['Agent Sleep', this.props.agentSleep, []],
+            ['Item', this.props.item, []],
+            ['Resource', this.props.resource, []],
+            ['Building Info', this.props.building, []],
+            ['Building Constructible', this.props.buildingConstructible,
+                Constructible.blacklistedDebugProperties],
+        ];
     }
 
     render () {
@@ -236,29 +282,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 [this.props.tile
                     && this.props.tile.toString()
                     || 'Tile'])}
-            {this.renderEditableDebugGroup('Agent', this.props.agent)}
-            {this.renderDebugGroup('Villager',
-                this.stringifiedList(this.props.villager))}
-            {this.renderEditableDebugGroup('Agent Position',
-                this.props.agentPosition)}
-            {this.renderDebugGroup('Agent Hunger',
-                this.stringifiedList(this.props.agentHunger))}
-            {this.renderDebugGroup('Agent Sleep',
-                this.stringifiedList(this.props.agentSleep))}
+            {this.getDebugGroups().map(([title, data, blacklistedProperties]) =>
+                this.renderEditableDebugGroup(title, data, blacklistedProperties))}
             {this.renderDebugGroup('Last Action',
                 [lastAction])}
-            {this.renderDebugGroup('Item',
-                this.stringifiedList(this.props.item))}
-            {this.renderDebugGroup('Resource',
-                this.stringifiedList(this.props.resource))}
-            {this.renderDebugGroup('Building Info',
-                this.stringifiedList(this.props.building).concat(
-                    this.props.buildingConstructible
-                        && this.props.buildingConstructible
-                            .resourceRequirements
-                            .toString()
-                        || 'Building Info'
-                ))}
             <h5>Collision Debug: <input onClick={() => this.setState({
                 collisionDebugToggle: !this.state.collisionDebugToggle
             })} type="checkbox"/></h5>

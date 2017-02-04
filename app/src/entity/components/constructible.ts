@@ -17,6 +17,12 @@ export interface IConstructibleState {
     taskCreated?: boolean;
 }
 
+const blacklistedDebugProperties = [
+    'completedSprite',
+    'progressSprite',
+    'floorSprite'
+];
+
 export interface IConstructibleComponent extends IComponent {
     state: IConstructibleState;
 }
@@ -24,6 +30,7 @@ export interface IConstructibleComponent extends IComponent {
 export let Constructible: IConstructibleComponent = {
     name: 'constructible',
     enum: Component.Constructible,
+    blacklistedDebugProperties: blacklistedDebugProperties,
     state: {
         requiredResources: {},
         completedSpriteName: null,

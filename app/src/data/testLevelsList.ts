@@ -14,6 +14,13 @@ export interface ITestLevelGroup {
     list: ITestLevel[];
 }
 
+const defaultBuildingPosition = {
+	tile: {
+		row: 5,
+		column: 5
+	}
+};
+
 const allItemsMap = {};
 itemsList.forEach(itemData => {
 	allItemsMap[itemData.item.name] = util.randomInRange(5, 12)
@@ -28,12 +35,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				buildings: [{
 					buildingName: 'hut',
 					data: {
-						position: {
-							tile: {
-								row: 5,
-								column: 5
-							}
-						}
+						position: defaultBuildingPosition
 					}
 				}],
 				agents: [{
@@ -50,7 +52,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Completed Building Test',
 				buildings: [{
-					buildingName: 'hut'
+					buildingName: 'hut',
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
 				}]
 			}
 		]

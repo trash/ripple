@@ -41,6 +41,7 @@ export class EntitySystem extends EventEmitter2 {
 
 export interface IComponent {
     enum: Component;
+    blacklistedDebugProperties?: string[];
     name: string;
     state: {[key: string]: any;}
 }
