@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collisionDebugView';
 import {Map} from 'immutable';
+import {util} from '../../util';
 
 import {
     IHungerState,
@@ -67,15 +68,6 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         return `${componentName}:${property}`;
     }
 
-    stringifiedList (object: PlainObject): string[] {
-        if (!object) {
-            return [];
-        }
-        return Object.keys(object).map(property =>
-            `${property}: ${JSON.stringify(object[property])}`
-        );
-    }
-
     hideDebugGroup(title: string) {
         const hidden = this.state.hiddenDebugGroups.get(title);
         this.setState({
@@ -100,17 +92,6 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             ((parentElement: Element) => {
                 _.defer(() => parentElement.querySelector('input').focus());
             })((event.target as Element).parentElement);
-        }
-    }
-
-    private coerceToOriginalType (originalValue: any, newValue: any): any {
-        // Coerce new values to their old types
-        switch (typeof originalValue) {
-            case 'number':
-                return parseFloat(newValue);
-            case 'string':
-            default:
-                return newValue;
         }
     }
 
@@ -142,7 +123,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         property: string
     ) {
         let newValue = this.state.componentPropertiesValues.get(editingKey);
-        newValue = this.coerceToOriginalType(object[property], newValue);
+        newValue = util.coerceToOriginalType(object[property], newValue);
         // Update the actual component state
         object[property] = newValue;
         // Close input on save
@@ -163,6 +144,51 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         }
     }
 
+    editableDebugGroupListItem(
+        title: string,
+        object: any,
+        property: string
+    ): JSX.JSXElement {
+        const editingKey = this
+            .getComponentPropertyKey(title, property);
+        const editing = this.state
+            .editingComponentProperties.get(editingKey);
+        const value = object[property];
+        const editingValue = this.state
+            .componentPropertiesValues.get(editingKey);
+        const inputType = this.valueToInputType(value);
+        const itemOnClick = (e: React.MouseEvent<any>) =>
+                this.editableDebugItemOnClick(
+                    e, editingKey, value, editing);
+        const saveCallback = () => this.editableDebugItemOnSave(
+            editingKey, object, property);
+        return (
+        <li key={property}
+            onClick={event => {
+                event.preventDefault();
+                event.stopPropagation();
+            }}>
+            <span onClick={itemOnClick}
+                >{property}:</span>
+            { !editing
+                ? <span onClick={itemOnClick}>{JSON.stringify(value)}</span>
+                : <form onSubmit={saveCallback}>
+                    <input type={inputType}
+                        value={editingValue}
+                        checked={editingValue}
+                        onChange={e =>
+                            this.editableDebugItemOnChange(
+                                e,
+                                inputType,
+                                editingKey)
+                        }/>
+                    <button onClick={saveCallback}
+                        >Save</button>
+                </form>}
+        </li>
+        );
+    }
+
     renderEditableDebugGroup (
         title: string,
         object: any,
@@ -181,43 +207,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 {!hidden &&
                     <ul>
                     { properties.map(property => {
-                        const editingKey = this
-                            .getComponentPropertyKey(title, property);
-                        const editing = this.state
-                            .editingComponentProperties.get(editingKey);
-                        const value = object[property];
-                        const editingValue = this.state
-                            .componentPropertiesValues.get(editingKey);
-                        const inputType = this.valueToInputType(value);
-                        const itemOnClick = (e: React.MouseEvent<any>) =>
-                                this.editableDebugItemOnClick(
-                                    e, editingKey, value, editing);
-                        const saveCallback = () => this.editableDebugItemOnSave(
-                            editingKey, object, property);
-                        return (
-                        <li key={property}
-                            onClick={event => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }}>
-                            <span onClick={itemOnClick}
-                                >{property}:</span>
-                            { !editing
-                                ? <span onClick={itemOnClick}>{JSON.stringify(value)}</span>
-                                : <form onSubmit={saveCallback}>
-                                    <input type={inputType}
-                                        value={editingValue}
-                                        checked={editingValue}
-                                        onChange={e =>
-                                            this.editableDebugItemOnChange(
-                                                e,
-                                                inputType,
-                                                editingKey)
-                                        }/>
-                                    <button onClick={saveCallback}
-                                        >Save</button>
-                                </form>}
-                        </li>
+                        return this.editableDebugGroupListItem(
+                            title,
+                            object,
+                            property
                         );
                     })}
                     </ul>

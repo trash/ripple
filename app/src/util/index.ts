@@ -463,6 +463,29 @@ export class Util {
 	isNumberLike(input: any): boolean {
 		return _.isNumber(input) || !isNaN(parseFloat(input));
 	}
+
+	coerceToOriginalType(
+		originalValue: any,
+		newValue: any
+	): any {
+		// Coerce new values to their old types
+        switch (typeof originalValue) {
+            case 'number':
+                return parseFloat(newValue);
+            case 'string':
+            default:
+                return newValue;
+        }
+	}
+
+	objectToStringifiedList(object: any): string[] {
+		if (!object) {
+            return [];
+        }
+        return Object.keys(object).map(property =>
+            `${property}: ${JSON.stringify(object[property])}`
+        );
+	}
 }
 
 export let util = new Util();
