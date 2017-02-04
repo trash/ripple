@@ -90,9 +90,11 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             componentPropertiesValues: this.state.componentPropertiesValues.set(editingKey, value)
         });
         // Focus the newly created input after it's been created
-        ((parentElement: Element) => {
-            _.defer(() => parentElement.querySelector('input').focus());
-        })((event.target as Element).parentElement);
+        if (!editing) {
+            ((parentElement: Element) => {
+                _.defer(() => parentElement.querySelector('input').focus());
+            })((event.target as Element).parentElement);
+        }
     }
 
     private coerceToOriginalType (originalValue: any, newValue: any): any {
@@ -108,11 +110,23 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
     editableDebugItemOnChange (
         event: React.ChangeEvent<HTMLInputElement>,
+        inputType: string,
         editingKey: string
     ) {
-        const newValue: any = event.target.value;
+        let newValue: any;
+        switch (inputType) {
+            case 'checkbox':
+                newValue = event.target.checked;
+                break;
+            case 'text':
+            case 'number':
+            default:
+                newValue = event.target.value;
+                break;
+        }
+        const newState = this.state.componentPropertiesValues.set(editingKey, newValue);
         this.setState({
-            componentPropertiesValues: this.state.componentPropertiesValues.set(editingKey, newValue)
+            componentPropertiesValues: newState
         });
     }
 
@@ -123,10 +137,24 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
     ) {
         let newValue = this.state.componentPropertiesValues.get(editingKey);
         newValue = this.coerceToOriginalType(object[property], newValue);
+        // Update the actual component state
         object[property] = newValue;
+        // Close input on save
         this.setState({
             editingComponentProperties: this.state.editingComponentProperties.set(editingKey, false)
         });
+    }
+
+    private valueToInputType (value: any): string {
+        switch (typeof value) {
+            case 'number':
+                return 'number';
+            case 'boolean':
+                return 'checkbox';
+            case 'string':
+            default:
+                return 'text';
+        }
     }
 
     renderEditableDebugGroup (title: string, object: any) {
@@ -144,6 +172,8 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                         const editingKey = this.getComponentPropertyKey(title, property);
                         const editing = this.state.editingComponentProperties.get(editingKey);
                         const value = object[property];
+                        const editingValue = this.state.componentPropertiesValues.get(editingKey);
+                        const inputType = this.valueToInputType(value);
                         const itemOnClick = (e: React.MouseEvent<any>) => this.editableDebugItemOnClick(e, editingKey, value, editing);
                         const saveCallback = () => this.editableDebugItemOnSave(editingKey, object, property);
                         return (
@@ -154,9 +184,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                             { !editing
                                 ? <span onClick={itemOnClick}>{JSON.stringify(value)}</span>
                                 : <form onSubmit={saveCallback}>
-                                    <input type="text"
-                                        value={this.state.componentPropertiesValues.get(editingKey)}
-                                        onChange={e => this.editableDebugItemOnChange(e, editingKey, value)}/>
+                                    <input type={inputType}
+                                        value={editingValue}
+                                        checked={editingValue}
+                                        onChange={e => this.editableDebugItemOnChange(e, inputType, editingKey)}/>
                                     <button onClick={saveCallback}
                                         >Save</button>
                                 </form>}
