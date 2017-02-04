@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react'
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
@@ -42,6 +43,8 @@ interface DebugPanelProps {
 interface DebugPanelState {
     collisionDebugToggle?: boolean;
     hiddenDebugGroups?: Map<string, boolean>;
+    editingComponentProperties?: Map<string, boolean>;
+    componentPropertiesValues?: Map<string, any>;
 }
 
 export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState> {
@@ -50,8 +53,14 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         super(props);
         this.state = {
             collisionDebugToggle: false,
-            hiddenDebugGroups: Map<string, boolean>()
+            hiddenDebugGroups: Map<string, boolean>(),
+            editingComponentProperties: Map<string, boolean>(),
+            componentPropertiesValues: Map<string, any>()
         };
+    }
+
+    getComponentPropertyKey (componentName: string, property: string): string {
+        return `${componentName}:${property}`;
     }
 
     stringifiedList (object: PlainObject): string[] {
@@ -70,7 +79,101 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         });
     }
 
-    renderDebugGroup (title: string, values: string[]) {
+    editableDebugItemOnClick (
+        event: React.MouseEvent<any>,
+        editingKey: string,
+        value: string,
+        editing: boolean
+    ) {
+        this.setState({
+            editingComponentProperties: this.state.editingComponentProperties.set(editingKey, !editing),
+            componentPropertiesValues: this.state.componentPropertiesValues.set(editingKey, value)
+        });
+        // Focus the newly created input after it's been created
+        ((parentElement: Element) => {
+            _.defer(() => parentElement.querySelector('input').focus());
+        })((event.target as Element).parentElement);
+    }
+
+    editableDebugItemOnChange (
+        event: React.ChangeEvent<HTMLInputElement>,
+        editingKey: string,
+        originalValue: any
+    ) {
+        let newValue: any = event.target.value;
+        if (newValue) {
+            // Coerce new values to their old types
+            switch (typeof originalValue) {
+                case 'number':
+                    newValue = parseFloat(newValue);
+                    break;
+                case 'string':
+                default:
+                    break;
+            }
+        }
+        this.setState({
+            componentPropertiesValues: this.state.componentPropertiesValues.set(editingKey, newValue)
+        });
+    }
+
+    editableDebugItemOnSave (
+        editingKey: string,
+        object: any,
+        property: string
+    ) {
+        const newValue = this.state.componentPropertiesValues.get(editingKey);
+        object[property] = newValue;
+        this.setState({
+            editingComponentProperties: this.state.editingComponentProperties.set(editingKey, false)
+        });
+    }
+
+    renderEditableDebugGroup (title: string, object: any) {
+        const hidden = this.state.hiddenDebugGroups.get(title);
+
+        const properties = object
+            ? Object.keys(object)
+            : [];
+        return (
+            <div onClick={() => this.hideDebugGroup(title)}>
+                <h5>{`${title} [${hidden ? `+${properties.length}` : '-'}]`}</h5>
+                {!hidden &&
+                    <ul>
+                    { properties.map(property => {
+                        const editingKey = this.getComponentPropertyKey(title, property);
+                        const editing = this.state.editingComponentProperties.get(editingKey);
+                        const value = object[property];
+                        const itemOnClick = (e: React.MouseEvent<any>) => this.editableDebugItemOnClick(e, editingKey, value, editing);
+                        const saveCallback = () => this.editableDebugItemOnSave(editingKey, object, property);
+                        return (
+                        <li key={property}
+                            onClick={event => {event.preventDefault();event.stopPropagation();}}>
+                            <span onClick={itemOnClick}
+                                >{property}:</span>
+                            { !editing
+                                ? <span onClick={itemOnClick}>{JSON.stringify(value)}</span>
+                                : <form onSubmit={saveCallback}>
+                                    <input type="text"
+                                        value={this.state.componentPropertiesValues.get(editingKey)}
+                                        onChange={e => this.editableDebugItemOnChange(e, editingKey, value)}/>
+                                    <button onClick={saveCallback}
+                                        >Save</button>
+                                </form>}
+                        </li>
+                        );
+                    })}
+                    </ul>
+                }
+            </div>
+        );
+    }
+
+    renderDebugGroup (
+        title: string,
+        values: string[],
+        entryOnClick: (e: React.MouseEvent<HTMLLIElement>, value: string) => void = ()=>{}
+    ) {
         const hidden = this.state.hiddenDebugGroups.get(title);
         return (
             <div onClick={() => this.hideDebugGroup(title)}>
@@ -78,7 +181,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 {!hidden &&
                     <ul>
                     { values.map(value =>
-                        <li key={value}>{value}</li>
+                        <li onClick={e => entryOnClick(e, value)} key={value}>{value}</li>
                     )}
                     </ul>
                 }
@@ -102,8 +205,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 [this.props.tile
                     && this.props.tile.toString()
                     || 'Tile'])}
-            {this.renderDebugGroup('Agent',
-                this.stringifiedList(this.props.agent))}
+            {this.renderEditableDebugGroup('Agent', this.props.agent)}
             {this.renderDebugGroup('Villager',
                 this.stringifiedList(this.props.villager))}
             {this.renderDebugGroup('Agent Position',

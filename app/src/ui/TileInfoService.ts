@@ -127,8 +127,10 @@ export class TileInfoService {
             console.info(executionChain);
             console.info(backupExecutionChain);
 
-            // store.dispatch(updateHoveredAgentLastExecutionChain(executionChain));
-            store.dispatch(updateHoveredAgentLastExecutionChain(backupExecutionChain.success.reverse()));
+            if (backupExecutionChain) {
+                // store.dispatch(updateHoveredAgentLastExecutionChain(executionChain));
+                store.dispatch(updateHoveredAgentLastExecutionChain(backupExecutionChain.success.reverse()));
+            }
         }
 
         // Get the name of any resource occupying the tile

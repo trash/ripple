@@ -119,7 +119,7 @@ export class AgentSystem extends EntitySystem {
         if (agentState.gender) {
             agentString += `-${agentState.gender}`;
         }
-        if (_.isNumber(agentState.spriteIndex)) {
+        if (util.isNumberLike(agentState.spriteIndex)) {
             agentString += `-${agentState.spriteIndex}`;
         }
         return agentString;

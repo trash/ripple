@@ -459,6 +459,10 @@ export class Util {
 	): boolean {
 		return coord1.x === coord2.x && coord1.y === coord2.y;
 	}
+
+	isNumberLike(input: any): boolean {
+		return _.isNumber(input) || !isNaN(parseFloat(input));
+	}
 }
 
 export let util = new Util();
