@@ -60,13 +60,14 @@ export class GameMap {
 	_tileHoverListenerInterval: number;
 	_hoverCoords: ICoordinates;
 	_hoverTile: MapTile;
+	onMouseMoveListener: (e: MouseEvent) => void;
 
 	constructor (options: IMapOptions) {
-		let gameManager = options.gameManager,
-			dimension = options.dimension,
-			seed = options.seed,
-			allLand = options.allLand,
-			saveData = options.saveData;
+		const gameManager = options.gameManager;
+		let dimension = options.dimension;
+		const seed = options.seed;
+		const allLand = options.allLand;
+		const saveData = options.saveData;
 
 		this.seed = seed;
 
@@ -116,8 +117,8 @@ export class GameMap {
 
 		gameManager.loop.on('update', () => this._onLoopUpdate());
 
-		this._onMouseMoveListener = (e: MouseEvent) => this._onMouseMoveListener(e);
-		window.addEventListener('mousemove', this._onMouseMoveListener);
+		this.onMouseMoveListener = (e: MouseEvent) => this._onMouseMoveListener(e);
+		window.addEventListener('mousemove', this.onMouseMoveListener);
 	}
 
 	_loadGeneratedMapData (mapData: IGeneratedMapData) {
@@ -128,8 +129,8 @@ export class GameMap {
 		// console.log(this.baseTilemap, this.upperTilemap);
 
 		this.tiles = [];
-		for (let i=0; i < this.dimension; i++) {
-			for (let j=0; j < this.dimension; j++) {
+		for (let i = 0; i < this.dimension; i++) {
+			for (let j = 0; j < this.dimension; j++) {
 				const index = i * this.dimension + j,
 					tile = new MapTile(i, j, this.dimension,
 						this.upperTilemap[index],
@@ -159,7 +160,7 @@ export class GameMap {
 	}
 
 	destroy () {
-		window.removeEventListener('mousemove', this._onMouseMoveListener);
+		window.removeEventListener('mousemove', this.onMouseMoveListener);
 	}
 
 	/**
@@ -266,7 +267,7 @@ export class GameMap {
 	 * @return {Object} e.g. {x: 23, y:24}
 	 */
 	positionToTile (x: number, y: number): { x: number, y: number } {
-		var camera = this.gameManager.camera;
+		const camera = this.gameManager.camera;
 
 		// Take into account camera offset
 		x += camera.view.x;
@@ -291,7 +292,7 @@ export class GameMap {
 	 * @returns {Function} Removes the event listener from the canvas when called.
 	 */
 	addTileClickListener (callback: (tile: MapTile) => void): () => void {
-		var canvasClick = event => {
+		const canvasClick = event => {
 			const clickCoords = this.positionToTile(event.x, event.y),
 				clickedTile = this.getTile(clickCoords.y, clickCoords.x);
 			if (!clickedTile) {
@@ -303,9 +304,7 @@ export class GameMap {
 
 		window.addEventListener('click', canvasClick);
 
-		return function () {
-			window.removeEventListener('click', canvasClick);
-		};
+		return () => window.removeEventListener('click', canvasClick);
 	}
 
 	/**
@@ -325,7 +324,7 @@ export class GameMap {
 	}
 
 	removeTileHoverListener (callback: (tile: IRowColumnCoordinates) => void) {
-		let index = this._tileHoverListenerCallbacks.indexOf(callback);
+		const index = this._tileHoverListenerCallbacks.indexOf(callback);
 		this._tileHoverListenerCallbacks.splice(index, 1);
 	}
 
@@ -338,8 +337,8 @@ export class GameMap {
 		}
 		const camera = this.gameManager.camera;
 
-		let left = 0,
-			top = 0;
+		let left = 0;
+		let top = 0;
 
 		// Add scaled tile position
 		left += tile.column * constants.TILE_HEIGHT;
@@ -365,7 +364,7 @@ export class GameMap {
 		if (!tile) {
 			return;
 		}
-		let {left, top} = this.getElementPositionFromTile(tile);
+		const {left, top} = this.getElementPositionFromTile(tile);
 		element.style.left = left + 'px';
 		element.style.top = top + 'px';
 	}
@@ -386,13 +385,12 @@ export class GameMap {
 	}
 
 	serialize (): SerializedMapData {
-		let data = {
+		return {
 			dimension: this.dimension,
 			baseTilemap: this.baseTilemap,
 			upperTilemap: this.upperTilemap,
 			resourceList: this.resourceList
 		};
-		return data;
 	}
 
 	/**
@@ -455,7 +453,6 @@ export class GameMap {
 	}
 
 	_getGrid (ignoreAccessible: boolean = false): number[][] {
-		console.log('ay');
 		const grid = [];
 		for (let i=0; i < this.dimension; i++) {
 			grid.push([]);
