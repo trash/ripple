@@ -179,7 +179,7 @@ export class PlaceBuildingService {
 		this.follow();
 		// attach our click event
 		this.removeCanvasListener = globalRefs.map.addTileClickListener(
-            this.click.bind(this));
+            (tile: IRowColumnCoordinates) => this.click(tile));
 	}
 
 	deactivate () {

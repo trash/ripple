@@ -69,17 +69,19 @@ interface IKeyBindingMap {
     [index: string]: Array<(event: Event) => void>;
 }
 
+type KeyListener = (e?: KeyboardEvent) => void;
+
 class Keybindings {
     keys: IKeyBindingMap;
     keyMap: IKeyToKeyCodeMap;
-    upListener: () => void;
-    downListener: () => void;
+    upListener: KeyListener;
+    downListener: KeyListener;
 
     constructor() {
         this.keys = {};
         this.keyMap = keyMap;
-        this.upListener = this._upListener.bind(this);
-        this.downListener = this._downListener.bind(this);
+        this.upListener = (e: KeyboardEvent) => this._upListener(e);
+        this.downListener = (e: KeyboardEvent) => this._downListener(e);
     }
     /**
      * Binds a callback to a keypress
@@ -87,7 +89,7 @@ class Keybindings {
      * @param {String|Number} key Number, letter, or word associated with a key
      * @param {Function} callback Callback to call each time the key is pressed
      */
-    addKeyListener (key: string, callback: () => void) {
+    addKeyListener (key: string, callback: KeyListener) {
         if (key.length > 1 && key.indexOf('+') !== -1) {
             combos[key] = callback;
             return;
@@ -115,7 +117,7 @@ class Keybindings {
         window.removeEventListener('keyup', this.upListener);
     }
 
-    _downListener (event) {
+    _downListener (event: KeyboardEvent) {
         pressedDown[invertedKeyMap[event.keyCode]] = true;
         var matches = comboMatch();
         // console.log(matches);
@@ -129,9 +131,9 @@ class Keybindings {
      *
      * @param {Object} event The keypress event
      */
-    _upListener (event) {
+    _upListener (event: KeyboardEvent) {
         // Make sure inputs and stuff when focused and being typed into don't call this
-        if (event.target.nodeName in ignoredElements) {
+        if ((event.target as Element).nodeName in ignoredElements) {
             return;
         }
         delete pressedDown[invertedKeyMap[event.keyCode]];

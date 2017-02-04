@@ -29,7 +29,7 @@ export class MusicPlayer {
 		this.song = new Audio(this.songs[this.songIndex]);
 
 		this.song.volume = this.volume;
-		this.song.onended = this.playNext.bind(this);
+		this.song.onended = () => this.playNext();
 
 		this.song.play();
 

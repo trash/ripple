@@ -54,8 +54,8 @@ export class GameManager {
             this.state.start('Game');
             this.saveLastOpenedLevel(level);
         });
-        events.on('game-start', this.start.bind(this));
-        events.on('game-destroy', this.destroy.bind(this));
+        events.on('game-start', () => this.start());
+        events.on('game-destroy', () => this.destroy());
 
         this.state = new StateManager(rootElement);
         this.bootstrapGameStates();
@@ -81,7 +81,8 @@ export class GameManager {
 		// this.seed = util.randomFromList(seeds) || Math.random();
 
         this.loop = new GameLoop();
-		this.loop.on('update', this.update.bind(this));
+		this.loop.on('update', (turn: number, stopped: boolean) =>
+            this.update(turn, stopped));
 
         new GameSpeed(this.loop);
 

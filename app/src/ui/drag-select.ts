@@ -24,7 +24,9 @@ canvasService.on('canvas-set', () => {
 });
 
 // Gets the position relative to the canvas
-let relativePosition: (x: number, y: number) => ICoordinates;
+const relativePosition = (x: number, y: number): ICoordinates => {
+	return globalRefs.map.positionToTile(x, y);
+};
 
 /**
  * Gets the tiles between the start and end position and the dimensions of the rectangle.
@@ -91,10 +93,6 @@ export function dragSelect (
 ): () => void {
 	let dragEndPosition: ICoordinates;
 
-	if (!relativePosition) {
-		relativePosition = globalRefs.map.positionToTile.bind(globalRefs.map);
-	}
-
 	// Allow optional class to be given to select box
 	if (typeof draw === 'string') {
 		selectBoxElement.element.classList.add(draw);
@@ -104,7 +102,7 @@ export function dragSelect (
 		// Stop it from highlighting the whole damn screen
 		event.preventDefault();
 
-		dragEndPosition = relativePosition(event.x, event.y);
+		dragEndPosition = (event.x, event.y);
 
 		var tilesDimensions = getTilesAndDimensions(dragStartPosition, dragEndPosition);
 

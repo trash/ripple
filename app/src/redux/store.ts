@@ -14,7 +14,7 @@ import {
     IPositionState
 } from '../entity/components';
 
-import {MapTile} from '../map/tile';
+import {IRowColumnCoordinates} from '../interfaces';
 import {ChildStatus} from '../b3/Core';
 
 // Actions
@@ -34,7 +34,7 @@ import {
 
 export interface StoreState {
     items: Immutable.Map<string, number>;
-    tile: MapTile;
+    tile: IRowColumnCoordinates;
     hoveredAgent: IAgentState;
     hoveredAgentHunger: IHungerState;
     hoveredAgentSleep: ISleepState;

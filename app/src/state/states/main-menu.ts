@@ -11,11 +11,11 @@ export class MainMenuState implements IState {
 
 	create () {
 		this.component = ReactDOM.render(MainMenuComponentFactory({
-			startGame: this.startGame.bind(this),
-			loadGame: this.loadGame.bind(this),
-			generateMap: this.generateMap.bind(this),
-			tutorialSelect: this.tutorialSelect.bind(this),
-			testSelect: this.testSelect.bind(this),
+			startGame: () => this.startGame(),
+			loadGame: () => this.loadGame(),
+			generateMap: () => this.generateMap(),
+			tutorialSelect: () => this.tutorialSelect(),
+			testSelect: () => this.testSelect(),
 		}), this.manager.element);
 
 		this.component.show();

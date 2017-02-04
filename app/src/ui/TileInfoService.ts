@@ -1,6 +1,5 @@
 import {b3} from '../b3';
 import {GameMap} from '../map';
-import {MapTile} from '../map/tile';
 import {events} from '../events';
 import {store} from '../redux/store';
 import {ChildStatus} from '../b3/Core';
@@ -33,6 +32,9 @@ import {
     IBehaviorTreeState,
 } from '../entity/components';
 
+import {IRowColumnCoordinates} from '../interfaces';
+import {util} from '../util';
+
 const getNameFromEntity = (
     entityManager: EntityManager,
     entityId: number
@@ -43,16 +45,16 @@ const getNameFromEntity = (
 
 const getNameOfEntityOccupyingTile = (
     entityManager: EntityManager,
-    tile: MapTile,
+    tile: IRowColumnCoordinates,
     componentName: Component
 ): INameState => {
     return positionUtil.getEntitiesWithComponentInTile(tile, componentName)
-            .map(getNameFromEntity.bind(this, entityManager))[0] as INameState;
+            .map(entity => getNameFromEntity(entityManager, entity))[0] as INameState;
 };
 
 export class TileInfoService {
     hoverListenerOff: Function;
-    previousTile: MapTile;
+    previousTile: IRowColumnCoordinates;
     entityManager: EntityManager;
 
     constructor (entityManager: EntityManager) {
@@ -63,12 +65,16 @@ export class TileInfoService {
     }
 
     updateMap (map: GameMap) {
-        this.hoverListenerOff = map.addTileHoverListener(this.onTileHover.bind(this));
-		// this.clickListenerOff = map.addTileClickListener(this.onTileClick.bind(this));
+        this.hoverListenerOff = map.addTileHoverListener(tile => this.onTileHover(tile));
+		// this.clickListenerOff = map.addTileClickListener(tile => this.onTileClick(tile));
     }
 
-    onTileHover (tile: MapTile) {
-		if (!tile || (this.previousTile && tile.isEqual(this.previousTile))) {
+    onTileHover (tile: IRowColumnCoordinates) {
+		if (!tile
+            || (this.previousTile
+                && util.rowColumnCoordinatesAreEqual(tile, this.previousTile)
+            )
+        ) {
 			return;
 		}
         this.previousTile = tile;

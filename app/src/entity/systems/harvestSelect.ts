@@ -44,12 +44,11 @@ export class HarvestSelectSystem extends EntitySystem {
 		this.tiles = null;
 		this.highlighted = [];
 
-		events.on('toggle-harvest-type', this.toggleHarvestType.bind(this));
+		events.on('toggle-harvest-type', (harvestType: HarvestType) =>
+			this.toggleHarvestType(harvestType));
 
 		// Bind this action to the h key
-		keybindings.addKeyListener('h', () => {
-			this.toggle();
-		});
+		keybindings.addKeyListener('h', () => this.toggle());
     }
 
     update (entityIds: number[]) {

@@ -114,9 +114,9 @@ export class GameMap {
 
 		this._tileHoverListenerCallbacks = [];
 
-		gameManager.loop.on('update', this._onLoopUpdate.bind(this));
+		gameManager.loop.on('update', () => this._onLoopUpdate());
 
-		this._onMouseMoveListener = this._onMouseMoveListener.bind(this);
+		this._onMouseMoveListener = (e: MouseEvent) => this._onMouseMoveListener(e);
 		window.addEventListener('mousemove', this._onMouseMoveListener);
 	}
 
@@ -153,7 +153,7 @@ export class GameMap {
 		});
 	}
 
-	_onMouseMoveListener (event) {
+	_onMouseMoveListener (event: MouseEvent) {
 		this._hoverCoords = this.positionToTile(event.x, event.y);
 		this._hoverTile = this.getTile(this._hoverCoords.y, this._hoverCoords.x);
 	}

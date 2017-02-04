@@ -44,7 +44,7 @@ export class GameCamera {
 			delete keysPressed[event.keyCode];
 		});
 
-		events.on('minimap-mount', this.emitUpdate.bind(this));
+		events.on('minimap-mount', () => this.emitUpdate());
 	}
 
 	get x () {
@@ -133,7 +133,7 @@ export class GameCamera {
 					camera.tilemap.position.x = this.x;
 					camera.tilemap.position.y = this.y;
 				}).start();
-			setTimeout(this.emitUpdate.bind(this), animateTime);
+			setTimeout(() => this.emitUpdate(), animateTime);
 			return;
 		}
 		this.tilemap.position.x = -x + (1/2 * document.body.clientWidth);

@@ -26,7 +26,7 @@ export class GameLoop extends EventEmitter2 {
 		// Default to 1/20 of a second
 		this.step = 1 / constants.TICKS_PER_SECOND;
 
-		keybindings.addKeyListener('space', this.pause.bind(this));
+		keybindings.addKeyListener('space', (e: KeyboardEvent) => this.pause(e));
 	}
 
 	/**
@@ -53,7 +53,7 @@ export class GameLoop extends EventEmitter2 {
 		}
 
 		this.last = this.now;
-		requestAnimationFrame(this.loop.bind(this));
+		requestAnimationFrame(() => this.loop());
 	};
 
 	/**
