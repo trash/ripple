@@ -9,7 +9,7 @@ import {util} from '../../util';
 import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
 import {HoverElement} from '../../ui/hover-element';
-import {dragSelect} from '../../ui/drag-select';
+import {dragSelect} from '../../ui/dragSelect';
 import {cursorManager} from '../../ui/cursorManager';
 import {Cursor} from '../../ui/Cursor';
 import {EventEmitter2} from 'eventemitter2';
@@ -64,7 +64,7 @@ export class HarvestSelectSystem extends EntitySystem {
 
         selectedEntityIds.forEach(id => {
             const harvestableState = this.manager.getComponentDataForEntity(
-                    Component.Harvestable, id) as IHarvestableState;
+				Component.Harvestable, id) as IHarvestableState;
 
 			harvestableState.highlighted = true;
 			this.highlighted.push(harvestableState);
@@ -78,7 +78,7 @@ export class HarvestSelectSystem extends EntitySystem {
 		const entityIds = this.getSelectedEntities();
 		entityIds.forEach(id => {
 			const harvestableState = this.manager.getComponentDataForEntity(
-                    Component.Harvestable, id) as IHarvestableState;
+                Component.Harvestable, id) as IHarvestableState;
 			console.info(`queue up HarvestTask for entity with id: ${id}`);
 			harvestableState.queued = true;
 
@@ -104,7 +104,7 @@ export class HarvestSelectSystem extends EntitySystem {
 	}
 
     toggleHarvestType (harvestType: HarvestType) {
-		let indexOf = this.harvestTypes.indexOf(harvestType);
+		const indexOf = this.harvestTypes.indexOf(harvestType);
 		if (indexOf !== -1) {
 			this.harvestTypes.splice(indexOf, 1);
 		} else {

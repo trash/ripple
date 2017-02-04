@@ -13,8 +13,8 @@ import {MapGenTile} from './map-gen-tile';
 import {MapTile} from './tile';
 import {events} from '../events';
 
-var zoneNumber = 10,
-	zoneNumberCount;
+let zoneNumber = 10;
+let zoneNumberCount;
 
 export interface IMapOptions {
 	gameManager: GameManager;

@@ -15,8 +15,8 @@ events.on('map-update', (map: GameMap) => {
 	globalRefs.map = map;
 });
 
-let canvas,
-	canvasOffset;
+let canvas;
+let canvasOffset;
 
 canvasService.on('canvas-set', () => {
 	canvasOffset = canvasService.getCanvasOffset();
@@ -43,11 +43,11 @@ const getTilesAndDimensions = (startPosition: ICoordinates, endPosition: ICoordi
 	tiles: IRowColumnCoordinates[],
 	dimensions: IDimensions
 } => {
-	var dimensions: IDimensions = {
-			width: Math.abs(endPosition.x - startPosition.x),
-			height: Math.abs(endPosition.y - startPosition.y),
-		},
-		base = _.clone(startPosition);
+	const dimensions: IDimensions = {
+		width: Math.abs(endPosition.x - startPosition.x),
+		height: Math.abs(endPosition.y - startPosition.y),
+	};
+	const base = _.clone(startPosition);
 
 	// Flip the x
 	if (endPosition.x < startPosition.x) {
@@ -66,17 +66,17 @@ const getTilesAndDimensions = (startPosition: ICoordinates, endPosition: ICoordi
 	};
 };
 
-let selectBoxElement = new HoverElement(),
-	dimensionsElement = new HoverDimensionsElement();
+const selectBoxElement = new HoverElement();
+const dimensionsElement = new HoverDimensionsElement();
 
-let drawSelectBox = function (dimensions: IDimensions) {
+const drawSelectBox = (dimensions: IDimensions) => {
 	globalRefs.map.setElementToTilePosition(selectBoxElement.element, globalRefs.map.getTile(dimensions.base.y, dimensions.base.x));
 
 	// Update the text for the dimensions element
 	dimensionsElement.setText(dimensions.width + 'x' + dimensions.height);
 	globalRefs.map.setElementToTilePosition(dimensionsElement.element, globalRefs.map.getTile(dimensions.base.y, dimensions.base.x));
 
-	var tileSize = globalRefs.map.scaledTileSize();
+	const tileSize = globalRefs.map.scaledTileSize();
 
 	// Expand its size
 	selectBoxElement.element.style.width = dimensions.width * tileSize + 'px';
@@ -88,7 +88,7 @@ let drawSelectBox = function (dimensions: IDimensions) {
 
 export function dragSelect (
 	updateCallback: (tiles: IRowColumnCoordinates[], element: HTMLElement) => void,
-	completeCallback: (tiles: IRowColumnCoordinates[], dimensions: IDimensions) => void,
+	compconsteCallback: (tiles: IRowColumnCoordinates[], dimensions: IDimensions) => void,
 	draw: boolean | string
 ): () => void {
 	let dragEndPosition: ICoordinates;
@@ -98,13 +98,13 @@ export function dragSelect (
 		selectBoxElement.element.classList.add(draw);
 	}
 
-	var updateSelectBox = function (event) {
+	const updateSelectBox = (event: MouseEvent) => {
 		// Stop it from highlighting the whole damn screen
 		event.preventDefault();
 
-		dragEndPosition = (event.x, event.y);
+		dragEndPosition = relativePosition(event.x, event.y);
 
-		var tilesDimensions = getTilesAndDimensions(dragStartPosition, dragEndPosition);
+		const tilesDimensions = getTilesAndDimensions(dragStartPosition, dragEndPosition);
 
 		if (draw) {
 			drawSelectBox(tilesDimensions.dimensions);
@@ -114,15 +114,15 @@ export function dragSelect (
 		updateCallback(tilesDimensions.tiles, selectBoxElement.element);
 	};
 
-	var dragEnd = function () {
+	const dragEnd = function () {
 		window.removeEventListener('mousemove', updateSelectBox);
 		window.removeEventListener('mouseup', dragEnd);
 
 		if (dragEndPosition) {
-			var tilesAndDimensions = getTilesAndDimensions(dragStartPosition, dragEndPosition);
+			const tilesAndDimensions = getTilesAndDimensions(dragStartPosition, dragEndPosition);
 
-			// Call the complete function with the final start/end positions
-			completeCallback(tilesAndDimensions.tiles, tilesAndDimensions.dimensions);
+			// Call the compconste function with the final start/end positions
+			compconsteCallback(tilesAndDimensions.tiles, tilesAndDimensions.dimensions);
 		}
 
 		// The drag start listener again so they can keep calling this until cancel is called
@@ -138,12 +138,12 @@ export function dragSelect (
 		}
 	};
 
-	var dragStartPosition = {
+	let dragStartPosition = {
 		x: null,
 		y: null
 	};
 	// Drag start event
-	var dragStart = function (event) {
+	const dragStart = (event: MouseEvent) => {
 		// Convert relative to canvas
 		dragStartPosition = relativePosition(event.x, event.y);
 
@@ -170,8 +170,7 @@ export function dragSelect (
 	};
 
 	// Cancel and remove our click event listener
-	var cancel = function () {
-		this.emit('cancel');
+	const cancel = () => {
 		window.removeEventListener('mousedown', dragStart);
 		// Remember to remove the optional class if it was added
 		if (typeof draw === 'string') {
