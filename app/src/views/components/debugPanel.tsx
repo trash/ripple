@@ -95,23 +95,22 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         })((event.target as Element).parentElement);
     }
 
+    private coerceToOriginalType (originalValue: any, newValue: any): any {
+        // Coerce new values to their old types
+        switch (typeof originalValue) {
+            case 'number':
+                return parseFloat(newValue);
+            case 'string':
+            default:
+                return newValue;
+        }
+    }
+
     editableDebugItemOnChange (
         event: React.ChangeEvent<HTMLInputElement>,
-        editingKey: string,
-        originalValue: any
+        editingKey: string
     ) {
-        let newValue: any = event.target.value;
-        if (newValue) {
-            // Coerce new values to their old types
-            switch (typeof originalValue) {
-                case 'number':
-                    newValue = parseFloat(newValue);
-                    break;
-                case 'string':
-                default:
-                    break;
-            }
-        }
+        const newValue: any = event.target.value;
         this.setState({
             componentPropertiesValues: this.state.componentPropertiesValues.set(editingKey, newValue)
         });
@@ -122,7 +121,8 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         object: any,
         property: string
     ) {
-        const newValue = this.state.componentPropertiesValues.get(editingKey);
+        let newValue = this.state.componentPropertiesValues.get(editingKey);
+        newValue = this.coerceToOriginalType(object[property], newValue);
         object[property] = newValue;
         this.setState({
             editingComponentProperties: this.state.editingComponentProperties.set(editingKey, false)
@@ -208,8 +208,8 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             {this.renderEditableDebugGroup('Agent', this.props.agent)}
             {this.renderDebugGroup('Villager',
                 this.stringifiedList(this.props.villager))}
-            {this.renderDebugGroup('Agent Position',
-                this.stringifiedList(this.props.agentPosition))}
+            {this.renderEditableDebugGroup('Agent Position',
+                this.props.agentPosition)}
             {this.renderDebugGroup('Agent Hunger',
                 this.stringifiedList(this.props.agentHunger))}
             {this.renderDebugGroup('Agent Sleep',
