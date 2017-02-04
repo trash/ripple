@@ -113,7 +113,10 @@ export class HarvestSelectSystem extends EntitySystem {
 		events.emit('harvest-types-updated', this.harvestTypes);
 	}
 
-    toggle (destroy: boolean = false, cancelHarvest: boolean = false): boolean {
+    toggle (
+		destroy: boolean = false,
+		cancelHarvest: boolean = false
+	): boolean {
 		if (this.hoverListener) {
 			this.hoverListener();
 			this.hoverListener = null;
@@ -125,7 +128,10 @@ export class HarvestSelectSystem extends EntitySystem {
 		return this.turnOn(destroy, cancelHarvest);
 	}
 
-    turnOn (destroy: boolean, cancelHarvest: boolean): boolean {
+    turnOn (
+		destroy: boolean,
+		cancelHarvest: boolean
+	): boolean {
 		cursorManager.showCursor(cancelHarvest ?
 			Cursor.CancelHarvest :
 			Cursor.Harvest);

@@ -11,7 +11,8 @@ import {
     IResourceState,
     IBuildingState,
     IConstructibleState,
-    IPositionState
+    IPositionState,
+    IVillagerState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -44,6 +45,7 @@ export interface StoreState {
     hoveredBuildingState: IBuildingState;
     hoveredBuildingConstructibleState: IConstructibleState;
     hoveredAgentLastExecutionChain: ChildStatus[];
+    hoveredVillager: IVillagerState;
     hours: number;
     days: number;
     buildingsListShown: boolean;
@@ -64,6 +66,7 @@ const mainReducer = (previousState = initialState, action) => {
         newState.hoveredAgentHunger = updateAction.hunger;
         newState.hoveredAgentSleep = updateAction.sleep;
         newState.hoveredAgentPosition = updateAction.position;
+        newState.hoveredVillager = updateAction.villager;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
         newState.hoveredResource = (action as UpdateHoveredResource).resource;

@@ -4,14 +4,17 @@ import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collisionDebugView';
 import {Map} from 'immutable';
 
-import {IHungerState} from '../../entity/components/hunger';
-import {ISleepState} from '../../entity/components/sleep';
-import {IAgentState} from '../../entity/components/agent';
-import {IItemState} from '../../entity/components/item';
-import {IResourceState} from '../../entity/components/resource';
-import {IBuildingState} from '../../entity/components/building';
-import {IConstructibleState} from '../../entity/components/constructible';
-import {IPositionState} from '../../entity/components/position';
+import {
+    IHungerState,
+    ISleepState,
+    IAgentState,
+    IItemState,
+    IResourceState,
+    IBuildingState,
+    IConstructibleState,
+    IPositionState,
+    IVillagerState
+} from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
 import {ChildStatus} from '../../b3/Core';
@@ -29,6 +32,7 @@ interface DebugPanelProps {
     resource: IResourceState;
     item: IItemState;
     building: IBuildingState;
+    villager: IVillagerState;
     buildingConstructible: IConstructibleState;
     executionChain: ChildStatus[];
     hours: number;
@@ -100,6 +104,8 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                     || 'Tile'])}
             {this.renderDebugGroup('Agent',
                 this.stringifiedList(this.props.agent))}
+            {this.renderDebugGroup('Villager',
+                this.stringifiedList(this.props.villager))}
             {this.renderDebugGroup('Agent Position',
                 this.stringifiedList(this.props.agentPosition))}
             {this.renderDebugGroup('Agent Hunger',
@@ -142,6 +148,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         building: state.hoveredBuildingState,
         buildingConstructible: state.hoveredBuildingConstructibleState,
         hours: state.hours,
-        days: state.days
+        days: state.days,
+        villager: state.hoveredVillager
     };
 })(DebugPanel);
