@@ -1,6 +1,6 @@
 import {events} from '../events';
 import {keybindings} from '../services/keybindings';
-import TWEEN = require('tween.js');
+import * as TWEEN from 'tween.js';
 import {IRowColumnCoordinates} from '../interfaces';
 
 const minSpeed = 10;

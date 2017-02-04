@@ -1,4 +1,4 @@
-import React = require('react');
+import * as React from 'react'
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {showBuildingsList, showDebugBar} from '../../redux/actions';

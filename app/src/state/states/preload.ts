@@ -1,12 +1,12 @@
-import React = require('react');
-import ReactDOM = require('react-dom');
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import {MusicPlayer} from '../../game/music-player';
 const spritesDirectories = require('../../../sprites/directory.json');
 import {LoadScreen as LoadScreenComponent} from '../../views/loadScreen';
 let LoadScreen = React.createFactory(LoadScreenComponent);
 import {IState} from './state';
 import {StateManager} from '../state-manager';
-import PIXI = require('pixi.js');
+import * as PIXI from 'pixi.js';
 
 // Handle loading sprites in test environment
 var baseDirectory = window['TEST'] ? '/base/app/' : '';
@@ -25,7 +25,7 @@ export class PreloaderState implements IState {
 		}), this.manager.element);
 	}
 	create (done: Function) {
-		spritesDirectories.list.forEach(folderName => {
+		spritesDirectories.list.forEach((folderName: string) => {
 			PIXI.loader
 				.add(folderName, baseDirectory + 'sprites/' + folderName + '.png')
 				.add(folderName + '-json', baseDirectory + 'sprites/' + folderName + '.json');

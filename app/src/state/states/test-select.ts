@@ -1,5 +1,5 @@
-import React = require('react');
-import ReactDOM = require('react-dom');
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import {events} from '../../events';
 import {IState} from './state';
 import {StateManager} from '../state-manager';

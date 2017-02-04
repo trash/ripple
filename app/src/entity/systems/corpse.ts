@@ -1,4 +1,3 @@
-import TWEEN = require('tween.js');
 import {EntitySystem, EntityManager} from '../entityManager';
 import {
     IRenderableState,

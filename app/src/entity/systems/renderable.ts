@@ -1,4 +1,4 @@
-import TWEEN = require('tween.js');
+import * as TWEEN from 'tween.js';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';

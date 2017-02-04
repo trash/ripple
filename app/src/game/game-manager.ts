@@ -1,7 +1,7 @@
-import React = require('react');
-import ReactDOM = require('react-dom');
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import {events} from '../events';
-import TWEEN = require('tween.js');
+import * as TWEEN from 'tween.js';
 import {StateManager} from '../state/state-manager';
 import {PreloaderState} from '../state/states/preload';
 import {MainMenuState} from '../state/states/main-menu';
