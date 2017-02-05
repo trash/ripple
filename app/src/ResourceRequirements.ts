@@ -1,7 +1,11 @@
 import {events} from './events';
-import {IResourceRequirementsMapEntry, IRequiredResources,
-	IItemSearchResult} from './interfaces';
+import {
+	IResourceRequirementsMapEntry,
+	IRequiredResources,
+	IItemSearchResult
+} from './interfaces';
 import {EventEmitter2} from 'eventemitter2';
+import {itemUtil} from './entity/util/item';
 
 type ForEachCallback = (
 	resourceType: string,
@@ -83,16 +87,18 @@ export class ResourceRequirements extends EventEmitter2 {
 	 * @param {Object} resourcesService Reference to the resources service
 	 * @return {Boolean}
 	 */
-	claimedResourcesExist () {
-		// Since this returns true if there ISNT the proper amount, we want to return the opposite
+	claimedResourcesExist (): boolean {
+		// For some resourceType there does not exist the proper count
 		return !Array.from(this.map).some(([resourceType, resourceEntry]) => {
-			let amountLeft = resourceEntry.required - resourceEntry.gathered;
-			debugger;
-			// Basically check if the required amount of resource exists and if it doesn't then return true
-			// NOTE: make sure to take into account the amount that have already been gathered
-			// if (!gameManager.itemManager.claimedResourceExists(resourceType, amountLeft)) {
-			// 	return true;
-			// }
+			const amountLeft = resourceEntry.required - resourceEntry.gathered;
+
+			// Basically check if the required amount of resource exists and
+			// if it doesn't then return true
+			// NOTE: make sure to take into account the amount that have already
+			// been gathered
+			if (!itemUtil.claimedItemCountExists(resourceType, amountLeft)) {
+				return true;
+			}
 			return false;
 		});
 	}

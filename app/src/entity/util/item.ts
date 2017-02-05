@@ -61,6 +61,34 @@ export class ItemUtil extends BaseUtil {
 			!!_.intersection(itemSearchResult.state.properties, properties).length);
 	}
 
+	getByName (name: string): IItemSearchResult[] {
+		return this.getAllItems().filter(item => item.state.name === name);
+	}
+
+	/**
+	 * Returns true if at least one of the resource with the given name
+	 * exists and is claimed.
+	 *
+	 * @param {String} itemName
+	 * @param {Number} [count] Number of resources to check for
+	 * @return {Boolean}
+	 */
+	claimedItemCountExists (
+		itemName: string,
+		count?: number
+	): boolean {
+		if (count === 0) {
+			return true;
+		}
+		const length = this.getByName(itemName)
+			.filter(itemSearchResult => itemSearchResult.state.claimed)
+			.length;
+		if (!count) {
+			return !!length;
+		}
+		return length >= count;
+	};
+
     /**
 	 * Finds the closest of a given resource from a given tile.
 	 * Returns an object with data pertaining to the found resource and it's tile OR

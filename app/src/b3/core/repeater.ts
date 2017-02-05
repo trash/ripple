@@ -61,7 +61,7 @@ export class Repeater extends Core.Decorator {
 		const status = this.executeChild(tick, this.child);
 
 		// If the node completes, we iterate the count 1
-		if (status == b3.SUCCESS || status == b3.FAILURE) {
+		if (status === b3.SUCCESS || status === b3.FAILURE) {
 			i++;
 		}
 

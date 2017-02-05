@@ -1,6 +1,6 @@
 import * as Core from '../../Core';
 import {Task} from '../../../Tasks/task';
-import {ResourceRequirements} from '../../../resource-requirements';
+import {ResourceRequirements} from '../../../ResourceRequirements';
 import {IHealthState} from '../../../entity/components/health';
 import {IRowColumnCoordinates} from '../../../interfaces';
 

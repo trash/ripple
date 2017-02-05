@@ -3,6 +3,7 @@ import {Task} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
 import {MapTile} from '../map/tile';
 import {Profession} from '../data/profession';
+import {StatusBubble} from '../data/StatusBubble';
 
 /**
 * Creates a new HaulerTask object.
@@ -40,7 +41,8 @@ export class HaulerTask extends Task {
 		super({
 			name: 'hauler-task',
 			taskType: Profession.Citizen,
-			behaviorTree: new Tasks.HaulerTask(item, dropOffLocation)
+			behaviorTree: new Tasks.HaulerTask(item, dropOffLocation),
+			bubble: StatusBubble.Sad
 		});
 
 		if (noDropOffLocation) {

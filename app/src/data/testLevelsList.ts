@@ -166,6 +166,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					wood: 20,
 					berries: 4
 				},
+				itemsClaimed: true,
 				buildings: [{
 					buildingName: 'carpenter-shop',
 					isCompleted: true,

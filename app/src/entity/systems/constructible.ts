@@ -12,7 +12,7 @@ import {
 } from '../components';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {Profession} from '../../data/profession';
-import {ResourceRequirements} from '../../resource-requirements';
+import {ResourceRequirements} from '../../ResourceRequirements';
 import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';
 import {spriteManager, SpriteManager} from '../../services/sprite-manager';

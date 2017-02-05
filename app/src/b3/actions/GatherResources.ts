@@ -2,7 +2,7 @@ import * as Core from '../Core';
 import * as Actions from './index';
 
 import {dropOffTargetKeyOrFunctionType} from '../../interfaces';
-import {ResourceRequirements} from '../../resource-requirements';
+import {ResourceRequirements} from '../../ResourceRequirements';
 
 const requiredResourceKey = 'required-resource';
 const goToTargetKey = 'required-resource-go-to-target';

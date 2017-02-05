@@ -1,6 +1,6 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ResourceRequirements} from '../../resource-requirements';
+import {ResourceRequirements} from '../../ResourceRequirements';
 import {IRequiredResources} from '../../interfaces';
 
 export interface IConstructibleState {

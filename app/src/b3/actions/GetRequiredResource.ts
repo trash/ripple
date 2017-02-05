@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
-import {ResourceRequirements} from '../../resource-requirements';
+import {ResourceRequirements} from '../../ResourceRequirements';
 import {itemUtil} from '../../entity/util';
 import {dropOffTargetKeyOrFunctionType, IRowColumnCoordinates} from '../../interfaces';
 
@@ -31,8 +31,10 @@ export class GetRequiredResource extends Core.BaseNode {
 		}
 
 		// Handle getting the drop off location from the object or key
-		const dropOffLocation: IRowColumnCoordinates = util.targetKeyOrFunction(tick,
-			this.dropOffTargetKeyOrFunction);
+		const dropOffLocation: IRowColumnCoordinates = util.targetKeyOrFunction(
+			tick,
+			this.dropOffTargetKeyOrFunction
+		);
 		if (!dropOffLocation) {
 			console.error('this should probably be defined');
 			return b3.FAILURE;

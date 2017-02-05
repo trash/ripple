@@ -1,6 +1,6 @@
 import _ = require('lodash');
 import {Task, ITaskOptions} from './task';
-import {ResourceRequirements} from '../resource-requirements';
+import {ResourceRequirements} from '../ResourceRequirements';
 import {events} from '../events';
 import {IRequiredResources} from '../interfaces';
 import {Profession} from '../data/profession';

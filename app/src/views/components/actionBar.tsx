@@ -8,7 +8,15 @@ import {
 } from '../../redux/actions';
 import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
+
 import {dataList as itemList} from '../../entity/assemblageData/items';
+import {Profession} from '../../data/profession';
+import {taskQueueManager} from '../../Tasks/TaskQueueManager';
+
+const createCraftTask = (item: string, profession: Profession) => {
+    const taskQueue = taskQueueManager.professionTaskQueue(profession);
+    taskQueue.push(item);
+}
 
 export class CraftBar extends React.Component<void, void> {
     render() {
@@ -18,7 +26,7 @@ export class CraftBar extends React.Component<void, void> {
             const itemName = item.item.name;
             return (
             <button key={itemName}
-                onClick={() => console.log(itemName)}
+                onClick={() => createCraftTask(itemName, item.craftable.profession)}
             >{itemName}</button>
             );
         })}

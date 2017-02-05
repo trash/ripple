@@ -1,6 +1,7 @@
 import {MapTile} from './map/tile';
 import {Profession} from './data/profession';
 import {Tick} from './b3/Core';
+import {EntitySpawner} from './entity/entitySpawner';
 
 export interface ITileset {
 	name: string;
@@ -247,6 +248,7 @@ export interface IBehaviorTreeTickTarget {
     turn: number;
     map: GameMap;
     inventory: IInventoryState;
+	entitySpawner: EntitySpawner;
 }
 
 export interface IAgentSearchOptions {

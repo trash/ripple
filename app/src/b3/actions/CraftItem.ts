@@ -2,21 +2,24 @@ import {b3} from '../index';
 import * as Core from '../core';
 import {util} from '../../util';
 import {IItemState} from '../../entity/components';
+import {IRowColumnCoordinates} from '../../interfaces';
+
+type DestinationTileFunction = (tick: Core.Tick) => IRowColumnCoordinates;
 
 export class CraftItem extends Core.BaseNode {
 	item: string;
-	destinationTileBlackboardKey: string;
 	craftTurns: number;
 	craftTurnsTotal: number;
+	destinationTileFunction: DestinationTileFunction;
 
 	constructor (
         item: string,
 		craftTurns: number,
-        destinationTileBlackboardKey: string
+		destinationTileFunction: DestinationTileFunction
     ) {
 		super();
 		this.item = item;
-		this.destinationTileBlackboardKey = destinationTileBlackboardKey;
+		this.destinationTileFunction = destinationTileFunction;
 
 		this.craftTurns = 0;
 		this.craftTurnsTotal = craftTurns;
@@ -28,14 +31,15 @@ export class CraftItem extends Core.BaseNode {
 		this.craftTurns++;
 
 		if (this.craftTurns >= this.craftTurnsTotal) {
-			const destinationTile = util.blackboardGet(
-				tick,
-				this.destinationTileBlackboardKey
-			);
-			// itemManager.spawn(this.item.name, destinationTile, {
-			// 	claimed: true
-			// });
-            console.log('spawn item', this.item, destinationTile);
+			const destinationTile = this.destinationTileFunction(tick);
+			tick.target.entitySpawner.spawnItem(this.item, {
+				position: {
+					tile: destinationTile
+				},
+				item: {
+					claimed: true
+				}
+			});
 			return b3.SUCCESS;
 		}
 		return b3.RUNNING;

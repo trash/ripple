@@ -41,9 +41,9 @@ export class VillagerSystem extends EntitySystem {
 
 			const newTask = this.getTaskForVillager(id, villagerState);
 			const newTaskId = newTask ? newTask.id : null;
-			const currentTaskId = villagerState.currentTask ?
-				villagerState.currentTask.id :
-				null;
+			const currentTaskId = villagerState.currentTask
+				? villagerState.currentTask.id
+				: null;
 			if (currentTaskId !== newTaskId) {
 				// Clear bubble for task ending
 				if (!newTaskId) {
@@ -91,18 +91,22 @@ export class VillagerSystem extends EntitySystem {
         return job.professions.includes(profession);
     }
 
-    getTaskFromprofessionsList (id: number, villagerState: IVillagerState): Instance {
+	private getProfessions(villagerState: IVillagerState): Profession[] {
+		return professionsList.filter(profession =>
+			this.hasProfession(villagerState, profession));
+	}
+
+    getTaskFromprofessionsList (
+		id: number,
+		villagerState: IVillagerState
+	): Instance {
         let match = null;
 
-		// Count over professionsList in order
-		professionsList.some(profession => {
-			// Make sure they have the profession
-			if (this.hasProfession(villagerState, profession)) {
-				var taskQueue = taskQueueManager.professionTaskQueue(profession);
-				if (taskQueue.hasTask()) {
-					match = taskQueue.getTask(id);
-					return true;
-				}
+		this.getProfessions(villagerState).some(profession => {
+			const taskQueue = taskQueueManager.professionTaskQueue(profession);
+			if (taskQueue.hasTask()) {
+				match = taskQueue.getTask(id);
+				return true;
 			}
 		});
 		return match;

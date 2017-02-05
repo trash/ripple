@@ -39,4 +39,5 @@ export interface ITestLevel {
 	buildings?: IBuildingAssemblageTestData[];
     gameMap?: ITestGameMapOptions;
 	items?: ITestItemsMap;
+    itemsClaimed?: boolean;
 }

@@ -164,7 +164,11 @@ export class GameManager {
         if (this.level.items) {
             Object.keys(this.level.items).forEach(itemName => {
                 for (let i = 0; i < this.level.items[itemName]; i++) {
-                    this.entityManager.spawner.spawnItem(itemName);
+                    this.entityManager.spawner.spawnItem(itemName, {
+                        item: {
+                            claimed: !!this.level.itemsClaimed
+                        }
+                    });
                 }
             });
         }

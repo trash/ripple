@@ -23,9 +23,9 @@ export class Inverter extends Core.Decorator {
 
 		let status = this.executeChild(tick, this.child);
 
-		if (status == b3.SUCCESS) {
+		if (status === b3.SUCCESS) {
 			status = b3.FAILURE;
-		} else if (status == b3.FAILURE) {
+		} else if (status === b3.FAILURE) {
 			status = b3.SUCCESS;
 		}
 

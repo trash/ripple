@@ -11,7 +11,7 @@ import {Instance} from './Instance';
 export class TaskQueue {
 	type: string;
 	tasks: Task[];
-	createTask: (...any) => Task;
+	private createTask: (...any) => Task;
 
 	constructor (
 		type: string,
@@ -23,26 +23,27 @@ export class TaskQueue {
 		this.tasks = [];
 	}
 
+	pushTask(task: Task, front: boolean = false): Task {
+		if (front) {
+			this.tasks.unshift(task);
+		} else {
+			this.tasks.push(task);
+		}
+		return task;
+	}
+
 	/**
 	* Pushes a new task to the queue. Creates a new task if it isn't already a task.
 	*
 	* @param {Task} task The task to push to the queue
 	*/
 	push (
-		taskOrTaskItem: Task | any,
-		front: boolean = false
+		taskItem: any,
+		front?: boolean
 	): Task {
-		let newTask = taskOrTaskItem;
-		if (!(taskOrTaskItem instanceof Task)) {
-			newTask = this.createTask(taskOrTaskItem);
-		}
-		if (front) {
-			this.tasks.unshift(newTask);
-		} else {
-			this.tasks.push(newTask);
-		}
-		return newTask;
-	};
+		const newTask = this.createTask(taskItem);
+		return this.pushTask(newTask);
+	}
 
 	/**
 	* Removes a task from the queue if it exists.
@@ -56,7 +57,7 @@ export class TaskQueue {
 			this.tasks.splice(index, 1);
 		}
 		return index;
-	};
+	}
 
 	/**
 	* Returns the next Task from the queue. (LILO)
@@ -70,16 +71,16 @@ export class TaskQueue {
 			instance = nextTask.spawnInstance(entity);
 		}
 		return instance;
-	};
+	}
 
 	getReadyTasks (): Task[] {
 		return this.tasks.filter(task => task.ready);
-	};
+	}
 
 	/**
 	 * Return true when the task queue has a task that's not queued
 	 */
 	hasTask (): boolean {
 		return !!this.getReadyTasks().length;
-	};
-};
+	}
+}

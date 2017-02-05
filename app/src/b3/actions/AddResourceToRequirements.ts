@@ -1,6 +1,6 @@
 import {b3} from '../index';
 import * as Core from '../Core';
-import {ResourceRequirements} from '../../resource-requirements';
+import {ResourceRequirements} from '../../ResourceRequirements';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
 import {inventoryUtil} from '../../entity/util';

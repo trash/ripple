@@ -73,7 +73,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     statusBubble: statusBubbleState,
                     turn: turn,
                     map: map,
-                    inventory: inventoryState
+                    inventory: inventoryState,
+                    entitySpawner: this.manager.spawner
                 }, behaviorTreeState.blackboard);
             }
         });

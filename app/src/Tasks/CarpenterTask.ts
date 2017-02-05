@@ -1,5 +1,6 @@
 import {CraftTask} from './CraftTask';
 import {Profession} from '../data/profession';
+import {StatusBubble} from '../data/StatusBubble';
 
 /**
 * Creates a new CarpenterTask object.
@@ -16,7 +17,8 @@ export class CarpenterTask extends CraftTask {
 		// Call our parent constructor
 		super({
 			name: 'carpenter-task',
-			taskType: Profession.Carpenter
+			taskType: Profession.Carpenter,
+			bubble: StatusBubble.Build
 		}, item);
 	}
 };

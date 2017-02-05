@@ -18,7 +18,7 @@ export interface ITaskOptions {
 	description?: string;
 	effortRating?: number;
 	maxInstancePool?: number;
-	bubble?: StatusBubble;
+	bubble: StatusBubble;
 }
 
 /**
@@ -250,9 +250,9 @@ export class Task {
 	/**
 	* Puts the task in it's corresponding queue.
 	*/
-	putInQueue (front: boolean = false) {
+	putInQueue (front?: boolean) {
 		this.getTaskQueue(taskQueue => {
-			taskQueue.push(this, front);
+			taskQueue.pushTask(this, front);
 		});
 	}
 

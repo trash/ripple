@@ -1,8 +1,8 @@
 import {Task} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
-import {ResourceRequirements} from '../resource-requirements';
+import {ResourceRequirements} from '../ResourceRequirements';
 import {Profession} from '../data/profession';
-import {StatusBubble} from '../data/statusBubble';
+import {StatusBubble} from '../data/StatusBubble';
 import {Component} from '../entity/ComponentEnum';
 import {events} from '../events';
 
@@ -33,6 +33,7 @@ export class BuilderTask extends Task {
 			taskType: Profession.Builder,
 			name: 'builder-task',
 			maxInstancePool: 4,
+			bubble: StatusBubble.Build
 		});
 
 		this.bubble = StatusBubble.Build;
