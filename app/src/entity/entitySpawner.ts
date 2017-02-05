@@ -20,7 +20,8 @@ import {
 	IAgentState,
 	IHealthState,
 	IVillagerState,
-	IBehaviorTreeState
+	IBehaviorTreeState,
+	IConstructibleState
 } from '../entity/components';
 
 import {EntityManager} from '../entity/entityManager';
@@ -42,13 +43,11 @@ events.on('map-update', (map: GameMap) => {
 
 export class EntitySpawner {
     entityManager: EntityManager;
-    // itemManager: ItemManager;
 
     constructor (
 		entityManager: EntityManager
 	) {
         this.entityManager = entityManager;
-        // this.itemManager = itemManager;
     }
 
     copyComponentData (
@@ -106,13 +105,13 @@ export class EntitySpawner {
 
 		// Get relevant state
 		const positionState = this.entityManager.getComponentDataForEntity(
-				Component.Position, entityId) as IPositionState;
+			Component.Position, entityId) as IPositionState;
 		const agentState = this.entityManager.getComponentDataForEntity(
-				Component.Agent, entityId) as IAgentState;
+			Component.Agent, entityId) as IAgentState;
 		const villagerState = this.entityManager.getComponentDataForEntity(
-				Component.Villager, entityId) as IVillagerState;
+			Component.Villager, entityId) as IVillagerState;
 		const renderableState = this.entityManager.getComponentDataForEntity(
-				Component.Renderable, entityId) as IRenderableState;
+			Component.Renderable, entityId) as IRenderableState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agentName]);
@@ -121,9 +120,9 @@ export class EntitySpawner {
 
 		// If they specified options for the villager, assign them
 		if (villager) {
-			villagerState.job = villager.job !== undefined ?
-				villager.job :
-				villagerState.job;
+			villagerState.job = villager.job !== undefined
+				? villager.job
+				: villagerState.job;
 		}
 		positionState.hasDirection = true;
 		// Set tile to 0,0
@@ -208,9 +207,13 @@ export class EntitySpawner {
 		const tileDoesntContainItem = (tile: MapTile): boolean => {
 			return !baseUtil.tileContainsEntityOfComponent(Component.Item, tile);
 		};
-		const spawnTileStart = (entityComponentData.position && entityComponentData.position.tile) ||
-			globalRefs.map.getTile(0, 0);
-		const spawnTile = globalRefs.map.getNearestEmptyTile(spawnTileStart, tileDoesntContainItem);
+		const spawnTileStart = (entityComponentData.position
+			&& entityComponentData.position.tile)
+			|| globalRefs.map.getTile(0, 0);
+		const spawnTile = globalRefs.map.getNearestEmptyTile(
+			spawnTileStart,
+			tileDoesntContainItem
+		);
 
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
 
@@ -259,6 +262,9 @@ export class EntitySpawner {
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
 
 		if (isCompleted) {
+			const constructibleState = this.entityManager.getComponentDataForEntity(
+				Component.Constructible, entityId) as IConstructibleState;
+			constructibleState.taskCreated = true;
 			const healthState = this.entityManager.getComponentDataForEntity(
 				Component.Health, entityId) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;

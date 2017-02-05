@@ -45,3 +45,17 @@ export function showDebugBar (
         show: show
     };
 }
+
+export interface ShowCraftBar {
+    type: string;
+    show: boolean;
+}
+
+export function showCraftBar (
+    show: boolean
+): ShowBuildingsList {
+    return {
+        type: actionTypes.SHOW_CRAFT_BAR,
+        show: show
+    };
+}

@@ -155,6 +155,7 @@ export class Tilemap extends PIXI.Container {
 		const texture = PIXI.RenderTexture.create(
 				this.dimension * tileSize,
 				this.dimension * tileSize);
+		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 		this.renderer.render(layer, texture);
 
 		// Write the render texture to a sprite and add it to the the tilemap

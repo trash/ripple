@@ -30,7 +30,8 @@ import {
     ShowBuildingsList,
     AddToItemList,
     RemoveFromItemList,
-    ShowDebugBar
+    ShowDebugBar,
+    ShowCraftBar
 } from './actions';
 
 export interface StoreState {
@@ -50,6 +51,7 @@ export interface StoreState {
     days: number;
     buildingsListShown: boolean;
     debugBarShown: boolean;
+    craftBarShown: boolean;
 }
 
 const initialState = {
@@ -96,6 +98,11 @@ const mainReducer = (previousState = initialState, action) => {
     if (action.type === actionTypes.SHOW_DEBUG_BAR) {
         const showAction = action as ShowDebugBar;
         newState.debugBarShown = action.show;
+    }
+
+    if (action.type === actionTypes.SHOW_CRAFT_BAR) {
+        const showAction = action as ShowCraftBar;
+        newState.craftBarShown = action.show;
     }
 
     if (action.type === actionTypes.ADD_TO_ITEM_LIST
