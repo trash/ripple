@@ -130,7 +130,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Professions Tests',
 		list: [
 			{
-				name: 'Villagers Harvest',
+				name: 'Harvest Test',
 				agents: [{
 					name: 'human',
 					villager: {
@@ -145,7 +145,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}
 			},
 			{
-				name: 'Villagers Build',
+				name: 'Builder Test',
 				agents: [{
 					name: 'human',
 					villager: {
@@ -153,6 +153,26 @@ let testLevelsData: ITestLevelGroup[]  = [
 					}
 				}],
 				items: buildingsList[0].constructible.requiredResources
+			},
+			{
+				name: 'Carpenter Test',
+				agents: [{
+					name: 'human',
+					villager: {
+						job: VillagerJob.Carpenter
+					}
+				}],
+				items: {
+					wood: 20,
+					berries: 4
+				},
+				buildings: [{
+					buildingName: 'carpenter-shop',
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
 			}
 		]
 	},

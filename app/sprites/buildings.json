@@ -45,7 +45,7 @@
 	"sourceSize": {"w":80,"h":64},
 	"pivot": {"x":0.5,"y":0.5}
 },
-"capenter-shop-construction":
+"carpenter-shop-construction":
 {
 	"frame": {"x":100,"y":1650,"w":96,"h":96},
 	"rotated": false,
@@ -349,6 +349,6 @@
 	"format": "RGBA8888",
 	"size": {"w":198,"h":1912},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3fb6a73c551a40ac5e634e68f052295f:9452e02c6cce09e770420d86d5010f9b:8f670863a0ac9ac15291caba2801fd50$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c884e9e607398e699b3a2977c105bc63:9452e02c6cce09e770420d86d5010f9b:8f670863a0ac9ac15291caba2801fd50$"
 }
 }

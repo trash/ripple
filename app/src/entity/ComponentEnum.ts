@@ -6,6 +6,7 @@ export enum Component {
     Renderable,
     Agent,
     Villager,
+    Craftable,
     StatusBubble,
     BehaviorTree,
     Harvestable,

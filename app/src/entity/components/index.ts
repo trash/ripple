@@ -5,6 +5,7 @@ export {Collision, ICollisionState} from './Collision';
 export {componentsList} from './ComponentsList';
 export {Constructible, IConstructibleState} from './Constructible';
 export {Corpse, ICorpseState} from './Corpse';
+export {Craftable, ICraftableState} from './Craftable';
 export {Harvestable, IHarvestableState} from './Harvestable';
 export {Health, IHealthState} from './Health';
 export {HealthBar, IHealthBarState} from './HealthBar';

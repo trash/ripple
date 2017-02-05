@@ -91,42 +91,19 @@ export enum AgentTraits {
 	human
 };
 
-export enum ItemProperties {
-	resource,
-	wood,
-	food,
-	farmable,
-	potion,
-	armor,
-	weapon,
-	copper,
-	sword,
-	iron,
-	gold
+export enum ItemProperty {
+	Resource,
+	Wood,
+	Food,
+	Farmable,
+	Potion,
+	Armor,
+	Weapon,
+	Copper,
+	Sword,
+	Iron,
+	Gold
 };
-
-export interface IItemDefinition {
-	name: string;
-	readableName: string;
-	description: string;
-	spriteName: string;
-
-	properties?: ItemProperties[];
-	value?: number;
-	requiredResources?: IRequiredResourcesInput;
-	taskQueue?: string;
-	craftProfession?: Profession;
-	craftTurns?: number;
-	healAmount?: number;
-}
-
-export interface IWeaponDefinition extends IItemDefinition {
-	damage: number;
-}
-
-export interface IArmorDefinition extends IItemDefinition {
-	armor: number;
-}
 
 export interface ISoundDataEntry {
 	list: string[];
@@ -139,13 +116,13 @@ export interface ISoundDataList {
 }
 
 export interface IShopOptions {
-	itemTypes: ItemProperties[];
+	itemTypes: ItemProperty[];
 	storageSpace: number;
 };
 
 export interface IStorageOptions {
 	amount: number;
-	restrictions?: ItemProperties[];
+	restrictions?: ItemProperty[];
 }
 
 export interface INearestTile {
@@ -214,6 +191,7 @@ import {
 	IInventoryState,
 	ISleepState,
 	IHungerState,
+	ICraftableState,
 } from './entity/components';
 
 export interface IEntityComponentData {
@@ -231,6 +209,7 @@ export interface IEntityComponentData {
 	constructible?: IConstructibleState;
 	healthBar?: IHealthBarState;
 	collision?: ICollisionState;
+	craftable?: ICraftableState;
 }
 
 export interface IAssemblageDataMap {
@@ -281,7 +260,7 @@ export interface BuildingInfo {
 
 export interface IItemSearchOptions {
 	itemNames?: string | string[];
-	properties?: ItemProperties[];
+	properties?: ItemProperty[];
 	claimed?: boolean;
 	sortBy?: string;
 }

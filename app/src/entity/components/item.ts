@@ -1,6 +1,6 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ItemProperties} from '../../interfaces';
+import {ItemProperty} from '../../interfaces';
 
 export interface IItemState {
     name?: string;
@@ -9,7 +9,7 @@ export interface IItemState {
     shouldBeSpawned?: boolean;
     hasBeenSpawned?: boolean;
     claimed?: boolean;
-    properties?: ItemProperties[]
+    properties?: ItemProperty[]
     toBeStored?: boolean;
     stored?: boolean;
     value?: number;

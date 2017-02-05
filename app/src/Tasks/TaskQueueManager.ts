@@ -7,6 +7,7 @@ import {GathererTask} from './GathererTask';
 import {WoodcutterTask} from './WoodcutterTask';
 import {HaulerTask} from './HaulerTask';
 import {MinerTask} from './MinerTask';
+import {CarpenterTask} from './CarpenterTask';
 
 import {Profession} from '../data/profession';
 
@@ -45,18 +46,30 @@ const professionTaskQueueMap: IProfessionTaskQueueMap = {
 			return new MinerTask(rock);
 		}
 	),
+	[Profession.Carpenter]: new TaskQueue(
+		'carpenter',
+		(item: string) => {
+			return new CarpenterTask(item);
+		}
+	),
 };
 
 export class TaskQueueManager {
 	constructor () {
 		// Listen for call to get task queue
-		events.on(['task-queue-manager', 'get-task-queue'], (taskType: number, callback: (taskQueue: TaskQueue) => void) => {
+		events.on(['task-queue-manager', 'get-task-queue'], (
+			taskType: number,
+			callback: (taskQueue: TaskQueue
+		) => void) => {
 			// Call the callback passing the matching queue
 			callback(this.professionTaskQueue(taskType));
 		});
 
 		// Queues up a task to create a new instance of the resource
-		events.on(['task-queue-manager', 'new-task'], (taskType: number, taskTarget: number) => {
+		events.on(['task-queue-manager', 'new-task'], (
+			taskType: number,
+			taskTarget: number
+		) => {
 			var taskQueue = this.professionTaskQueue(taskType);
 			taskQueue.push(taskTarget);
 		});

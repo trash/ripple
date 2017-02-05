@@ -123,6 +123,33 @@ export const dataList: IEntityComponentData[] = [
         //     restrictions: [ItemProperties.food],
         //     amount: 20
         // }
+    },
+    {
+        building: {
+            name: 'carpenter-shop',
+        },
+        constructible: {
+            requiredResources: {
+                // wood: 40,
+                wood: 10
+            },
+            floorSpriteName: 'construction-dirt-2',
+            progressSpriteName: 'carpenter-shop-construction'
+        },
+        collision: {
+            size: {
+                x: 5,
+                y: 4
+            },
+            entrance: {
+                x: 2,
+                y: 4
+            },
+        },
+        health: {
+            currentHealth: 0,
+            maxHealth: 400
+        },
     }
 ];
 

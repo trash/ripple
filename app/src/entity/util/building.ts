@@ -2,6 +2,7 @@ import {IRowColumnCoordinates} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {constants} from '../../data/constants';
+import {Profession} from '../../data/profession';
 
 export class BuildingUtil extends BaseUtil {
 	private getAllBuildings (): number[] {
@@ -13,6 +14,17 @@ export class BuildingUtil extends BaseUtil {
 	}
 
 	getNearestBuildingWithOccupantSpace(): number {
+		return this.getAllBuildings()[0];
+	}
+
+	buildingExistsByProfession(profession: Profession): boolean {
+		return !!this.getAllBuildings().length;
+	}
+
+	getNearestBuildingByProfession(
+		tile: IRowColumnCoordinates,
+		profession: Profession
+	): number {
 		return this.getAllBuildings()[0];
 	}
 

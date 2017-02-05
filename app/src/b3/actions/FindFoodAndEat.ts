@@ -4,7 +4,7 @@ import {StatusBubble} from '../../data/statusBubble';
 
 import * as Actions from './index';
 
-import {ItemProperties, IItemSearchResult} from '../../interfaces';
+import {ItemProperty, IItemSearchResult} from '../../interfaces';
 
 const foodKey = 'find-food-item';
 
@@ -17,7 +17,7 @@ export class FindFoodAndEat extends Core.Sequence {
 			children: [
 				new Actions.ShowBubble(StatusBubble.Hunger),
 				new Actions.CheckForNearbyItem(foodKey, {
-					properties: [ItemProperties.food]
+					properties: [ItemProperty.Food]
 				}, null, true),
 				new Actions.HandleFoodToBeEaten(foodKey),
 				new Actions.GoToTarget(tick =>

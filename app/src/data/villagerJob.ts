@@ -8,7 +8,8 @@ export enum VillagerJob {
     Fisherman,
     Blacksmith,
     Unemployed,
-    Shopkeeper
+    Shopkeeper,
+    Carpenter
 }
 
 export interface IVillagerJob {
@@ -64,6 +65,13 @@ export const villagerJobsMap: IVillagerJobMap = {
     [VillagerJob.Shopkeeper]: {
         professions: [
             Profession.Shopkeeper
+        ]
+    },
+    [VillagerJob.Carpenter]: {
+        professions: [
+            Profession.Carpenter,
+            Profession.Woodcutter,
+            Profession.Builder
         ]
     }
 };

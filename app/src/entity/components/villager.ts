@@ -14,9 +14,12 @@ export interface IVillagerComponent extends IComponent {
     state: IVillagerState;
 }
 
+const blacklistedDebugProperties = ['currentTask'];
+
 export let Villager: IVillagerComponent = {
     name: 'villager',
     enum: Component.Villager,
+    blacklistedDebugProperties: blacklistedDebugProperties,
     state: {
         job: VillagerJob.Unemployed,
         currentTask: null,

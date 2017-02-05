@@ -5,7 +5,7 @@ import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
 import {BaseUtil} from './base';
-import {IItemSearchResult, IRowColumnCoordinates, ItemProperties, IItemSearchOptions} from '../../interfaces';
+import {IItemSearchResult, IRowColumnCoordinates, ItemProperty, IItemSearchOptions} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
 
@@ -52,7 +52,7 @@ export class ItemUtil extends BaseUtil {
 	}
 
     getByProperties (
-        properties: ItemProperties[],
+        properties: ItemProperty[],
         town: boolean = false
     ): IItemSearchResult[] {
 		const items = town ? this.getTownItems() : this.getAllItems();

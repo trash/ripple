@@ -16,7 +16,8 @@ import {
     IConstructibleState,
     Constructible,
     IPositionState,
-    IVillagerState
+    IVillagerState,
+    Villager
 } from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
@@ -248,7 +249,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         return [
             ['Agent', this.props.agent, []],
             ['Agent Position', this.props.agentPosition, []],
-            ['Villager', this.props.villager, []],
+            ['Villager', this.props.villager, Villager.blacklistedDebugProperties],
             ['Agent Hunger', this.props.agentHunger, []],
             ['Agent Sleep', this.props.agentSleep, []],
             ['Item', this.props.item, []],
@@ -261,9 +262,9 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
     render () {
         const executionChain = this.props.executionChain;
-        const lastAction = executionChain && executionChain.length ?
-            executionChain[executionChain.length - 1].child.constructor.name :
-            null;
+        const lastAction = executionChain && executionChain.length
+            ? executionChain[executionChain.length - 1].child.constructor.name
+            : null;
 
         // So we can reference properties when this.props.building is undefined
         // Really wish we had a null-coalescing operator
