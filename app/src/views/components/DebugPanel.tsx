@@ -5,6 +5,7 @@ import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collisionDebugView';
 import {Map} from 'immutable';
 import {util} from '../../util';
+import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 
 import {
     IHungerState,
@@ -280,6 +281,9 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                 this.renderEditableDebugGroup(title, data, blacklistedProperties))}
             {this.renderDebugGroup('Last Action',
                 [lastAction])}
+            {this.renderDebugGroup('Task Queues',
+                taskQueueManager.getAllTaskQueues()
+                    .map(taskQueue => `${taskQueue.type}:${taskQueue.tasks.length}`))}
             <h5>Collision Debug: <input onClick={() => this.setState({
                 collisionDebugToggle: !this.state.collisionDebugToggle
             })} type="checkbox"/></h5>

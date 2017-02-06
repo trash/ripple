@@ -1,6 +1,6 @@
 import {Task} from './Task';
 // import {storage} from '../services/storage';
-import * as Tasks from '../b3/Actions/Tasks';
+import * as Tasks from '../b3/actions/Tasks';
 import {MapTile} from '../map/tile';
 import {Profession} from '../data/profession';
 import {StatusBubble} from '../data/StatusBubble';

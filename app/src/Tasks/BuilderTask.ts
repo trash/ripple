@@ -1,5 +1,5 @@
 import {Task} from './Task';
-import * as Tasks from '../b3/Actions/Tasks';
+import * as Tasks from '../b3/actions/Tasks';
 import {ResourceRequirements} from '../ResourceRequirements';
 import {Profession} from '../data/profession';
 import {StatusBubble} from '../data/StatusBubble';

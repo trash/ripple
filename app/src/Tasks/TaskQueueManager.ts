@@ -83,8 +83,12 @@ export class TaskQueueManager {
 			return professionTaskQueueMap[profession];
 		}
 		return null;
-	};
-};
+	}
+	getAllTaskQueues(): TaskQueue[] {
+		return Object.keys(professionTaskQueueMap)
+			.map(key => professionTaskQueueMap[key]);
+	}
+}
 
-export let taskQueueManager = new TaskQueueManager();
+export const taskQueueManager = new TaskQueueManager();
 window['taskQueueManager'] = taskQueueManager;
