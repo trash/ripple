@@ -1,7 +1,8 @@
 import {IState} from './states/state';
+import {State} from './StateEnum';
 
 interface IStateMap {
-	[index: string]: IState;
+	[index: number]: IState;
 }
 
 export class StateManager {
@@ -15,18 +16,18 @@ export class StateManager {
 		this.element = rootElement;
 	}
 
-	add (key: string, State: new () => IState) {
-		var state = new State();
+	add (stateEnum: State, State: new () => IState) {
+		const state = new State();
 		state.manager = this;
-		this.states[key] = state;
+		this.states[stateEnum] = state;
 	}
 
-	start (key: string, nextStateKey?: string) {
+	start (stateEnum: State, nextStateKey?: State) {
 		if (this.current && this.current.shutdown) {
 			this.current.shutdown();
 		}
 
-		var state = this.states[key];
+		const state = this.states[stateEnum];
 		this.current = state;
 
 		if (state.preload) {

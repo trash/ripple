@@ -3,10 +3,13 @@ import * as ReactDOM from 'react-dom'
 import {events} from '../events';
 import * as TWEEN from 'tween.js';
 import {StateManager} from '../state/state-manager';
-import {PreloaderState} from '../state/states/preload';
-import {MainMenuState} from '../state/states/main-menu';
-import {TestSelectState} from '../state/states/test-select';
-import {GameState} from '../state/states/game';
+import {
+    PreloaderState,
+    MainMenuState,
+    TestSelectState,
+    GameState
+} from '../state/states';
+import {State} from '../state/StateEnum';
 import {ITestLevel, ITestGameMapOptions} from '../data/testLevel';
 import {EntityManager} from '../entity/entityManager';
 import {GameMap, IMapOptions} from '../map';
@@ -26,7 +29,7 @@ import {GameComponent} from '../views/game';
 import {TileInfoService} from '../ui/TileInfoService';
 import {constants} from '../data/constants';
 
-const defaultLevel = gameLevelFactory.getDefaultTestLevel();
+const defaultLevel = gameLevelFactory.getDefaultRegularLevel();
 
 const windowSize = {
 	width: document.body.clientWidth,
@@ -51,7 +54,7 @@ export class GameManager {
 
         events.on('level-selected', (level: ITestLevel) => {
             this.level = level;
-            this.state.start('Game');
+            this.state.start(State.Game);
             this.saveLastOpenedLevel(level);
         });
         events.on('game-start', () => this.start());
@@ -93,9 +96,9 @@ export class GameManager {
         this.level = defaultLevel;
 
         if (mode === 'mapgen') {
-            this.state.start('Preload', 'Game');
+            this.state.start(State.Preload, State.Game);
         } else if (mode === 'default') {
-            this.state.start('Preload', 'MainMenu');
+            this.state.start(State.Preload, State.MainMenu);
         }
 
         keybindings.on();
@@ -230,9 +233,9 @@ export class GameManager {
     }
 
     bootstrapGameStates () {
-		this.state.add('Preload', PreloaderState);
-		this.state.add('MainMenu', MainMenuState);
-		this.state.add('Game', GameState);
-		this.state.add('TestSelect', TestSelectState);
+		this.state.add(State.Preload, PreloaderState);
+		this.state.add(State.MainMenu, MainMenuState);
+		this.state.add(State.Game, GameState);
+		this.state.add(State.TestSelect, TestSelectState);
 	};
 }

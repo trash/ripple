@@ -4,6 +4,7 @@ import {MainMenu as MainMenuComponent} from '../../views/mainMenu';
 let MainMenuComponentFactory = React.createFactory(MainMenuComponent);
 import {IState} from './state';
 import {StateManager} from '../state-manager';
+import {State} from '../StateEnum';
 
 export class MainMenuState implements IState {
 	component: any;
@@ -22,23 +23,24 @@ export class MainMenuState implements IState {
 	}
 
 	startGame () {
-		this.manager.start('StartingSupplies');
+		// this.manager.start('StartingSupplies');
+		this.manager.start(State.Game);
 	}
 
 	loadGame () {
-		this.manager.start('LoadGame');
+		this.manager.start(State.LoadGame);
 	}
 
 	tutorialSelect () {
-		this.manager.start('TutorialSelect');
+		this.manager.start(State.TutorialSelect);
 	}
 
 	testSelect () {
-		this.manager.start('TestSelect');
+		this.manager.start(State.TestSelect);
 	}
 
 	generateMap () {
-		this.manager.start('MapGeneration');
+		this.manager.start(State.MapGeneration);
 	}
 
 	shutdown () {

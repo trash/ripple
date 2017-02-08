@@ -1,13 +1,20 @@
 import * as _ from 'lodash';;
-import {NDArray, Direction, ICoordinates, IRandomTileOptions, IRowColumnCoordinates, ITilemapData} from '../interfaces';
+import {
+	NDArray,
+	Direction,
+	ICoordinates,
+	IRandomTileOptions,
+	IRowColumnCoordinates,
+	ITilemapData
+} from '../interfaces';
 import ndarray = require('ndarray');
 import {floodfill} from '../vendor/flood-fill';
 import {AStar as aStar} from '../vendor/astar';
 import {perlin} from '../vendor/perlin';
 import {constants} from '../data/constants';
 import {util, Util} from '../util';
-import {GameManager} from '../game/game-manager';
-import {MapGenerator, IMapGenReturn} from './map-generator';
+import {GameManager} from '../game/GameManager';
+import {MapGenerator, IMapGenReturn} from './MapGenerator';
 import {MapUtil} from './map-util';
 import {MapGenTile} from './map-gen-tile';
 import {MapTile} from './tile';

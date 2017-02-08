@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {events} from '../../events';
 import {IState} from './state';
+import {State} from '../StateEnum';
 import {StateManager} from '../state-manager';
 import {TestSelect as TestSelectComponent} from '../../views/testSelect';
 import {ITestLevel} from '../../data/testLevel';
@@ -29,7 +30,7 @@ export class TestSelectState implements IState {
 	}
 
 	mainMenu () {
-		this.manager.start('MainMenu');
+		this.manager.start(State.MainMenu);
 	}
 
 	shutdown () {

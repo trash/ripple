@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {Component} from '../../entity/ComponentEnum';
 import {killEntityService} from '../../services/killEntityService';
+import {events} from '../../events';
 
 const actions = [
     {
@@ -21,11 +22,15 @@ const actions = [
 export class DebugBar extends React.Component<null, null> {
     render() {
         return (
-        <div className="action-bar-buttons">{actions.map(action => {
-            return <button key={action.name}
-                onClick={() => killEntityService.toggle(action.action)}
-            >{action.name}</button>
-        })}</div>
+        <div className="action-bar-buttons">
+            {actions.map(action => {
+                return <button key={action.name}
+                    onClick={() => killEntityService.toggle(action.action)}
+                >{action.name}</button>
+            })}
+            <button onClick={() => events.emit('spawnAgent', 'zombie')}
+                >Spawn Zombie</button>
+        </div>
         );
     }
 }

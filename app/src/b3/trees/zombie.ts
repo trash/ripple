@@ -1,5 +1,5 @@
 import * as Core from '../Core';
-import * as Actions from '../Actions';
+import * as Actions from '../actions';
 import {AgentTraits} from '../../interfaces';
 
 export const behaviorTree = new Core.BehaviorTree();

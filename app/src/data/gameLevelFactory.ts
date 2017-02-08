@@ -42,6 +42,9 @@ export class GameLevelFactory {
 	getDefaultTestLevel (): ITestLevel {
 		return testLevel;
 	}
+	getDefaultRegularLevel(): ITestLevel {
+		return regularLevel;
+	}
 	getLevel (level: ITestLevel): ITestLevel {
 		return this._process(regularLevel, level);
 	}

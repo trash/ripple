@@ -4,7 +4,7 @@ import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/statusBubble';
 
 import * as Core from '../Core';
-import * as Actions from '../Actions';
+import * as Actions from '../actions';
 
 export let behaviorTree = new Core.BehaviorTree();
 

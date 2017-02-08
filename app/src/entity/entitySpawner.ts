@@ -48,6 +48,7 @@ export class EntitySpawner {
 		entityManager: EntityManager
 	) {
         this.entityManager = entityManager;
+		events.on('spawnAgent', (agentName: string) => this.spawnAgent(agentName));
     }
 
     copyComponentData (
