@@ -1,6 +1,6 @@
 import * as _ from 'lodash';;
 import {Task, ITaskOptions} from './Task';
-import * as Tasks from '../b3/actions/Tasks';
+import * as Tasks from '../b3/Actions/Tasks';
 import {StatusBubble} from '../data/StatusBubble';
 import {Component} from '../entity/ComponentEnum';
 import {IPositionState} from '../entity/components';

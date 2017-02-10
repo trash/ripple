@@ -204,7 +204,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					data: {
 						position: {
 							tile: {
-								row: 15
+								row: 15,
 								column: 15
 							}
 						}

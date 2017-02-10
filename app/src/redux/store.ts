@@ -32,7 +32,7 @@ import {
     RemoveFromItemList,
     ShowDebugBar,
     ShowCraftBar
-} from './actions';
+} from './Actions';
 
 export interface StoreState {
     items: Immutable.Map<string, number>;

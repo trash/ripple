@@ -2,11 +2,13 @@ import {buildingUtil} from '../../entity/util';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/StatusBubble';
+import {Profession} from '../../data/Profession';
+import {villagerUtil} from '../../entity/util/villager';
 
 import * as Core from '../Core';
-import * as Actions from '../actions';
+import * as Actions from '../Actions';
 
-export let behaviorTree = new Core.BehaviorTree();
+export const behaviorTree = new Core.BehaviorTree();
 
 const wasRecentlyAttackedKey = 'was-recently-attacked';
 const fleeBuildingKey = 'flee-building';
@@ -18,6 +20,10 @@ behaviorTree.root = new Core.Priority({
 		// Make them flee if they've been attacked recently
 		new Core.Sequence({
 			children: [
+				// Guards shouldn't flee
+				new Actions.IsTrue(tick => !villagerUtil.hasProfession(
+					tick.target.villager, Profession.Guard)
+				),
 				new Actions.WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
 				new Core.Priority({
 					children: [

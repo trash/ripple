@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
-import {addToItemList} from '../redux/actions';
+import {addToItemList} from '../redux/Actions';
 
 import {
 	agents as agentsAssemblageData,

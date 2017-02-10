@@ -5,7 +5,7 @@ import {
     showBuildingsList,
     showDebugBar,
     showCraftBar
-} from '../../redux/actions';
+} from '../../redux/Actions';
 import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
 

@@ -4,7 +4,7 @@ import {ResourceRequirements} from '../ResourceRequirements';
 import {events} from '../events';
 import {IRequiredResources} from '../interfaces';
 import {Profession} from '../data/Profession';
-import {CraftTask as CraftTaskAction} from '../b3/actions/Tasks/CraftTask';
+import {CraftTask as CraftTaskAction} from '../b3/Actions/Tasks/CraftTask';
 import {assemblageData} from '../entity/assemblageData/items';
 import {buildingUtil} from '../entity/util/building';
 

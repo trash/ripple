@@ -1,6 +1,6 @@
 import {Task} from './Task';
 import {util} from '../util';
-import {GuardTask as GuardTaskAction} from '../b3/actions/tasks/GuardTask';
+import {GuardTask as GuardTaskAction} from '../b3/Actions/tasks/GuardTask';
 import {IRowColumnCoordinates} from '../interfaces';
 import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';

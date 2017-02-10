@@ -11,7 +11,7 @@ import {constants} from '../../data/constants';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 import {store} from '../../redux/store';
-import {addToItemList, removeFromItemList} from '../../redux/actions';
+import {addToItemList, removeFromItemList} from '../../redux/Actions';
 
 export class ItemSystem extends EntitySystem {
     constructor (manager: EntityManager, component: Component) {
