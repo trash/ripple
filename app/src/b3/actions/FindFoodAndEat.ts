@@ -1,6 +1,6 @@
 import * as Core from '../Core';
 import {util} from '../../util';
-import {StatusBubble} from '../../data/statusBubble';
+import {StatusBubble} from '../../data/StatusBubble';
 
 import * as Actions from './index';
 

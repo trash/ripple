@@ -1,4 +1,4 @@
-import {Profession} from './profession';
+import {Profession} from './Profession';
 
 export enum VillagerJob {
     Laborer,

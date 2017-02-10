@@ -3,6 +3,7 @@ import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {statusBubbleUtil} from '../util';
 import {buildingUtil} from '../util/building';
+import {villagerUtil} from '../util/villager';
 
 import {Component} from '../ComponentEnum';
 import {
@@ -14,9 +15,9 @@ import {
 	IStatusBubbleState,
 } from '../components';
 
-import {Task} from '../../Tasks/task';
+import {Task} from '../../Tasks/Task';
 import {Instance} from '../../Tasks/instance';
-import {professionsList, Profession} from '../../data/profession';
+import {professionsList, Profession} from '../../data/Profession';
 import {VillagerJob, villagerJobsMap} from '../../data/villagerJob';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {villager as villagerTree} from '../../b3/Trees';
@@ -79,24 +80,19 @@ export class VillagerSystem extends EntitySystem {
 		if (task && task.isReady() && !task.isComplete()) {
 			return task;
 		}
-		task = this.getTaskFromprofessionsList(id, villagerState);
+		task = this.getTaskFromProfessionList(id, villagerState);
 		if (task) {
 			return task;
 		}
 		return null;
     }
 
-    hasProfession (villagerState: IVillagerState, profession: Profession): boolean {
-        const job = villagerJobsMap[villagerState.job];
-        return job.professions.includes(profession);
-    }
-
 	private getProfessions(villagerState: IVillagerState): Profession[] {
 		return professionsList.filter(profession =>
-			this.hasProfession(villagerState, profession));
+			villagerUtil.hasProfession(villagerState, profession));
 	}
 
-    getTaskFromprofessionsList (
+    getTaskFromProfessionList (
 		id: number,
 		villagerState: IVillagerState
 	): Instance {

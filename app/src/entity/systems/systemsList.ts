@@ -16,6 +16,7 @@ import {
     HarvestSelectSystem,
     CollisionSystem,
     CorpseSystem,
+    GuardSystem,
 } from './index';
 
 import {EntitySystem, EntityManager} from '../entityManager';
@@ -35,6 +36,7 @@ export const systemsList:
     [CollisionSystem, Component.Collision],
     [ItemSystem, Component.Item],
     [AgentSystem, Component.Agent],
+    [GuardSystem, Component.Agent],
     [CorpseSystem, Component.Corpse],
     [HarvestableSystem, Component.Harvestable],
     [HungerSystem, Component.Hunger],

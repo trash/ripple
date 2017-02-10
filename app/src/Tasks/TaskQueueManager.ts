@@ -10,7 +10,7 @@ import {MinerTask} from './MinerTask';
 import {CarpenterTask} from './CarpenterTask';
 import {GuardTask} from './GuardTask';
 
-import {Profession} from '../data/profession';
+import {Profession} from '../data/Profession';
 
 interface IProfessionTaskQueueMap {
 	[key: number]: TaskQueue;

@@ -1,6 +1,6 @@
 import {HarvesterTask} from './HarvesterTask';
-import {Profession} from '../data/profession';
-import {StatusBubble} from '../data/statusBubble';
+import {Profession} from '../data/Profession';
+import {StatusBubble} from '../data/StatusBubble';
 
 /**
 * Creates a new WoodcutterTask object.

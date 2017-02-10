@@ -1,4 +1,4 @@
-import {Task} from './task';
+import {Task} from './Task';
 import {util} from '../util';
 import {GuardTask as GuardTaskAction} from '../b3/actions/tasks/GuardTask';
 import {IRowColumnCoordinates} from '../interfaces';
@@ -30,17 +30,4 @@ export class GuardTask extends Task {
 		this.guardTarget = guardTarget;
 		this.description = `Guarding target at somewhere.`;
 	}
-
-	/**
-	 * Call the complete method on the buildign and complete the task
-	 */
-	complete () {
-		console.log('finished guarding target');
-		// Hide the build bubbles for the workers
-		this.instancePool.forEach(function (instance) {
-			instance.agent.hideBubble('bubble-build');
-		}.bind(this));
-
-		super.complete();
-	};
 };

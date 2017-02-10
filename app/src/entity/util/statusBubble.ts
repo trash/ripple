@@ -1,4 +1,4 @@
-import {StatusBubble} from '../../data/statusBubble';
+import {StatusBubble} from '../../data/StatusBubble';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {IStatusBubbleState} from '../components';

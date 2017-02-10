@@ -1,9 +1,9 @@
 import _ = require('lodash');
-import {Task, ITaskOptions} from './task';
+import {Task, ITaskOptions} from './Task';
 import {ResourceRequirements} from '../ResourceRequirements';
 import {events} from '../events';
 import {IRequiredResources} from '../interfaces';
-import {Profession} from '../data/profession';
+import {Profession} from '../data/Profession';
 import {CraftTask as CraftTaskAction} from '../b3/actions/Tasks/CraftTask';
 import {assemblageData} from '../entity/assemblageData/items';
 import {buildingUtil} from '../entity/util/building';

@@ -10,7 +10,7 @@ import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
 
 import {dataList as itemList} from '../../entity/assemblageData/items';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 
 const createCraftTask = (item: string, profession: Profession) => {

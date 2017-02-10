@@ -2,11 +2,16 @@ import {BaseUtil} from './base';
 import {Direction, IRowColumnCoordinates} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {collisionUtil} from './collision';
-import {IPositionState, ICollisionState} from '../Components';
+import {buildingUtil} from './building';
+import {IPositionState, ICollisionState, IBuildingState} from '../Components';
 import {util} from '../../util';
 
 export class PositionUtil extends BaseUtil {
     getTileFromEntityId (id: number) {
+		const building = this._getBuildingState(id);
+		if (building) {
+			return buildingUtil.getTileFromBuilding(id);
+		}
         return this._getPositionState(id).tile;
     }
 

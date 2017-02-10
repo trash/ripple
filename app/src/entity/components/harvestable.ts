@@ -1,8 +1,8 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {Task} from '../../Tasks/task';
+import {Task} from '../../Tasks/Task';
 import {Instance} from '../../Tasks/instance';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 import {HarvestType} from '../../data/harvestType';
 
 export interface IHarvestableState {

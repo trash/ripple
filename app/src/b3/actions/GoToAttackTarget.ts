@@ -1,4 +1,4 @@
-import {StatusBubble} from '../../data/statusBubble';
+import {StatusBubble} from '../../data/StatusBubble';
 import * as Core from '../Core';
 import {util} from '../../util';
 import {statusBubbleUtil} from '../../entity/util';

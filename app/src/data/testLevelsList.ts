@@ -190,7 +190,24 @@ let testLevelsData: ITestLevelGroup[]  = [
 					buildingName: 'hut',
 					isCompleted: true,
 					data: {
-						position: defaultBuildingPosition
+						position: {
+							tile: {
+								column: 2,
+								row: 2
+							}
+						}
+					}
+				},
+				{
+					buildingName: 'hut',
+					isCompleted: true,
+					data: {
+						position: {
+							tile: {
+								row: 15
+								column: 15
+							}
+						}
 					}
 				}]
 			}

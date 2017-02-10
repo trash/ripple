@@ -1,4 +1,4 @@
-import * as _ from 'lodash';;
+import * as _ from 'lodash';
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';

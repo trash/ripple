@@ -4,8 +4,8 @@ import {util} from '../util';
 import {events} from '../events';
 import {BehaviorTree} from '../b3/Core';
 import {TaskQueue} from './TaskQueue';
-import {Profession} from '../data/profession';
-import {StatusBubble} from '../data/statusBubble';
+import {Profession} from '../data/Profession';
+import {StatusBubble} from '../data/StatusBubble';
 import {IBehaviorTreeTickTarget} from '../interfaces';
 
 const debouncedError = _.debounce(console.error, 1000);

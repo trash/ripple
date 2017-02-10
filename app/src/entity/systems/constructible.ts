@@ -11,7 +11,7 @@ import {
     IHealthState
 } from '../components';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 import {ResourceRequirements} from '../../ResourceRequirements';
 import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';

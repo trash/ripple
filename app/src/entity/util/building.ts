@@ -2,7 +2,7 @@ import {IRowColumnCoordinates} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {constants} from '../../data/constants';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 
 export class BuildingUtil extends BaseUtil {
 	private getAllBuildings (): number[] {

@@ -1,5 +1,5 @@
 import {CraftTask} from './CraftTask';
-import {Profession} from '../data/profession';
+import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';
 
 /**

@@ -1,5 +1,5 @@
 import {MapTile} from './map/tile';
-import {Profession} from './data/profession';
+import {Profession} from './data/Profession';
 import {Tick} from './b3/Core';
 import {EntitySpawner} from './entity/entitySpawner';
 

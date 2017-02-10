@@ -3,7 +3,7 @@ import {util} from '../../util';
 import * as Core from '../Core';
 import {buildingUtil} from '../../entity/util';
 import {IRowColumnCoordinates} from '../../interfaces';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 
 /**
  * An action to just make a citizen wait for a turn

@@ -13,6 +13,7 @@ export {PositionSystem} from './position';
 export {RenderableSystem} from './renderable';
 export {ResourceSystem} from './resource';
 export {SleepSystem} from './sleep';
-export {StatusBubbleSystem} from './statusBubble';
+export {StatusBubbleSystem} from './StatusBubble';
 export {VillagerSystem} from './villager';
+export {GuardSystem} from './guard';
 export {systemsList} from './systemsList';

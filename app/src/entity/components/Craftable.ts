@@ -2,7 +2,7 @@ import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {ResourceRequirements} from '../../ResourceRequirements';
 import {IRequiredResources} from '../../interfaces';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 
 export interface ICraftableState {
     requiredResources: IRequiredResources;

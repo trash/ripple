@@ -5,7 +5,7 @@ import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
 import {config} from '../../data/config';
 import {HarvestType} from '../../data/harvestType';
-import {Profession} from '../../data/profession';
+import {Profession} from '../../data/Profession';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,
     rockHealth = 200,

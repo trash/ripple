@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {IHealthState} from '../../entity/components/health';
-import {Task} from '../../Tasks/task';
+import {Task} from '../../Tasks/Task';
 
 export class BuildBuilding extends Core.BaseNode {
 	buildingHealthState: IHealthState;

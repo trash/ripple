@@ -1,7 +1,7 @@
 import {buildingUtil} from '../../entity/util';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
-import {StatusBubble} from '../../data/statusBubble';
+import {StatusBubble} from '../../data/StatusBubble';
 
 import * as Core from '../Core';
 import * as Actions from '../actions';

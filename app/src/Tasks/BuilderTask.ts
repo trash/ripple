@@ -1,7 +1,7 @@
 import {Task} from './Task';
 import * as Tasks from '../b3/actions/Tasks';
 import {ResourceRequirements} from '../ResourceRequirements';
-import {Profession} from '../data/profession';
+import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';
 import {Component} from '../entity/ComponentEnum';
 import {events} from '../events';
