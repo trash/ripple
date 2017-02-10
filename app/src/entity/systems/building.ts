@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
+import {buildingToNameMap} from '../../data/Building';
 import {
     IBuildingState,
     IRenderableState,
@@ -30,6 +31,11 @@ export class BuildingSystem extends EntitySystem {
                     Component.Renderable, id) as IRenderableState;
             const collisionState = this.manager.getComponentDataForEntity(
                 Component.Collision, id) as ICollisionState;
+
+            // Get the name from the enum
+            if (!buildingState.name && _.isNumber(buildingState.enum)) {
+                buildingState.name = buildingToNameMap.get(buildingState.enum);
+            }
 
             if (renderableState.spriteGroup
                 && !constructibleState.completedSpriteName

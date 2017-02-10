@@ -214,7 +214,7 @@ export interface IEntityComponentData {
 }
 
 export interface IAssemblageDataMap {
-    [key: string]: IEntityComponentData;
+    [key: number]: IEntityComponentData;
 }
 
 export type Gender = 'male' | 'female';

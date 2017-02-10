@@ -4,6 +4,7 @@ import {util} from '../util';
 import {ITestLevel} from './testLevel';
 import {gameLevelFactory} from './gameLevelFactory';
 import {VillagerJob} from './villagerJob';
+import {Building} from './Building';
 
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
@@ -33,7 +34,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Buildings can be built',
 				buildings: [{
-					buildingName: 'hut',
+					enum: Building.Hut,
 					data: {
 						position: defaultBuildingPosition
 					}
@@ -52,7 +53,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Completed Building Test',
 				buildings: [{
-					buildingName: 'hut',
+					enum: Building.Hut,
 					isCompleted: true,
 					data: {
 						position: defaultBuildingPosition
@@ -86,7 +87,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					villager: {}
 				}],
 				buildings: [{
-					buildingName: 'hut',
+					enum: Building.Hut,
 					isCompleted: true
 				}],
 			},
@@ -99,7 +100,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					villager: {}
 				}],
 				buildings: [{
-					buildingName: 'hut',
+					enum: Building.Hut,
 					isCompleted: true
 				}],
 			},
@@ -168,7 +169,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				},
 				itemsClaimed: true,
 				buildings: [{
-					buildingName: 'carpenter-shop',
+					enum: Building.CarpenterShop,
 					isCompleted: true,
 					data: {
 						position: defaultBuildingPosition
@@ -187,7 +188,8 @@ let testLevelsData: ITestLevelGroup[]  = [
 					berries: 4
 				},
 				buildings: [{
-					buildingName: 'hut',
+					enum: Building.Hut,
+
 					isCompleted: true,
 					data: {
 						position: {
@@ -199,7 +201,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					}
 				},
 				{
-					buildingName: 'hut',
+					enum: Building.Hut,
 					isCompleted: true,
 					data: {
 						position: {

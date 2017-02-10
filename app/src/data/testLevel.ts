@@ -1,4 +1,5 @@
 import {VillagerJob} from './villagerJob';
+import {Building} from './Building';
 
 import {IEntityComponentData} from '../interfaces';
 
@@ -16,7 +17,7 @@ export interface IAgentAssemblageTestData {
 }
 
 export interface IBuildingAssemblageTestData {
-	buildingName: string;
+	enum: Building;
     isCompleted?: boolean;
     data?: IEntityComponentData;
 }

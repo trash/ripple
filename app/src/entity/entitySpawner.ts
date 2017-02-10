@@ -26,6 +26,7 @@ import {
 
 import {EntityManager} from '../entity/entityManager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testLevel';
+import {Building} from '../data/Building';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util';
@@ -246,19 +247,19 @@ export class EntitySpawner {
 	 * @param  {Object} options The options containing what building to build and where
 	 */
 	spawnBuilding (
-        buildingName: string,
+        building: Building,
 		isCompleted: boolean = false,
         entityComponentData: IEntityComponentData = {}
     ): number {
 		if (!entityComponentData.position.tile) {
 			console.error('Spawning a building without a tile.');
 		}
-		const assemblageData = _.extend({}, buildingsAssemblageData[buildingName]);
+		const assemblageData = _.extend({}, buildingsAssemblageData[building]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Building);
 
-		console.info(`Spawning: ${buildingName} with entityId: ${entityId}`);
+		console.info(`Spawning: ${building} with entityId: ${entityId}`);
 
 		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
 

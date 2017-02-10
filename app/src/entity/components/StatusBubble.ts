@@ -2,7 +2,7 @@ import {StatusBubble as StatusBubbleEnum} from '../../data/StatusBubble';
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {Task} from '../../Tasks/Task';
-import {Instance} from '../../Tasks/instance';
+import {Instance} from '../../Tasks/Instance';
 
 export interface IStatusBubbleState {
     activeBubbles: StatusBubbleEnum[];

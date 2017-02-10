@@ -11,7 +11,7 @@ import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/StatusBubble';
 import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
 import {cacheService} from '../../services/cache';
-import {statusBubbleUtil} from './StatusBubble';
+import {statusBubbleUtil} from './statusBubble';
 
 export class AgentUtil extends BaseUtil {
     /**

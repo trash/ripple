@@ -1,11 +1,12 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
+import {Building} from '../../data/Building';
 
 export const dataList: IEntityComponentData[] = [
     {
         building: {
-            name: 'hut',
+            enum: Building.Hut,
             maxOccupants: 4
         },
         name: {
@@ -39,7 +40,7 @@ export const dataList: IEntityComponentData[] = [
     },
     {
         building: {
-            name: 'house',
+            enum: Building.House,
             maxOccupants: 2
         },
         constructible: {
@@ -62,7 +63,7 @@ export const dataList: IEntityComponentData[] = [
     },
     {
         building: {
-            name: 'storage',
+            enum: Building.Storage,
 
         },
         constructible: {
@@ -94,7 +95,7 @@ export const dataList: IEntityComponentData[] = [
     },
     {
         building: {
-            name: 'tavern',
+            enum: Building.Tavern,
             maxOccupants: 10,
         },
         constructible: {
@@ -126,7 +127,7 @@ export const dataList: IEntityComponentData[] = [
     },
     {
         building: {
-            name: 'carpenter-shop',
+            enum: Building.CarpenterShop,
         },
         constructible: {
             requiredResources: {
@@ -155,6 +156,6 @@ export const dataList: IEntityComponentData[] = [
 
 export const assemblageData = (() => {
     let assemblageData: IAssemblageDataMap = {};
-    dataList.forEach(data => assemblageData[data.building.name] = data);
+    dataList.forEach(data => assemblageData[data.building.enum] = data);
     return assemblageData;
 })();

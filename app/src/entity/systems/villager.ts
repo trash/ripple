@@ -16,7 +16,7 @@ import {
 } from '../components';
 
 import {Task} from '../../Tasks/Task';
-import {Instance} from '../../Tasks/instance';
+import {Instance} from '../../Tasks/Instance';
 import {professionsList, Profession} from '../../data/Profession';
 import {VillagerJob, villagerJobsMap} from '../../data/villagerJob';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';

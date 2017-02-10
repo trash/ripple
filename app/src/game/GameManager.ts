@@ -180,7 +180,7 @@ export class GameManager {
         if (this.level.buildings) {
             this.level.buildings.forEach(building => {
                 this.entityManager.spawner.spawnBuilding(
-                    building.buildingName,
+                    building.enum,
                     building.isCompleted,
                     building.data);
             });
