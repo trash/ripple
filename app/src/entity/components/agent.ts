@@ -1,9 +1,11 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {AgentTraits, Gender} from '../../interfaces';
+import {Agent as AgentEnum} from '../../data/Agent';
 
 export interface IAgentState {
-    agentName: string;
+    enum: AgentEnum;
+    name?: string;
     genderEnabled: boolean;
     speed: number;
     strength: number;
@@ -33,7 +35,7 @@ export let Agent: IAgentComponent = {
     name: 'agent',
     enum: Component.Agent,
     state: {
-        agentName: 'zombie',
+        enum: AgentEnum.Zombie,
         genderEnabled: false,
         gender: null,
         defaultSpriteFrame: 0,

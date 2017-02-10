@@ -5,6 +5,7 @@ import {ITestLevel} from './testLevel';
 import {gameLevelFactory} from './gameLevelFactory';
 import {VillagerJob} from './villagerJob';
 import {Building} from './Building';
+import {Agent} from './Agent';
 
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
@@ -40,7 +41,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					}
 				}],
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {
 						job: VillagerJob.Builder
 					}
@@ -68,7 +69,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Villager eats food when hungry',
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {},
 					data: {
 						hunger: {
@@ -83,7 +84,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Villager sleeps in house',
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {}
 				}],
 				buildings: [{
@@ -94,9 +95,9 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Villager hides in building',
 				agents: [{
-					name: 'zombie'
+					enum: Agent.Zombie,
 				}, {
-					name: 'human',
+					enum: Agent.Human,
 					villager: {}
 				}],
 				buildings: [{
@@ -112,15 +113,15 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Agent paths around map',
 				agents: [{
-					name: 'human'
+					enum: Agent.Human,
 				}]
 			},
 			{
 				name: 'Zombie attacks villager',
 				agents: [{
-					name: 'zombie'
+					enum: Agent.Zombie,
 				}, {
-					name: 'human',
+					enum: Agent.Human,
 					villager: {}
 				}],
 			},
@@ -133,7 +134,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Harvest Test',
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {
 						job: VillagerJob.Laborer
 					}
@@ -148,7 +149,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Builder Test',
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {
 						job: VillagerJob.Builder
 					}
@@ -158,7 +159,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Carpenter Test',
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {
 						job: VillagerJob.Carpenter
 					}
@@ -179,7 +180,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Guard Test',
 				agents: [{
-					name: 'human',
+					enum: Agent.Human,
 					villager: {
 						job: VillagerJob.Guard
 					}

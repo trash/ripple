@@ -14,6 +14,7 @@ import {util} from '../../util';
 import {events} from '../../events';
 import {names} from '../../names';
 import {SpriteManager} from '../../services/sprite-manager';
+import {Agent} from '../../data/Agent';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -60,7 +61,7 @@ export class AgentSystem extends EntitySystem {
 
             // Init name
             if (!nameState.name) {
-                const newName = names.getName(agentState.agentName, agentState.gender);
+                const newName = names.getName(agentState.name, agentState.gender);
                 nameState.name = `${newName.first} ${newName.last}`;
             }
             // Init health bar sprites
@@ -100,6 +101,11 @@ export class AgentSystem extends EntitySystem {
         renderableState: IRenderableState,
         positionState: IPositionState
     ) {
+        // Init agent name from enum
+        if (!agentState.name && _.isNumber(agentState.enum)) {
+            agentState.name = Agent[agentState.enum].toLowerCase();
+        }
+
         // Init gender
         if (agentState.genderEnabled && !agentState.gender) {
             agentState.gender = Math.random() > 0.5 ? 'male' : 'female';
@@ -115,7 +121,7 @@ export class AgentSystem extends EntitySystem {
     }
 
     getBaseSpriteName (agentState: IAgentState): string {
-        let agentString = agentState.agentName;
+        let agentString = agentState.name;
         if (agentState.gender) {
             agentString += `-${agentState.gender}`;
         }

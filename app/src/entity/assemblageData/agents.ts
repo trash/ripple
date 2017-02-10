@@ -1,17 +1,22 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
 import {zombie as zombieTree, deer as deerTree} from '../../b3/Trees';
-import {IEntityComponentData, IAssemblageDataMap, AgentTraits} from '../../interfaces';
+import {
+    IEntityComponentData,
+    IAssemblageDataMap,
+    AgentTraits
+} from '../../interfaces';
+import {Agent} from '../../data/Agent';
 
-const maxHealth = 100,
-    defaultHealthState = {
-        currentHealth: maxHealth,
-        maxHealth: maxHealth
-    };
+const maxHealth = 100;
+const defaultHealthState = {
+    currentHealth: maxHealth,
+    maxHealth: maxHealth
+};
 
 const dataList: IEntityComponentData[] = [{
         agent: {
-            agentName: 'zombie',
+            enum: Agent.Zombie,
             genderEnabled: false,
             speed: 30,
             traits: [
@@ -26,7 +31,7 @@ const dataList: IEntityComponentData[] = [{
     },
     {
         agent: {
-            agentName: 'wolf',
+            enum: Agent.Wolf,
             genderEnabled: false,
             speed: 10,
             traits: [
@@ -42,7 +47,7 @@ const dataList: IEntityComponentData[] = [{
     },
     {
         agent: {
-            agentName: 'human',
+            enum: Agent.Human,
             genderEnabled: true,
             spriteCount: 4,
             speed: 15,
@@ -59,6 +64,6 @@ const dataList: IEntityComponentData[] = [{
 
 export const assemblageData = (() => {
     let assemblageData: IAssemblageDataMap = {};
-    dataList.forEach(data => assemblageData[data.agent.agentName] = data);
+    dataList.forEach(data => assemblageData[data.agent.enum] = data);
     return assemblageData;
 })();

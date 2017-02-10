@@ -159,7 +159,11 @@ export class GameManager {
         // Spawn agents
         if (this.level.agents) {
             this.level.agents.forEach(agent => {
-                this.entityManager.spawner.spawnAgent(agent.name, agent.villager, agent.data);
+                this.entityManager.spawner.spawnAgent(
+                    agent.enum,
+                    agent.villager,
+                    agent.data
+                );
             });
         }
 

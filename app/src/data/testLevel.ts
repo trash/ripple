@@ -1,5 +1,6 @@
 import {VillagerJob} from './villagerJob';
 import {Building} from './Building';
+import {Agent} from './Agent';
 
 import {IEntityComponentData} from '../interfaces';
 
@@ -11,7 +12,7 @@ export interface IVillagerComponentOptions {
 }
 
 export interface IAgentAssemblageTestData {
-    name: string;
+    enum: Agent;
 	villager?: IVillagerComponentOptions;
     data?: IEntityComponentData;
 }

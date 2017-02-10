@@ -27,6 +27,7 @@ import {
 import {EntityManager} from '../entity/entityManager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testLevel';
 import {Building} from '../data/Building';
+import {Agent} from '../data/Agent';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util';
@@ -49,7 +50,7 @@ export class EntitySpawner {
 		entityManager: EntityManager
 	) {
         this.entityManager = entityManager;
-		events.on('spawnAgent', (agentName: string) => this.spawnAgent(agentName));
+		events.on('spawnAgent', (agent: Agent) => this.spawnAgent(agent));
     }
 
     copyComponentData (
@@ -94,7 +95,7 @@ export class EntitySpawner {
 	* @returns {Agent} The agent that was created.
 	*/
 	spawnAgent (
-		agentName: string,
+		agent: Agent,
 		villager: IVillagerComponentOptions = null,
 		entityComponentData: IEntityComponentData = {}
 	): number {
@@ -103,7 +104,7 @@ export class EntitySpawner {
 			AssemblagesEnum.Agent;
 		const entityId = this.entityManager.createEntityFromAssemblage(assemblage);
 
-		console.info(`Spawning: ${agentName} with entityId: ${entityId}`);
+		console.info(`Spawning: ${Agent[agent]} with entityId: ${entityId}`);
 
 		// Get relevant state
 		const positionState = this.entityManager.getComponentDataForEntity(
@@ -116,7 +117,7 @@ export class EntitySpawner {
 			Component.Renderable, entityId) as IRenderableState;
 
 		// Copy over the defaults for the agent
-		const assemblageData = _.extend({}, agentsAssemblageData[agentName]);
+		const assemblageData = _.extend({}, agentsAssemblageData[agent]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 		this._copyNeededComponentData(entityId, entityComponentData, assemblage);
 
