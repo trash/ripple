@@ -15,7 +15,7 @@ const dataList: IEntityComponentData[] = [{
             genderEnabled: false,
             speed: 30,
             traits: [
-                AgentTraits.monster
+                AgentTraits.Monster
             ],
             strength: 10
         },
@@ -30,7 +30,7 @@ const dataList: IEntityComponentData[] = [{
             genderEnabled: false,
             speed: 10,
             traits: [
-                AgentTraits.predator
+                AgentTraits.Predator
             ],
             strength: 5
         },
@@ -48,7 +48,7 @@ const dataList: IEntityComponentData[] = [{
             speed: 15,
             strength: 3,
             traits: [
-                AgentTraits.human
+                AgentTraits.Human
             ]
         },
         behaviorTree: {

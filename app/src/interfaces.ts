@@ -85,11 +85,11 @@ export interface IResourceRequirementsMapEntry {
 }
 
 export enum AgentTraits {
-	monster,
-	prey,
-	predator,
-	thief,
-	human
+	Monster,
+	Prey,
+	Predator,
+	Thief,
+	Human
 };
 
 export enum ItemProperty {

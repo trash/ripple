@@ -174,6 +174,25 @@ let testLevelsData: ITestLevelGroup[]  = [
 						position: defaultBuildingPosition
 					}
 				}]
+			},
+			{
+				name: 'Guard Test',
+				agents: [{
+					name: 'human',
+					villager: {
+						job: VillagerJob.Guard
+					}
+				}],
+				items: {
+					berries: 4
+				},
+				buildings: [{
+					buildingName: 'hut',
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
 			}
 		]
 	},

@@ -8,6 +8,7 @@ import {WoodcutterTask} from './WoodcutterTask';
 import {HaulerTask} from './HaulerTask';
 import {MinerTask} from './MinerTask';
 import {CarpenterTask} from './CarpenterTask';
+import {GuardTask} from './GuardTask';
 
 import {Profession} from '../data/profession';
 
@@ -50,6 +51,12 @@ const professionTaskQueueMap: IProfessionTaskQueueMap = {
 		'carpenter',
 		(item: string) => {
 			return new CarpenterTask(item);
+		}
+	),
+	[Profession.Guard]: new TaskQueue(
+		'guard',
+		(patrolTarget: number) => {
+			return new GuardTask(patrolTarget);
 		}
 	),
 };

@@ -22,7 +22,7 @@ behaviorTree.root = new Core.Priority({
 				new Core.Priority({
 					children: [
 						new Actions.CheckForNearbyAgent({
-							traits: [AgentTraits.human]
+							traits: [AgentTraits.Human]
 						}, targetKey, targetTileKey, 20),
 						// new Actions.CheckForNearbyFriendlyBuilding(buildingKey)
 					]
