@@ -2,6 +2,7 @@ import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
 import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {Building} from '../../data/Building';
+import {Item} from '../../data/Item';
 
 export const dataList: IEntityComponentData[] = [
     {
@@ -31,9 +32,10 @@ export const dataList: IEntityComponentData[] = [
             size: 17,
         },
         constructible: {
-            requiredResources: {
-                wood: 20
-            },
+            requiredResources: [{
+                enum: Item.Wood,
+                count: 20
+            }],
             floorSpriteName: 'construction-dirt',
 		    progressSpriteName: 'hut-construction',
         }
@@ -44,9 +46,10 @@ export const dataList: IEntityComponentData[] = [
             maxOccupants: 2
         },
         constructible: {
-            requiredResources: {
-                plank: 40
-            },
+            requiredResources: [{
+                enum: Item.Plank,
+                count: 40
+            }],
             floorSpriteName: 'construction-dirt',
             progressSpriteName: 'house-construction'
         },
@@ -67,10 +70,13 @@ export const dataList: IEntityComponentData[] = [
 
         },
         constructible: {
-            requiredResources: {
-                plank: 40,
-                stone: 10,
-            },
+            requiredResources: [{
+                enum: Item.Plank,
+                count: 40
+            }, {
+                enum: Item.Stone,
+                count: 10
+            }],
             floorSpriteName: 'construction-dirt-2',
             progressSpriteName: 'storage-construction'
         },
@@ -99,10 +105,13 @@ export const dataList: IEntityComponentData[] = [
             maxOccupants: 10,
         },
         constructible: {
-            requiredResources: {
-                plank: 60,
-                stone: 20,
-            },
+            requiredResources: [{
+                enum: Item.Plank,
+                count: 60
+            }, {
+                enum: Item.Stone,
+                count: 20
+            }],
             floorSpriteName: 'construction-dirt-2',
             progressSpriteName: 'tavern-construction'
         },
@@ -130,10 +139,11 @@ export const dataList: IEntityComponentData[] = [
             enum: Building.CarpenterShop,
         },
         constructible: {
-            requiredResources: {
-                // wood: 40,
-                wood: 10
-            },
+            requiredResources: [{
+                enum: Item.Wood,
+                // count: 40
+                count: 10
+            }],
             floorSpriteName: 'construction-dirt-2',
             progressSpriteName: 'carpenter-shop-construction'
         },

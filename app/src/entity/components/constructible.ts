@@ -1,10 +1,10 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {ResourceRequirements} from '../../ResourceRequirements';
-import {IRequiredResources} from '../../interfaces';
+import {RequiredResources} from '../../interfaces';
 
 export interface IConstructibleState {
-    requiredResources: IRequiredResources;
+    requiredResources: RequiredResources;
     progressSpriteName: string;
     floorSpriteName: string;
 
@@ -32,7 +32,7 @@ export let Constructible: IConstructibleComponent = {
     enum: Component.Constructible,
     blacklistedDebugProperties: blacklistedDebugProperties,
     state: {
-        requiredResources: {},
+        requiredResources: [],
         completedSpriteName: null,
         progressSpriteName: null,
         floorSpriteName: null,

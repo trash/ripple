@@ -25,8 +25,8 @@ export class GetRequiredResource extends Core.BaseNode {
 	}
 	tick (tick: Core.Tick) {
 		const agentData = tick.target;
-		let requiredResourceName = this.requiredResources.pickRequiredResource();
-		if (!requiredResourceName) {
+		const requiredResourceType = this.requiredResources.pickRequiredResource();
+		if (!requiredResourceType) {
 			return b3.FAILURE;
 		}
 
@@ -41,7 +41,7 @@ export class GetRequiredResource extends Core.BaseNode {
 		}
 
 		const requiredResource = itemUtil.getNearestItem(dropOffLocation, {
-			itemNames: requiredResourceName
+			itemEnums: [requiredResourceType]
 		});
 
 		if (!requiredResource) {

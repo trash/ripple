@@ -3,17 +3,17 @@ import * as Core from '../Core';
 import {ResourceRequirements} from '../../ResourceRequirements';
 
 export class AllResourcesGathered extends Core.BaseNode {
-	requiredResources: ResourceRequirements;
+	resourceRequirements: ResourceRequirements;
 
 	constructor (
-		requiredResources: ResourceRequirements
+		resourceRequirements: ResourceRequirements
 	) {
 		super();
-		this.requiredResources = requiredResources;
+		this.resourceRequirements = resourceRequirements;
 	}
 
 	tick (tick: Core.Tick) {
-		const requiredResource = this.requiredResources.pickRequiredResource();
+		const requiredResource = this.resourceRequirements.pickRequiredResource();
 		if (!requiredResource) {
 			return b3.SUCCESS;
 		}

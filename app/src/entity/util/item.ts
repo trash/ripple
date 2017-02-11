@@ -5,16 +5,17 @@ import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
 import {BaseUtil} from './base';
-import {IItemSearchResult, IRowColumnCoordinates, ItemProperty, IItemSearchOptions} from '../../interfaces';
+import {IItemSearchResult, IRowColumnCoordinates, ItemProperty, ItemSearchOptions} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
+import {Item} from '../../data/Item';
 
 export class ItemUtil extends BaseUtil {
     removeFromTile (id: number) {
-        const positionState = this._getPositionState(id),
-            itemState = this._getItemState(id),
-            renderableState = this._getRenderableState(id),
-            tile = positionState.tile;
+        const positionState = this._getPositionState(id);
+        const itemState = this._getItemState(id);
+        const renderableState = this._getRenderableState(id);
+        const tile = positionState.tile;
 
         // Free up storage space
         if (itemState.stored) {
@@ -26,9 +27,16 @@ export class ItemUtil extends BaseUtil {
         positionState.tile = null;
     }
 
-	getImagePath(
-		itemName: string
+	getItemNameFromEnum(
+		item: Item
 	): string {
+		return Item[item].toLowerCase();
+	}
+
+	getImagePath(
+		item: Item
+	): string {
+		const itemName = this.getItemNameFromEnum(item);
 		return `${constants.SPRITE_PATH}items/${itemName}.png`;
 	}
 
@@ -104,12 +112,17 @@ export class ItemUtil extends BaseUtil {
 	 */
 	getNearestItem (
 		start: IRowColumnCoordinates,
-		searchOptions: IItemSearchOptions = {},
+		searchOptions: ItemSearchOptions = {},
 		cancelItemsToBeStored: boolean = false
 	): IItemSearchResult {
 		let nearest = null;
 		let nearestDistance = Number.MAX_VALUE;
 		let itemList = this.getAllItems();
+
+		if (searchOptions.itemEnums) {
+			searchOptions.itemNames = searchOptions.itemEnums.map(item =>
+				itemUtil.getItemNameFromEnum(item));
+		}
 
 		if (searchOptions.itemNames) {
 			let itemNames;

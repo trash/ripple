@@ -1,5 +1,5 @@
 export enum HarvestType {
-    Tree,
+    Tree = 1,
     Food,
     Rock,
     Mushroom

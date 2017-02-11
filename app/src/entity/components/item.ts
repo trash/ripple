@@ -1,8 +1,10 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {ItemProperty} from '../../interfaces';
+import {Item as ItemEnum} from '../../data/Item';
 
 export interface IItemState {
+    enum?: ItemEnum,
     name?: string;
     readableName?: string;
     description?: string;
@@ -24,6 +26,7 @@ export let Item: IItemComponent = {
     name: 'item',
     enum: Component.Item,
     state: {
+        enum: null,
         name: null,
         readableName: null,
         description: null,

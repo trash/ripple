@@ -1,6 +1,7 @@
 import {VillagerJob} from './villagerJob';
 import {Building} from './Building';
 import {Agent} from './Agent';
+import {Item} from './Item';
 
 import {IEntityComponentData} from '../interfaces';
 
@@ -17,6 +18,12 @@ export interface IAgentAssemblageTestData {
     data?: IEntityComponentData;
 }
 
+export interface IItemAssemblageTestData {
+    enum: Item;
+    data?: IEntityComponentData;
+    count?: number;
+}
+
 export interface IBuildingAssemblageTestData {
 	enum: Building;
     isCompleted?: boolean;
@@ -30,16 +37,12 @@ export interface ITestGameMapOptions {
     noResources?: boolean;
 }
 
-export interface ITestItemsMap {
-	[key: string]: number;
-}
-
 export interface ITestLevel {
     name: string;
     description?: string;
     agents?: IAgentAssemblageTestData[];
 	buildings?: IBuildingAssemblageTestData[];
     gameMap?: ITestGameMapOptions;
-	items?: ITestItemsMap;
+	items?: IItemAssemblageTestData[];
     itemsClaimed?: boolean;
 }

@@ -1,5 +1,6 @@
 import {MapTile} from './map/tile';
 import {Profession} from './data/Profession';
+import {Item} from './data/Item';
 import {Tick} from './b3/Core';
 import {EntitySpawner} from './entity/entitySpawner';
 
@@ -71,13 +72,11 @@ export interface ICoordinates {
 	y: number;
 };
 
-export interface IRequiredResources {
-    [key: string]: number;
+export type RequiredResourceEntry = {
+	enum: Item;
+	count: number;
 }
-
-export interface IRequiredResourcesInput {
-	[index: string]: number;
-}
+export type RequiredResources = RequiredResourceEntry[];
 
 export interface IResourceRequirementsMapEntry {
 	gathered: number;
@@ -260,8 +259,9 @@ export interface BuildingInfo {
 	name: string;
 }
 
-export interface IItemSearchOptions {
+export interface ItemSearchOptions {
 	itemNames?: string | string[];
+	itemEnums?: Item[];
 	properties?: ItemProperty[];
 	claimed?: boolean;
 	sortBy?: string;

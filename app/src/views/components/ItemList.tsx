@@ -1,20 +1,21 @@
+import * as Immutable from 'immutable';
 import {connect} from 'react-redux';
 import {StoreState} from '../../redux/store';
 import * as React from 'react';
 import {itemUtil} from '../../entity/util/item';
-import * as Immutable from 'immutable';
+import {Item} from '../../data/Item';
 
 export interface ItemListProps {
-    itemList: Immutable.Map<string, number>;
+    itemList: Immutable.Map<Item, number>;
 }
 
 export class ItemList extends React.Component<ItemListProps, void> {
     render () {
         return (
             <ul className="item-list">
-                {this.props.itemList.entrySeq().map(([itemName, count]) => {
-                    return <li key={itemName}>
-                        <img src={itemUtil.getImagePath(itemName)}/>
+                {this.props.itemList.entrySeq().map(([item, count]) => {
+                    return <li key={item}>
+                        <img src={itemUtil.getImagePath(item)}/>
                         {count}
                     </li>
                 })}

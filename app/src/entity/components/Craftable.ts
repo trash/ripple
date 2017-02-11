@@ -1,11 +1,11 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {ResourceRequirements} from '../../ResourceRequirements';
-import {IRequiredResources} from '../../interfaces';
+import {RequiredResources} from '../../interfaces';
 import {Profession} from '../../data/Profession';
 
 export interface ICraftableState {
-    requiredResources: IRequiredResources;
+    requiredResources: RequiredResources;
     craftTurns: number;
     profession: Profession;
 }
@@ -18,7 +18,7 @@ export let Craftable: ICraftableComponent = {
     name: 'constructible',
     enum: Component.Craftable,
     state: {
-        requiredResources: {},
+        requiredResources: [],
         craftTurns: 1,
         profession: null
     }

@@ -1,19 +1,19 @@
 import {b3} from '../index';
 import * as Core from '../Core';
-import {IItemSearchOptions} from '../../interfaces';
+import {ItemSearchOptions} from '../../interfaces';
 import {util} from '../../util';
 import {itemUtil} from '../../entity/util';
 import {MapUtil} from '../../map/map-util';
 
 export class CheckForNearbyItem extends Core.BaseNode {
 	targetKey: string;
-	searchOptions: IItemSearchOptions;
+	searchOptions: ItemSearchOptions;
 	distance: number;
 	cancelItemsToBeStored: boolean;
 
 	constructor (
 		targetKey: string,
-		searchOptions: IItemSearchOptions,
+		searchOptions: ItemSearchOptions,
 		distance?: number,
 		cancelItemsToBeStored: boolean = false
 	) {

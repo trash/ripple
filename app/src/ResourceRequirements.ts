@@ -1,11 +1,12 @@
 import {events} from './events';
 import {
 	IResourceRequirementsMapEntry,
-	IRequiredResources,
+	RequiredResources,
 	IItemSearchResult
 } from './interfaces';
 import {EventEmitter2} from 'eventemitter2';
 import {itemUtil} from './entity/util/item';
+import {Item} from './data/Item';
 
 type ForEachCallback = (
 	resourceType: string,
@@ -22,18 +23,18 @@ type ForEachCallback = (
 *                           i.e. { wood: 10, stone: 5 }
 */
 export class ResourceRequirements extends EventEmitter2 {
-	map: Map<string, IResourceRequirementsMapEntry>;
+	map: Map<Item, IResourceRequirementsMapEntry>;
 
-	constructor (resources: IRequiredResources) {
+	constructor (resources: RequiredResources) {
 		super();
 		this.map = new Map();
 
-		for (const resource in resources) {
-			this.map.set(resource, {
+		resources.forEach(resource => {
+			this.map.set(resource.enum, {
 				gathered: 0,
-				required: resources[resource]
+				required: resource.count
 			});
-		}
+		})
 	}
 
 	toString(): string {
@@ -52,7 +53,7 @@ export class ResourceRequirements extends EventEmitter2 {
 	 */
 	addToRequirements (itemSearchResult: IItemSearchResult) {
 		// Update our gathered amount
-		this.map.get(itemSearchResult.state.name).gathered += 1;
+		this.map.get(itemSearchResult.state.enum).gathered += 1;
 
 		// Update the resources service
 		events.emit('remove-from-resource', itemSearchResult.id);
@@ -68,8 +69,8 @@ export class ResourceRequirements extends EventEmitter2 {
 	 *
 	 * @return {String} The name of the picked resource
 	 */
-	pickRequiredResource (): string {
-		let resourceToGather: string;
+	pickRequiredResource (): Item {
+		let resourceToGather: Item;
 		Array.from(this.map).some(([resourceType, resourceEntry]) => {
 			if (resourceEntry.required > resourceEntry.gathered) {
 				resourceToGather = resourceType;
@@ -91,12 +92,13 @@ export class ResourceRequirements extends EventEmitter2 {
 		// For some resourceType there does not exist the proper count
 		return !Array.from(this.map).some(([resourceType, resourceEntry]) => {
 			const amountLeft = resourceEntry.required - resourceEntry.gathered;
+			const resourceName = itemUtil.getItemNameFromEnum(resourceType);
 
 			// Basically check if the required amount of resource exists and
 			// if it doesn't then return true
 			// NOTE: make sure to take into account the amount that have already
 			// been gathered
-			if (!itemUtil.claimedItemCountExists(resourceType, amountLeft)) {
+			if (!itemUtil.claimedItemCountExists(resourceName, amountLeft)) {
 				return true;
 			}
 			return false;

@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {events} from '../events';
@@ -169,13 +170,17 @@ export class GameManager {
 
         // Spawn items
         if (this.level.items) {
-            Object.keys(this.level.items).forEach(itemName => {
-                for (let i = 0; i < this.level.items[itemName]; i++) {
-                    this.entityManager.spawner.spawnItem(itemName, {
-                        item: {
-                            claimed: !!this.level.itemsClaimed
-                        }
-                    });
+            this.level.items.forEach(itemData => {
+                const count = itemData.count || 1;
+                for (let i = 0; i < count; i++) {
+                    this.entityManager.spawner.spawnItem(
+                        itemData.enum,
+                        _.extend(itemData.data, {
+                            item: {
+                                claimed: !!this.level.itemsClaimed
+                            }
+                        })
+                    );
                 }
             });
         }

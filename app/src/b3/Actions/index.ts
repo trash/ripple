@@ -2,7 +2,7 @@ import * as _Tasks from './Tasks';
 export const Tasks = _Tasks;
 
 export {AddResourceToRequirements} from './AddResourceToRequirements';
-export {AllResourcesGathered} from './AllresourcesGathered';
+export {AllResourcesGathered} from './AllResourcesGathered';
 export {AttackTarget} from './AttackTarget';
 export {BlackboardValueExists} from './BlackboardValueExists';
 export {BuildBuilding} from './BuildBuilding';

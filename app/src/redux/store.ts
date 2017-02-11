@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as Immutable from 'immutable';
 import {createStore} from 'redux';
 import {actionTypes} from './actions/types';
+import {Item} from '../data/Item';
 
 import {
     IAgentState,
@@ -35,7 +36,7 @@ import {
 } from './Actions';
 
 export interface StoreState {
-    items: Immutable.Map<string, number>;
+    items: Immutable.Map<Item, number>;
     tile: IRowColumnCoordinates;
     hoveredAgent: IAgentState;
     hoveredAgentHunger: IHungerState;
@@ -55,7 +56,7 @@ export interface StoreState {
 }
 
 const initialState = {
-    items: Immutable.Map<string, number>()
+    items: Immutable.Map<Item, number>()
 } as StoreState;
 const mainReducer = (previousState = initialState, action) => {
     const newState = _.extend({}, previousState);
@@ -108,15 +109,15 @@ const mainReducer = (previousState = initialState, action) => {
     if (action.type === actionTypes.ADD_TO_ITEM_LIST
         || action.type === actionTypes.REMOVE_FROM_ITEM_LIST
     ) {
-        const itemName = (action as AddToItemList).itemName;
-        const currentCount = newState.items.get(itemName) || 0;
+        const item = (action as AddToItemList).item;
+        const currentCount = newState.items.get(item) || 0;
         if (action.type === actionTypes.ADD_TO_ITEM_LIST) {
-            newState.items = newState.items.set(itemName, currentCount + 1);
+            newState.items = newState.items.set(item, currentCount + 1);
         } else {
             if (currentCount === 1) {
-                newState.items = newState.items.remove(itemName);
+                newState.items = newState.items.remove(item);
             }
-            newState.items = newState.items.set(itemName, currentCount - 1);
+            newState.items = newState.items.set(item, currentCount - 1);
         }
     }
 

@@ -2,7 +2,7 @@
 // Ordered by priority. Thus a citizen with both the 'woodcutter' and 'citizen'
 // professions would choose to complete a woodcutter job before a citizen job
 export enum Profession {
-	Guard,
+	Guard = 1,
 	Gatherer,
 	Farmer,
 	Herbalist,

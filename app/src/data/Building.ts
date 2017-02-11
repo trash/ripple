@@ -1,5 +1,5 @@
 export enum Building {
-    Hut,
+    Hut = 1,
     House,
     Storage,
     Tavern,

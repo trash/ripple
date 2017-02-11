@@ -28,6 +28,7 @@ import {EntityManager} from '../entity/entityManager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testLevel';
 import {Building} from '../data/Building';
 import {Agent} from '../data/Agent';
+import {Item} from '../data/Item';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil} from '../entity/util';
@@ -197,10 +198,10 @@ export class EntitySpawner {
 	}
 
 	spawnItem (
-        itemName: string,
+		item: Item,
         entityComponentData: IEntityComponentData = {}
     ): number {
-		const assemblageData = _.extend({}, itemsAssemblageData[itemName]);
+		const assemblageData = _.extend({}, itemsAssemblageData[item]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Item);
@@ -228,7 +229,7 @@ export class EntitySpawner {
 		positionState.tile = spawnTile;
 		itemState.shouldBeSpawned = true;
 
-        store.dispatch(addToItemList(itemName));
+        store.dispatch(addToItemList(item));
 
 		return entityId;
 	}
@@ -238,7 +239,7 @@ export class EntitySpawner {
 		entityComponentData: IEntityComponentData = {}
 	): number[] {
 		return this.itemNamesFromList(items).map(itemName => {
-			return this.spawnItem(itemName, entityComponentData);
+			return this.spawnItem(Item[itemName], entityComponentData);
 		});
 	}
 

@@ -3,17 +3,18 @@ import * as Core from '../Core';
 import {util} from '../../util';
 import {IItemState} from '../../entity/components';
 import {IRowColumnCoordinates} from '../../interfaces';
+import {Item} from '../../data/Item';
 
 type DestinationTileFunction = (tick: Core.Tick) => IRowColumnCoordinates;
 
 export class CraftItem extends Core.BaseNode {
-	item: string;
+	item: Item;
 	craftTurns: number;
 	craftTurnsTotal: number;
 	destinationTileFunction: DestinationTileFunction;
 
 	constructor (
-        item: string,
+        item: Item,
 		craftTurns: number,
 		destinationTileFunction: DestinationTileFunction
     ) {

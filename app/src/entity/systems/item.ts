@@ -8,10 +8,12 @@ import {IPositionState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
+import {Item} from '../../data/Item';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 import {store} from '../../redux/store';
 import {addToItemList, removeFromItemList} from '../../redux/Actions';
+import {itemUtil} from '../util/item';
 
 export class ItemSystem extends EntitySystem {
     constructor (manager: EntityManager, component: Component) {
@@ -33,6 +35,10 @@ export class ItemSystem extends EntitySystem {
             const positionState = this.manager.getComponentDataForEntity(
                     Component.Position, id) as IPositionState;
 
+            if (!itemState.name && _.isNumber(itemState.enum)) {
+                itemState.name = itemUtil.getItemNameFromEnum(itemState.enum);
+            }
+
             if (renderableState.spriteGroup && !renderableState.sprite) {
                 renderableState.sprite = this.createSprite(itemState);
                 renderableState.spriteGroup.addChild(renderableState.sprite);
@@ -50,7 +56,7 @@ export class ItemSystem extends EntitySystem {
     destroyComponent (id: number) {
         const itemState = this.manager.getComponentDataForEntity(
             Component.Item, id) as IItemState;
-        store.dispatch(removeFromItemList(itemState.name));
+        store.dispatch(removeFromItemList(itemState.enum));
     }
 
     spawn (

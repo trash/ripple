@@ -1,5 +1,5 @@
 export enum StatusBubble {
-    Build,
+    Build = 1,
     Coin,
     Deer,
     Empty,

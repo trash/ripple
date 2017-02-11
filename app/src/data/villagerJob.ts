@@ -1,7 +1,7 @@
 import {Profession} from './Profession';
 
 export enum VillagerJob {
-    Laborer,
+    Laborer = 1,
     Guard,
     Builder,
     Farmer,

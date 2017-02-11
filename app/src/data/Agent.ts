@@ -1,5 +1,5 @@
 export enum Agent {
-    Human,
+    Human = 1,
     Wolf,
     Zombie,
 }

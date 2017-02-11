@@ -164,6 +164,10 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
                     e, editingKey, value, editing);
         const saveCallback = () => this.editableDebugItemOnSave(
             editingKey, object, property);
+
+        const valueString = util.isPrimitive(value)
+            ? JSON.stringify(value)
+            : value.toString();
         return (
         <li key={property}
             onClick={event => {
@@ -173,7 +177,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             <span onClick={itemOnClick}
                 >{property}:</span>
             { !editing
-                ? <span onClick={itemOnClick}>{JSON.stringify(value)}</span>
+                ? <span onClick={itemOnClick}>{valueString}</span>
                 : <form onSubmit={saveCallback}>
                     <input type={inputType}
                         value={editingValue}

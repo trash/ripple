@@ -6,6 +6,7 @@ import {gameLevelFactory} from './gameLevelFactory';
 import {VillagerJob} from './villagerJob';
 import {Building} from './Building';
 import {Agent} from './Agent';
+import {Item} from './Item';
 
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
@@ -23,9 +24,12 @@ const defaultBuildingPosition = {
 	}
 };
 
-const allItemsMap = {};
+const allItemsList = [];
 itemsList.forEach(itemData => {
-	allItemsMap[itemData.item.name] = util.randomInRange(5, 12)
+	allItemsList.push({
+		enum: itemData.item.enum,
+		count: util.randomInRange(5, 12)
+	});
 });
 
 let testLevelsData: ITestLevelGroup[]  = [
@@ -46,10 +50,13 @@ let testLevelsData: ITestLevelGroup[]  = [
 						job: VillagerJob.Builder
 					}
 				}],
-				items: {
-					wood: 21,
-					berries: 4
-				}
+				items: [{
+					enum: Item.Wood,
+					count: 21
+				}, {
+					enum: Item.Berries,
+					count: 4
+				}]
 			},
 			{
 				name: 'Completed Building Test',
@@ -77,9 +84,10 @@ let testLevelsData: ITestLevelGroup[]  = [
 						}
 					}
 				}],
-				items: {
-					berries: 2
-				}
+				items: [{
+					enum: Item.Berries,
+					count: 4
+				}]
 			},
 			{
 				name: 'Villager sleeps in house',
@@ -164,10 +172,13 @@ let testLevelsData: ITestLevelGroup[]  = [
 						job: VillagerJob.Carpenter
 					}
 				}],
-				items: {
-					wood: 20,
-					berries: 4
-				},
+				items: [{
+					enum: Item.Wood,
+					count: 20
+				}, {
+					enum: Item.Berries,
+					count: 4
+				}],
 				itemsClaimed: true,
 				buildings: [{
 					enum: Building.CarpenterShop,
@@ -185,9 +196,10 @@ let testLevelsData: ITestLevelGroup[]  = [
 						job: VillagerJob.Guard
 					}
 				}],
-				items: {
-					berries: 4
-				},
+				items: [{
+					enum: Item.Berries,
+					count: 4
+				}],
 				buildings: [{
 					enum: Building.Hut,
 
@@ -220,7 +232,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Items Tests',
 		list: [{
 			name: 'Spawn All Items Test',
-			items: allItemsMap
+			items: allItemsList
 		}]
 	}
 ];

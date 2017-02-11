@@ -486,6 +486,11 @@ export class Util {
             `${property}: ${JSON.stringify(object[property])}`
         );
 	}
+
+	// Returns false for classes basically
+	isPrimitive(value: any): boolean {
+        return _.isArray(value) || !_.isObject(value) || _.isPlainObject(value);
+    }
 }
 
 export let util = new Util();

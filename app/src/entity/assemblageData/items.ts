@@ -3,9 +3,11 @@ import {IEntityComponentData, IAssemblageDataMap, ItemProperty} from '../../inte
 import {util} from '../../util';
 import {config} from '../../data/config';
 import {Profession} from '../../data/Profession';
+import {Item} from '../../data/Item';
 
 export const dataList: IEntityComponentData[] = [{
         item: {
+            enum: Item.Wood,
             name: 'wood',
             readableName: 'wood',
             description: 'A pile of wood.',
@@ -20,6 +22,7 @@ export const dataList: IEntityComponentData[] = [{
     },
     {
         item: {
+            enum: Item.Berries,
             value: 1,
             name: 'berries',
             readableName: 'berries',
@@ -34,6 +37,7 @@ export const dataList: IEntityComponentData[] = [{
     },
     {
         item: {
+            enum: Item.Mushroom,
             value: 1,
             name: 'mushroom',
             readableName: 'mushroom',
@@ -43,6 +47,7 @@ export const dataList: IEntityComponentData[] = [{
     },
     {
         item: {
+            enum: Item.Stone,
             value: 4,
             name: 'stone',
             readableName: 'stone',
@@ -52,14 +57,16 @@ export const dataList: IEntityComponentData[] = [{
     },
     {
         item: {
+            enum: Item.Plank,
             name: 'plank',
             readableName: 'Plank',
             description: 'A plank for crafting things made of wood.'
         },
         craftable: {
-            requiredResources: {
-                wood: 4
-            },
+            requiredResources: [{
+                enum: Item.Wood,
+                count: 4
+            }],
             craftTurns: 2,
             profession: Profession.Carpenter
         }
@@ -68,6 +75,6 @@ export const dataList: IEntityComponentData[] = [{
 
 export const assemblageData = (() => {
     let assemblageData: IAssemblageDataMap = {};
-    dataList.forEach(data => assemblageData[data.item.name] = data);
+    dataList.forEach(data => assemblageData[data.item.enum] = data);
     return assemblageData;
 })();
