@@ -86,7 +86,7 @@ export class PlaceBuildingService {
             return;
         }
 		if (this.validPlacement) {
-			this.entitySpawner.spawnBuilding(this.building.enum, false, {
+			this.entitySpawner.spawnBuilding(this.building.enum, false, null, {
 				position: {
 					tile: tile
 				}

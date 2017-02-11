@@ -57,6 +57,7 @@ export const assemblages: IAssemblagesMap = {
         Component.Position,
         Component.Renderable,
         Component.Building,
+        Component.Storage,
         Component.Constructible,
         Component.Collision,
         // ComponentsEnum.Enterable,

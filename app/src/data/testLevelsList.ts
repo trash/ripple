@@ -67,6 +67,20 @@ let testLevelsData: ITestLevelGroup[]  = [
 						position: defaultBuildingPosition
 					}
 				}]
+			},
+			{
+				name: 'Tavern stocks up items test',
+				buildings: [{
+					enum: Building.Tavern,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					},
+					storage: [{
+						enum: Item.Berries,
+						count: 4
+					}]
+				}]
 			}
 		]
 	},

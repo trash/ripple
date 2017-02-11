@@ -13,7 +13,7 @@ export interface IItemState {
     claimed?: boolean;
     properties?: ItemProperty[]
     toBeStored?: boolean;
-    stored?: boolean;
+    stored?: number;
     value?: number;
     haulerTask?: number;
 }
@@ -35,7 +35,7 @@ export let Item: IItemComponent = {
         claimed: false,
         properties: [],
         toBeStored: false,
-        stored: false,
+        stored: null,
         value: 1,
         haulerTask: null
     }

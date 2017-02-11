@@ -18,7 +18,7 @@ export class ItemUtil extends BaseUtil {
         const tile = positionState.tile;
 
         // Free up storage space
-        if (itemState.stored) {
+        if (itemState.stored !== null) {
             events.emit(['storage', 'unoccupy'], tile, id);
         }
 

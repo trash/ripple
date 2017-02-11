@@ -4,6 +4,7 @@ import * as _ from 'lodash';;
 export enum Component {
     Position,
     Renderable,
+    Storage,
     Agent,
     Villager,
     Craftable,

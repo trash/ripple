@@ -19,3 +19,4 @@ export {Resource, IResourceState} from './Resource';
 export {Sleep, ISleepState} from './Sleep';
 export {StatusBubble, IStatusBubbleState} from './StatusBubble';
 export {Villager, IVillagerState} from './Villager';
+export {Storage, IStorageState} from './Storage';

@@ -191,6 +191,7 @@ export class GameManager {
                 this.entityManager.spawner.spawnBuilding(
                     building.enum,
                     building.isCompleted,
+                    building.storage,
                     building.data);
             });
         }

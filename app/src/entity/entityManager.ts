@@ -18,7 +18,8 @@ import {
     harvestableUtil,
     positionUtil,
     buildingUtil,
-    statusBubbleUtil
+    statusBubbleUtil,
+    storageUtil
 } from './util';
 
 export class EntitySystem extends EventEmitter2 {
@@ -56,6 +57,7 @@ const utilList: BaseUtil[] = [
     statusBubbleUtil,
     collisionUtil,
     buildingUtil,
+    storageUtil
 ];
 
 type EntityComponentDataMapEntry = any;

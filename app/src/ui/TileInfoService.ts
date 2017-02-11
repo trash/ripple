@@ -10,6 +10,7 @@ import {
     updateHoveredResource,
     updateHoveredItem,
     updateHoveredBuilding,
+    updateHoveredStorage,
     updateHoveredAgentLastExecutionChain
 } from '../redux/Actions';
 
@@ -30,7 +31,8 @@ import {
     IPositionState,
     ICollisionState,
     IBehaviorTreeState,
-    IVillagerState
+    IVillagerState,
+    IStorageState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -157,6 +159,15 @@ export class TileInfoService {
             const constructibleState = this.entityManager.getComponentDataForEntity(
                 Component.Constructible, building) as IConstructibleState;
             store.dispatch(updateHoveredBuilding(buildingState, constructibleState));
+        }
+
+        const storage = getEntityWithComponentInTile(Component.Storage);
+        if (storage) {
+            const storageState = this.entityManager.getComponentDataForEntity(
+                Component.Storage,
+                storage
+            ) as IStorageState;
+            store.dispatch(updateHoveredStorage(storageState));
         }
 
         store.dispatch(updateHoverTile(tile));

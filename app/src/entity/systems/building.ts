@@ -10,7 +10,8 @@ import {
     IConstructibleState,
     IHealthState,
     INameState,
-    ICollisionState
+    ICollisionState,
+    IStorageState
 } from '../components';
 import {mapUtil} from '../util/map';
 
@@ -31,6 +32,8 @@ export class BuildingSystem extends EntitySystem {
                     Component.Renderable, id) as IRenderableState;
             const collisionState = this.manager.getComponentDataForEntity(
                 Component.Collision, id) as ICollisionState;
+            const storageState = this.manager.getComponentDataForEntity(
+                Component.Storage, id) as IStorageState;
 
             // Get the name from the enum
             if (!buildingState.name && _.isNumber(buildingState.enum)) {
@@ -53,6 +56,9 @@ export class BuildingSystem extends EntitySystem {
                 if (nameState.isStatic) {
                     nameState.name = buildingState.name;
                 }
+            }
+            if (!storageState.tile) {
+                storageState.tile = buildingState.entranceTile;
             }
         });
     }

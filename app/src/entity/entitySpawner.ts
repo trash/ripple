@@ -1,5 +1,9 @@
 import * as _ from 'lodash';
-import {IEntityComponentData, IRowColumnCoordinates} from '../interfaces';
+import {
+	IEntityComponentData,
+	IRowColumnCoordinates,
+	RequiredResources
+} from '../interfaces';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
 import {addToItemList} from '../redux/Actions';
@@ -31,7 +35,7 @@ import {Agent} from '../data/Agent';
 import {Item} from '../data/Item';
 import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
-import {baseUtil} from '../entity/util';
+import {baseUtil, storageUtil} from './util';
 import {util} from '../util';
 import {events} from '../events';
 
@@ -251,6 +255,7 @@ export class EntitySpawner {
 	spawnBuilding (
         building: Building,
 		isCompleted: boolean = false,
+		storage: RequiredResources,
         entityComponentData: IEntityComponentData = {}
     ): number {
 		if (!entityComponentData.position.tile) {
@@ -272,6 +277,15 @@ export class EntitySpawner {
 			const healthState = this.entityManager.getComponentDataForEntity(
 				Component.Health, entityId) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;
+		}
+
+		if (storage) {
+			storage.forEach(itemEntry => {
+				for (let i = 0; i < itemEntry.count; i++) {
+					const itemId = this.spawnItem(itemEntry.enum);
+					setTimeout(() => storageUtil.storeItem(itemId, entityId), 200);
+				}
+			});
 		}
 
 		return entityId;

@@ -15,6 +15,7 @@ export {
     AddToItemList,
     RemoveFromItemList
 } from './updateItemList';
+import {IStorageState} from '../../entity/components/Storage';
 
 import {actionTypes} from './types';
 
@@ -57,5 +58,19 @@ export function showCraftBar (
     return {
         type: actionTypes.SHOW_CRAFT_BAR,
         show: show
+    };
+}
+
+export interface UpdateHoveredStorage {
+    type: string;
+    storage: IStorageState;
+}
+
+export function updateHoveredStorage(
+    storage: IStorageState
+): UpdateHoveredStorage {
+    return {
+        type: actionTypes.UPDATE_HOVERED_STORAGE,
+        storage: storage
     };
 }

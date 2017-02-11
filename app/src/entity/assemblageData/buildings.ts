@@ -1,6 +1,6 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
-import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
+import {IEntityComponentData, IAssemblageDataMap, ItemProperty} from '../../interfaces';
 import {Building} from '../../data/Building';
 import {Item} from '../../data/Item';
 
@@ -129,10 +129,11 @@ export const dataList: IEntityComponentData[] = [
             currentHealth: 0,
             maxHealth: 500
         },
-        // storage: {
-        //     restrictions: [ItemProperties.food],
-        //     amount: 20
-        // }
+        storage: {
+            itemRestrictions: [ItemProperty.Food],
+            total: 20,
+            available: 20
+        }
     },
     {
         building: {

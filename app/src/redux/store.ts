@@ -13,7 +13,8 @@ import {
     IBuildingState,
     IConstructibleState,
     IPositionState,
-    IVillagerState
+    IVillagerState,
+    IStorageState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -32,7 +33,8 @@ import {
     AddToItemList,
     RemoveFromItemList,
     ShowDebugBar,
-    ShowCraftBar
+    ShowCraftBar,
+    UpdateHoveredStorage
 } from './Actions';
 
 export interface StoreState {
@@ -44,6 +46,7 @@ export interface StoreState {
     hoveredAgentPosition: IPositionState;
     hoveredItem: IItemState;
     hoveredResource: IResourceState;
+    hoveredStorage: IStorageState;
     hoveredBuildingState: IBuildingState;
     hoveredBuildingConstructibleState: IConstructibleState;
     hoveredAgentLastExecutionChain: ChildStatus[];
@@ -119,6 +122,11 @@ const mainReducer = (previousState = initialState, action) => {
             }
             newState.items = newState.items.set(item, currentCount - 1);
         }
+    }
+
+    if (action.type === actionTypes.UPDATE_HOVERED_STORAGE) {
+        const updateAction = action as UpdateHoveredStorage;
+        newState.hoveredStorage = updateAction.storage;
     }
 
     return newState;

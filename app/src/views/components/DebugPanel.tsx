@@ -18,7 +18,8 @@ import {
     Constructible,
     IPositionState,
     IVillagerState,
-    Villager
+    Villager,
+    IStorageState,
 } from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
@@ -42,6 +43,7 @@ interface DebugPanelProps {
     executionChain: ChildStatus[];
     hours: number;
     days: number;
+    storage: IStorageState;
 }
 
 interface DebugPanelState {
@@ -259,6 +261,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             ['Agent Sleep', this.props.agentSleep, []],
             ['Item', this.props.item, []],
             ['Resource', this.props.resource, []],
+            ['Storage', this.props.storage, []],
             ['Building Info', this.props.building, []],
             ['Building Constructible', this.props.buildingConstructible,
                 Constructible.blacklistedDebugProperties],
@@ -311,6 +314,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         buildingConstructible: state.hoveredBuildingConstructibleState,
         hours: state.hours,
         days: state.days,
-        villager: state.hoveredVillager
+        villager: state.hoveredVillager,
+        storage: state.hoveredStorage
     };
 })(DebugPanel);

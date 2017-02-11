@@ -192,6 +192,7 @@ import {
 	ISleepState,
 	IHungerState,
 	ICraftableState,
+	IStorageState,
 } from './entity/components';
 
 export interface IEntityComponentData {
@@ -210,6 +211,7 @@ export interface IEntityComponentData {
 	healthBar?: IHealthBarState;
 	collision?: ICollisionState;
 	craftable?: ICraftableState;
+	storage?: IStorageState;
 }
 
 export interface IAssemblageDataMap {
