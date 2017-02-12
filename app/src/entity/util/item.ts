@@ -27,6 +27,16 @@ export class ItemUtil extends BaseUtil {
         positionState.tile = null;
     }
 
+	getItemSearchResultFromItem(
+		item: number
+	): IItemSearchResult {
+		return {
+			state: this._getItemState(item),
+			position: this._getPositionState(item),
+			id: item
+		};
+	}
+
 	getItemNameFromEnum(
 		item: Item
 	): string {

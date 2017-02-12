@@ -1,7 +1,9 @@
+import * as _ from 'lodash';
 import {Task} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
 import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';
+import {storageUtil, positionUtil} from '../entity/util';
 
 /**
 * Creates a new HaulerTask object.
@@ -28,7 +30,15 @@ export class HaulerTask extends Task {
 			maxInstancePool: 1
 		});
 
-		console.info('check if theres an open storage location if there isnt call complete here');
+		const nearest = storageUtil.getNearestStorageEntityToTile(
+            item,
+			positionUtil.getTileFromEntityId(item)
+        );
+
+        if (!_.isNumber(nearest)) {
+			console.warn('No storage location for item. Cancelling hauler task.');
+			this.complete();
+        }
 	}
 	// We need to drop the item being hauled if cancelled
 	cancel () {

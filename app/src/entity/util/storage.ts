@@ -13,7 +13,10 @@ import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
 
 export class StorageUtil extends BaseUtil {
-    storeItem(itemEntity: number, storageEntity: number) {
+    storeItem(
+        itemEntity: number,
+        storageEntity: number
+    ) {
         const itemState = this._getItemState(itemEntity);
         const storageState = this._getStorageState(storageEntity);
         // Check if adding the item to storage is valid
@@ -41,7 +44,10 @@ export class StorageUtil extends BaseUtil {
         itemState.stored = storageEntity;
     }
 
-    checkIfAddValid(itemState: IItemState, storageState: IStorageState): boolean {
+    checkIfAddValid(
+        itemState: IItemState,
+        storageState: IStorageState
+    ): boolean {
         if (!storageState.available) {
             return false;
         }
@@ -54,10 +60,17 @@ export class StorageUtil extends BaseUtil {
                 ).length;
     }
 
-    getNearestStorageEntityToTile(tile: IRowColumnCoordinates): number {
+    getNearestStorageEntityToTile(
+        itemEntity: number,
+        tile: IRowColumnCoordinates
+    ): number {
+        const itemState = this._getItemState(itemEntity);
         const storageEntities = this.entityManager.getEntityIdsForComponent(
             Component.Storage
-        );
+        ).filter(entity => {
+            const storageState = this._getStorageState(entity);
+            return this.checkIfAddValid(itemState, storageState);
+        });
         const storageTiles = storageEntities.map(
             entity => this._getStorageState(entity).tile
         );
