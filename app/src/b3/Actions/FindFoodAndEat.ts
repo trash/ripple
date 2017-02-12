@@ -1,10 +1,11 @@
 import * as Core from '../Core';
 import {util} from '../../util';
 import {StatusBubble} from '../../data/StatusBubble';
+import {ItemProperty} from '../../data/ItemProperty';
 
 import * as Actions from './index';
 
-import {ItemProperty, IItemSearchResult} from '../../interfaces';
+import {IItemSearchResult} from '../../interfaces';
 
 const foodKey = 'find-food-item';
 

@@ -1,7 +1,7 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ItemProperty} from '../../interfaces';
 import {Item as ItemEnum} from '../../data/Item';
+import {ItemProperty} from '../../data/ItemProperty';
 
 export interface IItemState {
     enum?: ItemEnum,

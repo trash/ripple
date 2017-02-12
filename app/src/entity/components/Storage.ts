@@ -1,6 +1,7 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ItemProperty, IRowColumnCoordinates} from '../../interfaces';
+import {IRowColumnCoordinates} from '../../interfaces';
+import {ItemProperty} from '../../data/ItemProperty';
 
 export interface IStorageState {
     tile?: IRowColumnCoordinates;

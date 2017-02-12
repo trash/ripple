@@ -1,8 +1,9 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
-import {IEntityComponentData, IAssemblageDataMap, ItemProperty} from '../../interfaces';
+import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {Building} from '../../data/Building';
 import {Item} from '../../data/Item';
+import {ItemProperty} from '../../data/ItemProperty';
 
 export const dataList: IEntityComponentData[] = [
     {

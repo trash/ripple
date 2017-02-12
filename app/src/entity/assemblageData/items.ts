@@ -1,9 +1,10 @@
 import {IResourceState} from '../components/resource';
-import {IEntityComponentData, IAssemblageDataMap, ItemProperty} from '../../interfaces';
+import {IEntityComponentData, IAssemblageDataMap} from '../../interfaces';
 import {util} from '../../util';
 import {config} from '../../data/config';
 import {Profession} from '../../data/Profession';
 import {Item} from '../../data/Item';
+import {ItemProperty} from '../../data/ItemProperty';
 
 export const dataList: IEntityComponentData[] = [{
         item: {

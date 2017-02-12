@@ -14,7 +14,8 @@ const defaultHealthState = {
     maxHealth: maxHealth
 };
 
-const dataList: IEntityComponentData[] = [{
+const dataList: IEntityComponentData[] = [
+    {
         agent: {
             enum: Agent.Zombie,
             genderEnabled: false,
@@ -60,7 +61,8 @@ const dataList: IEntityComponentData[] = [{
             tree: deerTree,
         },
         health: defaultHealthState
-}];
+    }
+];
 
 export const assemblageData = (() => {
     let assemblageData: IAssemblageDataMap = {};

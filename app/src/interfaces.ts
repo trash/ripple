@@ -1,6 +1,7 @@
 import {MapTile} from './map/tile';
 import {Profession} from './data/Profession';
 import {Item} from './data/Item';
+import {ItemProperty} from './data/ItemProperty';
 import {Tick} from './b3/Core';
 import {EntitySpawner} from './entity/entitySpawner';
 
@@ -91,20 +92,6 @@ export enum AgentTraits {
 	Human
 };
 
-export enum ItemProperty {
-	Resource,
-	Wood,
-	Food,
-	Farmable,
-	Potion,
-	Armor,
-	Weapon,
-	Copper,
-	Sword,
-	Iron,
-	Gold
-};
-
 export interface ISoundDataEntry {
 	list: string[];
 	throttle?: number;
@@ -193,6 +180,7 @@ import {
 	IHungerState,
 	ICraftableState,
 	IStorageState,
+	IVisitorState,
 } from './entity/components';
 
 export interface IEntityComponentData {
@@ -212,6 +200,7 @@ export interface IEntityComponentData {
 	collision?: ICollisionState;
 	craftable?: ICraftableState;
 	storage?: IStorageState;
+	visitor?: IVisitorState;
 }
 
 export interface IAssemblageDataMap {

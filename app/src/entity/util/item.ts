@@ -5,10 +5,15 @@ import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
 import {BaseUtil} from './base';
-import {IItemSearchResult, IRowColumnCoordinates, ItemProperty, ItemSearchOptions} from '../../interfaces';
+import {
+	IItemSearchResult,
+	IRowColumnCoordinates,
+	ItemSearchOptions
+} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
+import {ItemProperty} from '../../data/ItemProperty';
 
 export class ItemUtil extends BaseUtil {
     removeFromTile (id: number) {

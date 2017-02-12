@@ -55,7 +55,8 @@ export class EntitySpawner {
 		entityManager: EntityManager
 	) {
         this.entityManager = entityManager;
-		events.on('spawnAgent', (agent: Agent) => this.spawnAgent(agent));
+		events.on('spawnAgent', (agent: Agent, data?: IEntityComponentData) =>
+			this.spawnAgent(agent, data));
 		events.on('spawnItem', (item: Item) => this.spawnItem(item, {
 			item: {
 				claimed: true
@@ -109,9 +110,12 @@ export class EntitySpawner {
 		villager: IVillagerComponentOptions = null,
 		entityComponentData: IEntityComponentData = {}
 	): number {
-		const assemblage = villager ?
-			AssemblagesEnum.Villager :
-			AssemblagesEnum.Agent;
+		let assemblage = AssemblagesEnum.Agent;
+		if (villager) {
+			assemblage = AssemblagesEnum.Villager;
+		} else if (entityComponentData.visitor) {
+			assemblage = AssemblagesEnum.Visitor;
+		}
 		const entityId = this.entityManager.createEntityFromAssemblage(assemblage);
 
 		console.info(`Spawning: ${Agent[agent]} with entityId: ${entityId}`);

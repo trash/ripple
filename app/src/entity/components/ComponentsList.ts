@@ -19,6 +19,7 @@ import {
     Constructible,
     Corpse,
     Collision,
+    Visitor,
     Name
 } from './index';
 
@@ -35,6 +36,7 @@ export let componentsList: IComponent[] = [
     Villager,
     Resource,
     StatusBubble,
+    Visitor,
     BehaviorTree,
     Harvestable,
     Health,

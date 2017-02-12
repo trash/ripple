@@ -32,6 +32,10 @@ export class DebugBar extends React.Component<null, null> {
             })}
             <button onClick={() => events.emit('spawnAgent', Agent.Zombie)}
                 >Spawn Zombie</button>
+            <button onClick={() => events.emit('spawnAgent', Agent.Human, {
+                    visitor: {}
+                })}
+                >Spawn Visitor</button>
             <button onClick={() => events.emit('spawnItem', Item.Wood)}
                 >Spawn Item</button>
             <button onClick={() => events.emit('spawnItem', Item.Berries)}
