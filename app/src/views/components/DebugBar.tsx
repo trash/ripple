@@ -3,6 +3,8 @@ import * as React from 'react';
 import {Component} from '../../entity/ComponentEnum';
 import {killEntityService} from '../../services/killEntityService';
 import {events} from '../../events';
+import {Agent} from '../../data/Agent';
+import {Item} from '../../data/Item';
 
 const actions = [
     {
@@ -28,8 +30,10 @@ export class DebugBar extends React.Component<null, null> {
                     onClick={() => killEntityService.toggle(action.action)}
                 >{action.name}</button>
             })}
-            <button onClick={() => events.emit('spawnAgent', 'zombie')}
+            <button onClick={() => events.emit('spawnAgent', Agent.Zombie)}
                 >Spawn Zombie</button>
+            <button onClick={() => events.emit('spawnItem', Item.Wood)}
+                >Spawn Item</button>
         </div>
         );
     }

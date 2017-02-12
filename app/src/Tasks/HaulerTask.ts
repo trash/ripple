@@ -1,7 +1,5 @@
 import {Task} from './Task';
-// import {storage} from '../services/storage';
 import * as Tasks from '../b3/Actions/Tasks';
-import {MapTile} from '../map/tile';
 import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';
 
@@ -20,50 +18,17 @@ import {StatusBubble} from '../data/StatusBubble';
 * @param {Tile} [dropOffLocation] Explicit location where to bring the item
 */
 export class HaulerTask extends Task {
-	item: number;
-	toStorage: boolean;
-	destinationTile: MapTile;
-	dropOffLocation: MapTile;
-
-	constructor (item: number, dropOffLocation?: MapTile) {
-		let noDropOffLocation = !dropOffLocation;
-
-		// If no dropOffLocation is defined then this is being stored
-		// if (noDropOffLocation) {
-		// 	// Find the nearest stockpile at task creation
-		// 	var stockpile = storage.getNearestStockpileForItem(item);
-		// 	dropOffLocation = stockpile.tile;
-		// 	// Make sure to 'claim' the stockpile
-		// 	storage.occupyStockpileByTile(dropOffLocation, item);
-		// }
-
+	constructor (item: number) {
 		// Call our parent constructor
 		super({
 			name: 'hauler-task',
-			taskType: Profession.Citizen,
-			behaviorTree: new Tasks.HaulerTask(item, dropOffLocation),
-			bubble: StatusBubble.Sad
+			taskType: Profession.Hauler,
+			behaviorTree: new Tasks.HaulerTask(item),
+			bubble: StatusBubble.Sad,
+			maxInstancePool: 1
 		});
 
-		if (noDropOffLocation) {
-			this.toStorage = true;
-		}
-
-		this.item = item;
-		// Make sure to mark the item as being moved to be stored
-		// this.item.setToBeStored(true);
-		// this.item.haulerTask = this;
-
-		// By default this task does not mean an item is moving to storage
-		this.toStorage = false;
-
-		// only one person can haul an item
-		this.maxInstancePool = 1;
-
-		// this.destinationTile = item.tile;
-		// this.description = 'Hauling a ' + this.item.name + ' at ' + this.destinationTile.column + ',' + this.destinationTile.row + '.';
-
-		this.dropOffLocation = dropOffLocation;
+		console.info('check if theres an open storage location if there isnt call complete here');
 	}
 	// We need to drop the item being hauled if cancelled
 	cancel () {

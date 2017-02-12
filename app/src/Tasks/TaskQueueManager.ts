@@ -35,8 +35,8 @@ const professionTaskQueueMap: IProfessionTaskQueueMap = {
 			return new WoodcutterTask(tree);
 		}
 	),
-	[Profession.Citizen]: new TaskQueue(
-		'citizen',
+	[Profession.Hauler]: new TaskQueue(
+		'hauler',
 		(item: number) => {
 			return new HaulerTask(item);
 		}

@@ -36,4 +36,6 @@ export {Sleep} from './Sleep';
 export {Wait} from './Wait';
 export {WaitWander} from './WaitWander';
 export {Wander} from './Wander';
+export {StoreItemToTile} from './StoreItemToTile';
+export {GetStorageLocation} from './GetStorageLocation';
 export {WasRecentlyAttacked} from './WasRecentlyAttacked';

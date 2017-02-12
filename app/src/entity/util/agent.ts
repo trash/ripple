@@ -116,9 +116,9 @@ export class AgentUtil extends BaseUtil {
 		}
 
 		// Get the agent based on how close they are to the given tile
-		let nearestIndex = MapUtil.nearestTileFromSet(tile,
+		const nearestIndex = MapUtil.nearestTileFromSet(tile,
 				agents.map(agentSearchResult => agentSearchResult.position.tile));
-		let nearestAgent = agents[nearestIndex];
+		const nearestAgent = agents[nearestIndex];
 		// Check to make sure agent is in distance if one is specified
 		if (!distance || MapUtil.distanceTo(nearestAgent.position.tile, tile) <= distance) {
 			return nearestAgent;

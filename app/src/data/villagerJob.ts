@@ -24,7 +24,7 @@ export interface IVillagerJobMap {
 export const villagerJobsMap: IVillagerJobMap = {
     [VillagerJob.Unemployed]: {
         professions: [
-            Profession.Citizen
+            Profession.Hauler
         ]
     },
     [VillagerJob.Laborer]: {

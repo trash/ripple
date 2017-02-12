@@ -9,11 +9,13 @@ import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
+import {Profession} from '../../data/Profession';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 import {store} from '../../redux/store';
 import {addToItemList, removeFromItemList} from '../../redux/Actions';
 import {itemUtil} from '../util/item';
+import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 
 export class ItemSystem extends EntitySystem {
     constructor (manager: EntityManager, component: Component) {
@@ -45,7 +47,7 @@ export class ItemSystem extends EntitySystem {
                 renderableState.shown = false;
             }
             if (renderableState.sprite && itemState.shouldBeSpawned && !itemState.hasBeenSpawned) {
-                this.spawn(itemState, renderableState, positionState);
+                this.spawn(id, itemState, renderableState, positionState);
             }
             if (!nameState.name) {
                 nameState.name = itemState.readableName;
@@ -60,6 +62,7 @@ export class ItemSystem extends EntitySystem {
     }
 
     spawn (
+        id: number,
         itemState: IItemState,
         renderableState: IRenderableState,
         positionState: IPositionState
@@ -68,11 +71,14 @@ export class ItemSystem extends EntitySystem {
 
 		// nearestEmptyTile.addItem(this);
 
-		// Create a new hauler task for this item if there is storage space available and it's storable
+		// Create a new hauler task for this item if there is storage space
+        // available and it's storable
         console.info('should be creating a hauler task for this item');
+        const taskQueue = taskQueueManager.professionTaskQueue(Profession.Hauler);
+        taskQueue.push(id);
 
-        spriteManager.changePosition(renderableState.spriteGroup, nearestEmptyTile.column,
-            nearestEmptyTile.row);
+        spriteManager.changePosition(renderableState.spriteGroup,
+            nearestEmptyTile.column, nearestEmptyTile.row);
 
         renderableState.shown = true;
 

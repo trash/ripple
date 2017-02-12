@@ -76,10 +76,14 @@ let testLevelsData: ITestLevelGroup[]  = [
 					data: {
 						position: defaultBuildingPosition
 					},
-					storage: [{
-						enum: Item.Berries,
-						count: 4
-					}]
+					// storage: [{
+					// 	enum: Item.Berries,
+					// 	count: 4
+					// }]
+				}],
+				agents: [{
+					enum: Agent.Human,
+					villager: {}
 				}]
 			}
 		]

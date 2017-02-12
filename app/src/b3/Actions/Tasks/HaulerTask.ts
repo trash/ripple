@@ -1,24 +1,31 @@
 import * as Core from '../../Core';
-import {MapTile} from '../../../map/tile';
+import * as Actions from '../../Actions';
+import {IRowColumnCoordinates} from '../../../interfaces';
+import {positionUtil} from '../../../entity/util/position';
 
 const targetKey = 'hauler-task-target';
 
 export class HaulerTask extends Core.MemSequence {
 	constructor (
-		item: number,
-		dropOffLocation: MapTile
+		item: number
 	) {
-		if (!item || !dropOffLocation) {
-			console.error('broken hauler task created');
-			debugger;
-		}
+		let storage: number;
 		super({
 			children: [
-				// new SetBlackboardValue(targetKey, item),
-				// new GoToTarget(targetKey),
-				// new PickupItem(targetKey),
-				// new GoToTarget(() => dropOffLocation),
-				// new StoreItemToTile(targetKey, dropOffLocation),
+				new Actions.SetBlackboardValue(targetKey, () => {
+					return {
+						id: item,
+						state: positionUtil._getItemState(item),
+						position: positionUtil._getPositionState(item)
+					};
+				}),
+				new Actions.GoToTarget(() => positionUtil.getTileFromEntityId(item)),
+				new Actions.PickupItem(targetKey),
+				new Actions.GetStorageLocation(
+					positionUtil.getTileFromEntityId(item),
+					storageId => storage = storageId),
+				new Actions.GoToTarget(() => positionUtil.getTileFromEntityId(storage)),
+				new Actions.StoreItemToTile(item, () => storage)
 			]
 		});
 	}

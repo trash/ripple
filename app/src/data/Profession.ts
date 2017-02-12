@@ -14,7 +14,7 @@ export enum Profession {
 	Baker,
 	Brewer,
 	Carpenter,
-	Citizen,
+	Hauler,
 	Fisherman,
 	Shopkeeper
 }

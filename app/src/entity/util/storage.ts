@@ -53,6 +53,18 @@ export class StorageUtil extends BaseUtil {
                     itemState.properties
                 ).length;
     }
+
+    getNearestStorageEntityToTile(tile: IRowColumnCoordinates): number {
+        const storageEntities = this.entityManager.getEntityIdsForComponent(
+            Component.Storage
+        );
+        const storageTiles = storageEntities.map(
+            entity => this._getStorageState(entity).tile
+        );
+        const nearest = MapUtil.nearestTileFromSet(tile, storageTiles);
+
+        return storageEntities[nearest];
+    }
 }
 
 export const storageUtil = new StorageUtil();
