@@ -5,7 +5,7 @@ import {
     IBehaviorTreeState,
     IVisitorState
 } from '../components';
-import {villager as visitorTree} from '../../b3/Trees';
+import {visitor as visitorTree} from '../../b3/Trees';
 
 export class VisitorSystem extends EntitySystem {
     update (entityIds: number[]) {

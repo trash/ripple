@@ -1,3 +1,4 @@
-export {behaviorTree as deer} from './Deer';
-export {behaviorTree as villager} from './Villager';
-export {behaviorTree as zombie} from './Zombie';
+export {behaviorTree as deer} from './deer';
+export {behaviorTree as zombie} from './zombie';
+export {behaviorTree as visitor} from './visitor';
+export {behaviorTree as villager} from './villager';

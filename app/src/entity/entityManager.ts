@@ -19,6 +19,7 @@ import {
     positionUtil,
     buildingUtil,
     statusBubbleUtil,
+    visitorUtil,
     storageUtil
 } from './util';
 
@@ -57,7 +58,8 @@ const utilList: BaseUtil[] = [
     statusBubbleUtil,
     collisionUtil,
     buildingUtil,
-    storageUtil
+    storageUtil,
+    visitorUtil,
 ];
 
 type EntityComponentDataMapEntry = any;

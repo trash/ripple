@@ -73,7 +73,6 @@ export class ItemSystem extends EntitySystem {
 
 		// Create a new hauler task for this item if there is storage space
         // available and it's storable
-        console.info('should be creating a hauler task for this item');
         const taskQueue = taskQueueManager.professionTaskQueue(Profession.Hauler);
         taskQueue.push(id);
 

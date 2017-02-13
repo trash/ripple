@@ -17,6 +17,7 @@ import {
     CollisionSystem,
     CorpseSystem,
     GuardSystem,
+    VisitorSystem
 } from './index';
 
 import {EntitySystem, EntityManager} from '../entityManager';
@@ -28,6 +29,7 @@ export const systemsList:
 = [
     [HarvestSelectSystem, Component.Resource],
     [VillagerSystem, Component.Villager],
+    [VisitorSystem, Component.Visitor],
     [BehaviorTreeSystem, Component.Agent],
     [PositionSystem, Component.Position],
     [ResourceSystem, Component.Resource],

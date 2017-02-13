@@ -16,6 +16,12 @@ export class InventoryUtil extends BaseUtil {
 		}
 		return inventoryState.items.splice(index, 1);
 	}
+    contains(
+        inventoryState: IInventoryState,
+        item: number
+    ): boolean {
+        return inventoryState.items.includes(item);
+    }
 }
 
 export const inventoryUtil = new InventoryUtil();

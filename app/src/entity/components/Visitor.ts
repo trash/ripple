@@ -15,7 +15,7 @@ export interface IVisitorComponent extends IComponent {
 
 export let Visitor: IVisitorComponent = {
     name: 'visitor',
-    enum: Component.Sleep,
+    enum: Component.Visitor,
     state: {
         desiredItems: [],
         gold: 0

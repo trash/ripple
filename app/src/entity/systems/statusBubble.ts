@@ -30,6 +30,11 @@ export class StatusBubbleSystem extends EntitySystem {
             const renderableState = this.manager.getComponentDataForEntity(
                 Component.Renderable, id) as IRenderableState;
 
+            // Don't do anything if renderable component hasn't bootstrapped
+            if (!renderableState.spriteGroup) {
+                return;
+            }
+
             // Init active bubbleName
             if (!statusBubbleState.activeBubbleName) {
                 statusBubbleState.activeBubbleName = statusBubbleState.activeBubbles[0];

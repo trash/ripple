@@ -1,10 +1,12 @@
 import * as React from 'react';
 
+import {IEntityComponentData} from '../../interfaces';
 import {Component} from '../../entity/ComponentEnum';
 import {killEntityService} from '../../services/killEntityService';
 import {events} from '../../events';
 import {Agent} from '../../data/Agent';
 import {Item} from '../../data/Item';
+import {ItemProperty} from '../../data/ItemProperty';
 
 const actions = [
     {
@@ -33,8 +35,10 @@ export class DebugBar extends React.Component<null, null> {
             <button onClick={() => events.emit('spawnAgent', Agent.Zombie)}
                 >Spawn Zombie</button>
             <button onClick={() => events.emit('spawnAgent', Agent.Human, {
-                    visitor: {}
-                })}
+                    visitor: {
+                        desiredItems: [ItemProperty.Food]
+                    }
+                } as IEntityComponentData)}
                 >Spawn Visitor</button>
             <button onClick={() => events.emit('spawnItem', Item.Wood)}
                 >Spawn Item</button>

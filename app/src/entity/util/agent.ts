@@ -224,6 +224,13 @@ export class AgentUtil extends BaseUtil {
 
 		this.entityManager.destroyEntity(item);
 	}
+
+	buyItem(
+		agent: number,
+		item: number
+	) {
+		console.log('buy this item');
+	}
 }
 
 export const agentUtil = new AgentUtil();
