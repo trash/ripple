@@ -9,6 +9,16 @@ export class BuildingUtil extends BaseUtil {
         return this.entityManager.getEntityIdsForComponent(Component.Building);
     }
 
+	getBuildingFromEntranceTile(
+		entranceTile: IRowColumnCoordinates
+	): number {
+		const buildings = this.getAllBuildings();
+		const index = buildings
+			.map(building => this._getBuildingState(building))
+			.findIndex(buildingState => buildingState.entranceTile === entranceTile);
+		return buildings[index];
+	}
+
 	getTileFromBuilding (building: number): IRowColumnCoordinates {
 		return this._getBuildingState(building).entranceTile;
 	}

@@ -5,5 +5,5 @@ typings
 .tmp
 .sass-cache
 .vscode
-npm-debug.log
+npm-debug.log*
 files.txt

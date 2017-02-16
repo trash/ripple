@@ -9,7 +9,7 @@ import {ConnectedClock} from './components/Clock';
 import {ConnectedItemList} from './components/ItemList';
 
 
-export class InnerGameComponent extends React.Component<null, null> {
+export class InnerGameComponent extends React.Component<void, void> {
     render() {
         return (
         <div className="game-ui">

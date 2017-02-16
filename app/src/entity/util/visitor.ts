@@ -6,8 +6,10 @@ import {itemUtil} from './item';
 
 export class VisitorUtil extends BaseUtil {
     getItemToBuy(visitorId: number): IItemSearchResult {
-        const visitorState = this._getVisitorState(visitorId) as IVisitorState;
-        const items = itemUtil.getByProperties(visitorState.desiredItems, true);
+        const visitorState = this._getVisitorState(visitorId);
+        const items = itemUtil
+            .getByProperties(visitorState.desiredItems, true)
+            .filter(item => item.state.forSale);
         return items[0];
     }
 }

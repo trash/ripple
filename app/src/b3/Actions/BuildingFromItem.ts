@@ -1,8 +1,9 @@
+import * as _ from 'lodash';
 import {b3} from '../index';
 import * as Core from '../Core';
 
 import {util} from '../../util';
-import {positionUtil} from '../../entity/util/position';
+import {storageUtil, buildingUtil} from '../../entity/util';
 import {Component} from '../../entity/ComponentEnum';
 
 /**
@@ -23,11 +24,8 @@ export class BuildingFromItem extends Core.BaseNode {
 	tick (tick: Core.Tick) {
 		const item: number = util.blackboardGet(tick, this.itemTargetKey);
 
-        const tile = positionUtil.getTileFromEntityId(item);
-        const building = positionUtil.getEntitiesWithComponentInTile(
-            tile,
-            Component.Building
-        )[0];
+        const tile = storageUtil.getStorageStateFromItem(item).tile;
+        const building = buildingUtil.getBuildingFromEntranceTile(tile);
 
 		util.blackboardSet(tick, this.buildingTargetKey, building);
 

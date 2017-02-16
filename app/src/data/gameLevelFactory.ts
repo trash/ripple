@@ -24,10 +24,20 @@ const regularLevel: ITestLevel = {
 		},
 	],
 	gameMap: {
-		dimension: 200,
-		seed: 0.8908902304
+		dimension: 100
 	}
 };
+
+regularLevel.agents.forEach(agent => {
+	agent.data = {
+		position: {
+			tile : {
+				row: 10,
+				column: 10
+			}
+		}
+	};
+});
 
 const testLevel: ITestLevel = {
 	name: 'Test Level',

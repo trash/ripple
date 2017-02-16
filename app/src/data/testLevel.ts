@@ -33,7 +33,7 @@ export interface IBuildingAssemblageTestData {
 
 export interface ITestGameMapOptions {
     dimension: number;
-    seed: number;
+    seed?: number;
     allLand?: boolean;
     noResources?: boolean;
 }

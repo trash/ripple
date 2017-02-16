@@ -79,7 +79,7 @@ export class GameManager {
         this.stage = new PIXI.Container();
 
         let seeds = [0.663345, 0.8908902304];
-		seeds = [0.8908902304];
+		seeds = seeds.slice(0, 1);
 
         this.seed = Math.random();
 		// this.seed = util.randomFromList(seeds) || Math.random();

@@ -5,8 +5,8 @@ import {ItemProperty} from '../../data/ItemProperty';
 import {constants} from '../../data/constants';
 
 export interface IVisitorState {
-    desiredItems: ItemProperty[];
-    gold: number;
+    desiredItems?: ItemProperty[];
+    gold?: number;
 }
 
 export interface IVisitorComponent extends IComponent {

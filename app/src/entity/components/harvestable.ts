@@ -4,13 +4,14 @@ import {Task} from '../../Tasks/Task';
 import {Instance} from '../../Tasks/Instance';
 import {Profession} from '../../data/Profession';
 import {HarvestType} from '../../data/harvestType';
+import {Item} from '../../data/Item';
 
 export interface IHarvestableState {
     highlighted: boolean;
     queued: boolean;
     task: Task;
     profession: Profession;
-    drops: string[];
+    drops: [Item, string][];
     itemsDropped?: boolean;
     harvestType: HarvestType;
 }

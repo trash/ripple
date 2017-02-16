@@ -6,11 +6,13 @@ import {util} from '../../util';
 import {config} from '../../data/config';
 import {HarvestType} from '../../data/harvestType';
 import {Profession} from '../../data/Profession';
+import {Item} from '../../data/Item';
 
-const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree) / config.averageSpeed.citizen / 10,
-    rockHealth = 200,
-    bushHealth = 100,
-    mushroomHealth = 100;
+const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree)
+    / config.averageSpeed.citizen / 10;
+const rockHealth = 200;
+const bushHealth = 100;
+const mushroomHealth = 100;
 
 const dataList: IEntityComponentData[] = [{
         resource: {
@@ -31,7 +33,7 @@ const dataList: IEntityComponentData[] = [{
             queued: false,
             task: null,
             drops: [
-                'wood*1'
+                [Item.Wood, '*1']
             ],
             harvestType: HarvestType.Tree
         },
@@ -55,7 +57,7 @@ const dataList: IEntityComponentData[] = [{
             queued: false,
             task: null,
             drops: [
-                'stone*2'
+                [Item.Stone, '*2']
             ],
             harvestType: HarvestType.Rock
         },
@@ -80,7 +82,7 @@ const dataList: IEntityComponentData[] = [{
             queued: false,
             task: null,
             drops: [
-                'berries*2'
+                [Item.Berries, '*2']
             ],
             harvestType: HarvestType.Food
         },
@@ -106,7 +108,7 @@ const dataList: IEntityComponentData[] = [{
             queued: false,
             task: null,
             drops: [
-                'mushroom*2'
+                [Item.Mushroom, '*2']
             ],
             harvestType: HarvestType.Mushroom
         },

@@ -44,6 +44,16 @@ export class StorageUtil extends BaseUtil {
         itemState.stored = storageEntity;
     }
 
+    getStorageStateFromItem(
+        item: number
+    ): IStorageState {
+        const storage = this._getItemState(item).stored;
+        if (!_.isNumber(storage)) {
+			debugger;
+		}
+        return this._getStorageState(storage);
+    }
+
     checkIfAddValid(
         itemState: IItemState,
         storageState: IStorageState

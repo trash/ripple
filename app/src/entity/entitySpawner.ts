@@ -143,7 +143,7 @@ export class EntitySpawner {
 		}
 		positionState.hasDirection = true;
 		// Set tile to 0,0
-		positionState.tile = globalRefs.map.getTile(0, 0);
+		positionState.tile = positionState.tile || globalRefs.map.getTile(0, 0);
 
 		return entityId;
 	}
@@ -174,19 +174,19 @@ export class EntitySpawner {
 	}
 
 	itemNamesFromList (
-		list: string[]
-	): string[] {
+		list: [Item, string][]
+	): Item[] {
 		let items = [];
-		list.forEach(itemPattern => {
+		list.forEach(([item, itemPattern]) => {
 			// https://regex101.com/r/kA9pJ2/2
-			// Acceptable inputs: wood*3, wood*[1-3], wood%50, wood*[1-3]%50
-			const matches = itemPattern.match(/(\w+-*\w*)\**((\d)*)(?:\[(\d+)-(\d+)\])*%*(\d+)*/);
+			// Removed the item name in front
+			// Acceptable inputs: *3, *[1-3], %50, *[1-3]%50
+			const matches = itemPattern.match(/\**((\d)*)(?:\[(\d+)-(\d+)\])*%*(\d+)*/);
 
-			const itemName = matches[1];
-			const itemCount = parseInt(matches[2]);
-			const itemRangeStart = parseInt(matches[3]);
-			const itemRangeEnd = parseInt(matches[4]);
-			const itemSpawnChance = parseInt(matches[5]);
+			const itemCount = parseInt(matches[1]);
+			const itemRangeStart = parseInt(matches[2]);
+			const itemRangeEnd = parseInt(matches[3]);
+			const itemSpawnChance = parseInt(matches[4]);
 
 			let count = 1;
 
@@ -204,7 +204,7 @@ export class EntitySpawner {
 			}
 
 			for (let i = 0; i < count; i++) {
-				items.push(itemName);
+				items.push(item);
 			}
 		});
 		return items;
@@ -248,11 +248,11 @@ export class EntitySpawner {
 	}
 
 	spawnItemsFromList (
-		items: string[],
+		items: [Item, string][],
 		entityComponentData: IEntityComponentData = {}
 	): number[] {
-		return this.itemNamesFromList(items).map(itemName => {
-			return this.spawnItem(Item[itemName], entityComponentData);
+		return this.itemNamesFromList(items).map(item => {
+			return this.spawnItem(item, entityComponentData);
 		});
 	}
 
@@ -291,7 +291,12 @@ export class EntitySpawner {
 		if (storage) {
 			storage.forEach(itemEntry => {
 				for (let i = 0; i < itemEntry.count; i++) {
-					const itemId = this.spawnItem(itemEntry.enum);
+					const itemId = this.spawnItem(itemEntry.enum, {
+						item: {
+							claimed: true,
+							forSale: true
+						}
+					});
 					setTimeout(() => storageUtil.storeItem(itemId, entityId), 200);
 				}
 			});

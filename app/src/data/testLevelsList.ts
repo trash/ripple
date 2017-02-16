@@ -7,6 +7,7 @@ import {VillagerJob} from './villagerJob';
 import {Building} from './Building';
 import {Agent} from './Agent';
 import {Item} from './Item';
+import {ItemProperty} from './ItemProperty';
 
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
@@ -76,10 +77,6 @@ let testLevelsData: ITestLevelGroup[]  = [
 					data: {
 						position: defaultBuildingPosition
 					},
-					// storage: [{
-					// 	enum: Item.Berries,
-					// 	count: 4
-					// }]
 				}],
 				agents: [{
 					enum: Agent.Human,
@@ -131,6 +128,33 @@ let testLevelsData: ITestLevelGroup[]  = [
 					isCompleted: true
 				}],
 			},
+		]
+	},
+	{
+		name: 'Visitor Tests',
+		list: [
+			{
+				name: 'Visitor buys items for sale',
+				agents: [{
+					enum: Agent.Human,
+					data: {
+						visitor: {
+							desiredItems: [ItemProperty.Food]
+						}
+					}
+				}],
+				buildings: [{
+					enum: Building.Tavern,
+					storage: [{
+						enum: Item.Berries,
+						count: 4
+					}],
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
+			}
 		]
 	},
 	{
