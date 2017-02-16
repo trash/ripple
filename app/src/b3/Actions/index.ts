@@ -46,3 +46,4 @@ export {GoBuyItem} from './GoBuyItem';
 export {Simple} from './Simple';
 export {GetExitTile} from './GetExitTile';
 export {GoToExitMap} from './GoToExitMap';
+export {ExitMap} from './ExitMap';

@@ -1,16 +1,19 @@
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
 
-import {IBehaviorTreeState} from '../components';
-import {IPositionState} from '../components';
-import {IAgentState} from '../components';
-import {IVillagerState} from '../components';
-import {IHealthState} from '../components';
-import {ISleepState} from '../components';
-import {INameState} from '../components';
-import {IHungerState} from '../components';
-import {IInventoryState} from '../components';
-import {IStatusBubbleState} from '../components';
+import {
+    IBehaviorTreeState,
+    IPositionState,
+    IAgentState,
+    IVillagerState,
+    IHealthState,
+    ISleepState,
+    INameState,
+    IHungerState,
+    IInventoryState,
+    IStatusBubbleState,
+    IVisitorState
+} from '../components';
 
 import {Blackboard} from '../../b3/Core';
 import {events} from '../../events';
@@ -49,6 +52,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     Component.Hunger, id) as IHungerState;
             const nameState = this.manager.getComponentDataForEntity(
                     Component.Name, id) as INameState;
+            const visitorState = this.manager.getComponentDataForEntity(
+                    Component.Visitor, id) as IVisitorState;
 
             // initialize blackboard
             if (!behaviorTreeState.blackboard) {
@@ -74,7 +79,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     turn: turn,
                     map: map,
                     inventory: inventoryState,
-                    entitySpawner: this.manager.spawner
+                    entitySpawner: this.manager.spawner,
+                    visitor: visitorState
                 }, behaviorTreeState.blackboard);
             }
         });

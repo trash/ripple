@@ -154,6 +154,23 @@ let testLevelsData: ITestLevelGroup[]  = [
 						position: defaultBuildingPosition
 					}
 				}]
+			},
+			{
+				name: 'Visitor flees if attacked',
+				agents: [{
+					enum: Agent.Human,
+					data: {
+						visitor: {
+							desiredItems: [ItemProperty.Food]
+						},
+						position: {
+							tile: {
+								row: 10,
+								column: 10
+							}
+						}
+					}
+				}],
 			}
 		]
 	},

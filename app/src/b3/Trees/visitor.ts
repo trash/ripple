@@ -8,7 +8,21 @@ const itemToBuyKey = 'visitor-item-to-buy';
 export const behaviorTree = new Core.BehaviorTree();
 behaviorTree.root = new Core.Priority({
 	children: [
-		// new Action.ExitMapIfLeaveTownTrue(),
+		new Core.Sequence({
+			children: [
+				new Action.IsTrue(tick => tick.target.visitor.leaveTown),
+				new Action.GoToExitMap()
+			]
+		}),
+		// Make them flee and leave town if they've been attacked recently
+		new Core.Sequence({
+			children: [
+				new Action.WasRecentlyAttacked(null, 10),
+				new Action.Simple(tick => {
+					tick.target.visitor!.leaveTown = true;
+				})
+			]
+		}),
 		new Core.Priority({
 			children: [
 				new Core.Sequence({
