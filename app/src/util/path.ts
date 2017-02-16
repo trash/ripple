@@ -1,20 +1,10 @@
 import * as _ from 'lodash';
 import {cacheService} from '../services/cache';
 import {util} from './index';
-import {GameMap} from '../map';
 import {MapUtil} from '../map/map-util';
 import {IRowColumnCoordinates, Direction} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
-import {events} from '../events';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
+import {globalRefs} from '../globalRefs';
 
 export class PathUtil {
     private static getIndexFromPath (

@@ -180,6 +180,7 @@ export class EntityManager {
         this.entities.splice(index, 1);
         // Keep this for cache invalidation
         this.removedEntities[entityId] = true;
+        console.info('Destroying entity', entityId);
     }
 
     createNewComponentDataMapEntry (componentName: Component) {

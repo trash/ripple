@@ -1,19 +1,9 @@
 import * as _ from 'lodash';;
-import {events} from '../events';
+import {globalRefs} from '../globalRefs';
 import {HoverDimensionsElement} from './hover-dimensions-element';
 import {HoverElement} from './hover-element';
 import {IDimensions, IRowColumnCoordinates, ICoordinates} from '../interfaces';
 import {canvasService} from './canvas-service';
-import {GameMap} from '../map';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
 
 let canvas;
 let canvasOffset;

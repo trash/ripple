@@ -6,6 +6,7 @@ import {constants} from '../../data/constants';
 
 export interface IVisitorState {
     desiredItems?: ItemProperty[];
+    leaveTown?: boolean;
 }
 
 export interface IVisitorComponent extends IComponent {
@@ -17,5 +18,6 @@ export let Visitor: IVisitorComponent = {
     enum: Component.Visitor,
     state: {
         desiredItems: [],
+        leaveTown: false
     }
 };

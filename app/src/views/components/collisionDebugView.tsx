@@ -1,17 +1,7 @@
 import * as React from 'react';
 import {collisionUtil} from '../../entity/util';
 import {IRowColumnCoordinates} from '../../interfaces';
-import {events} from '../../events';
-import {GameMap} from '../../map';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
+import {globalRefs} from '../../globalRefs';
 
 interface CollisionDebugViewProps {
     show: boolean;

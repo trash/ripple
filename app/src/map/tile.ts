@@ -1,5 +1,5 @@
 import {IRowColumnCoordinates} from '../interfaces';
-import {BaseTile} from './base-tile';
+import {BaseTile} from './BaseTile';
 import {util} from '../util';
 
 export class MapTile extends BaseTile {

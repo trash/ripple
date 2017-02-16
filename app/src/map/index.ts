@@ -53,6 +53,7 @@ interface ClearTilesInput {
 }
 
 export class GameMap {
+	private edgeTiles: MapTile[];
 	seed: number;
 	gameManager: GameManager;
 	biome: any;
@@ -432,6 +433,36 @@ export class GameMap {
 		return sorted.filter(tile => {
 			return tile.accessible;
 		})[0];
+	}
+
+	private getEdgeTiles (): MapTile[] {
+		if (!this.edgeTiles) {
+			let edgeNumber = this.dimension - 1;
+			this.edgeTiles = this.tiles.filter(tile => {
+				return tile.row === 0
+					|| tile.column === 0
+					|| tile.row === edgeNumber
+					|| tile.column === edgeNumber;
+			});
+		}
+		return this.edgeTiles;
+	}
+
+	/**
+	 * Should return the nearest tile that can be pathed to
+	 * to exit the map from the current tile.
+	 * NOTE: the tile should be accessible from the start tile.
+	 *
+	 * @param {Tile} startTile
+	 * @return {Tile}
+	 */
+	getNearestExitTile (
+		startTile: IRowColumnCoordinates
+	): IRowColumnCoordinates {
+		const sortedEdgeTiles = this.getEdgeTiles()
+			.filter(tile => tile.accessible)
+			.sort((a, b) => a.distanceTo(startTile) - b.distanceTo(startTile));
+		return sortedEdgeTiles[0];
 	}
 
 	/**

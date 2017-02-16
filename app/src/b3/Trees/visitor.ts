@@ -15,7 +15,7 @@ behaviorTree.root = new Core.Priority({
 					children: [
 						new Action.HasItemInInventory(itemToBuyKey),
 						new Action.ShowBubble(StatusBubble.Happy),
-						// new Action.GoToExitMap()
+						new Action.GoToExitMap()
 					]
 				}),
 				new Action.GoBuyItem(itemToBuyKey)
@@ -32,7 +32,9 @@ behaviorTree.root = new Core.Priority({
 					child: new Core.Sequence({
 						children: [
 							new Action.ShowBubble(StatusBubble.Sad),
-							// new Action.LeaveTown()
+							new Action.Simple(tick => {
+								tick.target.visitor!.leaveTown = true;
+							})
 						]
 					}),
 					hours: 24

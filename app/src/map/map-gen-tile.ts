@@ -1,7 +1,7 @@
 import {Direction, IRowColumnCoordinates} from '../interfaces';
 import {positionUtil} from '../entity/util';
 import {MapUtil} from './map-util';
-import {BaseTile} from './base-tile';
+import {BaseTile} from './BaseTile';
 
 export class MapGenTile extends BaseTile {
     zoneNumber: number;

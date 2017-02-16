@@ -33,20 +33,11 @@ import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testL
 import {Building} from '../data/Building';
 import {Agent} from '../data/Agent';
 import {Item} from '../data/Item';
-import {GameMap} from '../map';
 import {MapTile} from '../map/tile';
 import {baseUtil, storageUtil} from './util';
 import {util} from '../util';
 import {events} from '../events';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
+import {globalRefs} from '../globalRefs';
 
 export class EntitySpawner {
     entityManager: EntityManager;

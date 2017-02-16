@@ -29,7 +29,7 @@ export abstract class BaseTile implements IRowColumnCoordinates {
 	 * @param {Boolean} [floor=false] Floor the return value
 	 * @return {float} The euclidean distance.
 	 */
-	distanceTo (tile: BaseTile, floor?: boolean): number {
+	distanceTo (tile: IRowColumnCoordinates, floor?: boolean): number {
 		return MapUtil.distanceTo(this, tile, floor);
 	}
 

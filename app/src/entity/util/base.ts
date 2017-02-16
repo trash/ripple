@@ -28,6 +28,10 @@ export class BaseUtil {
         this.entityManager = entityManager;
     }
 
+    destroyEntity(entity: number) {
+        this.entityManager.destroyEntity(entity);
+    }
+
     _getHealthState (id: number): IHealthState {
         return this.entityManager.getComponentDataForEntity(
             Component.Health, id) as IHealthState;

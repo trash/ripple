@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import {globalRefs} from '../globalRefs';
 import {events} from '../events';
 import {constants} from '../data/constants';
 import {
@@ -7,7 +8,6 @@ import {
 	IEntityComponentData
 } from '../interfaces';
 import {spriteManager} from '../services/sprite-manager';
-import {GameMap} from '../map';
 import {EntityManager} from '../entity/entityManager';
 import {EntitySpawner} from '../entity/entitySpawner';
 import {Component} from '../entity/ComponentEnum';
@@ -15,15 +15,6 @@ import {ICollisionState, IPositionState} from '../entity/components';
 import {collisionUtil} from '../entity/util/collision';
 import {mapUtil} from '../entity/util/map';
 import {Building} from '../data/Building';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
 
 const TILE_HEIGHT = constants.TILE_HEIGHT;
 const colors = constants.colors;

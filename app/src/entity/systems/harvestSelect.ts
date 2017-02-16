@@ -12,19 +12,9 @@ import {HoverElement} from '../../ui/hover-element';
 import {dragSelect} from '../../ui/dragSelect';
 import {cursorManager} from '../../ui/cursorManager';
 import {Cursor} from '../../ui/Cursor';
-import {EventEmitter2} from 'eventemitter2';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
-import {GameMap} from '../../map';
 import {IRowColumnCoordinates} from '../../interfaces';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
+import {globalRefs} from '../../globalRefs';
 
 
 export class HarvestSelectSystem extends EntitySystem {

@@ -239,6 +239,7 @@ export interface IBehaviorTreeTickTarget {
     map: GameMap;
     inventory: IInventoryState;
 	entitySpawner: EntitySpawner;
+	visitor?: IVisitorState;
 }
 
 export interface IAgentSearchOptions {

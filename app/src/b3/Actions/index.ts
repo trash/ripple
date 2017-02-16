@@ -43,3 +43,6 @@ export {BuyItem} from './BuyItem';
 export {GetStorageLocation} from './GetStorageLocation';
 export {HasItemInInventory} from './HasItemInInventory';
 export {GoBuyItem} from './GoBuyItem';
+export {Simple} from './Simple';
+export {GetExitTile} from './GetExitTile';
+export {GoToExitMap} from './GoToExitMap';

@@ -1,19 +1,9 @@
-import {events} from '../events';
-import {GameMap} from '../map';
+import {globalRefs} from '../globalRefs';
 import {Component} from '../entity/ComponentEnum';
 import {positionUtil} from '../entity/util/position';
 import {cursorManager} from '../ui/cursorManager';
 import {keybindings} from '../services/keybindings';
 import {Cursor} from '../ui/Cursor';
-
-const globalRefs: {
-	map: GameMap
-} = {
-	map: null
-};
-events.on('map-update', (map: GameMap) => {
-	globalRefs.map = map;
-});
 
 export class KillEntityService {
 	active: boolean;

@@ -178,15 +178,16 @@ export class MapUtil {
 		tiles: T[],
 		startTile: T
 	): T[] {
-		const dimension = Math.sqrt(tiles.length),
-			leftMostTile = tiles[startTile.row * dimension + 0],
-			rightMostTile = tiles[startTile.row * dimension + dimension - 1],
-			topMostTile = tiles[0 + startTile.column],
-			bottomMostTile = tiles[(dimension - 1)* dimension + startTile.column];
+		const dimension = Math.sqrt(tiles.length);
+		const leftMostTile = tiles[startTile.row * dimension + 0];
+		const rightMostTile = tiles[startTile.row * dimension + dimension - 1];
+		const topMostTile = tiles[0 + startTile.column];
+		const bottomMostTile = tiles[(dimension - 1) * dimension + startTile.column];
 
 		// Sort them by their distance to the startTile
-		return [leftMostTile, rightMostTile, topMostTile, bottomMostTile].sort((a, b) =>
-			this.distanceTo(a, startTile) - this.distanceTo(b, startTile)
+		return [leftMostTile, rightMostTile, topMostTile, bottomMostTile]
+			.sort((a, b) =>
+				this.distanceTo(a, startTile) - this.distanceTo(b, startTile)
 		);
 	}
 
