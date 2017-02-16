@@ -6,15 +6,13 @@ export interface INameState {
     isStatic? : boolean;
 }
 
-export interface INameComponent extends IComponent {
-    state: INameState;
-}
-
-export let Name: INameComponent = {
+export const Name: IComponent<INameState> = {
     name: 'name',
     enum: Component.Name,
-    state: {
-        name: null,
-        isStatic: false
+    getInitialState: () => {
+        return {
+            name: null,
+            isStatic: false
+        };
     }
 };

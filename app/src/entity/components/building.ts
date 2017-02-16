@@ -13,19 +13,17 @@ export interface IBuildingState {
     mustBeNextToWater?: boolean;
 }
 
-export interface IBuildingComponent extends IComponent {
-    state: IBuildingState;
-}
-
-export const Building: IBuildingComponent = {
+export const Building: IComponent<IBuildingState> = {
     name: 'building',
     enum: Component.Building,
-    state: {
-        enum: null,
-        name: null,
-        entranceTile: null,
-        occupants: [],
-        maxOccupants: 0,
-        mustBeNextToWater: false
+    getInitialState: () => {
+        return {
+            enum: null,
+            name: null,
+            entranceTile: null,
+            occupants: [],
+            maxOccupants: 0,
+            mustBeNextToWater: false
+        };
     }
 };

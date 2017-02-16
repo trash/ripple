@@ -15,16 +15,14 @@ export interface IResourceState {
     spriteKey: SpriteKey;
 }
 
-export interface IResourceComponent extends IComponent {
-    state: IResourceState;
-}
-
-export let Resource: IResourceComponent = {
+export const Resource: IComponent<IResourceState> = {
     name: 'resource',
     enum: Component.Resource,
-    state: {
-        name: null,
-        anchor: null,
-        spriteKey: null
+    getInitialState: () => {
+        return {
+            name: null,
+            anchor: null,
+            spriteKey: null
+        };
     }
 };

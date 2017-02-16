@@ -20,6 +20,7 @@ import {
     IVillagerState,
     Villager,
     IStorageState,
+    IStatusBubbleState
 } from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
@@ -35,6 +36,7 @@ interface DebugPanelProps {
     agentHunger: IHungerState;
     agentSleep: ISleepState;
     agentPosition: IPositionState;
+    agentStatusBubble: IStatusBubbleState;
     resource: IResourceState;
     item: IItemState;
     building: IBuildingState;
@@ -256,6 +258,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         return [
             ['Agent', this.props.agent, []],
             ['Agent Position', this.props.agentPosition, []],
+            ['Agent Status Bubble', this.props.agentStatusBubble, []],
             ['Villager', this.props.villager, Villager.blacklistedDebugProperties],
             ['Agent Hunger', this.props.agentHunger, []],
             ['Agent Sleep', this.props.agentSleep, []],
@@ -307,6 +310,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         agentHunger: state.hoveredAgentHunger,
         agentSleep: state.hoveredAgentSleep,
         agentPosition: state.hoveredAgentPosition,
+        agentStatusBubble: state.hoveredAgentStatusBubble,
         item: state.hoveredItem,
         resource: state.hoveredResource,
         executionChain: state.hoveredAgentLastExecutionChain,

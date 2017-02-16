@@ -10,18 +10,16 @@ export interface ICollisionState {
     updatesTile?: boolean;
 }
 
-export interface ICollisionComponent extends IComponent {
-    state: ICollisionState;
-}
-
-export let Collision: ICollisionComponent = {
+export const Collision: IComponent<ICollisionState> = {
     name: 'collision',
     enum: Component.Collision,
-    state: {
-        size: null,
-        previousActiveState: false,
-        activeState: true,
-        entrance: null,
-        updatesTile: true
+    getInitialState: () => {
+        return {
+            size: null,
+            previousActiveState: false,
+            activeState: true,
+            entrance: null,
+            updatesTile: true
+        };
     }
 };

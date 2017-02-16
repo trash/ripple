@@ -9,16 +9,14 @@ export interface IHungerState {
     value: number;
 }
 
-export interface IHungerComponent extends IComponent {
-    state: IHungerState;
-}
-
-export let Hunger: IHungerComponent = {
+export const Hunger: IComponent<IHungerState> = {
     name: 'hunger',
     enum: Component.Hunger,
-    state: {
-        max: constants.HUNGER.MAX,
-	    min: 0,
-        value: 0
+    getInitialState: () => {
+        return {
+            max: constants.HUNGER.MAX,
+            min: 0,
+            value: 0
+        };
     }
 };

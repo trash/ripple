@@ -16,20 +16,18 @@ export interface IHarvestableState {
     harvestType: HarvestType;
 }
 
-export interface IHarvestableComponent extends IComponent {
-    state: IHarvestableState;
-}
-
-export let Harvestable: IHarvestableComponent = {
+export const Harvestable: IComponent<IHarvestableState> = {
     name: 'harvestable',
     enum: Component.Harvestable,
-    state: {
-        highlighted: false,
-        queued: false,
-        task: null,
-        profession: null,
-        drops: [],
-        itemsDropped: false,
-        harvestType: null
+    getInitialState: () => {
+        return {
+            highlighted: false,
+            queued: false,
+            task: null,
+            profession: null,
+            drops: [],
+            itemsDropped: false,
+            harvestType: null
+        };
     }
 };

@@ -5,7 +5,8 @@ import {
     IHungerState,
     ISleepState,
     IPositionState,
-    IVillagerState
+    IVillagerState,
+    IStatusBubbleState
 } from '../../entity/components';
 
 export interface UpdateHoveredAgent {
@@ -15,6 +16,7 @@ export interface UpdateHoveredAgent {
     sleep: ISleepState;
     position: IPositionState;
     villager: IVillagerState;
+    statusBubble: IStatusBubbleState;
 }
 
 export function updateHoveredAgent (
@@ -22,7 +24,8 @@ export function updateHoveredAgent (
     hunger: IHungerState,
     sleep: ISleepState,
     position: IPositionState,
-    villager: IVillagerState
+    villager: IVillagerState,
+    statusBubble: IStatusBubbleState
 ): UpdateHoveredAgent {
     return {
         type: actionTypes.UPDATE_HOVERED_AGENT,
@@ -30,6 +33,7 @@ export function updateHoveredAgent (
         hunger: hunger,
         sleep: sleep,
         position: position,
-        villager: villager
+        villager: villager,
+        statusBubble: statusBubble
     };
 }

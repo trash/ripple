@@ -12,19 +12,17 @@ export interface IStorageState {
 	itemRestrictions?: ItemProperty[];
 }
 
-export interface IStorageComponent extends IComponent {
-    state: IStorageState;
-}
-
-export const Storage: IStorageComponent = {
+export const Storage: IComponent<IStorageState> = {
     name: 'storage',
     enum: Component.Storage,
-    state: {
-        tile: null,
-        available: 0,
-        total: 0,
-        itemList: [],
-        hideWhenStored: true,
-        itemRestrictions: []
+    getInitialState: () => {
+        return {
+            tile: null,
+            available: 0,
+            total: 0,
+            itemList: [],
+            hideWhenStored: true,
+            itemRestrictions: []
+        };
     }
 };

@@ -14,7 +14,8 @@ import {
     IConstructibleState,
     IPositionState,
     IVillagerState,
-    IStorageState
+    IStorageState,
+    IStatusBubbleState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -44,6 +45,7 @@ export interface StoreState {
     hoveredAgentHunger: IHungerState;
     hoveredAgentSleep: ISleepState;
     hoveredAgentPosition: IPositionState;
+    hoveredAgentStatusBubble: IStatusBubbleState;
     hoveredItem: IItemState;
     hoveredResource: IResourceState;
     hoveredStorage: IStorageState;
@@ -72,6 +74,7 @@ const mainReducer = (previousState = initialState, action) => {
         newState.hoveredAgentHunger = updateAction.hunger;
         newState.hoveredAgentSleep = updateAction.sleep;
         newState.hoveredAgentPosition = updateAction.position;
+        newState.hoveredAgentStatusBubble = updateAction.statusBubble;
         newState.hoveredVillager = updateAction.villager;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {

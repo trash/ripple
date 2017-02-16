@@ -23,24 +23,22 @@ const blacklistedDebugProperties = [
     'floorSprite'
 ];
 
-export interface IConstructibleComponent extends IComponent {
-    state: IConstructibleState;
-}
-
-export let Constructible: IConstructibleComponent = {
+export const Constructible: IComponent<IConstructibleState> = {
     name: 'constructible',
     enum: Component.Constructible,
     blacklistedDebugProperties: blacklistedDebugProperties,
-    state: {
-        requiredResources: [],
-        completedSpriteName: null,
-        progressSpriteName: null,
-        floorSpriteName: null,
-        completedSprite: null,
-        progressSprite: null,
-        floorSprite: null,
-        healthbarSpritesInitialized: false,
-        taskCreated: false,
-        resourceRequirements: null
+    getInitialState: () => {
+        return {
+            requiredResources: [],
+            completedSpriteName: null,
+            progressSpriteName: null,
+            floorSpriteName: null,
+            completedSprite: null,
+            progressSprite: null,
+            floorSprite: null,
+            healthbarSpritesInitialized: false,
+            taskCreated: false,
+            resourceRequirements: null
+        };
     }
 };

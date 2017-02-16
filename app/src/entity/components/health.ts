@@ -6,15 +6,13 @@ export interface IHealthState {
     currentHealth: number;
 }
 
-export interface IHealthComponent extends IComponent {
-    state: IHealthState;
-}
-
-export const Health: IHealthComponent = {
+export const Health: IComponent<IHealthState> = {
     name: 'health',
     enum: Component.Health,
-    state: {
-        currentHealth: null,
-        maxHealth: null
+    getInitialState: () => {
+        return {
+            currentHealth: null,
+            maxHealth: null
+        };
     }
 };

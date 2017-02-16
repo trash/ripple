@@ -19,26 +19,24 @@ export interface IItemState {
     forSale?: boolean;
 }
 
-export interface IItemComponent extends IComponent {
-    state: IItemState;
-}
-
-export let Item: IItemComponent = {
+export const Item: IComponent<IItemState> = {
     name: 'item',
     enum: Component.Item,
-    state: {
-        enum: null,
-        name: null,
-        readableName: null,
-        description: null,
-        shouldBeSpawned: false,
-        hasBeenSpawned: false,
-        claimed: false,
-        properties: [],
-        toBeStored: false,
-        stored: null,
-        value: 1,
-        haulerTask: null,
-        forSale: false
+    getInitialState: () => {
+        return {
+            enum: null,
+            name: null,
+            readableName: null,
+            description: null,
+            shouldBeSpawned: false,
+            hasBeenSpawned: false,
+            claimed: false,
+            properties: [],
+            toBeStored: false,
+            stored: null,
+            value: 1,
+            haulerTask: null,
+            forSale: false
+        };
     }
 };

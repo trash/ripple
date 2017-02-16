@@ -9,15 +9,13 @@ export interface IVisitorState {
     leaveTown?: boolean;
 }
 
-export interface IVisitorComponent extends IComponent {
-    state: IVisitorState;
-}
-
-export let Visitor: IVisitorComponent = {
+export const Visitor: IComponent<IVisitorState> = {
     name: 'visitor',
     enum: Component.Visitor,
-    state: {
-        desiredItems: [],
-        leaveTown: false
+    getInitialState: () => {
+        return {
+            desiredItems: [],
+            leaveTown: false
+        };
     }
 };

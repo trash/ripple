@@ -7,16 +7,14 @@ export interface IRenderableState {
     shown: boolean;
 }
 
-export interface IRenderableComponent extends IComponent {
-    state: IRenderableState;
-}
-
-export let Renderable: IRenderableComponent = {
+export const Renderable: IComponent<IRenderableState> = {
     name: 'renderable',
     enum: Component.Renderable,
-    state: {
-        sprite: null,
-        spriteGroup: null,
-        shown: true
+    getInitialState: () => {
+        return {
+            sprite: null,
+            spriteGroup: null,
+            shown: true
+        };
     }
 }

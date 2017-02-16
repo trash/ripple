@@ -10,16 +10,14 @@ export interface ICraftableState {
     profession: Profession;
 }
 
-export interface ICraftableComponent extends IComponent {
-    state: ICraftableState;
-}
-
-export let Craftable: ICraftableComponent = {
+export const Craftable: IComponent<ICraftableState> = {
     name: 'constructible',
     enum: Component.Craftable,
-    state: {
-        requiredResources: [],
-        craftTurns: 1,
-        profession: null
+    getInitialState: () => {
+        return {
+            requiredResources: [],
+            craftTurns: 1,
+            profession: null
+        };
     }
 };

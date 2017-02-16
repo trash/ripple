@@ -7,15 +7,13 @@ export interface IInventoryState {
     gold?: number;
 }
 
-export interface IInventoryComponent extends IComponent {
-    state: IInventoryState;
-}
-
-export const Inventory: IInventoryComponent = {
+export const Inventory: IComponent<IInventoryState> = {
     name: 'inventory',
     enum: Component.Inventory,
-    state: {
-        items: [],
-        gold: 0
+    getInitialState: () => {
+        return {
+            items: [],
+            gold: 0
+        };
     }
 };

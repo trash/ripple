@@ -7,16 +7,15 @@ export interface IBehaviorTreeState {
     blackboard?: Blackboard;
     currentAction?: string;
 }
-export interface IBehaviorTreeComponent extends IComponent {
-    state: IBehaviorTreeState;
-}
 
-export let BehaviorTree: IBehaviorTreeComponent = {
+export const BehaviorTree: IComponent<IBehaviorTreeState> = {
     name: 'behavior-tree',
     enum: Component.BehaviorTree,
-    state: {
-        tree: null,
-        blackboard: null,
-        currentAction: null
+    getInitialState: () => {
+        return {
+            tree: null,
+            blackboard: null,
+            currentAction: null
+        };
     }
 }

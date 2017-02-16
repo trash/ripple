@@ -27,26 +27,24 @@ export interface IAgentState {
     buildingInsideOf?: number;
 }
 
-export interface IAgentComponent extends IComponent {
-    state: IAgentState;
-}
-
-export let Agent: IAgentComponent = {
+export const Agent: IComponent<IAgentState> = {
     name: 'agent',
     enum: Component.Agent,
-    state: {
-        enum: AgentEnum.Zombie,
-        genderEnabled: false,
-        gender: null,
-        defaultSpriteFrame: 0,
-        spriteCount: null,
-        spriteIndex: null,
-        lastTurn: 0,
-        speed: 15,
-        inventory: null,
-        dead: false,
-        traits: [],
-        strength: 1,
-        buildingInsideOf: null
+    getInitialState: () => {
+        return {
+            enum: AgentEnum.Zombie,
+            genderEnabled: false,
+            gender: null,
+            defaultSpriteFrame: 0,
+            spriteCount: null,
+            spriteIndex: null,
+            lastTurn: 0,
+            speed: 15,
+            inventory: null,
+            dead: false,
+            traits: [],
+            strength: 1,
+            buildingInsideOf: null
+        };
     }
 };

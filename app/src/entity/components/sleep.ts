@@ -11,18 +11,16 @@ export interface ISleepState {
     inHome: boolean;
 }
 
-export interface ISleepComponent extends IComponent {
-    state: ISleepState;
-}
-
-export let Sleep: ISleepComponent = {
+export const Sleep: IComponent<ISleepState> = {
     name: 'sleep',
     enum: Component.Sleep,
-    state: {
-        max: constants.SLEEP.MAX,
-	    min: 0,
-        value: 0,
-        isSleeping: false,
-        inHome: false
+    getInitialState: () => {
+        return {
+            max: constants.SLEEP.MAX,
+            min: 0,
+            value: 0,
+            isSleeping: false,
+            inHome: false
+        };
     }
 };

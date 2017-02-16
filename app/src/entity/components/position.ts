@@ -11,19 +11,17 @@ export interface IPositionState {
     turnCompleted?: number; // Turn the move should complete
 }
 
-export interface IPositionComponent extends IComponent {
-    state: IPositionState;
-}
-
-export let Position: IPositionComponent = {
+export const Position: IComponent<IPositionState> = {
     name: 'position',
     enum: Component.Position,
-    state: {
-        tile: null,
-        previousTile: null,
-        direction: null,
-        turnUpdated: null,
-        turnCompleted: null,
-        hasDirection: false
+    getInitialState: () => {
+        return {
+            tile: null,
+            previousTile: null,
+            direction: null,
+            turnUpdated: null,
+            turnCompleted: null,
+            hasDirection: false
+        };
     }
 };

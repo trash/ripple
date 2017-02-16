@@ -26,7 +26,7 @@ import {
 import {IComponent} from '../entityManager';
 
 // Order doesn't matter
-export let componentsList: IComponent[] = [
+export let componentsList: IComponent<any>[] = [
     Position,
     Renderable,
     Agent,

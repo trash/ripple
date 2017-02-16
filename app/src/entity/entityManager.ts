@@ -42,11 +42,11 @@ export class EntitySystem extends EventEmitter2 {
     update (entities: number[], turn?: number, stopped?: boolean) {};
 }
 
-export interface IComponent {
+export interface IComponent<T> {
     enum: Component;
     blacklistedDebugProperties?: string[];
     name: string;
-    state: {[key: string]: any;}
+    getInitialState: () => T;
 }
 
 const utilList: BaseUtil[] = [
@@ -74,7 +74,7 @@ interface IEntityManagerMap {
     [key: number]: IEntityComponentDataMap;
 }
 interface IComponentMap {
-    [key: number]: IComponent;
+    [key: number]: IComponent<any>;
 }
 interface IRemovedEntitiesMap {
     [key: number]: boolean;
@@ -184,7 +184,9 @@ export class EntityManager {
     }
 
     createNewComponentDataMapEntry (componentName: Component) {
-        return _.extend({}, this.components[componentName].state);
+        return _.extend({
+            id: uniqueId.get()
+        }, this.components[componentName].getInitialState());
     }
 
     addComponentToEntity (
@@ -206,7 +208,7 @@ export class EntityManager {
         }
     }
 
-    addComponent (component: IComponent) {
+    addComponent (component: IComponent<any>) {
         this.components[component.enum] = component;
         this.entityComponentDataMap[component.enum] = {};
         this.entityComponentToIdListMap[component.enum] = [];

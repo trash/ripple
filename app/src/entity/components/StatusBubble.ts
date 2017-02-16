@@ -10,16 +10,14 @@ export interface IStatusBubbleState {
     activeBubbleSprite: PIXI.Sprite;
 }
 
-export interface IStatusBubbleComponent extends IComponent {
-    state: IStatusBubbleState;
-}
-
-export let StatusBubble: IStatusBubbleComponent = {
+export const StatusBubble: IComponent<IStatusBubbleState> = {
     name: 'status-bubble',
     enum: Component.StatusBubble,
-    state: {
-        activeBubbles: [],
-        activeBubbleName: null,
-        activeBubbleSprite: null
+    getInitialState: () => {
+        return {
+            activeBubbles: [],
+            activeBubbleName: null,
+            activeBubbleSprite: null
+        };
     }
 };

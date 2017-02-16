@@ -7,15 +7,13 @@ export interface ICorpseState {
     sprite?: PIXI.Sprite;
 }
 
-export interface ICorpseComponent extends IComponent {
-    state: ICorpseState;
-}
-
-export let Corpse: ICorpseComponent = {
+export const Corpse: IComponent<ICorpseState> = {
     name: 'corpse',
     enum: Component.Corpse,
-    state: {
-        sprite: null,
-        agentBaseSpriteName: null
+    getInitialState: () => {
+        return {
+            sprite: null,
+            agentBaseSpriteName: null
+        };
     }
 }

@@ -12,21 +12,19 @@ export interface IHealthBarState {
     autoHideTimeout?: number;
 }
 
-export interface IHealthBarComponent extends IComponent {
-    state: IHealthBarState;
-}
-
-export let HealthBar: IHealthBarComponent = {
+export const HealthBar: IComponent<IHealthBarState> = {
     name: 'health-bar',
     enum: Component.HealthBar,
-    state: {
-        size: 5,
-        shown: false,
-        positionX: null,
-        positionY: null,
-        sprites: null,
-        percentageFilled: 0,
-        // auto hide stuff
-        autoHideTimeout: null,
+    getInitialState: () => {
+        return {
+            size: 5,
+            shown: false,
+            positionX: null,
+            positionY: null,
+            sprites: null,
+            percentageFilled: 0,
+            // auto hide stuff
+            autoHideTimeout: null,
+        };
     }
 };
