@@ -20,7 +20,8 @@ import {
     buildingUtil,
     statusBubbleUtil,
     visitorUtil,
-    storageUtil
+    storageUtil,
+    inventoryUtil
 } from './util';
 
 export class EntitySystem extends EventEmitter2 {
@@ -60,6 +61,7 @@ const utilList: BaseUtil[] = [
     buildingUtil,
     storageUtil,
     visitorUtil,
+    inventoryUtil,
 ];
 
 type EntityComponentDataMapEntry = any;

@@ -74,6 +74,14 @@ export class ItemUtil extends BaseUtil {
             .filter(itemSearchResult => itemSearchResult.state.claimed);
 	}
 
+	pickupItem(item: number) {
+		const itemState = this._getItemState(item);
+		itemState.claimed = false;
+		itemState.forSale = false;
+		const positionState = this._getPositionState(item);
+		positionState.tile = null;
+	}
+
     getByProperties (
         properties: ItemProperty[],
         town: boolean = false

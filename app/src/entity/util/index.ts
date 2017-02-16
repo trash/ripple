@@ -1,5 +1,5 @@
 export {agentUtil} from './agent';
-export {BaseUtil, baseUtil} from './base';
+export {baseUtil, BaseUtil} from './base';
 export {buildingUtil} from './building';
 export {collisionUtil} from './collision';
 export {harvestableUtil} from './harvestable';

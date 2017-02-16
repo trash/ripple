@@ -16,7 +16,7 @@ export class PickupItem extends Core.BaseNode {
 		const agentData = tick.target;
 		const target = util.blackboardGet(tick, this.targetKey) as IItemSearchResult;
 
-		inventoryUtil.add(agentData.inventory, target.id);
+		inventoryUtil.add(agentData.id, target.id);
 		if (agentData.villager) {
 			target.state.claimed = true;
 		}

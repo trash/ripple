@@ -6,7 +6,6 @@ import {constants} from '../../data/constants';
 
 export interface IVisitorState {
     desiredItems?: ItemProperty[];
-    gold?: number;
 }
 
 export interface IVisitorComponent extends IComponent {
@@ -18,6 +17,5 @@ export let Visitor: IVisitorComponent = {
     enum: Component.Visitor,
     state: {
         desiredItems: [],
-        gold: 0
     }
 };

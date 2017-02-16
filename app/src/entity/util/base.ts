@@ -7,6 +7,7 @@ import {
     IAgentState,
     IItemState,
     IPositionState,
+    IInventoryState,
     IConstructibleState,
     IBuildingState,
     IRenderableState,
@@ -82,6 +83,10 @@ export class BaseUtil {
     _getVisitorState (id: number): IVisitorState {
         return this.entityManager.getComponentDataForEntity(
             Component.Visitor, id) as IVisitorState;
+    }
+    _getInventoryState (id: number): IInventoryState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.Inventory, id) as IInventoryState;
     }
 
     tileContainsEntityOfComponent (componentName: Component, tile: MapTile): boolean {

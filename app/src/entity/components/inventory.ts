@@ -4,6 +4,7 @@ import {ICoordinates, IRowColumnCoordinates} from '../../interfaces';
 
 export interface IInventoryState {
     items: number[];
+    gold?: number;
 }
 
 export interface IInventoryComponent extends IComponent {
@@ -14,6 +15,7 @@ export const Inventory: IInventoryComponent = {
     name: 'inventory',
     enum: Component.Inventory,
     state: {
-        items: []
+        items: [],
+        gold: 0
     }
 };
