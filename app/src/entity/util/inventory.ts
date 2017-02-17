@@ -41,6 +41,10 @@ export class InventoryUtil extends BaseUtil {
         inventoryState.gold -= amount;
         return amount;
     }
+
+    getItems(inventory: number): number[] {
+        return this._getInventoryState(inventory).items;
+    }
 }
 
 export const inventoryUtil = new InventoryUtil();

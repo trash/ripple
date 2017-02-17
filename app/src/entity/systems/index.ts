@@ -17,4 +17,5 @@ export {StatusBubbleSystem} from './StatusBubble';
 export {VillagerSystem} from './villager';
 export {GuardSystem} from './guard';
 export {VisitorSystem} from './visitor';
+export {InventorySystem} from './inventory';
 export {systemsList} from './systemsList';
