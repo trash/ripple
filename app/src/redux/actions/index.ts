@@ -74,3 +74,17 @@ export function updateHoveredStorage(
         storage: storage
     };
 }
+
+export interface UpdateTownGold {
+    type: string;
+    gold: number;
+}
+
+export function updateTownGold(
+    gold: number
+): UpdateTownGold {
+    return {
+        type: actionTypes.UPDATE_TOWN_GOLD,
+        gold: gold
+    };
+}

@@ -35,8 +35,9 @@ import {
     RemoveFromItemList,
     ShowDebugBar,
     ShowCraftBar,
-    UpdateHoveredStorage
-} from './Actions';
+    UpdateHoveredStorage,
+    UpdateTownGold
+} from './actions';
 
 export interface StoreState {
     items: Immutable.Map<Item, number>;
@@ -58,10 +59,12 @@ export interface StoreState {
     buildingsListShown: boolean;
     debugBarShown: boolean;
     craftBarShown: boolean;
+    gold: number;
 }
 
 const initialState = {
-    items: Immutable.Map<Item, number>()
+    items: Immutable.Map<Item, number>(),
+    gold: 0
 } as StoreState;
 const mainReducer = (previousState = initialState, action) => {
     const newState = _.extend({}, previousState);
@@ -130,6 +133,11 @@ const mainReducer = (previousState = initialState, action) => {
     if (action.type === actionTypes.UPDATE_HOVERED_STORAGE) {
         const updateAction = action as UpdateHoveredStorage;
         newState.hoveredStorage = updateAction.storage;
+    }
+
+    if (action.type === actionTypes.UPDATE_TOWN_GOLD) {
+        const updateAction = action as UpdateTownGold;
+        newState.gold = action.gold;
     }
 
     return newState;

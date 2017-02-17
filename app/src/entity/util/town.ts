@@ -2,12 +2,22 @@ import {BaseUtil} from './base';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {ITownState} from '../Components';
+import {constants} from '../../data/constants';
+import {store} from '../../redux/store';
+import {updateTownGold} from '../../redux/actions';
 
 export class TownUtil extends BaseUtil {
-    addGold(town: number, amount: number) {
-        const townState = this._getTownState(town);
+    private getTownState(): ITownState {
+        return this._getTownState(constants.TOWN_ID);
+    }
+    addGold(amount: number) {
+        const townState = this.getTownState();
         townState.gold += amount;
-        console.log(`Town gold: ${townState.gold}`);
+        store.dispatch(updateTownGold(townState.gold));
+    }
+
+    getGold(): number {
+        return this.getTownState().gold;
     }
 }
 

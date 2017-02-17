@@ -3,7 +3,7 @@ import {events} from '../events';
 import {util} from '../util'
 
 import {store} from '../redux/store';
-import {updateClockTime} from '../redux/Actions';
+import {updateClockTime} from '../redux/actions';
 
 const hoursToTicks = util.hoursToTicks;
 

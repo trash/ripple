@@ -7,7 +7,7 @@ import {
 import {constants} from '../data/constants';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
-import {addToItemList} from '../redux/Actions';
+import {addToItemList} from '../redux/actions';
 
 import {
 	agents as agentsAssemblageData,

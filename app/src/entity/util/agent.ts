@@ -235,7 +235,7 @@ export class AgentUtil extends BaseUtil {
 		inventoryUtil.removeGold(agent, value);
 
 		// Update the town
-		townUtil.addGold(constants.TOWN_ID, value);
+		townUtil.addGold(value);
 
 		// Make sure item is unclaimed and has its tile updated
 		itemUtil.pickupItem(item);

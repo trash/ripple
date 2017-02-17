@@ -13,7 +13,7 @@ import {Profession} from '../../data/Profession';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager, SpriteManager} from '../../services/sprite-manager';
 import {store} from '../../redux/store';
-import {addToItemList, removeFromItemList} from '../../redux/Actions';
+import {addToItemList, removeFromItemList} from '../../redux/actions';
 import {itemUtil} from '../util/item';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 

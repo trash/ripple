@@ -3,5 +3,6 @@ export enum Item {
     Berries,
     Mushroom,
     Stone,
-    Plank
+    Plank,
+    Gold
 }

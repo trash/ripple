@@ -12,7 +12,7 @@ import {
     updateHoveredBuilding,
     updateHoveredStorage,
     updateHoveredAgentLastExecutionChain
-} from '../redux/Actions';
+} from '../redux/actions';
 
 import {agentUtil, collisionUtil, positionUtil} from '../entity/util';
 
