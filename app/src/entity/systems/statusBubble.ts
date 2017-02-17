@@ -10,23 +10,16 @@ import {SpriteManager} from '../../services/sprite-manager';
 const CYCLE_TIME = 1000;
 
 export class StatusBubbleSystem extends EntitySystem {
-    lastCycle: number;
-
-    constructor (manager: EntityManager, ComponentsEnum: Component) {
-        super(manager, ComponentsEnum);
-        this.lastCycle = performance.now();
-    }
-
     update (entityIds: number[]) {
         entityIds.forEach(id => {
-            // Only update once a cycle
-            if (performance.now() - this.lastCycle < CYCLE_TIME) {
-                return;
-            }
-            this.lastCycle = performance.now();
-
             const statusBubbleState = this.manager.getComponentDataForEntity(
                 Component.StatusBubble, id) as IStatusBubbleState;
+            // Only update once a cycle
+            if (performance.now() - statusBubbleState.lastCycleTime < CYCLE_TIME) {
+                return;
+            }
+            statusBubbleState.lastCycleTime = performance.now();
+
             const renderableState = this.manager.getComponentDataForEntity(
                 Component.Renderable, id) as IRenderableState;
 
@@ -35,10 +28,6 @@ export class StatusBubbleSystem extends EntitySystem {
                 return;
             }
 
-            // Init active bubbleName
-            if (!statusBubbleState.activeBubbleName) {
-                statusBubbleState.activeBubbleName = statusBubbleState.activeBubbles[0];
-            }
             // Remove previous active sprite
             const activeSprite = statusBubbleState.activeBubbleSprite;
             if (activeSprite) {
@@ -46,13 +35,17 @@ export class StatusBubbleSystem extends EntitySystem {
                 activeSprite.destroy();
                 statusBubbleState.activeBubbleSprite = null;
             }
+            if (!statusBubbleState.activeBubbles.length) {
+                return;
+            }
 
             // Cycle to next bubble
             const nextBubbleName = this.getNextBubbleName(
                 statusBubbleState.activeBubbles,
-                statusBubbleState.activeBubbleName);
-            statusBubbleState.activeBubbleName = nextBubbleName;
+                statusBubbleState.activeBubbleName
+            );
             if (nextBubbleName !== null) {
+                statusBubbleState.activeBubbleName = nextBubbleName;
                 const sprite = this.createSprite(nextBubbleName);
                 statusBubbleState.activeBubbleSprite = sprite;
                 renderableState.spriteGroup.addChild(sprite);
@@ -64,15 +57,12 @@ export class StatusBubbleSystem extends EntitySystem {
         activeBubbles: StatusBubble[],
         activeBubbleName: StatusBubble
     ): StatusBubble {
-        if (!activeBubbles.length) {
-            return null;
-        }
-        let previousIndex = activeBubbles.indexOf(activeBubbleName);
+        const previousIndex = activeBubbles.indexOf(activeBubbleName);
         // Either the previous one is no longer in the list,
         // we've looped around the end, or there's only one option just pick the first one
-        if (previousIndex === -1 ||
-            previousIndex === activeBubbles.length - 1 ||
-            activeBubbles.length === 1
+        if (previousIndex === -1
+            || previousIndex === activeBubbles.length - 1
+            || activeBubbles.length === 1
         ) {
             return activeBubbles[0];
         }
@@ -83,7 +73,7 @@ export class StatusBubbleSystem extends EntitySystem {
         bubble: StatusBubble
     ): PIXI.Sprite {
         const bubbleName = StatusBubble[bubble].toLowerCase();
-        const bubbleSprite = SpriteManager.Sprite.fromFrame('bubble-' + bubbleName);
+        const bubbleSprite = SpriteManager.Sprite.fromFrame(`bubble-${bubbleName}`);
         bubbleSprite.position.x = 0;
         bubbleSprite.position.y = -20;
         return bubbleSprite;

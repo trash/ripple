@@ -8,6 +8,8 @@ export interface IStatusBubbleState {
     activeBubbles: StatusBubbleEnum[];
     activeBubbleName: StatusBubbleEnum;
     activeBubbleSprite: PIXI.Sprite;
+
+    lastCycleTime?: number;
 }
 
 export const StatusBubble: IComponent<IStatusBubbleState> = {
@@ -17,7 +19,8 @@ export const StatusBubble: IComponent<IStatusBubbleState> = {
         return {
             activeBubbles: [],
             activeBubbleName: null,
-            activeBubbleSprite: null
+            activeBubbleSprite: null,
+            lastCycleTime: 0
         };
     }
 };

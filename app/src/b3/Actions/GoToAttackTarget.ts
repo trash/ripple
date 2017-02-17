@@ -28,7 +28,6 @@ export class GoToAttackTarget extends Core.Sequence {
 	}
 	close (tick: Core.Tick) {
 		super.close(tick);
-
 		statusBubbleUtil.removeStatusBubble(tick.target.id, StatusBubble.Sword);
 	}
 }

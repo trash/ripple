@@ -86,6 +86,9 @@ export class PositionUtil extends BaseUtil {
 	): number {
 		const entities = this.getEntitiesWithComponentInTile(tile, componentType);
 		const entityToDestroy = entities[0];
+		if (!entityToDestroy) {
+			return null;
+		}
 		this.entityManager.destroyEntity(entityToDestroy);
 		return entityToDestroy;
 	}

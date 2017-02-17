@@ -184,9 +184,7 @@ export class EntityManager {
     }
 
     createNewComponentDataMapEntry (componentName: Component) {
-        return _.extend({
-            id: uniqueId.get()
-        }, this.components[componentName].getInitialState());
+        return this.components[componentName].getInitialState();
     }
 
     addComponentToEntity (
