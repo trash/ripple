@@ -88,6 +88,10 @@ export class StorageUtil extends BaseUtil {
 
         return storageEntities[nearest];
     }
+
+    getItems(storage: number): number[] {
+        return this._getStorageState(storage).itemList;
+    }
 }
 
 export const storageUtil = new StorageUtil();

@@ -18,7 +18,8 @@ import {
     CollisionSystem,
     CorpseSystem,
     GuardSystem,
-    VisitorSystem
+    VisitorSystem,
+    StorageSystem
 } from './index';
 
 import {EntitySystem, EntityManager} from '../entityManager';
@@ -39,6 +40,7 @@ export const systemsList:
     [CollisionSystem, Component.Collision],
     [ItemSystem, Component.Item],
     [InventorySystem, Component.Inventory],
+    [StorageSystem, Component.Storage],
     [AgentSystem, Component.Agent],
     [GuardSystem, Component.Agent],
     [CorpseSystem, Component.Corpse],
