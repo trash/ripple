@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import {Decorator,  IDecoratorOptions} from './Decorator';
 import {Tick} from './Tick';
-import {uniqueId} from '../../unique-id';
+import {uniqueId} from '../../uniqueId';
 import {util} from '../../util';
 /**
  * The Inverter decorator inverts the result of the child, returning `SUCCESS`

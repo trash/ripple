@@ -27,7 +27,7 @@ export class GoToTarget extends Core.BaseNode {
 
 	tick (tick: Core.Tick) {
 		const agentData = tick.target;
-		let target: IRowColumnCoordinates = util.targetKeyOrFunction(
+		const target: IRowColumnCoordinates = util.targetKeyOrFunction(
 			tick,
 			this.targetKeyOrFunction
 		);
@@ -55,7 +55,6 @@ export class GoToTarget extends Core.BaseNode {
 
 		// Success if we reached the target
 		if (MapUtil.distanceTo(tileCoords, target) <= this.distance) {
-			console.log(tileCoords, target);
 			return b3.SUCCESS;
 		}
 		return b3.RUNNING;

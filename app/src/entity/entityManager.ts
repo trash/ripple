@@ -1,28 +1,12 @@
 import * as _ from 'lodash';;
-import {uniqueId} from '../unique-id';
+import {uniqueId} from '../uniqueId';
 import {Component} from './ComponentEnum';
-import {componentsList} from './components/ComponentsList';
+import {componentsList} from './components/componentsList';
+import {utilList} from './util/utilList';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems';
 import {EventEmitter2} from 'eventemitter2';
 import {EntitySpawner} from './entitySpawner';
-
-// Utils
-import {
-    BaseUtil,
-    baseUtil,
-    agentUtil,
-    collisionUtil,
-    itemUtil,
-    mapUtil,
-    harvestableUtil,
-    positionUtil,
-    buildingUtil,
-    statusBubbleUtil,
-    visitorUtil,
-    storageUtil,
-    inventoryUtil
-} from './util';
 
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;
@@ -48,21 +32,6 @@ export interface IComponent<T> {
     name: string;
     getInitialState: () => T;
 }
-
-const utilList: BaseUtil[] = [
-    baseUtil,
-    agentUtil,
-    harvestableUtil,
-    itemUtil,
-    mapUtil,
-    positionUtil,
-    statusBubbleUtil,
-    collisionUtil,
-    buildingUtil,
-    storageUtil,
-    visitorUtil,
-    inventoryUtil,
-];
 
 type EntityComponentDataMapEntry = any;
 // A map of entities to their component data entries
@@ -135,8 +104,13 @@ export class EntityManager {
         });
     }
 
-    createEntity (componentNames: Component[]): number {
-        const entityId = parseInt(uniqueId.get());
+    createEntity (
+        componentNames: Component[],
+        entityId: number = null
+    ): number {
+        entityId = entityId === null
+            ? parseInt(uniqueId.get())
+            : entityId;
 
         componentNames.forEach(componentName => {
             this.addComponentToEntity(entityId, componentName);
@@ -146,8 +120,11 @@ export class EntityManager {
         return entityId;
     }
 
-    createEntityFromAssemblage (assemblageEnum: AssemblagesEnum): number {
-        return this.createEntity(assemblages[assemblageEnum]);
+    createEntityFromAssemblage (
+        assemblageEnum: AssemblagesEnum,
+        entityId?: number
+    ): number {
+        return this.createEntity(assemblages[assemblageEnum], entityId);
     }
 
     _getSystemForComponent (component: Component): EntitySystem {

@@ -1,3 +1,4 @@
+import {constants} from './data/constants';
 const localStorageKey = 'ripple-unique-id';
 
 /**
@@ -7,7 +8,9 @@ export class UniqueId {
 	currentId: number;
 
 	constructor () {
-		this.currentId = parseInt(localStorage.getItem(localStorageKey)) || 0;
+		const startId = Math.max(...constants.PROTECTED_IDS);
+		this.currentId = parseInt(localStorage.getItem(localStorageKey))
+			|| startId;
 	}
 
 	/**

@@ -145,6 +145,9 @@ export class GameManager {
 
 		this.map.initialize();
 
+        // Spawn player town
+        this.entityManager.spawner.spawnTown();
+
         // Spawn resources
         this.map.resourceList.forEach((resourceName, i) => {
             if (resourceName && resourceName !== 'hill') {

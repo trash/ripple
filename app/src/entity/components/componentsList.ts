@@ -20,7 +20,8 @@ import {
     Corpse,
     Collision,
     Visitor,
-    Name
+    Name,
+    Town
 } from './index';
 
 import {IComponent} from '../entityManager';
@@ -48,5 +49,6 @@ export let componentsList: IComponent<any>[] = [
     Collision,
     Corpse,
     Name,
-    Inventory
+    Inventory,
+    Town
 ];

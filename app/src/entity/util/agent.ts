@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {Component} from '../ComponentEnum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
-import {buildingUtil, positionUtil, itemUtil, inventoryUtil} from './index';
+import {buildingUtil, positionUtil, itemUtil, inventoryUtil, townUtil} from './index';
 import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
@@ -235,8 +235,8 @@ export class AgentUtil extends BaseUtil {
 		inventoryUtil.removeGold(agent, value);
 
 		// Update the town
-		// townService.buyItem(item);
-		console.log('need to add the gold to the town\'s entity component');
+		townUtil.addGold(constants.TOWN_ID, value);
+
 		// Make sure item is unclaimed and has its tile updated
 		itemUtil.pickupItem(item);
 		// Add the item to the agent's inventory

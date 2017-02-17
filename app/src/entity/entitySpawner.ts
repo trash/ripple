@@ -4,6 +4,7 @@ import {
 	IRowColumnCoordinates,
 	RequiredResources
 } from '../interfaces';
+import {constants} from '../data/constants';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
 import {addToItemList} from '../redux/Actions';
@@ -59,12 +60,16 @@ export class EntitySpawner {
 		entityId: number,
 		pair: [any, Component]
 	) {
-		if (pair[0]) {
+		const data = pair[0];
+		const componentEnum = pair[1];
+		if (data) {
 			const entityState = this.entityManager.getComponentDataForEntity(
-				pair[1], entityId);
+				componentEnum,
+				entityId
+			);
 			if (entityState) {
 				for (const stateProp in entityState) {
-					const value = pair[0][stateProp]
+					const value = data[stateProp]
 					if (value !== undefined) {
 						entityState[stateProp] = value;
 					}
@@ -74,7 +79,7 @@ export class EntitySpawner {
 	}
 
 	// Automatically copies over the necessary component data for a new entity
-	_copyNeededComponentData (
+	private copyNeededComponentData (
 		entityId: number,
 		entityComponentData: IEntityComponentData,
 		assemblageEnum: AssemblagesEnum
@@ -124,7 +129,7 @@ export class EntitySpawner {
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agent]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
-		this._copyNeededComponentData(entityId, entityComponentData, assemblage);
+		this.copyNeededComponentData(entityId, entityComponentData, assemblage);
 
 		// If they specified options for the villager, assign them
 		if (villager) {
@@ -139,12 +144,34 @@ export class EntitySpawner {
 		return entityId;
 	}
 
-	spawnCorpse (entityComponentData: IEntityComponentData): number {
-		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Corpse);
+	private spawnFromAssemblage(
+		assemblage: AssemblagesEnum,
+		entityComponentData: IEntityComponentData,
+		entityId: number = null
+	): number {
+		entityId = entityId !== null
+			? this.entityManager.createEntityFromAssemblage(assemblage, entityId)
+			: this.entityManager.createEntityFromAssemblage(assemblage);
 
-		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Corpse);
+		this.copyNeededComponentData(entityId, entityComponentData, assemblage);
 
         return entityId;
+	}
+
+	spawnCorpse (entityComponentData: IEntityComponentData): number {
+		return this.spawnFromAssemblage(AssemblagesEnum.Corpse, entityComponentData);
+	}
+
+	spawnTown(
+		entityComponentData: IEntityComponentData = {}
+	): number {
+		const entityId = this.spawnFromAssemblage(
+			AssemblagesEnum.Town,
+			entityComponentData,
+			constants.TOWN_ID
+		);
+		console.info(`Spawning Town with id: ${entityId}`);
+		return entityId;
 	}
 
 	spawnResource (
@@ -159,7 +186,7 @@ export class EntitySpawner {
 			tile: tile
 		};
 
-		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Resource);
+		this.copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Resource);
 
 		return entityId;
 	}
@@ -223,7 +250,7 @@ export class EntitySpawner {
 			tileDoesntContainItem
 		);
 
-		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
+		this.copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
 
 		const positionState = this.entityManager.getComponentDataForEntity(
 			Component.Position, entityId) as IPositionState;
@@ -268,7 +295,7 @@ export class EntitySpawner {
 
 		console.info(`Spawning: ${building} with entityId: ${entityId}`);
 
-		this._copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
+		this.copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
 
 		if (isCompleted) {
 			const constructibleState = this.entityManager.getComponentDataForEntity(

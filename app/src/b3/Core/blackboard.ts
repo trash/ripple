@@ -28,7 +28,7 @@
 
 import {b3, StatusCode} from '../index';
 import * as Core from './index';
-import {uniqueId} from '../../unique-id';
+import {uniqueId} from '../../uniqueId';
 
 interface LastNodeExecutionChain {
     success: Core.ChildStatus[];

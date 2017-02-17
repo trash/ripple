@@ -8,5 +8,6 @@ export {itemUtil} from './item';
 export {mapUtil} from './map';
 export {statusBubbleUtil} from './statusBubble';
 export {positionUtil} from './position';
-export {visitorUtil} from './visitor';
 export {storageUtil} from './storage';
+export {townUtil} from './town';
+export {visitorUtil} from './visitor';

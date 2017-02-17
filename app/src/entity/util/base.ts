@@ -15,7 +15,8 @@ import {
     ISleepState,
     IHungerState,
     IStorageState,
-    IVisitorState
+    IVisitorState,
+    ITownState
 } from '../components';
 
 import {EntityManager} from '../entityManager';
@@ -91,6 +92,11 @@ export class BaseUtil {
     _getInventoryState (id: number): IInventoryState {
         return this.entityManager.getComponentDataForEntity(
             Component.Inventory, id) as IInventoryState;
+    }
+    _getTownState(id: number): ITownState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.Town, id
+        ) as ITownState;
     }
 
     tileContainsEntityOfComponent (componentName: Component, tile: MapTile): boolean {

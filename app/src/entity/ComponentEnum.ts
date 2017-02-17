@@ -23,7 +23,8 @@ export enum Component {
     Name,
     Hunger,
     Sleep,
-    Inventory
+    Inventory,
+    Town
 }
 
 interface IComponentsEnumToKeyMap {
@@ -33,10 +34,9 @@ interface IComponentsEnumToKeyMap {
 export const ComponentsEnumToKeyMap: IComponentsEnumToKeyMap = {};
 
 Object.keys(Component).forEach(component => {
-    const componentNumber = parseInt(component);
     // Actual enum number not string keys
-    if (!isNaN(componentNumber)) {
-        const componentName = Component[componentNumber];
-        ComponentsEnumToKeyMap[componentNumber] = _.camelCase(componentName);
+    if (!_.isNumber(component)) {
+        const componentName = Component[component];
+        ComponentsEnumToKeyMap[component] = _.camelCase(componentName);
     }
 });

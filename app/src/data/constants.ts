@@ -31,9 +31,11 @@ interface IConstants {
 	INACCESSIBLE: number;
 	LAST_LOADED_LEVEL: string;
 	SPRITE_PATH: string;
+	TOWN_ID: number;
+	PROTECTED_IDS: number[];
 }
 
-export let constants = {
+export const constants = {
 	ACCESSIBLE: 0,
 	INACCESSIBLE: 1,
 	colors: {
@@ -57,8 +59,11 @@ export let constants = {
 		PER_DAY: 6
 	},
 	LAST_LOADED_LEVEL: 'lastLoadedLevel',
-	SPRITE_PATH: '/sprites/'
+	SPRITE_PATH: '/sprites/',
+	TOWN_ID: 0
 } as IConstants;
+
+constants.PROTECTED_IDS = [constants.TOWN_ID];
 
 // An in game hour should be 10 second on normal speed
 constants.MOCK_TICKS_PER_HOUR = constants.TICKS_PER_SECOND * 10;

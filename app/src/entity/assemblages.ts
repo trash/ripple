@@ -8,6 +8,7 @@ export enum AssemblagesEnum {
     Building,
     Corpse,
     Visitor,
+    Town
 };
 
 export type Assemblage = Component[];
@@ -29,6 +30,9 @@ const agentComponents = [
 ];
 
 export const assemblages: IAssemblagesMap = {
+    [AssemblagesEnum.Town]: [
+        Component.Town
+    ],
     [AssemblagesEnum.Agent]: agentComponents,
     [AssemblagesEnum.Villager]: agentComponents.concat([
         Component.Villager,
