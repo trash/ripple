@@ -12,19 +12,25 @@ type updateDescription = (tick: Core.Tick, target: IRowColumnCoordinates) => voi
 export class GoToTarget extends Core.BaseNode {
 	targetKeyOrFunction: dropOffTargetKeyOrFunctionType;
 	updateDescription: updateDescription;
+	distance: number;
 
 	constructor (
 		targetKeyOrFunction: dropOffTargetKeyOrFunctionType,
-		updateDescription?: updateDescription
+		distance: number = 1,
+		updateDescription: updateDescription = _.noop,
 	) {
 		super();
 		this.targetKeyOrFunction = targetKeyOrFunction;
-		this.updateDescription = updateDescription || _.noop;
+		this.updateDescription = updateDescription;
+		this.distance = distance;
 	}
 
 	tick (tick: Core.Tick) {
 		const agentData = tick.target;
-		let target: IRowColumnCoordinates = util.targetKeyOrFunction(tick, this.targetKeyOrFunction);
+		let target: IRowColumnCoordinates = util.targetKeyOrFunction(
+			tick,
+			this.targetKeyOrFunction
+		);
 		if (!target) {
 			return b3.FAILURE;
 		}
@@ -32,19 +38,24 @@ export class GoToTarget extends Core.BaseNode {
 		this.updateDescription(tick, target);
 
 		// Success if we're already somehow at the target before doing anything
-		if (MapUtil.distanceTo(agentData.position.tile, target) <= 1) {
+		if (MapUtil.distanceTo(agentData.position.tile, target) <= this.distance) {
 			return b3.SUCCESS;
 		}
 
-		const tileCoords = PathUtil.getNextStepToTarget(agentData.position.tile,
-			agentData.id.toString(), target.row + target.column + '', target);
+		const tileCoords = PathUtil.getNextStepToTarget(
+			agentData.position.tile,
+			agentData.id.toString(),
+			`${target.row}${target.column}`,
+			target
+		);
 		if (!tileCoords) {
 			return b3.FAILURE;
 		}
 		util.setTile(agentData.position, tileCoords, agentData.turn, agentData.agent.speed);
 
 		// Success if we reached the target
-		if (MapUtil.distanceTo(tileCoords, target) <= 1) {
+		if (MapUtil.distanceTo(tileCoords, target) <= this.distance) {
+			console.log(tileCoords, target);
 			return b3.SUCCESS;
 		}
 		return b3.RUNNING;

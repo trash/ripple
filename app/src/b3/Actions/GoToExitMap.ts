@@ -4,15 +4,12 @@ import {baseUtil} from '../../entity/util';
 
 const key = 'exit-tile';
 
-export class GoToExitMap extends Core.Sequence {
-	constructor (description?: string) {
-		super({
-			children: [
-				new Action.GetExitTile(key),
-				new Action.GoToTarget(key),
-				new Action.Simple(tick => baseUtil.destroyEntity(tick.target.id))
-			]
-		});
-		this.description = description || 'Leaving the area.';
-	}
-}
+export const GoToExitMap = () => new Core.Sequence({
+	children: [
+		new Action.GetExitTile(key),
+		new Action.GoToTarget(key, 0),
+		new Action.Simple(tick => {
+			baseUtil.destroyEntity(tick.target.id);
+		})
+	]
+});

@@ -11,7 +11,7 @@ behaviorTree.root = new Core.Priority({
 		new Core.Sequence({
 			children: [
 				new Action.IsTrue(tick => tick.target.visitor.leaveTown),
-				new Action.GoToExitMap()
+				Action.GoToExitMap()
 			]
 		}),
 		// Make them flee and leave town if they've been attacked recently
@@ -29,7 +29,7 @@ behaviorTree.root = new Core.Priority({
 					children: [
 						new Action.HasItemInInventory(itemToBuyKey),
 						new Action.ShowBubble(StatusBubble.Happy),
-						new Action.GoToExitMap()
+						Action.GoToExitMap()
 					]
 				}),
 				new Action.GoBuyItem(itemToBuyKey)

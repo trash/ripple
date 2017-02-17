@@ -16,7 +16,7 @@ export class GoToAttackTarget extends Core.Sequence {
 					child: new Actions.CheckIfAgentIsDead(targetKey)
 				}),
 				new Actions.ShowBubble(StatusBubble.Sword),
-				new Actions.GoToTarget(targetTileKey, (tick, target) => {
+				new Actions.GoToTarget(targetTileKey, 1, (tick, target) => {
 					this.setDescription(tick,
 						`going to attack agent @ \
 						${target}`);
