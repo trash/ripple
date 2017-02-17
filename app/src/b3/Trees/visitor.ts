@@ -1,7 +1,9 @@
+import {b3} from '../../b3';
 import * as Core from '../../b3/Core';
 import * as Action from '../../b3/Actions';
 import {StatusBubble} from '../../data/StatusBubble';
 import {Building} from '../../data/Building';
+import {statusBubbleUtil} from '../../entity/util';
 
 const itemToBuyKey = 'visitor-item-to-buy';
 
@@ -23,16 +25,17 @@ behaviorTree.root = new Core.Priority({
 				})
 			]
 		}),
-		new Core.Priority({
+		// Go buy an item if they haven't already
+		new Core.Sequence({
 			children: [
-				new Core.Sequence({
-					children: [
-						new Action.HasItemInInventory(itemToBuyKey),
-						new Action.ShowBubble(StatusBubble.Happy),
-						Action.GoToExitMap()
-					]
+				new Core.Inverter({
+					child: new Action.HasItemInInventory(itemToBuyKey)
 				}),
-				new Action.GoBuyItem(itemToBuyKey)
+				new Action.GoBuyItem(itemToBuyKey),
+				new Action.ShowBubble(StatusBubble.Happy),
+				Action.SimpleTimer((tick) => {
+					statusBubbleUtil.removeStatusBubble(tick.target.id, StatusBubble.Happy);
+				}, 2)
 			]
 		}),
 		new Core.Sequence({

@@ -7,7 +7,8 @@ import {
     IHealthState,
     IHealthBarState,
     IPositionState,
-    INameState
+    INameState,
+    IBuildingState
 } from '../components';
 import {IAgentSprite} from '../../interfaces';
 import {util} from '../../util';
@@ -46,8 +47,12 @@ export class AgentSystem extends EntitySystem {
             // Check to see if the agent left the building they were in
             if (agentState.buildingInsideOf) {
                 const buildingPositionState = this.manager.getComponentDataForEntity(
-                        Component.Position, agentState.buildingInsideOf) as IPositionState;
-                if (!util.rowColumnCoordinatesAreEqual(positionState.tile, buildingPositionState.tile)) {
+                    Component.Building,
+                    agentState.buildingInsideOf
+                ) as IBuildingState;
+                if (!util.rowColumnCoordinatesAreEqual(
+                    positionState.tile, buildingPositionState.entranceTile)
+                ) {
                     agentState.buildingInsideOf = null;
                 }
             }

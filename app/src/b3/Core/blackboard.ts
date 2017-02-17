@@ -184,15 +184,12 @@ export class Blackboard {
      * @returns {Object} A memory object.
      * @protected
     **/
-    _getMemory (treeScope?: string, nodeScope?: string): any {
-        if (treeScope) {
-             const memory = this._getTreeMemory(treeScope);
-             if (nodeScope) {
-                 return this._getNodeMemory(memory, nodeScope);
-             }
-             return memory;
+    _getMemory (treeScope: string, nodeScope?: string): any {
+        const memory = this._getTreeMemory(treeScope);
+        if (nodeScope) {
+            return this._getNodeMemory(memory, nodeScope);
         }
-        return this._baseMemory;
+        return memory;
     }
 
     /**

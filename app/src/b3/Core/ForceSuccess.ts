@@ -9,7 +9,7 @@ import * as Core from './index';
  * @class Inverter
  * @extends Decorator
 **/
-export class ForceTrue extends Core.Decorator {
+export class ForceSuccess extends Core.Decorator {
 	/**
 	 * Tick method.
 	 * @method tick

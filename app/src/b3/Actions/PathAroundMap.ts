@@ -1,6 +1,7 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
+import {positionUtil} from '../../entity/util';
 
 class ShouldMoveRight extends Core.BaseNode {
 	tick (tick: Core.Tick) {
@@ -90,7 +91,12 @@ class Move extends Core.BaseNode {
 			debugger;
 		}
 
-		util.setTile(agentData.position, nextTile, agentData.turn, agentData.agent.speed);
+		positionUtil.setTile(
+			agentData.position,
+			nextTile,
+			agentData.turn,
+			agentData.agent.speed
+		);
 		return b3.SUCCESS;
 	}
 }
@@ -157,7 +163,12 @@ export class OldPathAroundMap extends Core.BaseNode {
 			debugger;
 		}
 
-		util.setTile(agentData.position, nextTile, agentData.turn, agentData.agent.speed);
+		positionUtil.setTile(
+			agentData.position,
+			nextTile,
+			agentData.turn,
+			agentData.agent.speed
+		);
 
 		return b3.SUCCESS;
 	}

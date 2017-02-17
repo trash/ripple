@@ -135,7 +135,7 @@ export class AgentUtil extends BaseUtil {
 		const agentPositionState = this._getPositionState(agent);
 		const tile = PathUtil.getFleeTile(agentPositionState.tile, fleeTargetPositionState.tile);
 
-		util.setTile(agentPositionState, tile, turn, agentData.speed);
+		positionUtil.setTile(agentPositionState, tile, turn, agentData.speed);
 	}
 
     attackAgent (
@@ -198,7 +198,7 @@ export class AgentUtil extends BaseUtil {
 		const buildingPositionState = this._getPositionState(building);
 
 		agentState.buildingInsideOf = building;
-		util.setTile(agentPositionState, buildingPositionState.tile, turn, agentState.speed);
+		positionUtil.setTile(agentPositionState, buildingPositionState.tile, turn, agentState.speed);
 
 		const villagerState = this._getVillagerState(agent);
 		if (villagerState && villagerState.home) {

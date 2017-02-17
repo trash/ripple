@@ -1,6 +1,7 @@
 import {b3} from '../index';
 import {util} from '../../util';
 import {gameClock} from '../../game/game-clock';
+import {uniqueId} from '../../uniqueId';
 import * as Core from './index';
 
 var timerKey = 'timer:hours-passed';
@@ -19,20 +20,20 @@ interface ITimerOptions extends Core.IDecoratorOptions {
 **/
 export class Timer extends Core.Decorator {
 	hours: number;
-
-	constructor (options: ITimerOptions) {
-		super(options);
-	}
+	id: string;
 
 	initialize (options: ITimerOptions) {
 		super.initialize(options as Core.IDecoratorOptions);
 
 		this.hours = options.hours || null;
+		this.id = uniqueId.get();
+
+		console.log('timer init', this.id, this.hours);
 	}
 	open (tick: Core.Tick) {
-		util.blackboardSet(tick, timerKey, false);
+		util.blackboardSet(tick, timerKey, false, this.id);
 		gameClock.timer(this.hours, () => {
-			util.blackboardSet(tick, timerKey, true);
+			util.blackboardSet(tick, timerKey, true, this.id);
 		});
 	}
 	/**
@@ -46,7 +47,7 @@ export class Timer extends Core.Decorator {
 			debugger;
 			return b3.ERROR;
 		}
-		let timerDone = util.blackboardGet(tick, timerKey);
+		const timerDone = util.blackboardGet(tick, timerKey, this.id);
 
 		if (!timerDone) {
 			return b3.RUNNING;

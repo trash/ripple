@@ -92,6 +92,18 @@ export class PositionUtil extends BaseUtil {
 		this.entityManager.destroyEntity(entityToDestroy);
 		return entityToDestroy;
 	}
+
+	setTile (
+		positionState: IPositionState,
+		tile: IRowColumnCoordinates,
+		turn: number,
+		speed: number
+	) {
+		positionState.previousTile = positionState.tile;
+		positionState.tile = tile;
+		positionState.turnUpdated = turn;
+		positionState.turnCompleted = turn + speed;
+	}
 }
 
 export const positionUtil = new PositionUtil();

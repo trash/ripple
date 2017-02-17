@@ -32,7 +32,8 @@ import * as Core from './index';
 /**
  * Priority ticks its children sequentially until one of them returns
  * `SUCCESS`, `RUNNING` or `ERROR`. If all children return the failure state,
- * the priority also returns `FAILURE`.
+ * the priority also returns `FAILURE`. Otherwise it returns the first child
+ * that doesn't return FAILURE's status code.
  *
  * @class Priority
  * @extends Composite

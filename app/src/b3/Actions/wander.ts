@@ -1,6 +1,7 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
+import {positionUtil} from '../../entity/util';
 
 export class Wander extends Core.BaseNode {
 	distance: number;
@@ -29,7 +30,7 @@ export class Wander extends Core.BaseNode {
 	}
 
 	tick (tick: Core.Tick) {
-		var arrived = util.blackboardGet(tick, 'arrived');
+		const arrived = util.blackboardGet(tick, 'arrived');
 		if (!arrived) {
 			util.blackboardSet(tick, 'arrived', true);
 			// testLog.log('should be wandering');
@@ -37,7 +38,12 @@ export class Wander extends Core.BaseNode {
 			if (!randomTile) {
 				console.error('for some reason randomTile is undefined?? ignoring this for now...');
 			} else {
-				util.setTile(tick.target.position, randomTile, tick.target.turn, tick.target.agent.speed);
+				positionUtil.setTile(
+					tick.target.position,
+					randomTile,
+					tick.target.turn,
+					tick.target.agent.speed
+				);
 			}
 			return b3.RUNNING;
 		}

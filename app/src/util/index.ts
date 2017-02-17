@@ -433,19 +433,6 @@ export class Util {
 			`${blackboardKey}:${tick.target.id}`, value, tick.tree.id, nodeScope);
 	}
 
-	setTile (
-		positionState: IPositionState,
-		tile: IRowColumnCoordinates,
-		turn: number,
-		speed: number
-	) {
-		positionState.previousTile = positionState.tile;
-		positionState.tile = tile;
-		positionState.turnUpdated = turn;
-		positionState.turnCompleted = turn + speed;
-	}
-
-
 	rowColumnCoordinatesAreEqual (
 		coord1: IRowColumnCoordinates,
 		coord2: IRowColumnCoordinates

@@ -4,6 +4,7 @@ import * as Core from '../Core';
 import {util} from '../../util';
 import {PathUtil} from '../../util/path';
 import {MapUtil} from '../../map/map-util';
+import {positionUtil} from '../../entity/util';
 import {IPositionState} from '../../entity/components/position';
 import {IRowColumnCoordinates, dropOffTargetKeyOrFunctionType} from '../../interfaces';
 
@@ -51,7 +52,12 @@ export class GoToTarget extends Core.BaseNode {
 		if (!tileCoords) {
 			return b3.FAILURE;
 		}
-		util.setTile(agentData.position, tileCoords, agentData.turn, agentData.agent.speed);
+		positionUtil.setTile(
+			agentData.position,
+			tileCoords,
+			agentData.turn,
+			agentData.agent.speed
+		);
 
 		// Success if we reached the target
 		if (MapUtil.distanceTo(tileCoords, target) <= this.distance) {
