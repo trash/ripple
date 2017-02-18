@@ -15,7 +15,8 @@ import {
     IPositionState,
     IVillagerState,
     IStorageState,
-    IStatusBubbleState
+    IStatusBubbleState,
+    IHealthState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -36,7 +37,8 @@ import {
     ShowDebugBar,
     ShowCraftBar,
     UpdateHoveredStorage,
-    UpdateTownGold
+    UpdateTownGold,
+    UpdateHoveredHealth
 } from './actions';
 
 export interface StoreState {
@@ -54,6 +56,7 @@ export interface StoreState {
     hoveredBuildingConstructibleState: IConstructibleState;
     hoveredAgentLastExecutionChain: ChildStatus[];
     hoveredVillager: IVillagerState;
+    hoveredHealth: IHealthState;
     hours: number;
     days: number;
     buildingsListShown: boolean;
@@ -138,6 +141,11 @@ const mainReducer = (previousState = initialState, action) => {
     if (action.type === actionTypes.UPDATE_TOWN_GOLD) {
         const updateAction = action as UpdateTownGold;
         newState.gold = action.gold;
+    }
+
+    if (action.type === actionTypes.UPDATE_HOVERED_HEALTH) {
+        const updateAction = action as UpdateHoveredHealth;
+        newState.hoveredHealth = action.health;
     }
 
     return newState;

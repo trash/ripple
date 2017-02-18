@@ -20,7 +20,8 @@ import {
     IVillagerState,
     Villager,
     IStorageState,
-    IStatusBubbleState
+    IStatusBubbleState,
+    IHealthState
 } from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
@@ -46,6 +47,7 @@ interface DebugPanelProps {
     hours: number;
     days: number;
     storage: IStorageState;
+    health: IHealthState;
 }
 
 interface DebugPanelState {
@@ -257,6 +259,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
     getDebugGroups (): [string, any, string[]][] {
         return [
             ['Agent', this.props.agent, []],
+            ['Health', this.props.health, []],
             ['Agent Position', this.props.agentPosition, []],
             ['Agent Status Bubble', this.props.agentStatusBubble, []],
             ['Villager', this.props.villager, Villager.blacklistedDebugProperties],
@@ -319,6 +322,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         hours: state.hours,
         days: state.days,
         villager: state.hoveredVillager,
-        storage: state.hoveredStorage
+        storage: state.hoveredStorage,
+        health: state.hoveredHealth
     };
 })(DebugPanel);

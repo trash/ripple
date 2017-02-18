@@ -15,7 +15,10 @@ export {
     AddToItemList,
     RemoveFromItemList
 } from './updateItemList';
-import {IStorageState} from '../../entity/components/Storage';
+import {
+    IStorageState,
+    IHealthState
+} from '../../entity/components';
 
 import {actionTypes} from './types';
 
@@ -87,4 +90,18 @@ export function updateTownGold(
         type: actionTypes.UPDATE_TOWN_GOLD,
         gold: gold
     };
+}
+
+export type UpdateHoveredHealth = {
+    type: string;
+    health: IHealthState;
+}
+
+export function updateHoveredHealth(
+    health: IHealthState
+): UpdateHoveredHealth {
+    return {
+        type: actionTypes.UPDATE_HOVERED_HEALTH,
+        health: health
+    }
 }

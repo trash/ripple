@@ -11,7 +11,8 @@ import {
     updateHoveredItem,
     updateHoveredBuilding,
     updateHoveredStorage,
-    updateHoveredAgentLastExecutionChain
+    updateHoveredAgentLastExecutionChain,
+    updateHoveredHealth
 } from '../redux/actions';
 
 import {agentUtil, collisionUtil, positionUtil} from '../entity/util';
@@ -33,7 +34,8 @@ import {
     IBehaviorTreeState,
     IVillagerState,
     IStorageState,
-    IStatusBubbleState
+    IStatusBubbleState,
+    IHealthState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -172,6 +174,15 @@ export class TileInfoService {
                 storage
             ) as IStorageState;
             store.dispatch(updateHoveredStorage(storageState));
+        }
+
+        const health = getEntityWithComponentInTile(Component.Health);
+        if (health) {
+            const healthState = this.entityManager.getComponentDataForEntity(
+                Component.Health,
+                health
+            ) as IHealthState;
+            store.dispatch(updateHoveredHealth(healthState));
         }
 
         store.dispatch(updateHoverTile(tile));
