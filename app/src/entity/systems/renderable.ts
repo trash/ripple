@@ -92,7 +92,8 @@ export class RenderableSystem extends EntitySystem {
 				return;
 			}
 
-			let percentageTravelled = (turn - positionState.turnUpdated) / (positionState.turnCompleted - positionState.turnUpdated);
+			let percentageTravelled = (turn - positionState.turnUpdated)
+				/ (positionState.turnCompleted - positionState.turnUpdated);
 			percentageTravelled = TWEEN.Easing.Quartic.Out(percentageTravelled);
 
 			// We need to add some math here to get an Easing Cubic In function to make the animation less linear

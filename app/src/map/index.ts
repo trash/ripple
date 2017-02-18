@@ -377,6 +377,13 @@ export class GameMap {
 		element.style.top = top + 'px';
 	}
 
+	getSpritePositionFromTile(tile: IRowColumnCoordinates): ICoordinates {
+		return {
+			x: tile.column * constants.TILE_HEIGHT,
+			y: tile.row * constants.TILE_HEIGHT
+		};
+	}
+
 	/**
 	 * Sets the position of a sprite to that of a tile
 	 *
@@ -387,8 +394,9 @@ export class GameMap {
 		sprite: PIXI.DisplayObject,
 		tile: IRowColumnCoordinates
 	) {
-		sprite.x = tile.column * constants.TILE_HEIGHT;
-		sprite.y = tile.row * constants.TILE_HEIGHT;
+		const coords = this.getSpritePositionFromTile(tile);
+		sprite.x = coords.x;
+		sprite.y = coords.y;
 	}
 
 	scaledTileSize (): number {
