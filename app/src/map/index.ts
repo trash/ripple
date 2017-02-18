@@ -299,13 +299,12 @@ export class GameMap {
 	 *                            that gets passed the tile that got clicked
 	 * @returns {Function} Removes the event listener from the canvas when called.
 	 */
-	addTileClickListener (callback: (tile: MapTile) => void): () => void {
+	addTileClickListener (
+		callback: (tile: IRowColumnCoordinates | null) => void
+	): () => void {
 		const canvasClick = event => {
-			const clickCoords = this.positionToTile(event.x, event.y),
-				clickedTile = this.getTile(clickCoords.y, clickCoords.x);
-			if (!clickedTile) {
-				return;
-			}
+			const clickCoords = this.positionToTile(event.x, event.y);
+			const clickedTile = this.getTile(clickCoords.y, clickCoords.x) || null;
 
 			callback(clickedTile);
 		};
@@ -548,7 +547,7 @@ export class GameMap {
 	* @param {int} column The column of the tile
 	* @returns {Tile} The tile that matches these coords
 	*/
-	getTile (row: number, column: number): MapTile {
+	getTile (row: number, column: number): MapTile | null {
 		return MapUtil.getTile(this.tiles, row, column);
 	}
 

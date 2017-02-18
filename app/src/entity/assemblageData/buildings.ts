@@ -146,7 +146,7 @@ export const dataList: IEntityComponentData[] = [
         },
         collision: {
             size: {
-                x: 5,
+                x: 4,
                 y: 4
             },
             entrance: {

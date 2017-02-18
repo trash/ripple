@@ -8,9 +8,10 @@ import {IRowColumnCoordinates} from '../interfaces';
 import {spriteManager} from '../services/sprite-manager';
 import {positionUtil} from '../entity/util';
 import {Component} from '../entity/ComponentEnum';
+import {constants} from '../data/constants';
 
 const spritePosition = {
-    offsetX: 10,
+    offsetX: constants.TILE_HEIGHT / 2,
     offsetY: 5,
     baseY: 0,
     maxOffsetY: -10
@@ -20,9 +21,10 @@ export class SelectedEntityCursorService {
     hoverSprite: PIXI.Sprite;
     hoverSpriteInterval: number;
     clickListenerOff: Function;
-    selectedEntity: number;
+    selectedEntity: number | null;
 
     constructor() {
+        this.selectedEntity = null;
         events.on('map-update', (map: GameMap) => {
             // Defer so that the tilemap is created
             _.defer(() => {
@@ -40,7 +42,33 @@ export class SelectedEntityCursorService {
         this.clickListenerOff = map.addTileClickListener(tile => this.onTileClick(tile));
     }
 
+    updateCursorPosition(offsetY: number) {
+        if (!_.isNumber(this.selectedEntity)) {
+            return;
+        }
+        spritePosition.offsetY = offsetY;
+
+        const tile = positionUtil.getTileFromEntityId(this.selectedEntity);
+
+        const coords = globalRefs.map.getSpritePositionFromTile(tile);
+        spritePosition.baseY = coords.y;
+        this.hoverSprite.x = coords.x + spritePosition.offsetX;
+        this.hoverSprite.y = spritePosition.baseY
+            + spritePosition.offsetY;
+    }
+
+    updateSelectedEntity(entity: number | null) {
+        this.selectedEntity = entity;
+        if (this.hoverSprite) {
+            this.hoverSprite.visible = _.isNumber(entity);
+        }
+    }
+
     onTileClick(tile: IRowColumnCoordinates) {
+        if (!tile) {
+            this.updateSelectedEntity(null);
+            return;
+        }
         if (!this.hoverSprite) {
             return;
         }
@@ -48,15 +76,7 @@ export class SelectedEntityCursorService {
             tile,
             Component.Position
         )[0];
-        this.selectedEntity = hoveredEntity;
-        this.hoverSprite.visible = !!hoveredEntity;
-        if (hoveredEntity) {
-            const coords = globalRefs.map.getSpritePositionFromTile(tile);
-            spritePosition.baseY = coords.y;
-            this.hoverSprite.x = coords.x + spritePosition.offsetX;
-            this.hoverSprite.y = spritePosition.baseY
-                + spritePosition.offsetY;
-        }
+        this.updateSelectedEntity(hoveredEntity);
     }
 
     createHoverSprite (): PIXI.Sprite {
@@ -77,9 +97,7 @@ export class SelectedEntityCursorService {
             .yoyo(true)
             .easing(TWEEN.Easing.Cubic.InOut)
             .onUpdate(function() {
-                spritePosition.offsetY = this.offsetY;
-                service.hoverSprite.y = spritePosition.baseY
-                    + spritePosition.offsetY;
+                service.updateCursorPosition(this.offsetY);
             })
             .start();
 
