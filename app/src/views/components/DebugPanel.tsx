@@ -21,7 +21,8 @@ import {
     Villager,
     IStorageState,
     IStatusBubbleState,
-    IHealthState
+    IHealthState,
+    IHarvestableState
 } from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
@@ -48,6 +49,7 @@ interface DebugPanelProps {
     days: number;
     storage: IStorageState;
     health: IHealthState;
+    harvestable: IHarvestableState;
 }
 
 interface DebugPanelState {
@@ -267,6 +269,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             ['Agent Sleep', this.props.agentSleep, []],
             ['Item', this.props.item, []],
             ['Resource', this.props.resource, []],
+            ['Harvestable', this.props.harvestable, []],
             ['Storage', this.props.storage, []],
             ['Building Info', this.props.building, []],
             ['Building Constructible', this.props.buildingConstructible,
@@ -323,6 +326,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         days: state.days,
         villager: state.hoveredVillager,
         storage: state.hoveredStorage,
-        health: state.hoveredHealth
+        health: state.hoveredHealth,
+        harvestable: state.hoveredHarvestable
     };
 })(DebugPanel);

@@ -17,7 +17,8 @@ export {
 } from './updateItemList';
 import {
     IStorageState,
-    IHealthState
+    IHealthState,
+    IHarvestableState
 } from '../../entity/components';
 
 import {actionTypes} from './types';
@@ -92,7 +93,7 @@ export function updateTownGold(
     };
 }
 
-export type UpdateHoveredHealth = {
+export interface UpdateHoveredHealth {
     type: string;
     health: IHealthState;
 }
@@ -103,5 +104,19 @@ export function updateHoveredHealth(
     return {
         type: actionTypes.UPDATE_HOVERED_HEALTH,
         health: health
+    }
+}
+
+export interface UpdateHoveredHarvestable {
+    type: string;
+    harvestable: IHarvestableState;
+}
+
+export function updateHoveredHarvestable(
+    harvestable: IHarvestableState
+): UpdateHoveredHarvestable {
+    return {
+        type: actionTypes.UPDATE_HOVERED_HARVESTABLE,
+        harvestable: harvestable
     }
 }
