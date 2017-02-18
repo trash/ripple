@@ -2,7 +2,6 @@ import * as _ from 'lodash';
 import {util} from '../../util';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {buildingToNameMap} from '../../data/Building';
 import {
     IBuildingState,
     IRenderableState,
@@ -13,7 +12,8 @@ import {
     ICollisionState,
     IStorageState
 } from '../components';
-import {mapUtil} from '../util/map';
+import {mapUtil, buildingUtil} from '../util';
+import {Building} from '../../data/Building';
 
 export class BuildingSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -37,7 +37,7 @@ export class BuildingSystem extends EntitySystem {
 
             // Get the name from the enum
             if (!buildingState.name && _.isNumber(buildingState.enum)) {
-                buildingState.name = buildingToNameMap.get(buildingState.enum);
+                buildingState.name = buildingUtil.getName(buildingState.enum);
             }
 
             if (renderableState.spriteGroup

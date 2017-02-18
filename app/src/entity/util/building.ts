@@ -1,8 +1,10 @@
+import * as changeCase from 'change-case';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {constants} from '../../data/constants';
 import {Profession} from '../../data/Profession';
+import {Building} from '../../data/Building';
 
 export class BuildingUtil extends BaseUtil {
 	private getAllBuildings (): number[] {
@@ -42,6 +44,10 @@ export class BuildingUtil extends BaseUtil {
 		return this.getAllBuildings()[0];
 	}
 
+	getName(building: Building): string {
+        return changeCase.paramCase(Building[building]);
+    }
+
     hasOccupancy(
 		building: number
 	): boolean {
@@ -51,8 +57,9 @@ export class BuildingUtil extends BaseUtil {
 	}
 
 	getImagePath(
-		buildingName: string
+		building: Building
 	): string {
+		const buildingName = this.getName(building);
 		return `${constants.SPRITE_PATH}buildings/${buildingName}.png`;
 	}
 

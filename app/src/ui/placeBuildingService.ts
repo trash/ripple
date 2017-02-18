@@ -12,8 +12,7 @@ import {EntityManager} from '../entity/entityManager';
 import {EntitySpawner} from '../entity/entitySpawner';
 import {Component} from '../entity/ComponentEnum';
 import {ICollisionState, IPositionState} from '../entity/components';
-import {collisionUtil} from '../entity/util/collision';
-import {mapUtil} from '../entity/util/map';
+import {mapUtil, buildingUtil, collisionUtil} from '../entity/util';
 import {Building} from '../data/Building';
 
 const TILE_HEIGHT = constants.TILE_HEIGHT;
@@ -30,7 +29,7 @@ const entityDataToPlaceBuildingOptions = (
 	data: IEntityComponentData
 ): PlaceBuildingOptions => {
 	return {
-		name: data.building.name,
+		name: buildingUtil.getName(data.building.enum),
 		enum: data.building.enum,
 		mustBeNextToWater: data.building.mustBeNextToWater,
 		collision: data.collision

@@ -13,11 +13,11 @@ export class BuildingsList extends React.Component<void, void> {
         return (
         <ul className="buildings-list">
         { buildingsList.map(buildingData => {
-            const name = buildingData.building.name;
+            const building = buildingData.building.enum;
             return (
-            <li key={name}
+            <li key={building}
                 onClick={() => onBuildingClick(buildingData)}>
-                <img src={buildingUtil.getImagePath(name)}/>
+                <img src={buildingUtil.getImagePath(building)}/>
                 <p>{name}</p>
             </li>
             );
