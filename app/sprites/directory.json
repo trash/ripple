@@ -3,6 +3,7 @@
         "buildings",
         "items",
         "map",
-        "monsters"
+        "monsters",
+        "ui"
     ]
 }

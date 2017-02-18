@@ -30,17 +30,16 @@ export interface TilemapSprite extends PIXI.Sprite {
 
 export class Tilemap extends PIXI.Container {
 	scaleFactor: number;
-	renderer: any;
+	renderer: PIXI.WebGLRenderer;
 	dimension: number;
 	subContainerDimension: number;
 	subContainerLayerCount: number;
 	subContainersCount: number;
 	subContainers: SubContainer[];
 	test: boolean;
-	hoverLayer: any;
-	filters: any;
-	lastRenderList: any[];
-	finalLayer: any;
+	hoverLayer: PIXI.Container;
+	filters: PIXI.Filter[];
+	lastRenderList: boolean[];
 	children: PIXI.Container[];
 
 	constructor (
@@ -153,8 +152,9 @@ export class Tilemap extends PIXI.Container {
 
 		// Render each background layer as a render texture
 		const texture = PIXI.RenderTexture.create(
-				this.dimension * tileSize,
-				this.dimension * tileSize);
+			this.dimension * tileSize,
+			this.dimension * tileSize
+		);
 		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 		this.renderer.render(layer, texture);
 
@@ -164,7 +164,9 @@ export class Tilemap extends PIXI.Container {
 	};
 
 	_getDimension () {
-		return Math.sqrt(this.subContainersCount) * this.subContainerDimension * tileSize;
+		return Math.sqrt(this.subContainersCount)
+			* this.subContainerDimension
+			* tileSize;
 	}
 	getWidth () {
 		return this._getDimension();
@@ -187,8 +189,9 @@ export class Tilemap extends PIXI.Container {
 		// Go through the subcontainers and mark the ones that should be rendered
 		this.subContainers.forEach(subContainer => {
 			// It's in the bounds of the view box
-			subContainer.shouldBeRendered = ((subContainer.subX >= startX && subContainer.subX <= endX)
-				&& subContainer.subY >= startY && subContainer.subY <= endY);
+			subContainer.shouldBeRendered =
+				(subContainer.subX >= startX && subContainer.subX <= endX)
+				&& (subContainer.subY >= startY && subContainer.subY <= endY);
 		});
 
 		const currentRenderList = this.subContainers.map(subContainer => {
@@ -205,6 +208,10 @@ export class Tilemap extends PIXI.Container {
 					subContainer.parent.removeChild(subContainer);
 				}
 			});
+
+			// Make sure the hover layer is always the last child
+			this.removeChild(this.hoverLayer);
+			this.addChild(this.hoverLayer);
 		}
 
 		this.lastRenderList = currentRenderList;
@@ -284,16 +291,6 @@ export class Tilemap extends PIXI.Container {
 		}
 
 		return subContainerIndex;
-	}
-
-	/**
-	 * Returns the index of the sprite in the finalLayer
-	 *
-	 * @param {PIXI.Sprite} sprite Sprite to get index of
-	 * @return {Number} the index
-	 */
-	getChildIndex (sprite: PIXI.DisplayObject) {
-		return this.finalLayer.getChildIndex(sprite);
 	}
 
 	removeChildFromSubContainer (

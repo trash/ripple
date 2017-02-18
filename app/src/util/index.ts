@@ -478,6 +478,10 @@ export class Util {
 	isPrimitive(value: any): boolean {
         return _.isArray(value) || !_.isObject(value) || _.isPlainObject(value);
     }
+
+	degreesToRadians(degrees: number): number {
+		return degrees * (Math.PI / 180);
+	}
 }
 
 export let util = new Util();

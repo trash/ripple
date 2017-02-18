@@ -147,7 +147,9 @@ export class PlaceBuildingService {
 		]);
 
 		const collisionState = this.entityManager.getComponentDataForEntity(
-				Component.Collision, entityId) as ICollisionState;
+			Component.Collision,
+			entityId
+		) as ICollisionState;
 		_.extend(collisionState, collisionData);
 		collisionState.updatesTile = false;
 
@@ -206,8 +208,10 @@ export class PlaceBuildingService {
 			globalRefs.map.setElementToTilePosition(this.blueprintSprite, tile);
 
 			// Update the position state for the entity
-			const positionState = this.entityManager.getComponentDataForEntity(Component.Position,
-				this.entity) as IPositionState;
+			const positionState = this.entityManager.getComponentDataForEntity(
+				Component.Position,
+				this.entity
+			) as IPositionState;
 			positionState.tile = tile;
 
 			const mousePosition = {

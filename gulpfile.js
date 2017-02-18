@@ -31,13 +31,15 @@ gulp.task('watch', function() {
 });
 
 
-var folders = require('./app/sprites/directory').list,
-	spriteDirectory = 'app/sprites/',
-	spriteProcesses = folders.map(function (folderName) {
-		return 'TexturePacker --data ' + spriteDirectory + folderName + '.json --format json --sheet ' + spriteDirectory + folderName + '.png ' +
-			spriteDirectory + folderName +  ' --png-opt-level 0 --algorithm MaxRects' +
-			' --basic-sort-by best --trim-mode None --trim-sprite-names --ignore-files *.psd';
-	});
+var folders = require('./app/sprites/directory').list;
+var spriteDirectory = 'app/sprites/';
+var spriteProcesses = folders.map(function (folderName) {
+	return 'TexturePacker --data ' + spriteDirectory + folderName
+		+ '.json --format json --sheet ' + spriteDirectory + folderName
+		+ '.png ' + spriteDirectory + folderName
+		+ ' --png-opt-level 0 --algorithm MaxRects --basic-sort-by best '
+		+ '--trim-mode None --trim-sprite-names --ignore-files *.psd';
+});
 
 gulp.task('sprites-process', shell.task(spriteProcesses));
 

@@ -28,6 +28,7 @@ import {gameLevelFactory} from '../data/gameLevelFactory';
 import {keybindings} from '../services/keybindings';
 import {GameComponent} from '../views/game';
 import {TileInfoService} from '../ui/TileInfoService';
+import {SelectedEntityCursorService} from '../ui/SelectedEntityCursorService';
 import {constants} from '../data/constants';
 
 const defaultLevel = gameLevelFactory.getDefaultRegularLevel();
@@ -70,6 +71,7 @@ export class GameManager {
         window['entityManager'] = this.entityManager;
 
         new TileInfoService(this.entityManager);
+        new SelectedEntityCursorService();
 
         // create a renderer instance.
 		this.renderer = new PIXI.WebGLRenderer(windowSize.width, windowSize.height, {

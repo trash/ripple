@@ -383,7 +383,10 @@ export class GameMap {
 	 * @param {PIXI.Sprite} sprite The sprite to change the position of
 	 * @param {Tile} tile The tile to take the position from
 	 */
-	setSpriteToTilePosition (sprite: any, tile: IRowColumnCoordinates) {
+	setSpriteToTilePosition (
+		sprite: PIXI.DisplayObject,
+		tile: IRowColumnCoordinates
+	) {
 		sprite.x = tile.column * constants.TILE_HEIGHT;
 		sprite.y = tile.row * constants.TILE_HEIGHT;
 	}
