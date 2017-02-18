@@ -8,32 +8,7 @@ import {
 } from '../../redux/actions';
 import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
-
-import {dataList as itemList} from '../../entity/assemblageData/items';
-import {Profession} from '../../data/Profession';
-import {taskQueueManager} from '../../Tasks/TaskQueueManager';
-
-const createCraftTask = (item: string, profession: Profession) => {
-    const taskQueue = taskQueueManager.professionTaskQueue(profession);
-    taskQueue.push(item);
-}
-
-export class CraftBar extends React.Component<void, void> {
-    render() {
-        return (
-        <div className="action-bar-buttons">
-        {itemList.filter(item => !!item.craftable).map(item => {
-            const itemName = item.item.name;
-            return (
-            <button key={itemName}
-                onClick={() => createCraftTask(itemName, item.craftable.profession)}
-            >{itemName}</button>
-            );
-        })}
-        </div>
-        );
-    }
-}
+import {CraftBar} from './CraftBar';
 
 interface ActionBarProps {
     buildingsListShown: boolean;

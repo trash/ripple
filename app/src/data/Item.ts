@@ -4,5 +4,6 @@ export enum Item {
     Mushroom,
     Stone,
     Plank,
-    Gold
+    Gold,
+    SwordWood
 }

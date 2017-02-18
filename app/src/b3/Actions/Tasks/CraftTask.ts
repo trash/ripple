@@ -4,12 +4,13 @@ import {assemblageData} from '../../../entity/assemblageData/items';
 import {ResourceRequirements} from '../../../ResourceRequirements';
 import {buildingUtil} from '../../../entity/util/building';
 import {util} from '../../../util';
+import {Item} from '../../../data/Item';
 
 const craftBuildingKey = 'craft-building-key';
 
 export class CraftTask extends Core.Sequence {
 	constructor (
-        item: string,
+        item: Item,
         resourceRequirements: ResourceRequirements
     ) {
         const itemData = assemblageData[item];
@@ -27,9 +28,9 @@ export class CraftTask extends Core.Sequence {
                     resourceRequirements,
                     getBuildingTile
                 ),
-				new Actions.GoToTarget(getBuildingTile),
+				new Actions.GoToTarget(getBuildingTile, 0),
 				new Actions.CraftItem(
-                    itemData.item.name,
+                    itemData.item.enum,
                     itemData.craftable.craftTurns,
                     getBuildingTile
                 )

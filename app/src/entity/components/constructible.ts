@@ -5,7 +5,7 @@ import {RequiredResources} from '../../interfaces';
 
 export interface IConstructibleState {
     requiredResources: RequiredResources;
-    progressSpriteName: string;
+    progressSpriteName?: string;
     floorSpriteName: string;
 
     resourceRequirements?: ResourceRequirements;

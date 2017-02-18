@@ -4,6 +4,7 @@ import {ResourceRequirements} from '../ResourceRequirements';
 import {events} from '../events';
 import {RequiredResources} from '../interfaces';
 import {Profession} from '../data/Profession';
+import {Item} from '../data/Item';
 import {CraftTask as CraftTaskAction} from '../b3/Actions/Tasks/CraftTask';
 import {assemblageData} from '../entity/assemblageData/items';
 import {buildingUtil} from '../entity/util/building';
@@ -20,11 +21,11 @@ import {buildingUtil} from '../entity/util/building';
 * @param {Object} item The item being crafted
 */
 export abstract class CraftTask extends Task {
-    item: string;
+    item: Item;
     profession: Profession;
 	resourceRequirements: ResourceRequirements;
 
-	constructor (options: ITaskOptions, item: string) {
+	constructor (options: ITaskOptions, item: Item) {
         const itemData = assemblageData[item];
 		const resourceRequirements = new ResourceRequirements(
             itemData.craftable.requiredResources

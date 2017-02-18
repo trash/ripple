@@ -45,14 +45,20 @@ export class ConstructibleSystem extends EntitySystem {
                 constructibleState.progressSprite.visible = false;
                 constructibleState.completedSprite.visible = true;
             }
-            if (healthBarState.sprites.length && !constructibleState.healthbarSpritesInitialized) {
+            if (healthBarState.sprites.length
+                && !constructibleState.healthbarSpritesInitialized
+            ) {
                 this.initHealthBarSprites(healthBarState, constructibleState);
             }
             if (!constructibleState.resourceRequirements) {
-                constructibleState.resourceRequirements = new ResourceRequirements(constructibleState.requiredResources);
-                constructibleState.resourceRequirements.on('add', (itemSearchResult: IItemSearchResult) => {
-                    this.showAddResourceSprite(itemSearchResult, renderableState, positionState);
-                });
+                constructibleState.resourceRequirements = new ResourceRequirements(
+                    constructibleState.requiredResources
+                );
+                constructibleState.resourceRequirements.on('add',
+                    (itemSearchResult: IItemSearchResult) => {
+                        this.showAddResourceSprite(itemSearchResult, renderableState, positionState);
+                    }
+                );
             }
             if (!constructibleState.taskCreated) {
                 console.info('Creating building task');
@@ -118,11 +124,15 @@ export class ConstructibleSystem extends EntitySystem {
         const spriteGroup = renderableState.spriteGroup;
 
         // The actual sprite
-        const completedSprite = SpriteManager.Sprite.fromFrame(constructibleState.completedSpriteName);
+        const completedSprite = SpriteManager.Sprite.fromFrame(
+            constructibleState.completedSpriteName
+        );
         constructibleState.completedSprite = completedSprite;
         completedSprite.visible = false;
 
-        const progressSprite = SpriteManager.Sprite.fromFrame(constructibleState.progressSpriteName);
+        const progressSprite = SpriteManager.Sprite.fromFrame(
+            constructibleState.progressSpriteName
+        );
         constructibleState.progressSprite = progressSprite;
         const floorSprite = SpriteManager.Sprite.fromFrame(constructibleState.floorSpriteName);
         constructibleState.floorSprite = floorSprite;

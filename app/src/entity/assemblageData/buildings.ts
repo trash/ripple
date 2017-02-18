@@ -37,8 +37,7 @@ export const dataList: IEntityComponentData[] = [
                 enum: Item.Wood,
                 count: 20
             }],
-            floorSpriteName: 'construction-dirt',
-		    progressSpriteName: 'hut-construction',
+            floorSpriteName: 'construction-dirt'
         }
     },
     {
@@ -51,8 +50,7 @@ export const dataList: IEntityComponentData[] = [
                 enum: Item.Plank,
                 count: 40
             }],
-            floorSpriteName: 'construction-dirt',
-            progressSpriteName: 'house-construction'
+            floorSpriteName: 'construction-dirt'
         },
         collision: {
             size: {
@@ -78,8 +76,7 @@ export const dataList: IEntityComponentData[] = [
                 enum: Item.Stone,
                 count: 10
             }],
-            floorSpriteName: 'construction-dirt-2',
-            progressSpriteName: 'storage-construction'
+            floorSpriteName: 'construction-dirt-2'
         },
         collision: {
             size: {
@@ -113,8 +110,7 @@ export const dataList: IEntityComponentData[] = [
                 enum: Item.Stone,
                 count: 20
             }],
-            floorSpriteName: 'construction-dirt-2',
-            progressSpriteName: 'tavern-construction'
+            floorSpriteName: 'construction-dirt-2'
         },
         collision: {
             size: {
@@ -146,8 +142,7 @@ export const dataList: IEntityComponentData[] = [
                 // count: 40
                 count: 10
             }],
-            floorSpriteName: 'construction-dirt-2',
-            progressSpriteName: 'carpenter-shop-construction'
+            floorSpriteName: 'construction-dirt-2'
         },
         collision: {
             size: {
@@ -157,6 +152,33 @@ export const dataList: IEntityComponentData[] = [
             entrance: {
                 x: 2,
                 y: 4
+            },
+        },
+        health: {
+            currentHealth: 0,
+            maxHealth: 400
+        },
+    },
+    {
+        building: {
+            enum: Building.BlacksmithShop,
+        },
+        constructible: {
+            requiredResources: [{
+                enum: Item.Plank,
+                // count: 40
+                count: 10
+            }],
+            floorSpriteName: 'construction-dirt-2'
+        },
+        collision: {
+            size: {
+                x: 4,
+                y: 4
+            },
+            entrance: {
+                x: 0,
+                y: 3
             },
         },
         health: {

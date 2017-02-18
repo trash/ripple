@@ -9,8 +9,10 @@ import {HaulerTask} from './HaulerTask';
 import {MinerTask} from './MinerTask';
 import {CarpenterTask} from './CarpenterTask';
 import {GuardTask} from './GuardTask';
+import {BlacksmithTask} from './BlacksmithTask';
 
 import {Profession} from '../data/Profession';
+import {Item} from '../data/Item';
 
 interface IProfessionTaskQueueMap {
 	[key: number]: TaskQueue;
@@ -49,8 +51,14 @@ const professionTaskQueueMap: IProfessionTaskQueueMap = {
 	),
 	[Profession.Carpenter]: new TaskQueue(
 		'carpenter',
-		(item: string) => {
+		(item: Item) => {
 			return new CarpenterTask(item);
+		}
+	),
+	[Profession.Blacksmith]: new TaskQueue(
+		'blacksmith',
+		(item: Item) => {
+			return new BlacksmithTask(item);
 		}
 	),
 	[Profession.Guard]: new TaskQueue(

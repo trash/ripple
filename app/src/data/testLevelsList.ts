@@ -248,6 +248,30 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}]
 			},
 			{
+				name: 'Blacksmith Test',
+				agents: [{
+					enum: Agent.Human,
+					villager: {
+						job: VillagerJob.Blacksmith
+					}
+				}],
+				items: [{
+					enum: Item.Wood,
+					count: 20
+				}, {
+					enum: Item.Berries,
+					count: 4
+				}],
+				itemsClaimed: true,
+				buildings: [{
+					enum: Building.BlacksmithShop,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
+			},
+			{
 				name: 'Guard Test',
 				agents: [{
 					enum: Agent.Human,

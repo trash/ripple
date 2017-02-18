@@ -71,7 +71,26 @@ export const dataList: IEntityComponentData[] = [{
             craftTurns: 2,
             profession: Profession.Carpenter
         }
-    }
+    },
+    {
+        item: {
+            enum: Item.SwordWood,
+            value: 10,
+            name: 'sword-wood',
+            readableName: 'Wooden Sword',
+            description: 'A very basic sword made out of wood. Might hurt a bit if you get hit with it.',
+            properties: [ItemProperty.Wood, ItemProperty.Sword],
+        },
+        // damage: 1,
+        craftable: {
+            requiredResources: [{
+                enum: Item.Wood,
+                count: 10
+            }],
+            profession: Profession.Blacksmith,
+            craftTurns: 20,
+        },
+	},
 ];
 
 export const assemblageData = (() => {

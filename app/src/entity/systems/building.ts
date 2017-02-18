@@ -60,6 +60,10 @@ export class BuildingSystem extends EntitySystem {
             if (!storageState.tile) {
                 storageState.tile = buildingState.entranceTile;
             }
+            if (!constructibleState.progressSpriteName) {
+                constructibleState.progressSpriteName =
+                    `${buildingState.name}-construction`;
+            }
         });
     }
 

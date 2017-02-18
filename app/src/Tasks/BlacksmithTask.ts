@@ -13,12 +13,12 @@ import {Item} from '../data/Item';
 * @constructor
 * @param {Object} good The good object from CarpenterGoods.
 */
-export class CarpenterTask extends CraftTask {
+export class BlacksmithTask extends CraftTask {
 	constructor (item: Item) {
 		// Call our parent constructor
 		super({
-			name: 'carpenter-task',
-			taskType: Profession.Carpenter,
+			name: 'blacksmith-task',
+			taskType: Profession.Blacksmith,
 			bubble: StatusBubble.Build
 		}, item);
 	}

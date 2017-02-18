@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as changeCase from 'change-case';
 import {Component} from '../ComponentEnum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
@@ -45,7 +46,7 @@ export class ItemUtil extends BaseUtil {
 	getItemNameFromEnum(
 		item: Item
 	): string {
-		return Item[item].toLowerCase();
+		return changeCase.paramCase(Item[item]);
 	}
 
 	getImagePath(
