@@ -28,7 +28,6 @@ export interface IMapOptions {
 	noResources?: boolean;
 	dimension?: number;
 	seed?: number;
-	hills?: any;
 	noHills?: boolean;
 	allLand?: boolean;
 	saveData?: SerializedMapData
@@ -52,17 +51,24 @@ interface ClearTilesInput {
 	};
 }
 
+interface Biome {
+	name: string;
+	baseTile: string;
+	ratios: {
+		[key: string]: number
+	}
+}
+
 export class GameMap {
 	private edgeTiles: MapTile[];
 	seed: number;
 	gameManager: GameManager;
-	biome: any;
+	biome: Biome;
 	tiles: MapTile[];
 	dimension: number;
 	baseTilemap: string[];
 	upperTilemap: string[];
 	resourceList: string[];
-	targetCursor: any;
 	_grid: number[][];
 	_tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
 	_tileHoverListenerInterval: number;
@@ -84,7 +90,8 @@ export class GameMap {
 		// Initialize an empty list of tiles
 		this.tiles = [];
 
-		// Should be getting a biome from somewhere but right now we'll hardcode it as forest
+		// Should be getting a biome from somewhere but right now we'll hardcode
+		// it as forest
 		this.biome = {
 			name: 'forest',
 			baseTile: 'full-grass',
@@ -149,7 +156,12 @@ export class GameMap {
 	}
 
 	generate (allLand: boolean, options: IMapOptions): IMapGenReturn {
-		const generator = new MapGenerator(this.dimension, this.seed, this.biome, allLand);
+		const generator = new MapGenerator(
+			this.dimension,
+			this.seed,
+			this.biome,
+			allLand
+		);
 		return generator.generate(options.noResources);
 	}
 
@@ -181,7 +193,8 @@ export class GameMap {
 	}
 
 	/**
-	 * Generates and returns the tilemap data for the grid of tiles associated with this map
+	 * Generates and returns the tilemap data for the grid of tiles associated
+	 * with this map
 	 *
 	 * @return {Object} The tilemap data. Look at Tiled's output for an example
 	 */
@@ -243,14 +256,19 @@ export class GameMap {
 		startTile: ICoordinates,
 		endTile: ICoordinates
 	): IRowColumnCoordinates[] {
-		return MapUtil.getTilesBetween<IRowColumnCoordinates>(this.tiles, startTile, endTile);
+		return MapUtil.getTilesBetween<IRowColumnCoordinates>(
+			this.tiles,
+			startTile,
+			endTile
+		);
 	}
 
 	/*
 	* Picks and returns a random tile.
 	*
 	* @param {Boolean} [accessible] Whether or not the tile should be accessible
-	* @param {Number} [range] The range (radius) of tiles to wander around between (i.e. a square of tiles to select from)
+	* @param {Number} [range] The range (radius) of tiles to wander around
+	* between (i.e. a square of tiles to select from)
 	* @param {Tile} [basetile] If range is passed, the baseTile to search from
 	*
 	* @return {Tile} The random tile
@@ -268,13 +286,14 @@ export class GameMap {
 	}
 
 	/**
-	 * Takes an x, y position from the window and returns the x, y in terms of tiles on the map
+	 * Takes an x, y position from the window and returns the x, y in terms of
+	 * tiles on the map
 	 *
 	 * @param {Number} x X pixel value
 	 * @param {Number} y Y pixel value
 	 * @return {Object} e.g. {x: 23, y:24}
 	 */
-	positionToTile (x: number, y: number): { x: number, y: number } {
+	positionToTile (x: number, y: number): ICoordinates {
 		const camera = this.gameManager.camera;
 
 		// Take into account camera offset
@@ -292,7 +311,8 @@ export class GameMap {
 	}
 
 	/**
-	 * Attaches a click listener to the canvas that passes the clicked tile to the callback function
+	 * Attaches a click listener to the canvas that passes the clicked tile to
+	 * the callback function
 	 * Returns a function that removes the event listener from the canvas
 	 *
 	 * @param {Function} callback The callback function that gets called on every click
@@ -315,14 +335,17 @@ export class GameMap {
 	}
 
 	/**
-	 * Attaches a mousemove listener to the canvas that passes the currently hovered over tile to the callback func
+	 * Attaches a mousemove listener to the canvas that passes the currently
+	 * hovered over tile to the callback func
 	 * Returns a function that removes the event listener from the canvas
 	 *
-	 * @param {Function} callback The callback function that gets called on every tick of mousemove
-	 *                            that gets passed the tile that is currently hovered over
+	 * @param {Function} callback The callback function that gets called on
+	 * every tick of mousemove that gets passed the tile that is currently hovered over
 	 * @returns {Function} Removes the event listener from the canvas when called.
 	 */
-	addTileHoverListener (callback: (tile: IRowColumnCoordinates) => void): () => void {
+	addTileHoverListener (
+		callback: (tile: IRowColumnCoordinates) => void
+	): () => void {
 		this._tileHoverListenerCallbacks.push(callback);
 
 		return () => {
@@ -339,7 +362,8 @@ export class GameMap {
 		tile: IRowColumnCoordinates
 	): { left: number, top: number } {
 		if (!tile) {
-			console.error('Invalid tile. Your coords are probably out of bounds. Cannot set element position.');
+			console.error('Invalid tile. Your coords are probably out of '
+				+ 'bounds. Cannot set element position.');
 			return;
 		}
 		const camera = this.gameManager.camera;
@@ -412,13 +436,15 @@ export class GameMap {
 	}
 
 	/**
-	* Returns the nearest tile that passes the checkMethod function to the current one.
+	* Returns the nearest tile that passes the checkMethod function to the
+	* current one.
 	* Uses a spiral out algorithm.
 	*
 	* @param {Tile} tile The tile to start the spiralling search from.
-	* @returns {Tile} The first instance of a tile that passes the checkMethod from the starting tile.
-	* @todo Handle edges cases. Currently if the spiral starts on the left edge it has some unpredictable
-	* 		behavior.
+	* @returns {Tile} The first instance of a tile that passes the checkMethod
+	* from the starting tile.
+	* @todo Handle edges cases. Currently if the spiral starts on the left edge
+	* it has some unpredictable behavior.
 	*/
 	getNearestEmptyTile (
 		tile: IRowColumnCoordinates,
@@ -520,7 +546,10 @@ export class GameMap {
 		return this._getGrid(true);
 	}
 
-	pathExists (fromTile: IRowColumnCoordinates, toTile: IRowColumnCoordinates): boolean {
+	pathExists (
+		fromTile: IRowColumnCoordinates,
+		toTile: IRowColumnCoordinates
+	): boolean {
 		return !!this.getPath(fromTile, toTile).length;
 	}
 
@@ -552,7 +581,9 @@ export class GameMap {
 	}
 
 	getTileByIndex (index: number): MapTile {
-		return this.getTile(Math.floor(index / this.dimension), index % this.dimension);
+		return this.getTile(
+			Math.floor(index / this.dimension), index % this.dimension
+		);
 	}
 
 	getTileFromCoords (coords: IRowColumnCoordinates): MapTile {
