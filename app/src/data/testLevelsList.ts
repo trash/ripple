@@ -192,7 +192,25 @@ let testLevelsData: ITestLevelGroup[]  = [
 					villager: {}
 				}],
 			},
-
+			{
+				name: 'Large map test',
+				agents: [{
+					enum: Agent.Human,
+					villager: {},
+					data: {
+						position: {
+							tile: {
+								row: 20,
+								column: 20
+							}
+						}
+					}
+				}],
+				gameMap: {
+					dimension: 100,
+					noResources: true
+				}
+			}
 		]
 	},
 	{
