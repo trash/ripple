@@ -18,7 +18,7 @@ export interface ITileset {
 	image: string;
 }
 
-export interface ILayerData {
+export interface LayerData {
 	name: string;
 	data: string[];
 	width: number;
@@ -30,14 +30,14 @@ export interface ILayerData {
 	y: number;
 }
 
-export interface ITilemapData {
+export interface TilemapData {
 	version: number;
 	width: number;
 	height: number;
 	tilewidth: number;
 	tileheight: number;
 	tilesets: ITileset[];
-	layers: ILayerData[];
+	layers: LayerData[];
 	orientation: string;
 	properties: any;
 }
@@ -68,7 +68,7 @@ export interface IRowColumnCoordinateWrapper<T> extends IRowColumnCoordinates {
 	index: number;
 }
 
-export interface ICoordinates {
+export interface XYCoordinates {
 	x: number;
 	y: number;
 };
@@ -120,10 +120,10 @@ export interface INearestTile {
 export interface IDimensions {
 	width: number;
 	height: number;
-	base?: ICoordinates;
+	base?: XYCoordinates;
 }
 
-export interface ICameraView {
+export interface CameraView {
 	x: number;
 	y: number;
 	width: number;

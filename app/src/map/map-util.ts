@@ -1,4 +1,4 @@
-import {IRowColumnCoordinates, IRowColumnCoordinateWrapper, ICoordinates,
+import {IRowColumnCoordinates, IRowColumnCoordinateWrapper, XYCoordinates,
 	IRandomTileOptions, Direction} from '../interfaces';
 import {AStar as aStar} from '../vendor/astar';
 import {constants} from '../data/constants';
@@ -132,8 +132,8 @@ export class MapUtil {
 	 */
 	static getTilesBetween<T extends IRowColumnCoordinates> (
 		inputTiles: T[],
-		startPosition: ICoordinates,
-		endPosition: ICoordinates
+		startPosition: XYCoordinates,
+		endPosition: XYCoordinates
 	): T[] {
 		const tiles = [];
 		let startX, startY, endX, endY;

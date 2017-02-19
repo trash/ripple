@@ -1,15 +1,16 @@
 import {constants} from './data/constants';
+import {events} from './events';
 import {
-	ICoordinates,
-	ITilemapData,
-	ILayerData,
-	ICameraView
+	XYCoordinates,
+	TilemapData,
+	LayerData,
+	CameraView
 } from './interfaces';
 import {PixelateFilter} from 'pixi-filters';
 import {SpriteManager} from './services/sprite-manager';
 
-const tileSize = constants.TILE_HEIGHT,
-	defaultSubContainerLayer = 1;
+const tileSize = constants.TILE_HEIGHT;
+const defaultSubContainerLayer = 1;
 
 export class SubContainer extends PIXI.Container {
 	subX: number;
@@ -41,25 +42,27 @@ export class Tilemap extends PIXI.Container {
 	filters: PIXI.Filter[];
 	lastRenderList: boolean[];
 	children: PIXI.Container[];
+	subContainerDebugRectangles: PIXI.Graphics[];
 
 	constructor (
-		data: ITilemapData,
+		data: TilemapData,
 		renderer: PIXI.WebGLRenderer,
 		test: boolean = false
 	) {
 		super();
-		console.log(data.layers[0].data.indexOf('full-grass'));
 
 		this.renderer = renderer;
 
 		this.dimension = data.layers[0].width;
 
-		this.subContainerDimension = 20;
+		this.subContainerDimension = constants.SUBCONTAINER_SIZE;
 
 		const subContainersCount = (this.dimension * this.dimension)
 			/ (this.subContainerDimension * this.subContainerDimension);
 		this.subContainersCount = subContainersCount;
 		this.subContainers = [];
+
+		this.subContainerDebugRectangles = [];
 
 		let i;
 
@@ -88,7 +91,8 @@ export class Tilemap extends PIXI.Container {
 
 		// Load the initial layers of sprites
 		data.layers.forEach((layer, index) =>
-			this.addBackgroundSpriteFromLayerData(layer, index));
+			this.addBackgroundSpriteFromLayerData(layer, index)
+		);
 
 		// Add the third layer for each sub container
 		this.subContainers.forEach(subContainer => {
@@ -110,6 +114,38 @@ export class Tilemap extends PIXI.Container {
 		this.addChild(this.hoverLayer);
 
 		// this.toggleFilters();
+		events.on('toggle-tilemap-debug', (on: boolean) => this.debug(on));
+	}
+
+	/**
+	 * Toggle drawing rectangles on the screen showing each subcontainer'scale
+	 * dimensions.
+	 * Also creates the rectangles the first time it's called with on = true;
+	 */
+	debug(on: boolean) {
+		if (on) {
+			// Create them
+			if (!this.subContainerDebugRectangles.length) {
+				const dimension = this.subContainerDimension * constants.TILE_HEIGHT;
+				this.subContainers.forEach(subContainer => {
+					const graphics = new PIXI.Graphics();
+					graphics.lineStyle(2, 0xFF0000);
+					graphics.drawRect(
+						subContainer.subX * dimension,
+						subContainer.subY * dimension,
+						dimension,
+						dimension
+					);
+					this.subContainerDebugRectangles.push(graphics);
+					this.addChild(graphics);
+				});
+			}
+			// Show them
+			this.subContainerDebugRectangles.forEach(rect => rect.visible = true);
+		} else {
+			// Hide them
+			this.subContainerDebugRectangles.forEach(rect => rect.visible = false);
+		}
 	}
 
 	toggleFilters () {
@@ -132,13 +168,13 @@ export class Tilemap extends PIXI.Container {
 	};
 
 	addBackgroundSpriteFromLayerData (
-		layerData: ILayerData,
+		layerData: LayerData,
 		childIndex: number
 	) {
 		const layer = new PIXI.Container();
 		for (let i = 0; i < this.dimension; i++) {
 			for (let j = 0; j < this.dimension; j++) {
-				const index = i*this.dimension + j;
+				const index = i * this.dimension + j;
 				const sprite = this.getSprite(layerData.data[index]);
 				sprite.position.x = j * tileSize;
 				sprite.position.y = i * tileSize;
@@ -176,7 +212,7 @@ export class Tilemap extends PIXI.Container {
 	}
 
 	updateView (
-		view: ICameraView
+		view: CameraView
 	) {
 		// Unit is the size of one container in pixels
 		const unit = (this.subContainerDimension * tileSize);
@@ -318,7 +354,7 @@ export class Tilemap extends PIXI.Container {
 	positionFromTile (
 		column: number,
 		row: number
-	): ICoordinates {
+	): XYCoordinates {
 		// Need to make them relative to the subcontainer using modulo operator
 		return {
 			x: tileSize * (column % this.subContainerDimension) * this.scaleFactor,

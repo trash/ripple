@@ -2,7 +2,7 @@ import * as _ from 'lodash';;
 import {constants} from '../data/constants';
 import {MapTile} from '../map/tile';
 import {MapGenTile} from '../map/map-gen-tile';
-import {INearestTile, ICoordinates, IRowColumnCoordinates} from '../interfaces';
+import {INearestTile, XYCoordinates, IRowColumnCoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {Component} from '../entity/ComponentEnum';
 import {positionUtil} from '../entity/util';
@@ -441,8 +441,8 @@ export class Util {
 	}
 
 	coordinatesAreEqual (
-		coord1: ICoordinates,
-		coord2: ICoordinates
+		coord1: XYCoordinates,
+		coord2: XYCoordinates
 	): boolean {
 		return coord1.x === coord2.x && coord1.y === coord2.y;
 	}

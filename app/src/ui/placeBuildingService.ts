@@ -3,7 +3,7 @@ import {globalRefs} from '../globalRefs';
 import {events} from '../events';
 import {constants} from '../data/constants';
 import {
-    ICoordinates,
+    XYCoordinates,
     IRowColumnCoordinates,
 	IEntityComponentData
 } from '../interfaces';
@@ -250,7 +250,7 @@ export class PlaceBuildingService {
 	* @param  {Object} mousePosition x, y position of the starting tile for the building
 	* @return {boolean} Whether or not the position is valid
 	*/
-	isValidPlacement (mousePosition: ICoordinates): boolean {
+	isValidPlacement (mousePosition: XYCoordinates): boolean {
 		const buildingSize = this.building.collision.size;
 		const checkTiles: IRowColumnCoordinates[] = [];
 

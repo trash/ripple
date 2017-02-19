@@ -2,10 +2,10 @@ import * as _ from 'lodash';;
 import {
 	NDArray,
 	Direction,
-	ICoordinates,
+	XYCoordinates,
 	IRandomTileOptions,
 	IRowColumnCoordinates,
-	ITilemapData
+	TilemapData
 } from '../interfaces';
 import ndarray = require('ndarray');
 import {floodfill} from '../vendor/flood-fill';
@@ -44,7 +44,7 @@ interface SerializedMapData extends IGeneratedMapData {
 }
 
 interface ClearTilesInput {
-	position: ICoordinates;
+	position: XYCoordinates;
 	size: {
 		width: number;
 		height: number;
@@ -72,7 +72,7 @@ export class GameMap {
 	_grid: number[][];
 	_tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
 	_tileHoverListenerInterval: number;
-	_hoverCoords: ICoordinates;
+	_hoverCoords: XYCoordinates;
 	_hoverTile: MapTile;
 	onMouseMoveListener: (e: MouseEvent) => void;
 
@@ -198,7 +198,7 @@ export class GameMap {
 	 *
 	 * @return {Object} The tilemap data. Look at Tiled's output for an example
 	 */
-	getTilemap (): ITilemapData {
+	getTilemap (): TilemapData {
 		// 12 : flat green
 		// 65 : regular grass
 		// 66 : tufty grass
@@ -253,8 +253,8 @@ export class GameMap {
 	}
 
 	getTilesBetween (
-		startTile: ICoordinates,
-		endTile: ICoordinates
+		startTile: XYCoordinates,
+		endTile: XYCoordinates
 	): IRowColumnCoordinates[] {
 		return MapUtil.getTilesBetween<IRowColumnCoordinates>(
 			this.tiles,
@@ -293,7 +293,7 @@ export class GameMap {
 	 * @param {Number} y Y pixel value
 	 * @return {Object} e.g. {x: 23, y:24}
 	 */
-	positionToTile (x: number, y: number): ICoordinates {
+	positionToTile (x: number, y: number): XYCoordinates {
 		const camera = this.gameManager.camera;
 
 		// Take into account camera offset
@@ -400,7 +400,7 @@ export class GameMap {
 		element.style.top = top + 'px';
 	}
 
-	getSpritePositionFromTile(tile: IRowColumnCoordinates): ICoordinates {
+	getSpritePositionFromTile(tile: IRowColumnCoordinates): XYCoordinates {
 		return {
 			x: tile.column * constants.TILE_HEIGHT,
 			y: tile.row * constants.TILE_HEIGHT

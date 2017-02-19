@@ -33,6 +33,7 @@ interface IConstants {
 	SPRITE_PATH: string;
 	TOWN_ID: number;
 	PROTECTED_IDS: number[];
+	SUBCONTAINER_SIZE: number;
 }
 
 export const constants = {
@@ -60,7 +61,8 @@ export const constants = {
 	},
 	LAST_LOADED_LEVEL: 'lastLoadedLevel',
 	SPRITE_PATH: '/sprites/',
-	TOWN_ID: 0
+	TOWN_ID: 0,
+	SUBCONTAINER_SIZE: 20
 } as IConstants;
 
 constants.PROTECTED_IDS = [constants.TOWN_ID];

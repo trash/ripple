@@ -5,6 +5,7 @@ import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collisionDebugView';
 import {Map} from 'immutable';
 import {util} from '../../util';
+import {events} from '../../events';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 
 import {
@@ -53,6 +54,7 @@ interface DebugPanelProps {
 }
 
 interface DebugPanelState {
+    tilemapDebug?: boolean;
     collisionDebugToggle?: boolean;
     hiddenDebugGroups?: Map<string, boolean>;
     editingComponentProperties?: Map<string, boolean>;
@@ -64,11 +66,20 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
     constructor(props: DebugPanelProps) {
         super(props);
         this.state = {
+            tilemapDebug: false,
             collisionDebugToggle: false,
             hiddenDebugGroups: Map<string, boolean>(),
             editingComponentProperties: Map<string, boolean>(),
             componentPropertiesValues: Map<string, any>()
         };
+    }
+
+    toggleTilemapDebug() {
+        const on = !this.state.tilemapDebug;
+        this.setState({
+            tilemapDebug: on
+        });
+        events.emit('toggle-tilemap-debug', on);
     }
 
     getComponentPropertyKey (
@@ -300,9 +311,13 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             {this.renderDebugGroup('Task Queues',
                 taskQueueManager.getAllTaskQueues()
                     .map(taskQueue => `${taskQueue.type}:${taskQueue.tasks.length}`))}
-            <h5>Collision Debug: <input onClick={() => this.setState({
-                collisionDebugToggle: !this.state.collisionDebugToggle
-            })} type="checkbox"/></h5>
+            <h5>Tilemap Debug:
+                <input onClick={() => this.toggleTilemapDebug()} checked={this.state.tilemapDebug} type="checkbox"/></h5>
+            <h5>Collision Debug:
+                <input onClick={() => this.setState({
+                    collisionDebugToggle: !this.state.collisionDebugToggle
+                })} type="checkbox"/>
+            </h5>
             <CollisionDebugView show={this.state.collisionDebugToggle}/>
         </div>
         );

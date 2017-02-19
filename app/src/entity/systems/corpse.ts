@@ -4,7 +4,7 @@ import {
     IPositionState,
     ICorpseState
 } from '../components';
-import {ICoordinates} from '../../interfaces';
+import {XYCoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';

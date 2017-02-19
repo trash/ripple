@@ -3,7 +3,7 @@ import {EntitySystem, EntityManager} from '../entityManager';
 import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
 import {positionUtil} from '../util/position';
-import {ICoordinates} from '../../interfaces';
+import {XYCoordinates} from '../../interfaces';
 import {util} from '../../util';
 import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';

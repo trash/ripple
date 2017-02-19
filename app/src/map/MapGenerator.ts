@@ -2,7 +2,7 @@
 import * as _ from 'lodash';
 import {perlin} from '../vendor/perlin';
 import {floodfill} from '../vendor/flood-fill';
-import {NDArray, ICoordinates, IRowColumnCoordinateWrapper} from '../interfaces';
+import {NDArray, XYCoordinates, IRowColumnCoordinateWrapper} from '../interfaces';
 import ndarray = require('ndarray');
 import {MapGenTile} from './map-gen-tile';
 import * as Immutable from 'immutable';
@@ -49,7 +49,7 @@ type NeighborMap<T> = {
 }
 
 interface IClearTilesInput {
-	position: ICoordinates;
+	position: XYCoordinates;
 	size: {
 		width: number;
 		height: number;

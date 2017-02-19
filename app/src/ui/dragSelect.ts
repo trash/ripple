@@ -2,7 +2,7 @@ import * as _ from 'lodash';;
 import {globalRefs} from '../globalRefs';
 import {HoverDimensionsElement} from './hover-dimensions-element';
 import {HoverElement} from './hover-element';
-import {IDimensions, IRowColumnCoordinates, ICoordinates} from '../interfaces';
+import {IDimensions, IRowColumnCoordinates, XYCoordinates} from '../interfaces';
 import {canvasService} from './canvas-service';
 
 let canvas;
@@ -14,7 +14,7 @@ canvasService.on('canvas-set', () => {
 });
 
 // Gets the position relative to the canvas
-const relativePosition = (x: number, y: number): ICoordinates => {
+const relativePosition = (x: number, y: number): XYCoordinates => {
 	return globalRefs.map.positionToTile(x, y);
 };
 
@@ -29,7 +29,7 @@ const relativePosition = (x: number, y: number): ICoordinates => {
  * @return {Number} selected.dimensions.width The width of the selected area in tiles
  * @return {Number} selected.dimensions.height The height of the selected area in tiles
  */
-const getTilesAndDimensions = (startPosition: ICoordinates, endPosition: ICoordinates): {
+const getTilesAndDimensions = (startPosition: XYCoordinates, endPosition: XYCoordinates): {
 	tiles: IRowColumnCoordinates[],
 	dimensions: IDimensions
 } => {
@@ -81,7 +81,7 @@ export function dragSelect (
 	compconsteCallback: (tiles: IRowColumnCoordinates[], dimensions: IDimensions) => void,
 	draw: boolean | string
 ): () => void {
-	let dragEndPosition: ICoordinates;
+	let dragEndPosition: XYCoordinates;
 
 	// Allow optional class to be given to select box
 	if (typeof draw === 'string') {

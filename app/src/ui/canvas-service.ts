@@ -1,4 +1,4 @@
-import {ICoordinates} from '../interfaces';
+import {XYCoordinates} from '../interfaces';
 import {EventEmitter2} from 'eventemitter2';
 
 export class CanvasService extends EventEmitter2 {
@@ -14,7 +14,7 @@ export class CanvasService extends EventEmitter2 {
     /**
 	 * Returns the offest of the canvas, useful for dom calculations outside of phaser code
 	 */
-	getCanvasOffset (): ICoordinates {
+	getCanvasOffset (): XYCoordinates {
 		if (!this.canvas) {
 			return null;
 		}

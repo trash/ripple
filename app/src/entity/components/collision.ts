@@ -1,10 +1,10 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ICoordinates} from '../../interfaces';
+import {XYCoordinates} from '../../interfaces';
 
 export interface ICollisionState {
-    size: ICoordinates;
-    entrance?: ICoordinates;
+    size: XYCoordinates;
+    entrance?: XYCoordinates;
     previousActiveState?: boolean;
     activeState?: boolean;
     updatesTile?: boolean;

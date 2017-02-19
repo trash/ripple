@@ -1,6 +1,6 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ICoordinates, IRowColumnCoordinates} from '../../interfaces';
+import {XYCoordinates, IRowColumnCoordinates} from '../../interfaces';
 import {Building as BuildingEnum} from '../../data/Building';
 
 export interface IBuildingState {

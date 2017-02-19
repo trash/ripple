@@ -1,6 +1,6 @@
 import {util} from '../util';
 import {Tilemap, TilemapSprite} from '../tilemap';
-import {ICoordinates} from '../interfaces';
+import {XYCoordinates} from '../interfaces';
 
 interface ITextOptions {
 	font?: string;
@@ -125,7 +125,7 @@ export class SpriteManager {
 	positionFromTile (
 		column: number,
 		row: number
-	): ICoordinates {
+	): XYCoordinates {
 		return this.tilemap.positionFromTile(column, row);
 	}
 
