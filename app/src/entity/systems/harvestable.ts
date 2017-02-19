@@ -23,8 +23,6 @@ export class HarvestableSystem extends EntitySystem {
                     Component.Position, id) as IPositionState;
 
             if (healthState.currentHealth <= 0) {
-                console.info(`should be spawning items dropped by
-                    harvestable in the right spot`);
                 this.manager.spawner.spawnItemsFromList(harvestableState.drops, {
                     position: {
                         tile: positionState.tile
@@ -34,17 +32,6 @@ export class HarvestableSystem extends EntitySystem {
                     }
                 });
                 events.emit(['trigger-sound', 'harvestResource']);
-
-                console.error('Reimplement itemManager functionality.');
-                // itemManager.spawnFromList(harvestableState.drops, positionState.tile, {
-                //     claimed: true
-                // }).forEach(entityId => {
-                //     const itemState = this.manager.getComponentDataForEntity(
-                //         ComponentsEnum.Item, entityId) as IItemState;
-                //     const itemName = itemState.name;
-
-                //     events.emit(['stats', 'harvest-' + itemName]);
-                // });
                 this.manager.destroyEntity(id);
             }
         });

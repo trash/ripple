@@ -72,7 +72,7 @@ export class PlaceBuildingService {
 	}
 
 	click (tile: IRowColumnCoordinates) {
-        if (!this.active) {
+        if (!this.active || !tile) {
             return;
         }
 		if (this.validPlacement) {
