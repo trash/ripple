@@ -22,7 +22,7 @@ import {GameSpeed} from './game-speed';
 import {GameCamera} from './game-camera';
 import {gameClock} from './game-clock';
 import {Tilemap} from '../tilemap';
-import {spriteManager} from '../services/sprite-manager';
+import {spriteManager} from '../services/spriteManager';
 import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/gameLevelFactory';
 import {keybindings} from '../services/keybindings';

@@ -27,7 +27,7 @@ export class SpriteManager {
 	}
 
 
-	create (
+	create(
 		name: string,
 		column: number,
 		row: number,
@@ -46,7 +46,7 @@ export class SpriteManager {
 		return sprite;
 	}
 
-	createText (
+	createText(
 		text: string,
 		options: ITextOptions,
 		column: number,
@@ -77,19 +77,19 @@ export class SpriteManager {
 		}
 	}
 
-	createHoverSprite (name: string): PIXI.Sprite {
+	createHoverSprite(name: string): PIXI.Sprite {
 		const sprite = SpriteManager.Sprite.fromFrame(name);
 
 		this.tilemap.hoverLayer.addChild(sprite);
 
 		return sprite;
 	}
-	destroyHoverSprite (sprite: PIXI.Sprite) {
+	destroyHoverSprite(sprite: PIXI.Sprite) {
 		this.tilemap.hoverLayer.removeChild(sprite);
 		sprite.destroy();
 	}
 
-	createContainer (
+	createContainer(
 		column: number,
 		row: number,
 		layerIndex?: number
@@ -105,7 +105,7 @@ export class SpriteManager {
 		return container;
 	}
 
-	subContainerWillUpdate (
+	subContainerWillUpdate(
 		sprite: TilemapSprite,
 		x: number,
 		y: number
@@ -113,23 +113,28 @@ export class SpriteManager {
 		return this.tilemap.subContainerWillUpdate(sprite, x, y);
 	}
 
-	changePosition (
+	changePosition(
 		sprite: PIXI.DisplayObject,
 		column: number,
 		row: number,
 		dontUpdate: boolean = false
-	): any {
-		return this.tilemap.changeChildPosition(sprite as TilemapSprite, column, row, dontUpdate);
+	): boolean {
+		return this.tilemap.changeChildPosition(
+			sprite as TilemapSprite,
+			column,
+			row,
+			dontUpdate
+		);
 	}
 
-	positionFromTile (
+	positionFromTile(
 		column: number,
 		row: number
 	): XYCoordinates {
 		return this.tilemap.positionFromTile(column, row);
 	}
 
-	setSpritePositionFromTile (
+	setSpritePositionFromTile(
 		sprite: TilemapSprite,
 		column: number,
 		row: number
@@ -137,7 +142,7 @@ export class SpriteManager {
 		this.tilemap.setSpritePositionFromTile(sprite, column, row);
 	}
 
-	destroy (sprite: TilemapSprite) {
+	destroy(sprite: TilemapSprite) {
 		sprite.destroyed = true;
 
 		this.tilemap.removeChildFromSubContainer(sprite);
@@ -145,7 +150,7 @@ export class SpriteManager {
 		sprite.destroy();
 	}
 
-	setTilemap (tilemap: any) {
+	setTilemap(tilemap: Tilemap) {
 		this.tilemap = tilemap;
 	}
 }

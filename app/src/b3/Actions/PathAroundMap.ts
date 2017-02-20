@@ -1,5 +1,6 @@
 import {b3} from '../index';
 import * as Core from '../Core';
+import * as Actions from '../Actions';
 import {util} from '../../util';
 import {positionUtil} from '../../entity/util';
 
@@ -64,9 +65,9 @@ class Move extends Core.BaseNode {
 	}
 
 	tick (tick: Core.Tick) {
-		const agentData = tick.target,
-			currentTileCoords = agentData.position.tile,
-			dimension = agentData.map.dimension;
+		const agentData = tick.target;
+		const currentTileCoords = agentData.position.tile;
+		const dimension = agentData.map.dimension;
 		const currentTile = agentData.map.getTileFromCoords(currentTileCoords);
 
 		let nextTileIndex: number;
@@ -100,6 +101,45 @@ class Move extends Core.BaseNode {
 		return b3.SUCCESS;
 	}
 }
+
+export class PathInCircle extends Core.Priority {
+	direction: string;
+	constructor() {
+		super({
+			children: [
+				new Core.Sequence({
+					children: [
+						new Actions.IsTrue(() => this.direction === 'right'),
+						new Move('right'),
+						new Actions.Simple(() => this.direction = 'down')
+					]
+				}),
+				new Core.Sequence({
+					children: [
+						new Actions.IsTrue(() => this.direction === 'down'),
+						new Move('down'),
+						new Actions.Simple(() => this.direction = 'left')
+					]
+				}),
+				new Core.Sequence({
+					children: [
+						new Actions.IsTrue(() => this.direction === 'left'),
+						new Move('left'),
+						new Actions.Simple(() => this.direction = 'up')
+					]
+				}),
+				new Core.Sequence({
+					children: [
+						new Actions.IsTrue(() => this.direction === 'up'),
+						new Move('up'),
+						new Actions.Simple(() => this.direction = 'right')
+					]
+				}),
+			]
+		});
+		this.direction = 'right';
+	}
+};
 
 export class PathAroundMap extends Core.Priority {
 	constructor () {

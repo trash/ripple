@@ -5,7 +5,7 @@ import {util} from '../util';
 import {GameMap} from '../map';
 import {globalRefs} from '../globalRefs';
 import {IRowColumnCoordinates} from '../interfaces';
-import {spriteManager} from '../services/sprite-manager';
+import {spriteManager} from '../services/spriteManager';
 import {positionUtil} from '../entity/util';
 import {Component} from '../entity/ComponentEnum';
 import {constants} from '../data/constants';

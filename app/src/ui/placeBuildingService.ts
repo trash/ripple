@@ -7,7 +7,7 @@ import {
     IRowColumnCoordinates,
 	IEntityComponentData
 } from '../interfaces';
-import {spriteManager} from '../services/sprite-manager';
+import {spriteManager} from '../services/spriteManager';
 import {EntityManager} from '../entity/entityManager';
 import {EntitySpawner} from '../entity/entitySpawner';
 import {Component} from '../entity/ComponentEnum';

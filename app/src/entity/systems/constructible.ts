@@ -15,7 +15,7 @@ import {Profession} from '../../data/Profession';
 import {ResourceRequirements} from '../../ResourceRequirements';
 import {IItemSearchResult} from '../../interfaces';
 import {spriteUtil} from '../../util/sprite';
-import {spriteManager, SpriteManager} from '../../services/sprite-manager';
+import {spriteManager, SpriteManager} from '../../services/spriteManager';
 
 export class ConstructibleSystem extends EntitySystem {
     update (entityIds: number[]) {

@@ -10,7 +10,7 @@ import {TilemapSprite} from '../../tilemap';
 import {constants} from '../../data/constants';
 import {Component} from '../ComponentEnum';
 import {gameClock} from '../../game/game-clock';
-import {SpriteManager} from '../../services/sprite-manager';
+import {SpriteManager} from '../../services/spriteManager';
 
 export class CorpseSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {

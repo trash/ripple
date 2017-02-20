@@ -10,7 +10,7 @@ import {IHealthState} from '../components';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {TilemapSprite} from '../../tilemap';
-import {spriteManager, SpriteManager} from '../../services/sprite-manager';
+import {spriteManager, SpriteManager} from '../../services/spriteManager';
 
 export class ResourceSystem extends EntitySystem {
     readonly updateInterval = 10;

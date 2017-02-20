@@ -300,6 +300,14 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
         return (
         <div className="debug-ui">
+            <h5>Tilemap Debug:
+                <input onClick={() => this.toggleTilemapDebug()} checked={this.state.tilemapDebug} type="checkbox"/></h5>
+            <h5>Collision Debug:
+                <input onClick={() => this.setState({
+                    collisionDebugToggle: !this.state.collisionDebugToggle
+                })} type="checkbox"/>
+            </h5>
+            <CollisionDebugView show={this.state.collisionDebugToggle}/>
             {this.renderDebugGroup('Tile',
                 [this.props.tile
                     && this.props.tile.toString()
@@ -311,14 +319,6 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             {this.renderDebugGroup('Task Queues',
                 taskQueueManager.getAllTaskQueues()
                     .map(taskQueue => `${taskQueue.type}:${taskQueue.tasks.length}`))}
-            <h5>Tilemap Debug:
-                <input onClick={() => this.toggleTilemapDebug()} checked={this.state.tilemapDebug} type="checkbox"/></h5>
-            <h5>Collision Debug:
-                <input onClick={() => this.setState({
-                    collisionDebugToggle: !this.state.collisionDebugToggle
-                })} type="checkbox"/>
-            </h5>
-            <CollisionDebugView show={this.state.collisionDebugToggle}/>
         </div>
         );
     }

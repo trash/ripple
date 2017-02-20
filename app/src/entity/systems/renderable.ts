@@ -5,18 +5,22 @@ import {IPositionState} from '../components';
 import {positionUtil} from '../util/position';
 import {XYCoordinates} from '../../interfaces';
 import {util} from '../../util';
-import {TilemapSprite} from '../../tilemap';
+import {TilemapSprite, SubContainerLayer} from '../../tilemap';
 import {constants} from '../../data/constants';
 import {Component} from '../ComponentEnum';
-import {spriteManager} from '../../services/sprite-manager';
+import {spriteManager} from '../../services/spriteManager';
 
 export class RenderableSystem extends EntitySystem {
     update (entityIds: number[], turn: number) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-					Component.Renderable, id) as IRenderableState;
+				Component.Renderable,
+				id
+			) as IRenderableState;
 			const positionState = this.manager.getComponentDataForEntity(
-					Component.Position, id) as IPositionState;
+				Component.Position,
+				id
+			) as IPositionState;
 
 			if (!renderableState.spriteGroup) {
 				renderableState.spriteGroup = spriteManager.createContainer(
@@ -37,58 +41,37 @@ export class RenderableSystem extends EntitySystem {
 			}
 
 			let lastPosition = spriteManager.positionFromTile(
-					positionState.previousTile.column, positionState.previousTile.row);
+				positionState.previousTile.column, positionState.previousTile.row);
 			let newPosition = spriteManager.positionFromTile(
-					positionState.tile.column, positionState.tile.row);
+				positionState.tile.column, positionState.tile.row);
+
+			// Handle transitioning between subcontainers
+			const currentIndex = (renderableState.spriteGroup.parent as SubContainerLayer).index;
+			if (currentIndex !== renderableState.lastSubContainerLayerIndex
+				|| renderableState.activeSubContainerTransition) {
+				lastPosition = this.handleSubContainerChange(
+					renderableState,
+					positionState,
+					newPosition,
+					lastPosition
+				);
+				renderableState.activeSubContainerTransition = true;
+			}
+			renderableState.lastSubContainerLayerIndex = currentIndex;
 
 			// We always need to update moving sprites to make sure their
 			// z-index is up to date (so they don't appear behind things wrong)
 			if (!util.coordinatesAreEqual(newPosition, lastPosition)) {
 				spriteManager.changePosition(renderableState.spriteGroup,
-					positionState.tile.column, positionState.tile.row, true);
-			}
-
-			// Don't re-render thousands of things on the map that don't move (like resources)
-			if (spriteManager.subContainerWillUpdate(renderableState.spriteGroup as TilemapSprite,
-				positionState.tile.column, positionState.tile.row
-			)) {
-				const changedSubContainer = spriteManager.changePosition(renderableState.spriteGroup,
-					positionState.tile.column, positionState.tile.row, true);
-				// If the sprite changed subcontainers we need to manually update the spritegroup position so it tweens properly from one subcontainer to the next
-				// Otherwise we have jumping sprites
-				if (changedSubContainer) {
-					const direction = positionUtil.directionToTile(positionState.previousTile, positionState.tile);
-					const tileSize = spriteManager.getTileSize();
-
-					switch (direction) {
-						case 'left':
-							// at left side of container moving to right isde of new container
-							renderableState.spriteGroup.position.x = newPosition.x + tileSize;
-							break;
-						case 'right':
-							// at right side of container moving to left side of new container
-							renderableState.spriteGroup.position.x = newPosition.x - tileSize;
-							break;
-						case 'down':
-							// at the bottom of last container moving to top of new one
-							renderableState.spriteGroup.position.y = newPosition.y - tileSize;
-							break;
-						case 'up':
-							// at the top of last container moving up to bottom of new container
-							renderableState.spriteGroup.position.y = newPosition.y + tileSize;
-							break;
-					}
-
-					lastPosition = {
-						x: renderableState.spriteGroup.position.x,
-						y: renderableState.spriteGroup.position.y
-					};
-				}
+					positionState.tile.column, positionState.tile.row, true
+				);
 			}
 
 			if (util.coordinatesAreEqual(lastPosition, newPosition) ||
-				(newPosition.x === renderableState.spriteGroup.position.x &&
-					newPosition.y === renderableState.spriteGroup.position.y)) {
+				(newPosition.x === renderableState.spriteGroup.position.x
+					&& newPosition.y === renderableState.spriteGroup.position.y
+				)
+			) {
 				return;
 			}
 
@@ -102,10 +85,52 @@ export class RenderableSystem extends EntitySystem {
 				y: lastPosition.y + (newPosition.y - lastPosition.y) * percentageTravelled
 			};
 
+			// Make sure we turn off any active subcontainer transitions
+			if (turn >= positionState.turnCompleted) {
+				renderableState.activeSubContainerTransition = false;
+			}
+
 			renderableState.spriteGroup.position.x = calculatedNewPosition.x;
 			renderableState.spriteGroup.position.y = calculatedNewPosition.y;
         });
     }
+
+	handleSubContainerChange(
+		renderableState: IRenderableState,
+		positionState: IPositionState,
+		newPosition: XYCoordinates,
+		lastPosition: XYCoordinates
+	): XYCoordinates {
+		const direction = positionUtil.directionToTile(
+			positionState.previousTile,
+			positionState.tile
+		);
+		const tileSize = spriteManager.getTileSize();
+		let x = lastPosition.x;
+		let y = lastPosition.y;
+
+		switch (direction) {
+			case 'left':
+				// at left side of container moving to right isde of new container
+				x = newPosition.x + tileSize;
+				break;
+			case 'right':
+				// at right side of container moving to left side of new container
+				x = newPosition.x - tileSize;
+				break;
+			case 'down':
+				// at the bottom of last container moving to top of new one
+				y = newPosition.y - tileSize;
+				break;
+			case 'up':
+				// at the top of last container moving up to bottom of new container
+				y = newPosition.y + tileSize;
+				break;
+		}
+
+		return { x, y };
+	}
+
 	destroyComponent (id: number) {
 		const renderableState = this.manager.getComponentDataForEntity(
 			Component.Renderable, id) as IRenderableState;

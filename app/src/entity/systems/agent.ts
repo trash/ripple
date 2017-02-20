@@ -14,7 +14,7 @@ import {IAgentSprite} from '../../interfaces';
 import {util} from '../../util';
 import {events} from '../../events';
 import {names} from '../../names';
-import {SpriteManager} from '../../services/sprite-manager';
+import {SpriteManager} from '../../services/spriteManager';
 import {Agent} from '../../data/Agent';
 
 export class AgentSystem extends EntitySystem {

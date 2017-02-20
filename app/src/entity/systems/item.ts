@@ -11,7 +11,7 @@ import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
 import {Profession} from '../../data/Profession';
 import {IRowColumnCoordinates} from '../../interfaces';
-import {spriteManager, SpriteManager} from '../../services/sprite-manager';
+import {spriteManager, SpriteManager} from '../../services/spriteManager';
 import {store} from '../../redux/store';
 import {addToItemList, removeFromItemList} from '../../redux/actions';
 import {itemUtil} from '../util/item';

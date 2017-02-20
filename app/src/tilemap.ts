@@ -7,7 +7,7 @@ import {
 	CameraView
 } from './interfaces';
 import {PixelateFilter} from 'pixi-filters';
-import {SpriteManager} from './services/sprite-manager';
+import {SpriteManager} from './services/spriteManager';
 
 const tileSize = constants.TILE_HEIGHT;
 const defaultSubContainerLayer = 1;
@@ -20,7 +20,13 @@ export class SubContainer extends PIXI.Container {
 }
 
 export class SubContainerLayer extends PIXI.Container {
+	index: number;
 	rows: TilemapSprite[][];
+
+	constructor(index) {
+		super();
+		this.index = index;
+	}
 }
 
 export interface TilemapSprite extends PIXI.Sprite {
@@ -95,9 +101,11 @@ export class Tilemap extends PIXI.Container {
 		);
 
 		// Add the third layer for each sub container
-		this.subContainers.forEach(subContainer => {
+		this.subContainers.forEach((subContainer, index) => {
 			for (i = 0; i < this.subContainerLayerCount; i++) {
-				const layer = new SubContainerLayer();
+				const layer = new SubContainerLayer(
+					index * this.subContainerLayerCount + i
+				);
 
 				layer.rows = [];
 
@@ -301,16 +309,19 @@ export class Tilemap extends PIXI.Container {
 		x: number,
 		y: number,
 		layerIndex: number = defaultSubContainerLayer,
-		dontUpdatePosition: boolean = false
+		dontUpdatePosition: boolean = false,
+		oldSubContainerIndex?: number
 	) {
 		const subContainerIndex = this.tileToSubContainerIndex(x, y);
 		const subContainer = this.subContainers[subContainerIndex];
 		const layer = subContainer.children[layerIndex];
 
 		// Need to account for variable length of previous rows
-		const previousRowsTotal = layer.rows.slice(0, y).reduce((previous, next) => {
-			return previous + next.length;
-		}, 0);
+		const previousRowsTotal = layer.rows
+			.slice(0, y)
+			.reduce((previous, next) => {
+				return previous + next.length;
+			}, 0);
 
 		const lastChildIndex = layer.rows[y].length + previousRowsTotal;
 		// Store the current row and subContainer
@@ -403,8 +414,18 @@ export class Tilemap extends PIXI.Container {
 		dontUpdatePosition: boolean,
 		layerIndex: number = defaultSubContainerLayer,
 	): boolean {
-		const oldSubContainerIndex = this.removeChildFromSubContainer(sprite, layerIndex);
-		const newSubContainerIndex = this.addChildToPosition(sprite, x, y, layerIndex, dontUpdatePosition);
+		const oldSubContainerIndex = this.removeChildFromSubContainer(
+			sprite,
+			layerIndex
+		);
+		const newSubContainerIndex = this.addChildToPosition(
+			sprite,
+			x,
+			y,
+			layerIndex,
+			dontUpdatePosition,
+			oldSubContainerIndex
+		);
 
 		// Whether it was an actual update
 		return oldSubContainerIndex !== newSubContainerIndex;

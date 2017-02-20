@@ -1,6 +1,7 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
 import {zombie as zombieTree, deer as deerTree} from '../../b3/Trees';
+import {behaviorTree as pathInCircle} from '../../b3/Trees/pathInCircle';
 import {
     IEntityComponentData,
     IAssemblageDataMap,
@@ -58,7 +59,7 @@ const dataList: IEntityComponentData[] = [
             ]
         },
         behaviorTree: {
-            tree: deerTree,
+            tree: pathInCircle,
         },
         health: defaultHealthState
     }

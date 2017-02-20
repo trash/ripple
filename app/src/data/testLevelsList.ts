@@ -12,6 +12,7 @@ import {ItemProperty} from './ItemProperty';
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
 import {dataList as itemsList} from '../entity/assemblageData/items';
+import {behaviorTree as pathInCircle} from '../b3/Trees/pathInCircle';
 
 export interface ITestLevelGroup {
     name: string;
@@ -191,25 +192,6 @@ let testLevelsData: ITestLevelGroup[]  = [
 					enum: Agent.Human,
 					villager: {}
 				}],
-			},
-			{
-				name: 'Large map test',
-				agents: [{
-					enum: Agent.Human,
-					villager: {},
-					data: {
-						position: {
-							tile: {
-								row: 20,
-								column: 20
-							}
-						}
-					}
-				}],
-				gameMap: {
-					dimension: 100,
-					noResources: true
-				}
 			}
 		]
 	},
@@ -335,6 +317,30 @@ let testLevelsData: ITestLevelGroup[]  = [
 			name: 'Spawn All Items Test',
 			items: allItemsList
 		}]
+	},
+	{
+		name: 'Rendering Tests',
+		list: [
+			{
+				name: 'Subcontainer change doesnt cause jumping sprites',
+				agents: [{
+					enum: Agent.Human,
+					data: {
+						position: {
+							tile: {
+								row: 19,
+								column: 19
+							}
+						}
+					}
+				}],
+				gameMap: {
+					dimension: 40,
+					noResources: true,
+					allLand: true
+				}
+			}
+		]
 	}
 ];
 

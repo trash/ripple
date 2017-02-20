@@ -5,6 +5,8 @@ export interface IRenderableState {
     sprite: PIXI.Sprite;
     spriteGroup: PIXI.Container;
     shown: boolean;
+    lastSubContainerLayerIndex?: number;
+    activeSubContainerTransition?: boolean;
 }
 
 export const Renderable: IComponent<IRenderableState> = {
@@ -14,7 +16,9 @@ export const Renderable: IComponent<IRenderableState> = {
         return {
             sprite: null,
             spriteGroup: null,
-            shown: true
+            shown: true,
+            lastSubContainerLayerIndex: null,
+            activeSubContainerTransition: false
         };
     }
 }

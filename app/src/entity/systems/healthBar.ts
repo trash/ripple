@@ -7,7 +7,7 @@ import {IRenderableState} from '../components';
 import {util} from '../../util';
 import {events} from '../../events';
 import {constants} from '../../data/constants';
-import {SpriteManager} from '../../services/sprite-manager';
+import {SpriteManager} from '../../services/spriteManager';
 
 const healthBarAutoHideTime = 1000;
 

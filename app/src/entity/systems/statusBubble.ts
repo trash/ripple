@@ -5,7 +5,7 @@ import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
 import {IRenderableState} from '../components';
 import {IStatusBubbleState} from '../components';
-import {SpriteManager} from '../../services/sprite-manager';
+import {SpriteManager} from '../../services/spriteManager';
 
 const CYCLE_TIME = 1000;
 
