@@ -2,6 +2,7 @@ import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
 import {positionUtil} from '../../entity/util';
+import {IRowColumnCoordinates} from '../../interfaces';
 
 export class Wander extends Core.BaseNode {
 	distance: number;
@@ -30,19 +31,23 @@ export class Wander extends Core.BaseNode {
 	}
 
 	tick (tick: Core.Tick) {
+		const target = tick.target;
 		const arrived = util.blackboardGet(tick, 'arrived');
 		if (!arrived) {
 			util.blackboardSet(tick, 'arrived', true);
 			// testLog.log('should be wandering');
-			const randomTile = util.blackboardGet(tick, 'destination');
+			const randomTile: IRowColumnCoordinates = util.blackboardGet(
+				tick,
+				'destination'
+			);
 			if (!randomTile) {
 				console.error('for some reason randomTile is undefined?? ignoring this for now...');
 			} else {
 				positionUtil.setTile(
-					tick.target.position,
+					target.position,
 					randomTile,
-					tick.target.turn,
-					tick.target.agent.speed
+					target.turn,
+					target.agent.speed
 				);
 			}
 			return b3.RUNNING;

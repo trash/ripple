@@ -16,7 +16,7 @@ import {events} from '../../events';
 import {names} from '../../names';
 import {SpriteManager} from '../../services/spriteManager';
 import {Agent} from '../../data/Agent';
-import {buildingUtil} from '../util';
+import {buildingUtil, positionUtil} from '../util';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -47,12 +47,11 @@ export class AgentSystem extends EntitySystem {
 
             // Check to see if the agent left the building they were in
             if (agentState.buildingInsideOf) {
-                const buildingPositionState = this.manager.getComponentDataForEntity(
-                    Component.Building,
+                const buildingTile = positionUtil.getTileFromEntityId(
                     agentState.buildingInsideOf
-                ) as IBuildingState;
+                );
                 if (!util.rowColumnCoordinatesAreEqual(
-                    positionState.tile, buildingPositionState.entranceTile)
+                    positionState.tile, buildingTile)
                 ) {
                     buildingUtil.removeOccupant(agentState.buildingInsideOf, id);
                     agentState.buildingInsideOf = null;

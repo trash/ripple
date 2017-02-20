@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {b3} from '../index';
 import {util} from '../../util';
 import * as Core from '../Core';
@@ -18,7 +19,7 @@ export class BuildingWithSpaceIsNearby extends Core.BaseNode {
 		const target = tick.target;
 		const building = buildingUtil.getNearestBuildingWithOccupantSpace();
 
-		if (building) {
+		if (_.isNumber(building)) {
 			util.blackboardSet(tick, this.blackboardKey, building);
 			return b3.SUCCESS;
 		}

@@ -24,14 +24,17 @@ behaviorTree.root = new Core.Priority({
 				new Actions.IsTrue(tick => !villagerUtil.hasProfession(
 					tick.target.villager, Profession.Guard)
 				),
-				new Actions.WasRecentlyAttacked(wasRecentlyAttackedKey, 10),
+				// This isn't very smart, they should probably check if the enemy
+				// is still around or in range
+				new Actions.WasRecentlyAttacked(wasRecentlyAttackedKey, 100),
 				new Core.Priority({
 					children: [
 						new Core.Sequence({
 							children: [
 								new Actions.BuildingWithSpaceIsNearby(fleeBuildingKey),
 								new Actions.GoToTarget((tick: Core.Tick) =>
-									buildingUtil.getTileFromBuilding(util.blackboardGet(tick, fleeBuildingKey))),
+									buildingUtil.getTileFromBuilding(util.blackboardGet(tick, fleeBuildingKey))
+								),
 								new Actions.EnterBuilding(fleeBuildingKey)
 							]
 						}),
