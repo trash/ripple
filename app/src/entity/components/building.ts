@@ -22,7 +22,7 @@ export const Building: IComponent<IBuildingState> = {
             name: null,
             entranceTile: null,
             occupants: [],
-            maxOccupants: 0,
+            maxOccupants: 1,
             mustBeNextToWater: false
         };
     }

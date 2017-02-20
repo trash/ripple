@@ -18,6 +18,10 @@ export class EnterBuilding extends Core.BaseNode {
 		const target = tick.target;
 		const building: number = util.blackboardGet(tick, this.blackboardKey);
 
+		if (target.agent.buildingInsideOf === building) {
+			return b3.SUCCESS;
+		}
+
 		agentUtil.enterBuilding(target.turn, target.id, building);
 		return b3.SUCCESS;
 	}

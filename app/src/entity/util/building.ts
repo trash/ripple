@@ -74,6 +74,18 @@ export class BuildingUtil extends BaseUtil {
 		const buildingState = this._getBuildingState(building);
 		buildingState.occupants.push(agent);
 	}
+
+	removeOccupant(
+		building: number,
+		agent: number
+	) {
+		const buildingState = this._getBuildingState(building);
+		const index = buildingState.occupants.indexOf(agent);
+		if (index === -1) {
+			console.error('Removing an occupant that isnt in the building');
+		}
+		buildingState.occupants.splice(index, 1);
+	}
 }
 
 export const buildingUtil = new BuildingUtil();

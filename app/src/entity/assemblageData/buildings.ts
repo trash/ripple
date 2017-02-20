@@ -66,7 +66,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.Storage,
-
+            maxOccupants: 2
         },
         constructible: {
             requiredResources: [{
@@ -135,6 +135,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.CarpenterShop,
+            maxOccupants: 2
         },
         constructible: {
             requiredResources: [{
@@ -162,6 +163,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.BlacksmithShop,
+            maxOccupants: 2
         },
         constructible: {
             requiredResources: [{

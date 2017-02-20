@@ -16,6 +16,7 @@ import {events} from '../../events';
 import {names} from '../../names';
 import {SpriteManager} from '../../services/spriteManager';
 import {Agent} from '../../data/Agent';
+import {buildingUtil} from '../util';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -53,6 +54,7 @@ export class AgentSystem extends EntitySystem {
                 if (!util.rowColumnCoordinatesAreEqual(
                     positionState.tile, buildingPositionState.entranceTile)
                 ) {
+                    buildingUtil.removeOccupant(agentState.buildingInsideOf, id);
                     agentState.buildingInsideOf = null;
                 }
             }
