@@ -16,7 +16,7 @@ export class EnterBuilding extends Core.BaseNode {
 
 	tick (tick: Core.Tick) {
 		const target = tick.target;
-		const building = util.blackboardGet(tick, this.blackboardKey);
+		const building: number = util.blackboardGet(tick, this.blackboardKey);
 
 		agentUtil.enterBuilding(target.turn, target.id, building);
 		return b3.SUCCESS;

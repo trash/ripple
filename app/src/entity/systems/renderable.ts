@@ -24,7 +24,8 @@ export class RenderableSystem extends EntitySystem {
 
 			if (!renderableState.spriteGroup) {
 				renderableState.spriteGroup = spriteManager.createContainer(
-					positionState.tile.column, positionState.tile.row);
+					positionState.tile.column, positionState.tile.row
+				);
 			}
 
 			// Stop updating sprites that shouldn't be shown

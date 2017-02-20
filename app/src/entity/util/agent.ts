@@ -195,10 +195,10 @@ export class AgentUtil extends BaseUtil {
 		// Move them onto the building
 		const agentState = this._getAgentState(agent);
 		const agentPositionState = this._getPositionState(agent);
-		const buildingPositionState = this._getPositionState(building);
+		const buildingTile = positionUtil.getTileFromEntityId(building);
 
 		agentState.buildingInsideOf = building;
-		positionUtil.setTile(agentPositionState, buildingPositionState.tile, turn, agentState.speed);
+		positionUtil.setTile(agentPositionState, buildingTile, turn, agentState.speed);
 
 		const villagerState = this._getVillagerState(agent);
 		if (villagerState && villagerState.home) {

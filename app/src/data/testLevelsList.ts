@@ -113,7 +113,10 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}],
 				buildings: [{
 					enum: Building.Hut,
-					isCompleted: true
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
 				}],
 			},
 			{

@@ -29,6 +29,7 @@ export class CraftTask extends Core.Sequence {
                     getBuildingTile
                 ),
 				new Actions.GoToTarget(getBuildingTile, 0),
+                new Actions.EnterBuilding(craftBuildingKey),
 				new Actions.CraftItem(
                     itemData.item.enum,
                     itemData.craftable.craftTurns,
