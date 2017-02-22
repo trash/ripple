@@ -3,6 +3,7 @@ import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {StatusBubble} from '../../data/StatusBubble';
 import {Profession} from '../../data/Profession';
+import {Building} from '../../data/Building';
 import {villagerUtil} from '../../entity/util/villager';
 
 import * as Core from '../Core';
@@ -31,7 +32,11 @@ behaviorTree.root = new Core.Priority({
 					children: [
 						new Core.Sequence({
 							children: [
-								new Actions.BuildingWithSpaceIsNearby(fleeBuildingKey),
+								new Actions.BuildingWithSpaceIsNearby(
+									null, // any building
+									fleeBuildingKey,
+									tick => tick.target.position.tile
+								),
 								new Actions.GoToTarget((tick: Core.Tick) =>
 									buildingUtil.getTileFromBuilding(util.blackboardGet(tick, fleeBuildingKey))
 								),
@@ -55,10 +60,13 @@ behaviorTree.root = new Core.Priority({
 							child: new Core.Sequence({
 								children: [
 									new Actions.IsTrue(tick => !!tick.target.villager.home),
-									new Actions.SetBlackboardValue(findHomeKey,
-										tick => tick.target.villager.home),
+									new Actions.SetBlackboardValue(
+										findHomeKey,
+										tick => tick.target.villager.home
+									),
 									new Actions.GoToTarget((tick: Core.Tick) =>
-										buildingUtil.getTileFromBuilding(util.blackboardGet(tick, findHomeKey))),
+										buildingUtil.getTileFromBuilding(util.blackboardGet(tick, findHomeKey))
+									),
 									new Actions.EnterBuilding(findHomeKey)
 								]
 							})

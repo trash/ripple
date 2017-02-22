@@ -1,10 +1,18 @@
 import * as changeCase from 'change-case';
 import {IRowColumnCoordinates} from '../../interfaces';
+import {IBuildingState} from '../components';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
+import {positionUtil} from './position';
 import {constants} from '../../data/constants';
 import {Profession} from '../../data/Profession';
 import {Building} from '../../data/Building';
+import {MapUtil} from '../../map/map-util';
+
+type BuildingMapResult = {
+	id: number;
+	state: IBuildingState;
+}
 
 export class BuildingUtil extends BaseUtil {
 	private getAllBuildings (): number[] {
@@ -25,8 +33,36 @@ export class BuildingUtil extends BaseUtil {
 		return this._getBuildingState(building).entranceTile;
 	}
 
-	getNearestBuildingWithOccupantSpace(): number {
-		return this.getAllBuildings()[0];
+	private idToMapResult(id: number): BuildingMapResult {
+		return {
+			state: this._getBuildingState(id),
+			id: id
+		};
+	}
+	private mapResultToId(result: BuildingMapResult): number {
+		return result.id;
+	}
+
+	getBuildingsByType(building: Building | null): BuildingMapResult[] {
+		const buildings = this.getAllBuildings()
+			.map(result => this.idToMapResult(result));
+		// null means any
+		if (building === null) {
+			return buildings;
+		}
+		return buildings
+			.filter(result => result.state.enum === building);
+	}
+
+	getNearestBuildingWithOccupantSpace(
+		startTile: IRowColumnCoordinates,
+		building: Building | null
+	): number {
+		const buildings = this.getBuildingsByType(building)
+			.map(this.mapResultToId);
+		const tiles = buildings.map(positionUtil.getTileFromEntityId);
+		const index = MapUtil.nearestTileFromSet(startTile, tiles);
+		return buildings[index];
 	}
 
 	buildingExistsByProfession(profession: Profession): boolean {
@@ -41,7 +77,10 @@ export class BuildingUtil extends BaseUtil {
 	}
 
 	getFreeHome (): number {
-		return this.getAllBuildings()[0];
+		console.info('This should be checking against all buildings with "house" property');
+		return this.getBuildingsByType(Building.Hut)
+			.map(result => this.mapResultToId(result))
+			[0];
 	}
 
 	getName(building: Building): string {
