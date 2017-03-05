@@ -9,7 +9,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.Hut,
-            maxOccupants: 4,
+            maxOccupants: 2,
             isHouse: true
         },
         name: {
@@ -44,7 +44,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.House,
-            maxOccupants: 2,
+            maxOccupants: 4,
             isHouse: true
         },
         constructible: {

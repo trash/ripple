@@ -65,7 +65,9 @@ behaviorTree.root = new Core.Priority({
 										tick => tick.target.villager.home
 									),
 									new Actions.GoToTarget((tick: Core.Tick) =>
-										buildingUtil.getTileFromBuilding(util.blackboardGet(tick, findHomeKey))
+										buildingUtil.getTileFromBuilding(
+											util.blackboardGet(tick, findHomeKey)
+										)
 									),
 									new Actions.EnterBuilding(findHomeKey)
 								]

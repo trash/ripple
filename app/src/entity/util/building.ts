@@ -42,6 +42,10 @@ export class BuildingUtil extends BaseUtil {
 	private mapResultToId(result: BuildingMapResult): number {
 		return result.id;
 	}
+	private buildingIsComplete(id: number): boolean {
+		const healthState = this._getHealthState(id);
+		return healthState.currentHealth === healthState.maxHealth;
+	}
 
 	getBuildingsByType(building: Building | null): BuildingMapResult[] {
 		const buildings = this.getAllBuildings()
@@ -59,8 +63,10 @@ export class BuildingUtil extends BaseUtil {
 		building: Building | null
 	): number {
 		const buildings = this.getBuildingsByType(building)
+			// Only enter completed buildings
+			.filter(result => this.buildingIsComplete(result.id))
 			.map(this.mapResultToId);
-		const tiles = buildings.map(positionUtil.getTileFromEntityId);
+		const tiles = buildings.map(id => positionUtil.getTileFromEntityId(id));
 		const index = MapUtil.nearestTileFromSet(startTile, tiles);
 		return buildings[index];
 	}
@@ -79,7 +85,9 @@ export class BuildingUtil extends BaseUtil {
 	getFreeHome (): number {
 		return this.getAllBuildings()
 			.map(id => this.idToMapResult(id))
-			.filter(result => result.state.isHouse)
+			.filter(result => result.state.isHouse
+				&& this.buildingIsComplete(result.id)
+			)
 			.map(result => this.mapResultToId(result))
 			[0];
 	}

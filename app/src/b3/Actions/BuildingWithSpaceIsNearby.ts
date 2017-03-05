@@ -8,9 +8,6 @@ import {Building} from '../../data/Building';
 
 type StartTileCallback = (tick: Core.Tick) => IRowColumnCoordinates;
 
-/**
- * An action to just make a citizen wait for a turn
- */
 export class BuildingWithSpaceIsNearby extends Core.BaseNode {
 	building: Building | null;
 	blackboardKey: string;

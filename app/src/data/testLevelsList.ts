@@ -39,6 +39,35 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Building Tests',
 		list: [
 			{
+				name: 'Agents cant enter buildings at max occupancy',
+				buildings: [{
+					enum: Building.Hut,
+					data: {
+						position: defaultBuildingPosition,
+					},
+					isCompleted: true
+				}],
+				agents: [{
+					enum: Agent.Human,
+					villager: {}
+				}, {
+					enum: Agent.Human,
+					villager: {}
+				}, {
+					enum: Agent.Human,
+					villager: {}
+				}, {
+					enum: Agent.Zombie,
+				}],
+				items: [{
+					enum: Item.Wood,
+					count: 21
+				}, {
+					enum: Item.Berries,
+					count: 4
+				}]
+			},
+			{
 				name: 'Buildings can be built',
 				buildings: [{
 					enum: Building.Hut,
