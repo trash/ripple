@@ -18,7 +18,8 @@ export {
 import {
     IStorageState,
     IHealthState,
-    IHarvestableState
+    IHarvestableState,
+    IVisitorState
 } from '../../entity/components';
 
 import {actionTypes} from './types';

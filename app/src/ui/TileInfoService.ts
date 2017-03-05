@@ -37,7 +37,9 @@ import {
     IStorageState,
     IStatusBubbleState,
     IHealthState,
-    IHarvestableState
+    IHarvestableState,
+    IVisitorState,
+    IInventoryState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -110,15 +112,21 @@ export class TileInfoService {
                 Component.Position, agent) as IPositionState;
             const villagerState = this.entityManager.getComponentDataForEntity(
                 Component.Villager, agent) as IVillagerState;
+            const visitorState = this.entityManager.getComponentDataForEntity(
+                Component.Visitor, agent) as IVisitorState;
             const statusBubbleState = this.entityManager.getComponentDataForEntity(
                 Component.StatusBubble, agent) as IStatusBubbleState;
+            const inventoryState = this.entityManager.getComponentDataForEntity(
+                Component.Inventory, agent) as IInventoryState;
             store.dispatch(updateHoveredAgent(
                 agentState,
                 hungerState,
                 sleepState,
                 positionState,
                 villagerState,
-                statusBubbleState
+                statusBubbleState,
+                visitorState,
+                inventoryState
             ));
 
             // Expose info about the agent's behavior tree

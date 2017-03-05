@@ -4,5 +4,6 @@ export enum Building {
     Storage,
     Tavern,
     CarpenterShop,
-    BlacksmithShop
+    BlacksmithShop,
+    ItemShop
 }

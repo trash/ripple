@@ -112,6 +112,16 @@ let testLevelsData: ITestLevelGroup[]  = [
 					enum: Agent.Human,
 					villager: {}
 				}]
+			},
+			{
+				name: 'Item Shop test',
+				buildings: [{
+					enum: Building.ItemShop,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
 			}
 		]
 	},

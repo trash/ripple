@@ -137,7 +137,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.CarpenterShop,
-            maxOccupants: 2
+            maxOccupants: 4
         },
         constructible: {
             requiredResources: [{
@@ -165,7 +165,7 @@ export const dataList: IEntityComponentData[] = [
     {
         building: {
             enum: Building.BlacksmithShop,
-            maxOccupants: 2
+            maxOccupants: 4
         },
         constructible: {
             requiredResources: [{
@@ -189,6 +189,44 @@ export const dataList: IEntityComponentData[] = [
             currentHealth: 0,
             maxHealth: 400
         },
+    },
+    {
+        building: {
+            enum: Building.ItemShop,
+            maxOccupants: 8
+        },
+        constructible: {
+            requiredResources: [{
+                enum: Item.Plank,
+                // count: 40
+                count: 10
+            }],
+            floorSpriteName: 'construction-dirt-2'
+        },
+        collision: {
+            size: {
+                x: 4,
+                y: 4
+            },
+            entrance: {
+                x: 2,
+                y: 3
+            },
+        },
+        health: {
+            currentHealth: 0,
+            maxHealth: 400
+        },
+        storage: {
+            itemRestrictions: [
+                ItemProperty.Food,
+                ItemProperty.Resource,
+                ItemProperty.Weapon,
+                ItemProperty.Armor
+            ],
+            total: 20,
+            available: 20
+        }
     }
 ];
 

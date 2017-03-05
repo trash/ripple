@@ -17,7 +17,9 @@ import {
     IStorageState,
     IStatusBubbleState,
     IHealthState,
-    IHarvestableState
+    IHarvestableState,
+    IVisitorState,
+    IInventoryState
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
@@ -60,6 +62,8 @@ export interface StoreState {
     hoveredVillager: IVillagerState;
     hoveredHealth: IHealthState;
     hoveredHarvestable: IHarvestableState;
+    hoveredVisitor: IVisitorState;
+    hoveredInventory: IInventoryState;
     hours: number;
     days: number;
     buildingsListShown: boolean;
@@ -85,6 +89,8 @@ const mainReducer = (previousState = initialState, action) => {
         newState.hoveredAgentPosition = updateAction.position;
         newState.hoveredAgentStatusBubble = updateAction.statusBubble;
         newState.hoveredVillager = updateAction.villager;
+        newState.hoveredVisitor = updateAction.visitor;
+        newState.hoveredInventory = updateAction.inventory;
     }
     if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
         newState.hoveredResource = (action as UpdateHoveredResource).resource;

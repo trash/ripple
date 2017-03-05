@@ -40,6 +40,17 @@ export class DebugBar extends React.Component<null, null> {
                     }
                 } as IEntityComponentData)}
                 >Spawn Visitor</button>
+            <button onClick={() => events.emit('spawnAgent', Agent.Human, {
+                    visitor: {
+                        desiredItems: [
+                            ItemProperty.Armor,
+                            ItemProperty.Weapon,
+                            ItemProperty.Potion,
+                            ItemProperty.Food
+                        ]
+                    }
+                } as IEntityComponentData)}
+                >Spawn Visitor</button>
             <button onClick={() => events.emit('spawnItem', Item.Wood)}
                 >Spawn Item</button>
             <button onClick={() => events.emit('spawnItem', Item.Berries)}

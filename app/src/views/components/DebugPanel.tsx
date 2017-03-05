@@ -20,10 +20,13 @@ import {
     IPositionState,
     IVillagerState,
     Villager,
+    Visitor,
     IStorageState,
     IStatusBubbleState,
     IHealthState,
-    IHarvestableState
+    IVisitorState,
+    IHarvestableState,
+    IInventoryState
 } from '../../entity/components';
 
 import {MapTile} from '../../map/tile';
@@ -51,6 +54,8 @@ interface DebugPanelProps {
     storage: IStorageState;
     health: IHealthState;
     harvestable: IHarvestableState;
+    visitor: IVisitorState;
+    inventory: IInventoryState;
 }
 
 interface DebugPanelState {
@@ -276,6 +281,8 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             ['Agent Position', this.props.agentPosition, []],
             ['Agent Status Bubble', this.props.agentStatusBubble, []],
             ['Villager', this.props.villager, Villager.blacklistedDebugProperties],
+            ['Visitor', this.props.visitor, Visitor.blacklistedDebugProperties],
+            ['Inventory', this.props.inventory, []],
             ['Agent Hunger', this.props.agentHunger, []],
             ['Agent Sleep', this.props.agentSleep, []],
             ['Item', this.props.item, []],
@@ -332,6 +339,8 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         agentSleep: state.hoveredAgentSleep,
         agentPosition: state.hoveredAgentPosition,
         agentStatusBubble: state.hoveredAgentStatusBubble,
+        visitor: state.hoveredVisitor,
+        inventory: state.hoveredInventory,
         item: state.hoveredItem,
         resource: state.hoveredResource,
         executionChain: state.hoveredAgentLastExecutionChain,
