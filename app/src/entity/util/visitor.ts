@@ -7,9 +7,11 @@ import {itemUtil} from './item';
 export class VisitorUtil extends BaseUtil {
     getItemToBuy(visitorId: number): IItemSearchResult {
         const visitorState = this._getVisitorState(visitorId);
+        const inventoryState = this._getInventoryState(visitorId);
         const items = itemUtil
             .getByProperties(visitorState.desiredItems, true)
-            .filter(item => item.state.forSale);
+            .filter(item => item.state.forSale &&
+                item.state.value <= inventoryState.gold);
         return items[0];
     }
 }

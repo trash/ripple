@@ -3,7 +3,7 @@ import {Component} from '../ComponentEnum';
 import {XYCoordinates, IRowColumnCoordinates} from '../../interfaces';
 
 export interface IInventoryState {
-    items: number[];
+    items?: number[];
     gold?: number;
 }
 

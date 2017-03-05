@@ -201,6 +201,7 @@ export interface IEntityComponentData {
 	craftable?: ICraftableState;
 	storage?: IStorageState;
 	visitor?: IVisitorState;
+	inventory?: IInventoryState;
 }
 
 export interface IAssemblageDataMap {

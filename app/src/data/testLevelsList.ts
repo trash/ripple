@@ -186,6 +186,9 @@ let testLevelsData: ITestLevelGroup[]  = [
 					data: {
 						visitor: {
 							desiredItems: [ItemProperty.Food]
+						},
+						inventory: {
+							gold: 10
 						}
 					}
 				}],
