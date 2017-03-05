@@ -11,6 +11,7 @@ export interface IBuildingState {
     maxOccupants?: number;
     occupants?: number[];
     mustBeNextToWater?: boolean;
+    isHouse?: boolean;
 }
 
 export const Building: IComponent<IBuildingState> = {
@@ -23,7 +24,8 @@ export const Building: IComponent<IBuildingState> = {
             entranceTile: null,
             occupants: [],
             maxOccupants: 1,
-            mustBeNextToWater: false
+            mustBeNextToWater: false,
+            isHouse: false
         };
     }
 };

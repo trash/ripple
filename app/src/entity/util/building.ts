@@ -77,8 +77,9 @@ export class BuildingUtil extends BaseUtil {
 	}
 
 	getFreeHome (): number {
-		console.info('This should be checking against all buildings with "house" property');
-		return this.getBuildingsByType(Building.Hut)
+		return this.getAllBuildings()
+			.map(id => this.idToMapResult(id))
+			.filter(result => result.state.isHouse)
 			.map(result => this.mapResultToId(result))
 			[0];
 	}
