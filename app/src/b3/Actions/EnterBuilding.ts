@@ -1,7 +1,7 @@
 import {b3} from '../index';
 import {util} from '../../util';
 import * as Core from '../Core';
-import {agentUtil} from '../../entity/util';
+import {agentUtil, buildingUtil} from '../../entity/util';
 
 /**
  * An action to just make a citizen wait for a turn
@@ -20,6 +20,9 @@ export class EnterBuilding extends Core.BaseNode {
 
 		if (target.agent.buildingInsideOf === building) {
 			return b3.SUCCESS;
+		}
+		if (!buildingUtil.buildingHasOccupancy(building)) {
+			return b3.FAILURE;
 		}
 
 		agentUtil.enterBuilding(target.turn, target.id, building);

@@ -46,6 +46,13 @@ export class BuildingUtil extends BaseUtil {
 		const healthState = this._getHealthState(id);
 		return healthState.currentHealth === healthState.maxHealth;
 	}
+	private buildingHasOccupancyByState(state: IBuildingState): boolean {
+		return state.occupants.length < state.maxOccupants;
+	}
+
+	buildingHasOccupancy(id: number): boolean {
+		return this.buildingHasOccupancyByState(this._getBuildingState(id));
+	}
 
 	getBuildingsByType(building: Building | null): BuildingMapResult[] {
 		const buildings = this.getAllBuildings()
@@ -65,6 +72,8 @@ export class BuildingUtil extends BaseUtil {
 		const buildings = this.getBuildingsByType(building)
 			// Only enter completed buildings
 			.filter(result => this.buildingIsComplete(result.id))
+			// Buildings with occupancy space
+			.filter(result => this.buildingHasOccupancyByState(result.state))
 			.map(this.mapResultToId);
 		const tiles = buildings.map(id => positionUtil.getTileFromEntityId(id));
 		const index = MapUtil.nearestTileFromSet(startTile, tiles);
