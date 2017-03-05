@@ -67,7 +67,7 @@ export class AgentSystem extends EntitySystem {
 
             // Init name
             if (!nameState.name) {
-                const newName = names.getName(agentState.name, agentState.gender);
+                const newName = names.getName(agentState.nameType, agentState.gender);
                 nameState.name = `${newName.first} ${newName.last}`;
             }
             // Init health bar sprites
@@ -107,9 +107,15 @@ export class AgentSystem extends EntitySystem {
         renderableState: IRenderableState,
         positionState: IPositionState
     ) {
+        const enumString = Agent[agentState.enum].toLowerCase();
         // Init agent name from enum
         if (!agentState.name && _.isNumber(agentState.enum)) {
-            agentState.name = Agent[agentState.enum].toLowerCase();
+            agentState.name = enumString;
+        }
+
+        // Init agent name type. default it to the enum if not specifically defined
+        if (!agentState.nameType) {
+            agentState.nameType = enumString;
         }
 
         // Init gender

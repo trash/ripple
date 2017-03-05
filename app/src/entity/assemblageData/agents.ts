@@ -7,6 +7,7 @@ import {
     IAssemblageDataMap,
     AgentTraits
 } from '../../interfaces';
+import {ItemProperty} from '../../data/ItemProperty';
 import {Agent} from '../../data/Agent';
 
 const maxHealth = 100;
@@ -56,6 +57,31 @@ const dataList: IEntityComponentData[] = [
             strength: 3,
             traits: [
                 AgentTraits.Human
+            ]
+        },
+        behaviorTree: {
+            tree: pathInCircle,
+        },
+        health: defaultHealthState
+    },
+    {
+        agent: {
+            enum: Agent.Adventurer,
+            genderEnabled: true,
+            speed: 15,
+            strength: 3,
+            traits: [
+                AgentTraits.Human
+            ],
+            gender: 'male',
+            nameType: 'human'
+        },
+        visitor: {
+            desiredItems: [
+                ItemProperty.Armor,
+                ItemProperty.Weapon,
+                ItemProperty.Potion,
+                ItemProperty.Food
             ]
         },
         behaviorTree: {

@@ -79,7 +79,11 @@ export const dataList: IEntityComponentData[] = [{
             name: 'sword-wood',
             readableName: 'Wooden Sword',
             description: 'A very basic sword made out of wood. Might hurt a bit if you get hit with it.',
-            properties: [ItemProperty.Wood, ItemProperty.Sword],
+            properties: [
+                ItemProperty.Wood,
+                ItemProperty.Sword,
+                ItemProperty.Weapon
+            ],
         },
         // damage: 1,
         craftable: {

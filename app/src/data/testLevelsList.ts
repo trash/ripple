@@ -180,6 +180,28 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Visitor Tests',
 		list: [
 			{
+				name: 'Adventurer buys items',
+				agents: [{
+					enum: Agent.Adventurer,
+					data: {
+						inventory: {
+							gold: 50
+						}
+					}
+				}],
+				buildings: [{
+					enum: Building.ItemShop,
+					storage: [{
+						enum: Item.SwordWood,
+						count: 4
+					}],
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
+			},
+			{
 				name: 'Visitor buys items for sale',
 				agents: [{
 					enum: Agent.Human,

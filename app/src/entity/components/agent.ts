@@ -6,6 +6,7 @@ import {Agent as AgentEnum} from '../../data/Agent';
 export interface IAgentState {
     enum: AgentEnum;
     name?: string;
+    nameType?: string;
     genderEnabled: boolean;
     speed: number;
     strength: number;
@@ -35,6 +36,7 @@ export const Agent: IComponent<IAgentState> = {
             enum: AgentEnum.Zombie,
             genderEnabled: false,
             gender: null,
+            nameType: null,
             defaultSpriteFrame: 0,
             spriteCount: null,
             spriteIndex: null,

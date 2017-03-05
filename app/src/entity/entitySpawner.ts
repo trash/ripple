@@ -96,6 +96,10 @@ export class EntitySpawner {
 		});
 	}
 
+	static agentEnumToAssemblageMap = {
+		[Agent.Adventurer]: AssemblagesEnum.Adventurer
+	}
+
     /**
 	* Creates a agent and adds it to the list of citizens for the game manager to keep track of.
 	*
@@ -106,11 +110,14 @@ export class EntitySpawner {
 		villager: IVillagerComponentOptions = null,
 		entityComponentData: IEntityComponentData = {}
 	): number {
-		let assemblage = AssemblagesEnum.Agent;
+		let assemblage = EntitySpawner.agentEnumToAssemblageMap[agent];
 		if (villager) {
 			assemblage = AssemblagesEnum.Villager;
-		} else if (entityComponentData.visitor) {
+		} else if (!_.isNumber(assemblage) && entityComponentData.visitor) {
 			assemblage = AssemblagesEnum.Visitor;
+		}
+		if (!_.isNumber(assemblage)) {
+			assemblage = AssemblagesEnum.Agent;
 		}
 		const entityId = this.entityManager.createEntityFromAssemblage(assemblage);
 
