@@ -48,7 +48,7 @@ export class EntitySpawner {
 	) {
         this.entityManager = entityManager;
 		events.on('spawnAgent', (agent: Agent, data?: IEntityComponentData) =>
-			this.spawnAgent(agent, null, data));
+			this.spawnAgent(agent, data));
 		events.on('spawnItem', (item: Item) => this.spawnItem(item, {
 			item: {
 				claimed: true
@@ -68,12 +68,15 @@ export class EntitySpawner {
 				entityId
 			);
 			if (entityState) {
-				for (const stateProp in entityState) {
+				// Make sure we get all props even if they're not defined in the
+				// default state object
+				const props = _.union(Object.keys(entityState), Object.keys(data));
+				props.forEach(stateProp => {
 					const value = data[stateProp]
 					if (value !== undefined) {
 						entityState[stateProp] = value;
 					}
-				}
+				});
 			}
 		}
 	}
@@ -98,7 +101,8 @@ export class EntitySpawner {
 
 	static agentEnumToAssemblageMap = {
 		[Agent.Adventurer]: AssemblagesEnum.Adventurer,
-		[Agent.Visitor]: AssemblagesEnum.Visitor
+		[Agent.Visitor]: AssemblagesEnum.Visitor,
+		[Agent.Villager]: AssemblagesEnum.Villager
 	}
 
     /**
@@ -108,7 +112,6 @@ export class EntitySpawner {
 	*/
 	spawnAgent (
 		agent: Agent,
-		villager: IVillagerComponentOptions = null,
 		entityComponentData: IEntityComponentData = {}
 	): number {
 		let assemblage = AssemblagesEnum.Agent;
@@ -134,12 +137,6 @@ export class EntitySpawner {
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 		this.copyNeededComponentData(entityId, entityComponentData, assemblage);
 
-		// If they specified options for the villager, assign them
-		if (villager) {
-			villagerState.job = villager.job !== undefined
-				? villager.job
-				: villagerState.job;
-		}
 		positionState.hasDirection = true;
 		// Set tile to 0,0
 		positionState.tile = positionState.tile || globalRefs.map.getTile(0, 0);

@@ -3,7 +3,7 @@ import {util} from '../util';
 
 import {ITestLevel} from './testLevel';
 import {gameLevelFactory} from './gameLevelFactory';
-import {VillagerJob} from './villagerJob';
+import {VillagerJob} from './VillagerJob';
 import {Building} from './Building';
 import {Agent} from './Agent';
 import {Item} from './Item';
@@ -48,14 +48,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 					isCompleted: true
 				}],
 				agents: [{
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager,
 				}, {
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager,
 				}, {
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager,
 				}, {
 					enum: Agent.Zombie,
 				}],
@@ -76,9 +73,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 					}
 				}],
 				agents: [{
-					enum: Agent.Human,
-					villager: {
-						job: VillagerJob.Builder
+					enum: Agent.Villager,
+					data: {
+							villager: {
+							job: VillagerJob.Builder
+						}
 					}
 				}],
 				items: [{
@@ -109,8 +108,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					},
 				}],
 				agents: [{
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager,
 				}]
 			},
 			{
@@ -131,8 +129,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Villager eats food when hungry',
 				agents: [{
-					enum: Agent.Human,
-					villager: {},
+					enum: Agent.Villager,
 					data: {
 						hunger: {
 							value: constants.HUNGER.MAX * 1/2
@@ -147,8 +144,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Villager sleeps in house',
 				agents: [{
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager
 				}],
 				buildings: [{
 					enum: Building.Hut,
@@ -163,8 +159,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				agents: [{
 					enum: Agent.Zombie,
 				}, {
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager
 				}],
 				buildings: [{
 					enum: Building.Hut,
@@ -216,11 +211,8 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Visitor flees if attacked',
 				agents: [{
-					enum: Agent.Human,
+					enum: Agent.Visitor,
 					data: {
-						visitor: {
-							desiredItems: [ItemProperty.Food]
-						},
 						position: {
 							tile: {
 								row: 10,
@@ -246,8 +238,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				agents: [{
 					enum: Agent.Zombie,
 				}, {
-					enum: Agent.Human,
-					villager: {}
+					enum: Agent.Villager
 				}],
 			}
 		]
@@ -258,9 +249,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Harvest Test',
 				agents: [{
-					enum: Agent.Human,
-					villager: {
-						job: VillagerJob.Laborer
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Laborer
+						}
 					}
 				}],
 				gameMap: {
@@ -273,9 +266,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Builder Test',
 				agents: [{
-					enum: Agent.Human,
-					villager: {
-						job: VillagerJob.Builder
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Builder
+						}
 					}
 				}],
 				items: buildingsList[0].constructible.requiredResources
@@ -283,9 +278,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Carpenter Test',
 				agents: [{
-					enum: Agent.Human,
-					villager: {
-						job: VillagerJob.Carpenter
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Carpenter
+						}
 					}
 				}],
 				items: [{
@@ -307,9 +304,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Blacksmith Test',
 				agents: [{
-					enum: Agent.Human,
-					villager: {
-						job: VillagerJob.Blacksmith
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Blacksmith
+						}
 					}
 				}],
 				items: [{
@@ -331,9 +330,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Guard Test',
 				agents: [{
-					enum: Agent.Human,
-					villager: {
-						job: VillagerJob.Guard
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Guard
+						}
 					}
 				}],
 				items: [{

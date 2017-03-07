@@ -109,8 +109,8 @@ export class AgentSystem extends EntitySystem {
     ) {
         const enumString = Agent[agentState.enum].toLowerCase();
         // Init agent name from enum
-        if (!agentState.name && _.isNumber(agentState.enum)) {
-            agentState.name = enumString;
+        if (!agentState.spriteType && _.isNumber(agentState.enum)) {
+            agentState.spriteType = enumString;
         }
 
         // Init agent name type. default it to the enum if not specifically defined
@@ -133,7 +133,7 @@ export class AgentSystem extends EntitySystem {
     }
 
     getBaseSpriteName (agentState: IAgentState): string {
-        let agentString = agentState.name;
+        let agentString = agentState.spriteType;
         if (agentState.gender) {
             agentString += `-${agentState.gender}`;
         }

@@ -1,7 +1,7 @@
 import {Component} from './ComponentEnum';
 
 export enum AssemblagesEnum {
-    Agent,
+    Agent = 1,
     Villager,
     Resource,
     Item,

@@ -3,5 +3,6 @@ export enum Agent {
     Wolf,
     Zombie,
     Adventurer,
-    Visitor
+    Visitor,
+    Villager
 }

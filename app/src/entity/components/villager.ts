@@ -1,13 +1,13 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {VillagerJob} from '../../data/villagerJob';
+import {VillagerJob} from '../../data/VillagerJob';
 import {Task} from '../../Tasks/Task';
 import {Instance} from '../../Tasks/Instance';
 
 export interface IVillagerState {
     job: VillagerJob;
-    currentTask: Instance;
-    home: number;
+    currentTask?: Instance;
+    home?: number;
 }
 
 const blacklistedDebugProperties = ['currentTask'];

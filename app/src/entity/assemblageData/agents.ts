@@ -1,6 +1,11 @@
 import {IAgentState} from '../components/agent';
 import {IBehaviorTreeState} from '../components';
-import {zombie as zombieTree, deer as deerTree} from '../../b3/Trees';
+import {
+    zombie as zombieTree,
+    deer as deerTree,
+    visitor as visitorTree,
+    villager as villagerTree
+} from '../../b3/Trees';
 import {behaviorTree as pathInCircle} from '../../b3/Trees/pathInCircle';
 import {
     IEntityComponentData,
@@ -9,6 +14,8 @@ import {
 } from '../../interfaces';
 import {ItemProperty} from '../../data/ItemProperty';
 import {Agent} from '../../data/Agent';
+import {VillagerJob} from '../../data/VillagerJob';
+import {constants} from '../../data/constants';
 
 const maxHealth = 100;
 const defaultHealthState = {
@@ -21,7 +28,7 @@ const dataList: IEntityComponentData[] = [
         agent: {
             enum: Agent.Zombie,
             genderEnabled: false,
-            speed: 30,
+            speed: constants.BASE_SPEED * 2,
             traits: [
                 AgentTraits.Monster
             ],
@@ -36,7 +43,7 @@ const dataList: IEntityComponentData[] = [
         agent: {
             enum: Agent.Wolf,
             genderEnabled: false,
-            speed: 10,
+            speed: constants.BASE_SPEED * 0.8,
             traits: [
                 AgentTraits.Predator
             ],
@@ -53,7 +60,7 @@ const dataList: IEntityComponentData[] = [
             enum: Agent.Human,
             genderEnabled: true,
             spriteCount: 4,
-            speed: 15,
+            speed: constants.BASE_SPEED,
             strength: 3,
             traits: [
                 AgentTraits.Human
@@ -68,7 +75,7 @@ const dataList: IEntityComponentData[] = [
         agent: {
             enum: Agent.Adventurer,
             genderEnabled: true,
-            speed: 15,
+            speed: constants.BASE_SPEED,
             strength: 3,
             traits: [
                 AgentTraits.Human
@@ -88,7 +95,7 @@ const dataList: IEntityComponentData[] = [
             ]
         },
         behaviorTree: {
-            tree: pathInCircle,
+            tree: visitorTree,
         },
         health: defaultHealthState
     },
@@ -102,7 +109,7 @@ const dataList: IEntityComponentData[] = [
                 AgentTraits.Human
             ],
             strength: 1,
-            speed: 15
+            speed: constants.BASE_SPEED
         },
         visitor: {
             desiredItems: [ItemProperty.Food]
@@ -112,8 +119,29 @@ const dataList: IEntityComponentData[] = [
         },
         health: defaultHealthState,
         behaviorTree: {
-            tree: pathInCircle,
+            tree: visitorTree,
         },
+    },
+    {
+        agent: {
+            enum: Agent.Villager,
+            genderEnabled: true,
+            spriteType: 'human',
+            spriteCount: 4,
+            nameType: 'human',
+            traits: [
+                AgentTraits.Human
+            ],
+            strength: 3,
+            speed: constants.BASE_SPEED
+        },
+        health: defaultHealthState,
+        villager: {
+            job: VillagerJob.Unemployed,
+        },
+        behaviorTree: {
+            tree: villagerTree
+        }
     }
 ];
 
