@@ -96,10 +96,19 @@ export class AgentSystem extends EntitySystem {
         this.spawnCorpse(agentState, positionState);
     }
 
-    spawnCorpse (agentState: IAgentState, positionState: IPositionState) {
+    spawnCorpse (
+        agentState: IAgentState,
+        positionState: IPositionState
+    ) {
         const tile = positionState.tile;
         const baseSpriteName = this.getBaseSpriteName(agentState);
-        console.info('should be spawning a corpse');
+        console.info('should be spawning a corpse', baseSpriteName);
+        this.manager.spawner.spawnCorpse({
+            position: positionState,
+            corpse: {
+                agentBaseSpriteName: baseSpriteName
+            }
+        });
     }
 
     handleInit (

@@ -240,6 +240,38 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}, {
 					enum: Agent.Villager
 				}],
+			},
+			{
+				name: 'Villager corpse test',
+				agents: [{
+					enum: Agent.Zombie
+				}, {
+					enum: Agent.Villager,
+					data: {
+						health: {
+							currentHealth: 10,
+							maxHealth: 20
+						},
+					}
+				},
+				{
+					enum: Agent.Villager,
+					data: {
+						health: {
+							currentHealth: 10,
+							maxHealth: 20
+						},
+					}
+				},
+				{
+					enum: Agent.Villager,
+					data: {
+						health: {
+							currentHealth: 10,
+							maxHealth: 20
+						}
+					}
+				}]
 			}
 		]
 	},

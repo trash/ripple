@@ -158,7 +158,9 @@ export class EntitySpawner {
         return entityId;
 	}
 
-	spawnCorpse (entityComponentData: IEntityComponentData): number {
+	spawnCorpse (
+		entityComponentData: IEntityComponentData = {}
+	): number {
 		return this.spawnFromAssemblage(AssemblagesEnum.Corpse, entityComponentData);
 	}
 
