@@ -34,29 +34,12 @@ export class DebugBar extends React.Component<null, null> {
             })}
             <button onClick={() => events.emit('spawnAgent', Agent.Zombie)}
                 >Spawn Zombie</button>
-            <button onClick={() => events.emit('spawnAgent', Agent.Human, {
-                    visitor: {
-                        desiredItems: [ItemProperty.Food]
-                    },
-                    inventory: {
-                        gold: 10
-                    }
+            <button onClick={() => events.emit('spawnAgent', Agent.Visitor, {
                 } as IEntityComponentData)}
                 >Spawn Visitor</button>
             <button onClick={() => events.emit('spawnAgent', Agent.Adventurer, {
-                    agent: {
-                        gender: 'male'
-                    },
-                    visitor: {
-                        desiredItems: [
-                            ItemProperty.Armor,
-                            ItemProperty.Weapon,
-                            ItemProperty.Potion,
-                            ItemProperty.Food
-                        ]
-                    }
                 } as IEntityComponentData)}
-                >Spawn Visitor</button>
+                >Spawn Adventurer</button>
             <button onClick={() => events.emit('spawnItem', Item.Wood)}
                 >Spawn Item</button>
             <button onClick={() => events.emit('spawnItem', Item.Berries)}

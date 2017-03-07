@@ -182,12 +182,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Adventurer buys items',
 				agents: [{
-					enum: Agent.Adventurer,
-					data: {
-						inventory: {
-							gold: 50
-						}
-					}
+					enum: Agent.Adventurer
 				}],
 				buildings: [{
 					enum: Building.ItemShop,
@@ -204,15 +199,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Visitor buys items for sale',
 				agents: [{
-					enum: Agent.Human,
-					data: {
-						visitor: {
-							desiredItems: [ItemProperty.Food]
-						},
-						inventory: {
-							gold: 10
-						}
-					}
+					enum: Agent.Visitor
 				}],
 				buildings: [{
 					enum: Building.Tavern,

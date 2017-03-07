@@ -76,6 +76,9 @@ const dataList: IEntityComponentData[] = [
             gender: 'male',
             nameType: 'human'
         },
+        inventory: {
+            gold: 50
+        },
         visitor: {
             desiredItems: [
                 ItemProperty.Armor,
@@ -88,6 +91,29 @@ const dataList: IEntityComponentData[] = [
             tree: pathInCircle,
         },
         health: defaultHealthState
+    },
+    {
+        agent: {
+            enum: Agent.Visitor,
+            genderEnabled: true,
+            gender: 'male',
+            nameType: 'human',
+            traits: [
+                AgentTraits.Human
+            ],
+            strength: 1,
+            speed: 15
+        },
+        visitor: {
+            desiredItems: [ItemProperty.Food]
+        },
+        inventory: {
+            gold: 10
+        },
+        health: defaultHealthState,
+        behaviorTree: {
+            tree: pathInCircle,
+        },
     }
 ];
 
