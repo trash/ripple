@@ -209,6 +209,12 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}]
 			},
 			{
+				name: 'Visitor leaves town sad if no items to buy',
+				agents: [{
+					enum: Agent.Visitor
+				}]
+			},
+			{
 				name: 'Visitor flees if attacked',
 				agents: [{
 					enum: Agent.Visitor,

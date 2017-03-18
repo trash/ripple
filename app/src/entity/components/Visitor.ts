@@ -7,6 +7,7 @@ import {constants} from '../../data/constants';
 export interface IVisitorState {
     desiredItems?: ItemProperty[];
     leaveTown?: boolean;
+    boughtItem?: boolean;
 }
 
 export const Visitor: IComponent<IVisitorState> = {
@@ -15,7 +16,8 @@ export const Visitor: IComponent<IVisitorState> = {
     getInitialState: () => {
         return {
             desiredItems: [],
-            leaveTown: false
+            leaveTown: false,
+            boughtItem: false
         };
     }
 };

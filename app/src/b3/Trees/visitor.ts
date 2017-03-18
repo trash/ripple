@@ -32,6 +32,9 @@ behaviorTree.root = new Core.Priority({
 					child: new Action.HasItemInInventory(itemToBuyKey)
 				}),
 				new Action.GoBuyItem(itemToBuyKey),
+				new Action.Simple(tick => {
+					tick.target.visitor.boughtItem = true;
+				}),
 				new Action.ShowBubble(StatusBubble.Happy),
 				Action.SimpleTimer((tick) => {
 					statusBubbleUtil.removeStatusBubble(tick.target.id, StatusBubble.Happy);
@@ -40,17 +43,25 @@ behaviorTree.root = new Core.Priority({
 		}),
 		new Core.Sequence({
 			children: [
+				// Idle activities
 				new Core.Priority({
 					children: [
 						// new Action.HangOutIn(Building.Tavern),
 						new Action.WaitWander()
 				]}),
+				// Leave town after 24 hours
 				new Core.Timer({
 					child: new Core.Sequence({
 						children: [
-							new Action.ShowBubble(StatusBubble.Sad),
 							new Action.Simple(tick => {
 								tick.target.visitor!.leaveTown = true;
+							}),
+							// Leave town sad if they didn't buy an item
+							new Core.Sequence({
+								children: [
+									new Action.IsTrue(tick => !tick.target.visitor.boughtItem),
+									new Action.ShowBubble(StatusBubble.Sad),
+								]
 							})
 						]
 					}),
