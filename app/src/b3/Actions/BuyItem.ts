@@ -18,5 +18,5 @@ export class BuyItem extends Core.BaseNode {
 		agentUtil.buyItem(tick.target.id, item);
 
 		return b3.SUCCESS;
-	};
+	}
 };

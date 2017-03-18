@@ -8,6 +8,7 @@ import {constants} from '../../data/constants';
 import {Profession} from '../../data/Profession';
 import {Building} from '../../data/Building';
 import {MapUtil} from '../../map/map-util';
+import {spriteUtil} from '../../util/sprite';
 
 type BuildingMapResult = {
 	id: number;
@@ -142,6 +143,12 @@ export class BuildingUtil extends BaseUtil {
 			console.error('Removing an occupant that isnt in the building');
 		}
 		buildingState.occupants.splice(index, 1);
+	}
+
+	showGoldEarned(value: number, building: number) {
+		const renderableState = this._getRenderableState(building);
+		const tile = positionUtil.getTileFromEntityId(building);
+		spriteUtil.showGoldEarned(value, renderableState.spriteGroup, tile);
 	}
 }
 

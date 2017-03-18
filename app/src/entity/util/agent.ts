@@ -234,6 +234,9 @@ export class AgentUtil extends BaseUtil {
 		// Remove gold from agent
 		inventoryUtil.removeGold(agent, value);
 
+		// Show the gold earned by the shop
+		buildingUtil.showGoldEarned(value, itemState.stored);
+
 		// Update the town
 		townUtil.addGold(value);
 

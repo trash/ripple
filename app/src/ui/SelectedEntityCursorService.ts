@@ -15,7 +15,7 @@ const spritePosition = {
     offsetY: 5,
     baseY: 0,
     maxOffsetY: -10
-}
+};
 
 export class SelectedEntityCursorService {
     hoverSprite: PIXI.Sprite;

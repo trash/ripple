@@ -13,6 +13,7 @@ export interface IItemState {
     claimed?: boolean;
     properties?: ItemProperty[]
     toBeStored?: boolean;
+    // the entity id its stored in
     stored?: number;
     value?: number;
     haulerTask?: number;

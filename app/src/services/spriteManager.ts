@@ -9,6 +9,8 @@ interface ITextOptions {
 	fontSize?: number;
 	stroke: string;
 	strokeThickness: number;
+	fontFamily?: string;
+	fontWeight?: string;
 }
 
 export interface ISpriteText extends PIXI.Sprite {
@@ -55,16 +57,19 @@ export class SpriteManager {
 		const fill = options.fill || 0xff1010;
 		const align = options.align || 'center';
 		const fontSize = options.fontSize || 16;
+		const fontFamily = options.fontFamily || 'Arial';
+		const fontWeight = options.fontWeight || 'initial';
 
-		const font = `${fontSize}px Arial`,
-			textSprite: ISpriteText = new PIXI.Text(text, {
-				fontSize: `${fontSize}px`,
-				fontFamily: 'Arial',
-				fill: fill,
-				align: align,
-				stroke: options.stroke,
-				strokeThickness: options.strokeThickness
-			});
+		const font = `${fontSize}px Arial`;
+		const textSprite: ISpriteText = new PIXI.Text(text, {
+			fontSize: `${fontSize}px`,
+			fontFamily: fontFamily,
+			fontWeight: fontWeight,
+			fill: fill,
+			align: align,
+			stroke: options.stroke,
+			strokeThickness: options.strokeThickness
+		});
 		textSprite.actualWidth = util.getTextWidth(text, font);
 
 		return textSprite;

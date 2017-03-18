@@ -1,4 +1,6 @@
 import {constants} from '../data/constants';
+import {IRowColumnCoordinates} from '../interfaces';
+import {spriteManager} from '../services/spriteManager';
 
 const defaultFlashTime = 1000;
 
@@ -8,7 +10,7 @@ export class SpriteUtil {
 	 *
 	 * @param {Object} sprite
 	 */
-	flashSprite (sprite: any, options?: any) {
+	flashSprite (sprite: PIXI.Sprite, options?: any) {
 		options = options || {};
 		const time = options.time;
 		const color = options.color || constants.colors.DARK_RED;
@@ -34,6 +36,44 @@ export class SpriteUtil {
 			sprite.position.y -= 2;
 			sprite.count++;
 		}, 100);
+	}
+
+	showGoldEarned(
+		value: number,
+		spriteGroup: PIXI.Container,
+		tile: IRowColumnCoordinates
+	) {
+		const coords = {
+			x: spriteGroup.width / 2,
+			y: 4
+		};
+		const sprite = spriteManager.create(
+			'gold',
+			tile.column,
+			tile.row,
+			true
+		);
+		spriteGroup.addChild(sprite);
+
+		const textNode = spriteManager.createText(`+${value}`, {
+			fontWeight: 'bold',
+			fontSize: 16,
+			fontFamily: 'Lora',
+			fill: '#00B200',
+			stroke: '#000',
+			strokeThickness: 2,
+			align: 'center'
+		}, tile.column, tile.row);
+
+		spriteGroup.addChild(textNode);
+
+		[sprite, textNode].forEach((sprite, index) => {
+			sprite.position.x = coords.x;
+			sprite.position.y = coords.y;
+			sprite.anchor.x = index === 0 ? 0.6 : -0.25;
+			sprite.anchor.y = 0.5;
+			this.floatSprite(sprite);
+		});
 	}
 
 	showDamageNumber (spriteGroup: any, damage: string, x: number, y: number) {
@@ -69,7 +109,7 @@ export class SpriteUtil {
 				break;
 		}
 
-		spriteUtil.floatSprite(textNode);
+		this.floatSprite(textNode);
 	}
 }
 
