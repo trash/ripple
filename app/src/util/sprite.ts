@@ -57,12 +57,9 @@ export class SpriteUtil {
 
 		const textNode = spriteManager.createText(`+${value}`, {
 			fontWeight: 'bold',
-			fontSize: 16,
-			fontFamily: 'Lora',
 			fill: '#00B200',
 			stroke: '#000',
-			strokeThickness: 2,
-			align: 'center'
+			strokeThickness: 2
 		}, tile.column, tile.row);
 
 		spriteGroup.addChild(textNode);

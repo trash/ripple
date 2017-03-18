@@ -180,7 +180,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					enum: Agent.Adventurer
 				}],
 				buildings: [{
-					enum: Building.ItemShop,
+					enum: Building.BlacksmithShop,
 					storage: [{
 						enum: Item.SwordWood,
 						count: 4

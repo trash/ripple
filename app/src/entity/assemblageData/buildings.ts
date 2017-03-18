@@ -189,6 +189,14 @@ export const dataList: IEntityComponentData[] = [
             currentHealth: 0,
             maxHealth: 400
         },
+        storage: {
+            itemRestrictions: [
+                ItemProperty.Weapon,
+                ItemProperty.Armor
+            ],
+            total: 20,
+            available: 20
+        }
     },
     {
         building: {

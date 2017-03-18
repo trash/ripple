@@ -57,7 +57,7 @@ export class SpriteManager {
 		const fill = options.fill || 0xff1010;
 		const align = options.align || 'center';
 		const fontSize = options.fontSize || 16;
-		const fontFamily = options.fontFamily || 'Arial';
+		const fontFamily = options.fontFamily || 'Lora';
 		const fontWeight = options.fontWeight || 'initial';
 
 		const font = `${fontSize}px Arial`;
