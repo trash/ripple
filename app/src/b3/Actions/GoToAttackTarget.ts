@@ -1,9 +1,9 @@
-import {StatusBubble} from '../../data/StatusBubble';
 import * as Core from '../Core';
+import * as Actions from './index';
 import {util} from '../../util';
+import {StatusBubble} from '../../data/StatusBubble';
 import {statusBubbleUtil} from '../../entity/util';
 
-import * as Actions from './index';
 
 export class GoToAttackTarget extends Core.Sequence {
 	constructor (

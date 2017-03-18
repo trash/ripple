@@ -36,10 +36,6 @@ export class VillagerSystem extends EntitySystem {
             const villagerState = this.manager.getComponentDataForEntity(
 					Component.Villager, id) as IVillagerState;
 
-			if (behaviorTreeState.tree.name !== 'villager') {
-				behaviorTreeState.tree = villagerTree;
-			}
-
 			const newTask = this.getTaskForVillager(id, villagerState);
 			const newTaskId = newTask ? newTask.id : null;
 			const currentTaskId = villagerState.currentTask

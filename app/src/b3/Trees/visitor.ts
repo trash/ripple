@@ -19,7 +19,7 @@ behaviorTree.root = new Core.Priority({
 		// Make them flee and leave town if they've been attacked recently
 		new Core.Sequence({
 			children: [
-				new Action.WasRecentlyAttacked(null, 10),
+				new Action.WasRecentlyAttacked(null, null, 10),
 				new Action.Simple(tick => {
 					tick.target.visitor!.leaveTown = true;
 				})

@@ -192,6 +192,17 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}]
 			},
 			{
+				name: 'Adventurer hunts monsters',
+				agents: [{
+					enum: Agent.Adventurer,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}, {
+					enum: Agent.Zombie
+				}],
+			},
+			{
 				name: 'Visitor buys items for sale',
 				agents: [{
 					enum: Agent.Visitor

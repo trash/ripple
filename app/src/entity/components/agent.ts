@@ -1,7 +1,8 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {AgentTraits, Gender} from '../../interfaces';
+import {Gender} from '../../interfaces';
 import {Agent as AgentEnum} from '../../data/Agent';
+import {AgentTrait} from '../../data/AgentTrait';
 
 export interface IAgentState {
     enum: AgentEnum;
@@ -18,7 +19,7 @@ export interface IAgentState {
     spriteIndex?: number;
     inventory?: number[];
     dead?: boolean;
-    traits?: AgentTraits[];
+    traits?: AgentTrait[];
     corpseSprite?: PIXI.Sprite;
 
     // Info about agent that last attacked this agent

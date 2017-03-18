@@ -4,15 +4,16 @@ import {
     zombie as zombieTree,
     deer as deerTree,
     visitor as visitorTree,
-    villager as villagerTree
+    villager as villagerTree,
+    adventurer as adventurerTree
 } from '../../b3/Trees';
 import {behaviorTree as pathInCircle} from '../../b3/Trees/pathInCircle';
 import {
     IEntityComponentData,
-    IAssemblageDataMap,
-    AgentTraits
+    IAssemblageDataMap
 } from '../../interfaces';
 import {ItemProperty} from '../../data/ItemProperty';
+import {AgentTrait} from '../../data/AgentTrait';
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
 import {constants} from '../../data/constants';
@@ -30,7 +31,7 @@ const dataList: IEntityComponentData[] = [
             genderEnabled: false,
             speed: constants.BASE_SPEED * 2,
             traits: [
-                AgentTraits.Monster
+                AgentTrait.Monster
             ],
             strength: 10
         },
@@ -45,7 +46,7 @@ const dataList: IEntityComponentData[] = [
             genderEnabled: false,
             speed: constants.BASE_SPEED * 0.8,
             traits: [
-                AgentTraits.Predator
+                AgentTrait.Predator
             ],
             strength: 5
         },
@@ -63,7 +64,7 @@ const dataList: IEntityComponentData[] = [
             speed: constants.BASE_SPEED,
             strength: 3,
             traits: [
-                AgentTraits.Human
+                AgentTrait.Human
             ]
         },
         behaviorTree: {
@@ -78,7 +79,7 @@ const dataList: IEntityComponentData[] = [
             speed: constants.BASE_SPEED,
             strength: 3,
             traits: [
-                AgentTraits.Human
+                AgentTrait.Human
             ],
             gender: 'male',
             nameType: 'human'
@@ -95,7 +96,7 @@ const dataList: IEntityComponentData[] = [
             ]
         },
         behaviorTree: {
-            tree: visitorTree,
+            tree: adventurerTree,
         },
         health: defaultHealthState
     },
@@ -106,7 +107,7 @@ const dataList: IEntityComponentData[] = [
             gender: 'male',
             nameType: 'human',
             traits: [
-                AgentTraits.Human
+                AgentTrait.Human
             ],
             strength: 1,
             speed: constants.BASE_SPEED
@@ -130,7 +131,7 @@ const dataList: IEntityComponentData[] = [
             spriteCount: 4,
             nameType: 'human',
             traits: [
-                AgentTraits.Human
+                AgentTrait.Human
             ],
             strength: 3,
             speed: constants.BASE_SPEED

@@ -2,6 +2,7 @@ import {MapTile} from './map/tile';
 import {Profession} from './data/Profession';
 import {Item} from './data/Item';
 import {ItemProperty} from './data/ItemProperty';
+import {AgentTrait} from './data/AgentTrait';
 import {Tick} from './b3/Core';
 import {EntitySpawner} from './entity/entitySpawner';
 
@@ -83,14 +84,6 @@ export interface IResourceRequirementsMapEntry {
 	gathered: number;
 	required: number;
 }
-
-export enum AgentTraits {
-	Monster,
-	Prey,
-	Predator,
-	Thief,
-	Human
-};
 
 export interface ISoundDataEntry {
 	list: string[];
@@ -246,7 +239,7 @@ export interface IBehaviorTreeTickTarget {
 
 export interface IAgentSearchOptions {
 	cannotHaveId?: number;
-	traits?: AgentTraits[];
+	traits?: AgentTrait[];
 }
 
 export interface BuildingInfo {

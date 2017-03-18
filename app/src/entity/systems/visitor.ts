@@ -14,10 +14,6 @@ export class VisitorSystem extends EntitySystem {
                 Component.Visitor, id) as IVisitorState;
             const behaviorTreeState = this.manager.getComponentDataForEntity(
                 Component.BehaviorTree, id) as IBehaviorTreeState;
-
-            if (behaviorTreeState.tree.name !== 'visitor') {
-				behaviorTreeState.tree = visitorTree;
-			}
         });
     }
 }

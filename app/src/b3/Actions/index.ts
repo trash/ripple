@@ -49,3 +49,4 @@ export {GoToExitMap} from './GoToExitMap';
 export {ExitMap} from './ExitMap';
 export {Log} from './Log';
 export {SimpleTimer} from './SimpleTimer';
+export {DefendSelf} from './DefendSelf';

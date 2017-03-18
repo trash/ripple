@@ -1,6 +1,6 @@
 import * as Core from '../Core';
 import * as Actions from '../Actions';
-import {AgentTraits} from '../../interfaces';
+import {AgentTrait} from '../../data/AgentTrait';
 
 export const behaviorTree = new Core.BehaviorTree();
 
@@ -22,7 +22,7 @@ behaviorTree.root = new Core.Priority({
 				new Core.Priority({
 					children: [
 						new Actions.CheckForNearbyAgent({
-							traits: [AgentTraits.Human]
+							traits: [AgentTrait.Human]
 						}, targetKey, targetTileKey, 20),
 						// new Actions.CheckForNearbyFriendlyBuilding(buildingKey)
 					]

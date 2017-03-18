@@ -12,6 +12,7 @@ import * as Actions from '../Actions';
 export const behaviorTree = new Core.BehaviorTree();
 
 const wasRecentlyAttackedKey = 'was-recently-attacked';
+const wasRecentlyAttackedTileKey = 'was-recently-attacked-tile';
 const fleeBuildingKey = 'flee-building';
 const findHomeKey = 'find-home';
 
@@ -27,7 +28,11 @@ behaviorTree.root = new Core.Priority({
 				),
 				// This isn't very smart, they should probably check if the enemy
 				// is still around or in range
-				new Actions.WasRecentlyAttacked(wasRecentlyAttackedKey, 100),
+				new Actions.WasRecentlyAttacked(
+					wasRecentlyAttackedKey,
+					wasRecentlyAttackedTileKey,
+					100
+				),
 				new Core.Priority({
 					children: [
 						new Core.Sequence({

@@ -1,7 +1,7 @@
 import * as Core from '../../Core';
 import * as Actions from '../index';
 import {StatusBubble} from '../../../data/StatusBubble';
-import {AgentTraits} from '../../../interfaces';
+import {AgentTrait} from '../../../data/AgentTrait';
 import {statusBubbleUtil} from '../../../entity/util/statusBubble';
 import {positionUtil} from '../../../entity/util/position';
 
@@ -17,7 +17,7 @@ export class GuardTask extends Core.Sequence {
 					child: new Core.Sequence({
 						children: [
 							new Actions.CheckForNearbyAgent({
-								traits: [AgentTraits.Monster, AgentTraits.Thief]
+								traits: [AgentTrait.Monster, AgentTrait.Thief]
 							}, nearbyMonsterKey, nearbyMonsterTileKey, 10),
 							new Actions.HideBubble(StatusBubble.Guard),
 							new Actions.GoToAttackTarget(nearbyMonsterKey,
