@@ -14,7 +14,7 @@ import {State} from '../state/StateEnum';
 import {ITestLevel, ITestGameMapOptions} from '../data/testLevel';
 import {EntityManager} from '../entity/entityManager';
 import {GameMap, IMapOptions} from '../map';
-import {canvasService} from '../ui/canvas-service';
+import {canvasService} from '../ui/canvasService';
 import {placeBuildingService} from '../ui/placeBuildingService';
 import {util} from '../util';
 import {GameLoop} from './game-loop';
@@ -251,5 +251,5 @@ export class GameManager {
 		this.state.add(State.MainMenu, MainMenuState);
 		this.state.add(State.Game, GameState);
 		this.state.add(State.TestSelect, TestSelectState);
-	};
+	}
 }

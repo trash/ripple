@@ -8,7 +8,7 @@ import {HarvestType} from '../../data/harvestType';
 import {util} from '../../util';
 import {events} from '../../events';
 import {keybindings} from '../../services/keybindings';
-import {HoverElement} from '../../ui/hover-element';
+import {HoverElement} from '../../ui/HoverElement';
 import {dragSelect} from '../../ui/dragSelect';
 import {cursorManager} from '../../ui/cursorManager';
 import {Cursor} from '../../ui/Cursor';

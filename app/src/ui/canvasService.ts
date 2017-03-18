@@ -22,7 +22,7 @@ export class CanvasService extends EventEmitter2 {
 			x: this.canvas.offsetLeft,
 			y: this.canvas.offsetTop
 		};
-	};
+	}
 }
 
 export const canvasService = new CanvasService();

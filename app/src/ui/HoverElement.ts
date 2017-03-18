@@ -35,17 +35,17 @@ export class HoverElement {
 		// Check for scaling
 		if (constants.SCALE_UP) {
 			// Scale up default css styling by the scaling factor
-			let styling = window.getComputedStyle(this.element),
-				height = parseInt(styling.height.split('px')[0]);
+			const styling = window.getComputedStyle(this.element);
+			const height = parseInt(styling.height.split('px')[0]);
 			this.element.style.height = height * constants.SCALE_FACTOR + 'px';
 			this.element.style.width = height * constants.SCALE_FACTOR + 'px';
 		}
 	}
 	show () {
 		this.element.style.display = 'block';
-	};
+	}
 
 	hide () {
 		this.element.style.display = 'none';
-	};
+	}
 }

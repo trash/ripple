@@ -1,9 +1,9 @@
 import * as _ from 'lodash';;
 import {globalRefs} from '../globalRefs';
-import {HoverDimensionsElement} from './hover-dimensions-element';
-import {HoverElement} from './hover-element';
+import {HoverDimensionsElement} from './HoverDimensionsElement';
+import {HoverElement} from './HoverElement';
 import {IDimensions, IRowColumnCoordinates, XYCoordinates} from '../interfaces';
-import {canvasService} from './canvas-service';
+import {canvasService} from './canvasService';
 
 let canvas;
 let canvasOffset;
