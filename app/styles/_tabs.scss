@@ -1,0 +1,40 @@
+.nav-tabs {
+	padding: inherit;
+	background: inherit;
+	border: 0;
+    list-style: none;
+    margin: 0;
+
+    & > li {
+        float: left;
+        margin: 0;
+        @extend .capitalize;
+    }
+
+	.active a, .active a:hover {
+		background: #ccc;
+		border-color: transparent;
+		color: #333;
+	}
+
+	a {
+        float: left;
+        padding: 10px 15px;
+		background: #666;
+		border-radius: 0;
+		color: #fff;
+		font-size: 1.15em;
+        text-decoration: none;
+        &:hover {
+            border-color: transparent;
+        }
+	}
+}
+
+.tab-pane {
+    display: none;
+    padding: 16px;
+    &.active {
+        display: block;
+    }
+}

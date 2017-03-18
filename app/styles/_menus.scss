@@ -135,32 +135,6 @@ h3 {
 	background: #444;
 }
 
-.nav.nav-tabs {
-	padding: inherit;
-	background: inherit;
-	border: 0;
-
-	.active a, .active a:hover {
-		background: #ccc;
-		border-color: transparent;
-		color: #333;
-	}
-
-	a {
-		background: #666;
-		border-radius: 0;
-		color: #fff;
-		font-size: 1.15em;
-	}
-	a:hover {
-		border-color: transparent;
-	}
-
-	li {
-		@extend .capitalize;
-	}
-}
-
 .menu-block {
 	.menu-block-inner {
 		display: none;

@@ -72,11 +72,34 @@ button {
 
 .middle-section {
 	flex: calc(100% - #{$actionBarHeight + $topSectionHeight});
-	overflow: scroll;
+	overflow: hidden;
+	display: flex;
+	flex-flow: column;
 }
 .action-bar {
 	align-self: flex-end;
 	width: 100%;
+}
+
+.left-menu {
+	width: 640px;
+	flex: 1 100%;
+	display: flex;
+
+	.left-menu-tabs {
+		display: flex;
+		flex-flow: column;
+		flex: 1 100%;
+	}
+
+	.nav-tabs {
+        border-bottom: 1px solid #ccc;
+    }
+    .tab-content {
+        background: #222;
+        height: 100%;
+        overflow: scroll;
+    }
 }
 
 @import 'debug-ui',
@@ -86,4 +109,5 @@ button {
 	'place-building-service',
 	'item-list',
 	'clock',
+	'tabs',
 	'hover-tile';
