@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
 import * as Immutable from 'immutable';
 import {createStore} from 'redux';
-import {actionTypes} from './actions/types';
+import * as actionTypes from './actions/types';
 import {Item} from '../data/Item';
+import {AgentListEntry} from '../interfaces';
 
 import {
     IAgentState,
@@ -42,8 +43,28 @@ import {
     UpdateHoveredStorage,
     UpdateTownGold,
     UpdateHoveredHealth,
-    UpdateHoveredHarvestable
+    UpdateHoveredHarvestable,
+    SpawnAgent
 } from './actions';
+
+type ReducerAction =
+    | UpdateClockTime
+    | UpdateHoveredAgent
+    | UpdateHoveredAgentLastExecutionChain
+    | UpdateHoveredItem
+    | UpdateHoveredBuilding
+    | UpdateHoveredResource
+    | UpdateHoverTile
+    | ShowBuildingsList
+    | AddToItemList
+    | RemoveFromItemList
+    | ShowDebugBar
+    | ShowCraftBar
+    | UpdateHoveredStorage
+    | UpdateTownGold
+    | UpdateHoveredHealth
+    | UpdateHoveredHarvestable
+    | SpawnAgent;
 
 export interface StoreState {
     items: Immutable.Map<Item, number>;
@@ -70,96 +91,102 @@ export interface StoreState {
     debugBarShown: boolean;
     craftBarShown: boolean;
     gold: number;
+    agentsList: Immutable.List<AgentListEntry>;
 }
 
 const initialState = {
     items: Immutable.Map<Item, number>(),
-    gold: 0
+    gold: 0,
+    agentsList: Immutable.List<AgentListEntry>()
 } as StoreState;
-const mainReducer = (previousState = initialState, action) => {
+function mainReducer(
+    previousState = initialState,
+    action: ReducerAction
+) {
     const newState = _.extend({}, previousState);
-    if (action.type === actionTypes.UPDATE_HOVER_TILE) {
-        newState.tile = (action as UpdateHoverTile).tile;
-    }
-    if (action.type === actionTypes.UPDATE_HOVERED_AGENT) {
-        const updateAction = action as UpdateHoveredAgent;
-        newState.hoveredAgent = updateAction.agent;
-        newState.hoveredAgentHunger = updateAction.hunger;
-        newState.hoveredAgentSleep = updateAction.sleep;
-        newState.hoveredAgentPosition = updateAction.position;
-        newState.hoveredAgentStatusBubble = updateAction.statusBubble;
-        newState.hoveredVillager = updateAction.villager;
-        newState.hoveredVisitor = updateAction.visitor;
-        newState.hoveredInventory = updateAction.inventory;
-    }
-    if (action.type === actionTypes.UPDATE_HOVERED_RESOURCE) {
-        newState.hoveredResource = (action as UpdateHoveredResource).resource;
-    }
-    if (action.type === actionTypes.UPDATE_HOVERED_ITEM) {
-        newState.hoveredItem = (action as UpdateHoveredItem).item;
-    }
-    if (action.type === actionTypes.UPDATE_HOVERED_AGENT_LAST_EXECUTION_CHAIN) {
-        newState.hoveredAgentLastExecutionChain = (action as UpdateHoveredAgentLastExecutionChain).executionChain;
-    }
-    if (action.type === actionTypes.UPDATE_HOVERED_BUILDING) {
-        let updateAction = action as UpdateHoveredBuilding;
-        newState.hoveredBuildingState = updateAction.building;
-        newState.hoveredBuildingConstructibleState = updateAction.constructible;
-    }
-    if (action.type === actionTypes.UPDATE_CLOCK_TIME) {
-        const updateAction = action as UpdateClockTime;
-        newState.hours = updateAction.hours;
-        newState.days = updateAction.days;
-    }
 
-    if (action.type === actionTypes.SHOW_BUILDINGS_LIST) {
-        const showAction = action as ShowBuildingsList;
-        newState.buildingsListShown = action.show;
-    }
+    switch (action.type) {
+        case actionTypes.UPDATE_HOVER_TILE:
+            newState.tile = action.tile;
+            break;
 
-    if (action.type === actionTypes.SHOW_DEBUG_BAR) {
-        const showAction = action as ShowDebugBar;
-        newState.debugBarShown = action.show;
-    }
+        case actionTypes.UPDATE_HOVERED_AGENT:
+            newState.hoveredAgent = action.agent;
+            newState.hoveredAgentHunger = action.hunger;
+            newState.hoveredAgentSleep = action.sleep;
+            newState.hoveredAgentPosition = action.position;
+            newState.hoveredAgentStatusBubble = action.statusBubble;
+            newState.hoveredVillager = action.villager;
+            newState.hoveredVisitor = action.visitor;
+            newState.hoveredInventory = action.inventory;
+            break;
 
-    if (action.type === actionTypes.SHOW_CRAFT_BAR) {
-        const showAction = action as ShowCraftBar;
-        newState.craftBarShown = action.show;
-    }
+        case actionTypes.UPDATE_HOVERED_RESOURCE:
+            newState.hoveredResource = (action as UpdateHoveredResource).resource;
+            break;
+        case actionTypes.UPDATE_HOVERED_ITEM:
+            newState.hoveredItem = (action as UpdateHoveredItem).item;
+            break;
+        case actionTypes.UPDATE_HOVERED_AGENT_LAST_EXECUTION_CHAIN:
+            newState.hoveredAgentLastExecutionChain = (action as UpdateHoveredAgentLastExecutionChain).executionChain;
+            break;
+        case actionTypes.UPDATE_HOVERED_BUILDING:
+            newState.hoveredBuildingState = action.building;
+            newState.hoveredBuildingConstructibleState = action.constructible;
+            break;
+        case actionTypes.UPDATE_CLOCK_TIME:
+            newState.hours = action.hours;
+            newState.days = action.days;
+            break;
 
-    if (action.type === actionTypes.ADD_TO_ITEM_LIST
-        || action.type === actionTypes.REMOVE_FROM_ITEM_LIST
-    ) {
-        const item = (action as AddToItemList).item;
-        const currentCount = newState.items.get(item) || 0;
-        if (action.type === actionTypes.ADD_TO_ITEM_LIST) {
-            newState.items = newState.items.set(item, currentCount + 1);
-        } else {
-            if (currentCount === 1) {
-                newState.items = newState.items.remove(item);
+        case actionTypes.SHOW_BUILDINGS_LIST:
+            newState.buildingsListShown = action.show;
+            break;
+
+        case actionTypes.SHOW_DEBUG_BAR:
+            newState.debugBarShown = action.show;
+            break;
+
+        case actionTypes.SHOW_CRAFT_BAR:
+            newState.craftBarShown = action.show;
+            break;
+
+        case actionTypes.ADD_TO_ITEM_LIST:
+        case actionTypes.REMOVE_FROM_ITEM_LIST:
+            const item = (action as AddToItemList).item;
+            const currentCount = newState.items.get(item) || 0;
+            if (action.type === actionTypes.ADD_TO_ITEM_LIST) {
+                newState.items = newState.items.set(item, currentCount + 1);
+            } else {
+                if (currentCount === 1) {
+                    newState.items = newState.items.remove(item);
+                }
+                newState.items = newState.items.set(item, currentCount - 1);
             }
-            newState.items = newState.items.set(item, currentCount - 1);
-        }
-    }
+            break;
 
-    if (action.type === actionTypes.UPDATE_HOVERED_STORAGE) {
-        const updateAction = action as UpdateHoveredStorage;
-        newState.hoveredStorage = updateAction.storage;
-    }
+        case actionTypes.UPDATE_HOVERED_STORAGE:
+            newState.hoveredStorage = action.storage;
+            break;
 
-    if (action.type === actionTypes.UPDATE_TOWN_GOLD) {
-        const updateAction = action as UpdateTownGold;
-        newState.gold = action.gold;
-    }
+        case actionTypes.UPDATE_TOWN_GOLD:
+            newState.gold = action.gold;
+            break;
 
-    if (action.type === actionTypes.UPDATE_HOVERED_HEALTH) {
-        const updateAction = action as UpdateHoveredHealth;
-        newState.hoveredHealth = action.health;
-    }
+        case actionTypes.UPDATE_HOVERED_HEALTH:
+            newState.hoveredHealth = action.health;
+            break;
 
-    if (action.type === actionTypes.UPDATE_HOVERED_HARVESTABLE) {
-        const updateAction = action as UpdateHoveredHarvestable;
-        newState.hoveredHarvestable = action.harvestable;
+        case actionTypes.UPDATE_HOVERED_HARVESTABLE:
+            newState.hoveredHarvestable = action.harvestable;
+            break;
+
+        case actionTypes.SPAWN_AGENT:
+            newState.agentsList = previousState.agentsList.push({
+                id: action.id,
+                agent: action.agent
+            });
+            break;
     }
 
     return newState;

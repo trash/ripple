@@ -1,26 +1,26 @@
 import {MapTile} from '../../map/tile';
-import {actionTypes} from './types';
+import {ADD_TO_ITEM_LIST, REMOVE_FROM_ITEM_LIST} from './types';
 import {Item} from '../../data/Item';
 
 export interface AddToItemList {
-    type: string;
+    type: ADD_TO_ITEM_LIST;
     item: Item;
 }
 export interface RemoveFromItemList {
-    type: string;
+    type: REMOVE_FROM_ITEM_LIST;
     item: Item;
 }
 
 export function addToItemList(item: Item): AddToItemList {
     return {
-        type: actionTypes.ADD_TO_ITEM_LIST,
+        type: ADD_TO_ITEM_LIST,
         item: item
     };
 }
 
 export function removeFromItemList(item: Item) {
     return {
-        type: actionTypes.REMOVE_FROM_ITEM_LIST,
+        type: REMOVE_FROM_ITEM_LIST,
         item: item
     };
 }

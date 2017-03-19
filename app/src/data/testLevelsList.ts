@@ -245,6 +245,12 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Agent Spawning Tests',
 		list: [
 			{
+				name: 'Bunch of humans test',
+				agents:	new Array(40).fill({
+					enum: Agent.Human
+				})
+			},
+			{
 				name: 'Agent paths around map',
 				agents: [{
 					enum: Agent.Human,

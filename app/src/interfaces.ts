@@ -253,3 +253,8 @@ export interface ItemSearchOptions {
 	claimed?: boolean;
 	sortBy?: string;
 }
+
+export type AgentListEntry = {
+    id: number;
+    agent: IAgentState;
+}

@@ -1,10 +1,10 @@
 import {MapTile} from '../../map/tile';
-import {actionTypes} from './types';
+import {UPDATE_HOVERED_RESOURCE} from './types';
 
 import {IResourceState} from '../../entity/components';
 
 export interface UpdateHoveredResource {
-    type: string;
+    type: UPDATE_HOVERED_RESOURCE;
     resource: IResourceState;
 }
 
@@ -12,7 +12,7 @@ export function updateHoveredResource (
     resource: IResourceState
 ): UpdateHoveredResource {
     return {
-        type: actionTypes.UPDATE_HOVERED_RESOURCE,
+        type: UPDATE_HOVERED_RESOURCE,
         resource: resource
     };
 }

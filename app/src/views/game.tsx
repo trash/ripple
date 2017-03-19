@@ -10,20 +10,6 @@ import {ConnectedActionBar} from './components/actionBar';
 import {ConnectedClock} from './components/Clock';
 import {ConnectedItemList} from './components/ItemList';
 
-class LeftMenu extends React.Component<void, void> {
-    render() {
-        return (
-        <div className="left-menu">
-            <Tabs className="left-menu-tabs"
-                id="left-menu-tabs"
-                defaultActiveKey={1}>
-                {this.props.children}
-            </Tabs>
-        </div>
-        );
-    }
-}
-
 export class InnerGameComponent extends React.Component<void, void> {
     render() {
         return (
@@ -33,14 +19,18 @@ export class InnerGameComponent extends React.Component<void, void> {
                 <ConnectedClock/>
             </div>
             <div className="middle-section">
-                <LeftMenu>
-                    <Tab eventKey={1} title="Debug Menu">
-                        <ConnectedDebugPanel/>
-                    </Tab>
-                    <Tab eventKey={2} title="Agent List">
-                        <ConnectedAgentList/>
-                    </Tab>
-                </LeftMenu>
+                <div className="left-menu">
+                    <Tabs className="left-menu-tabs"
+                        id="left-menu-tabs"
+                        defaultActiveKey={1}>
+                        <Tab eventKey={1} title="Debug Menu">
+                            <ConnectedDebugPanel/>
+                        </Tab>
+                        <Tab eventKey={2} title="Agent List">
+                            <ConnectedAgentList/>
+                        </Tab>
+                    </Tabs>
+                </div>
             </div>
             <ConnectedActionBar/>
         </div>

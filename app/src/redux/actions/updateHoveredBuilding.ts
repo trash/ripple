@@ -1,10 +1,10 @@
 import {MapTile} from '../../map/tile';
-import {actionTypes} from './types';
+import {UPDATE_HOVERED_BUILDING} from './types';
 import {BuildingInfo} from '../../interfaces';
 import {IBuildingState, IConstructibleState} from '../../entity/components';
 
 export interface UpdateHoveredBuilding {
-    type: string;
+    type: UPDATE_HOVERED_BUILDING;
     building: IBuildingState;
     constructible: IConstructibleState;
 }
@@ -14,7 +14,7 @@ export function updateHoveredBuilding (
     constructible: IConstructibleState
 ): UpdateHoveredBuilding {
     return {
-        type: actionTypes.UPDATE_HOVERED_BUILDING,
+        type: UPDATE_HOVERED_BUILDING,
         building: building,
         constructible: constructible
     };

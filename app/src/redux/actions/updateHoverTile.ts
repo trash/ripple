@@ -1,14 +1,14 @@
 import {IRowColumnCoordinates} from '../../interfaces';
-import {actionTypes} from './types';
+import {UPDATE_HOVER_TILE} from './types';
 
 export interface UpdateHoverTile {
-    type: string;
+    type: UPDATE_HOVER_TILE;
     tile: IRowColumnCoordinates;
 }
 
 export function updateHoverTile (tile: IRowColumnCoordinates): UpdateHoverTile {
     return {
-        type: actionTypes.UPDATE_HOVER_TILE,
+        type: UPDATE_HOVER_TILE,
         tile: tile
     };
 }

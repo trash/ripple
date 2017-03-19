@@ -95,10 +95,10 @@ button {
 	.nav-tabs {
         border-bottom: 1px solid #ccc;
     }
-    .tab-content {
-        background: #222;
-        height: 100%;
-        overflow: scroll;
+	.tab-content {
+		background: #222;
+		color: #fff;
+		overflow: scroll;
     }
 }
 
@@ -110,4 +110,5 @@ button {
 	'item-list',
 	'clock',
 	'tabs',
+	'agent-list',
 	'hover-tile';

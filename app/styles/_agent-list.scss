@@ -1,0 +1,20 @@
+.agent-list-container {
+    display: flex;
+    flex: 1 100%;
+    flex-direction: column;
+
+    .agent-list, .agent-list-bottom {
+        flex: 1 50%;
+        border: 1px solid #666;
+    }
+
+    .agent-list {
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+
+        .agent-list-entry {
+            flex: 1 100%;
+        }
+    }
+}

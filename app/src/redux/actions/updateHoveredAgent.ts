@@ -1,5 +1,5 @@
 import {MapTile} from '../../map/tile';
-import {actionTypes} from './types';
+import {UPDATE_HOVERED_AGENT} from './types';
 import {
     IAgentState,
     IHungerState,
@@ -12,7 +12,7 @@ import {
 } from '../../entity/components';
 
 export interface UpdateHoveredAgent {
-    type: string;
+    type: UPDATE_HOVERED_AGENT;
     agent: IAgentState;
     hunger: IHungerState;
     sleep: ISleepState;
@@ -34,7 +34,7 @@ export function updateHoveredAgent (
     inventory: IInventoryState
 ): UpdateHoveredAgent {
     return {
-        type: actionTypes.UPDATE_HOVERED_AGENT,
+        type: UPDATE_HOVERED_AGENT,
         agent: agent,
         hunger: hunger,
         sleep: sleep,

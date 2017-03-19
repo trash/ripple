@@ -7,7 +7,7 @@ import {
 import {constants} from '../data/constants';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
-import {addToItemList} from '../redux/actions';
+import {addToItemList, spawnAgent} from '../redux/actions';
 
 import {
 	agents as agentsAssemblageData,
@@ -140,6 +140,9 @@ export class EntitySpawner {
 		positionState.hasDirection = true;
 		// Set tile to 0,0
 		positionState.tile = positionState.tile || globalRefs.map.getTile(0, 0);
+
+		// Notify redux of new agent
+		store.dispatch(spawnAgent(entityId, agentState));
 
 		return entityId;
 	}

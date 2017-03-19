@@ -1,9 +1,12 @@
+$tabsHeight: 48px;
+
 .nav-tabs {
 	padding: inherit;
 	background: inherit;
 	border: 0;
     list-style: none;
     margin: 0;
+    flex: 1 $tabsHeight;
 
     & > li {
         float: left;
@@ -31,10 +34,15 @@
 	}
 }
 
+.tab-content {
+    display: flex;
+    flex: 1 calc(100% - #{$tabsHeight});
+}
+
 .tab-pane {
     display: none;
     padding: 16px;
     &.active {
-        display: block;
+        display: flex;
     }
 }
