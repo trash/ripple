@@ -24,6 +24,32 @@ button {
     padding: 0.5em 0.75em;
 }
 
+* {
+	box-sizing: border-box;
+	cursor: url('/sprites/ui/cursors/standard.png'), move;
+}
+
+.hand-cursor * {
+	cursor: url('/sprites/ui/cursors/select.png'), move;
+}
+.attack-cursor * {
+	cursor: url('/sprites/ui/cursors/attack.png'), move;
+}
+.harvest-cursor * {
+	cursor: url('/sprites/ui/cursors/harvest.png'), move;
+}
+.cancel-harvest-cursor * {
+	cursor: url('/sprites/ui/cursors/cancel-harvest.png'), move;
+}
+
+a, button {
+	cursor: pointer;
+}
+
+input {
+	cursor: auto;
+}
+
 .ripple {
     background: #ccc;
 }
@@ -37,24 +63,6 @@ button {
 	height: 100%;
 	width: 100%;
 	position: absolute;
-}
-
-* {
-	box-sizing: border-box;
-	cursor: url('/sprites/ui/cursors/standard.png'), move !important;
-}
-
-.hand-cursor * {
-	cursor: url('/sprites/ui/cursors/select.png'), move !important;
-}
-.attack-cursor * {
-	cursor: url('/sprites/ui/cursors/attack.png'), move !important;
-}
-.harvest-cursor * {
-	cursor: url('/sprites/ui/cursors/harvest.png'), move !important;
-}
-.cancel-harvest-cursor * {
-	cursor: url('/sprites/ui/cursors/cancel-harvest.png'), move !important;
 }
 
 .game-header {
