@@ -44,7 +44,8 @@ import {
     UpdateTownGold,
     UpdateHoveredHealth,
     UpdateHoveredHarvestable,
-    SpawnAgent
+    SpawnAgent,
+    AgentListSelect
 } from './actions';
 
 type ReducerAction =
@@ -64,7 +65,8 @@ type ReducerAction =
     | UpdateTownGold
     | UpdateHoveredHealth
     | UpdateHoveredHarvestable
-    | SpawnAgent;
+    | SpawnAgent
+    | AgentListSelect;
 
 export interface StoreState {
     items: Immutable.Map<Item, number>;
@@ -92,6 +94,7 @@ export interface StoreState {
     craftBarShown: boolean;
     gold: number;
     agentsList: Immutable.List<AgentListEntry>;
+    agentListSelected: number;
 }
 
 const initialState = {
@@ -186,6 +189,10 @@ function mainReducer(
                 id: action.id,
                 agent: action.agent
             });
+            break;
+
+        case actionTypes.AGENT_LIST_SELECT:
+            newState.agentListSelected = action.selected;
             break;
     }
 

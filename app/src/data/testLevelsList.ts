@@ -246,7 +246,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 		list: [
 			{
 				name: 'Bunch of zombies test',
-				agents:	new Array(40).fill({
+				agents:	new Array(100).fill({
 					enum: Agent.Zombie
 				})
 			},
