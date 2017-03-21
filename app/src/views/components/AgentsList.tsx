@@ -6,6 +6,7 @@ import {agentListSelect} from '../../redux/actions';
 import {IAgentState} from '../../entity/components';
 import {AgentListEntry} from '../../interfaces';
 import {Agent} from '../../data/Agent';
+import {agentUtil} from '../../entity/util';
 
 interface AgentListProps {
     agents: Immutable.List<AgentListEntry>;
@@ -19,15 +20,18 @@ export class AgentList extends React.Component<AgentListProps, void> {
             <div className="agent-list">
                 {this.props.agents.map(agentEntry => {
                     return (
-                        <a className="agent-list-entry"
+                        <div className="agent-list-entry"
                             onClick={() => store.dispatch(agentListSelect(agentEntry.id))}
                             key={agentEntry.id}>
                             <div>{agentEntry.id}</div>
+                            <div>
+                                <img src={agentUtil.getImagePath(agentEntry.agent.enum)}/>
+                            </div>
                             <div>{Agent[agentEntry.agent.enum]}</div>
                             <div>{agentEntry.agent.gender}</div>
                             <div>{agentEntry.agent.speed}</div>
                             <div>{agentEntry.agent.strength}</div>
-                        </a>
+                        </div>
                     );
                 })}
             </div>

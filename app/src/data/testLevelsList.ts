@@ -245,10 +245,14 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Agent Spawning Tests',
 		list: [
 			{
-				name: 'Bunch of zombies test',
-				agents:	new Array(100).fill({
+				name: 'Bunch of different agents test',
+				agents:	new Array(10).fill({
 					enum: Agent.Zombie
-				})
+				}).concat(new Array(10).fill({
+					enum: Agent.Adventurer
+				})).concat(new Array(10).fill({
+					enum: Agent.Villager
+				}))
 			},
 			{
 				name: 'Agent paths around map',

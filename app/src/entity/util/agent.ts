@@ -2,15 +2,23 @@ import * as _ from 'lodash';
 import {Component} from '../ComponentEnum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
+import {IAgentState} from '../../entity/components';
 import {buildingUtil, positionUtil, itemUtil, inventoryUtil, townUtil} from './index';
 import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
+import {Agent} from '../../data/Agent';
 import {StatusBubble} from '../../data/StatusBubble';
-import {IAgentSearchOptions, IRowColumnCoordinates, AgentSearchResult} from '../../interfaces';
+import {
+	IAgentSearchOptions,
+	IRowColumnCoordinates,
+	AgentSearchResult,
+	Gender
+} from '../../interfaces';
 import {cacheService} from '../../services/cache';
 import {statusBubbleUtil} from './statusBubble';
+import {assemblageData} from '../../entity/assemblageData/agents';
 
 export class AgentUtil extends BaseUtil {
     /**
@@ -42,6 +50,55 @@ export class AgentUtil extends BaseUtil {
 			agent: this._getAgentState(id),
 			position: this._getPositionState(id)
 		};
+	}
+
+	private getBaseSpriteName(
+		spriteType: string,
+		gender?: Gender,
+		spriteIndex?: number
+	): string {
+		let agentString = spriteType;
+        if (gender) {
+            agentString += `-${gender}`;
+        }
+        if (util.isNumberLike(spriteIndex)) {
+            agentString += `-${spriteIndex}`;
+        }
+        return agentString;
+	}
+
+	private getSpriteNameWithDirection(
+		baseSpriteName: string,
+		direction: string
+	): string {
+        return `${baseSpriteName}-${direction}`;
+	}
+
+	getBaseSpriteNameFromState (agentState: IAgentState): string {
+        return this.getBaseSpriteName(
+			agentState.spriteType,
+			agentState.gender,
+			agentState.spriteIndex
+		);
+    }
+
+    getSpriteName (agentState: IAgentState, direction: string) {
+        const agentString = this.getBaseSpriteNameFromState(agentState);
+		return this.getSpriteNameWithDirection(agentString, direction);
+    }
+
+	getImagePath(
+		agent: Agent
+	): string {
+		const assemblageEntry = assemblageData[agent].agent;
+		const agentName = assemblageEntry.spriteType || Agent[agent].toLowerCase();
+		const baseSpriteName = this.getBaseSpriteName(
+			agentName,
+			assemblageEntry.genderEnabled ? 'male' : null,
+			assemblageEntry.spriteCount ? 1 : null
+		);
+		const spriteName = this.getSpriteNameWithDirection(baseSpriteName, 'down');
+		return `${constants.SPRITE_PATH}monsters/${agentName}/${spriteName}.png`;
 	}
 
 	agentIsDead (id: number): boolean {

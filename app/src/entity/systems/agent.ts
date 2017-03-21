@@ -16,7 +16,7 @@ import {events} from '../../events';
 import {names} from '../../names';
 import {SpriteManager} from '../../services/spriteManager';
 import {Agent} from '../../data/Agent';
-import {buildingUtil, positionUtil} from '../util';
+import {buildingUtil, positionUtil, agentUtil} from '../util';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -39,7 +39,8 @@ export class AgentSystem extends EntitySystem {
             // Update the sprite texture every turn
             if (renderableState.sprite) {
                 renderableState.sprite.texture = PIXI.Texture.fromFrame(
-                    this.getSpriteName(agentState, positionState.direction));
+                    agentUtil.getSpriteName(agentState, positionState.direction)
+                );
             }
             if (!agentState.inventory) {
                 agentState.inventory = [];
@@ -101,7 +102,7 @@ export class AgentSystem extends EntitySystem {
         positionState: IPositionState
     ) {
         const tile = positionState.tile;
-        const baseSpriteName = this.getBaseSpriteName(agentState);
+        const baseSpriteName = agentUtil.getBaseSpriteNameFromState(agentState);
         console.info('should be spawning a corpse', baseSpriteName);
         this.manager.spawner.spawnCorpse({
             position: positionState,
@@ -141,22 +142,6 @@ export class AgentSystem extends EntitySystem {
         }
     }
 
-    getBaseSpriteName (agentState: IAgentState): string {
-        let agentString = agentState.spriteType;
-        if (agentState.gender) {
-            agentString += `-${agentState.gender}`;
-        }
-        if (util.isNumberLike(agentState.spriteIndex)) {
-            agentString += `-${agentState.spriteIndex}`;
-        }
-        return agentString;
-    }
-
-    getSpriteName (agentState: IAgentState, direction: string) {
-        const agentString = this.getBaseSpriteName(agentState);
-        return `${agentString}-${direction}`;
-    }
-
     initAgentSprite (
         renderableState: IRenderableState,
         agentState: IAgentState,
@@ -167,7 +152,7 @@ export class AgentSystem extends EntitySystem {
         // The sprite group for the agent
         const spriteGroup = renderableState.spriteGroup;
 
-        const spriteName = this.getSpriteName(agentState, positionState.direction);
+        const spriteName = agentUtil.getSpriteName(agentState, positionState.direction);
 
         // The actual sprite
         const sprite: IAgentSprite = SpriteManager.Sprite.fromFrame(spriteName);
