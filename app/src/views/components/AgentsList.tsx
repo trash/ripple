@@ -18,6 +18,14 @@ export class AgentList extends React.Component<AgentListProps, void> {
         return (
         <div className="agent-list-container">
             <div className="agent-list">
+                <div className="agent-list-row agent-list-header">
+                    <div>Id</div>
+                    <div>Image</div>
+                    <div>Agent Type</div>
+                    <div>Gender</div>
+                    <div>Speed</div>
+                    <div>Strength</div>
+                </div>
                 {this.props.agents.map(agentEntry => {
                     return (
                         <div className="agent-list-entry"

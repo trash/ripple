@@ -16,7 +16,7 @@ $agentListPadding: 16px;
         overflow: scroll;
         padding: $agentListPadding;
 
-        .agent-list-entry {
+        .agent-list-row {
             display: flex;
             flex-direction: row;
             flex-grow: 1;
@@ -24,13 +24,26 @@ $agentListPadding: 16px;
             padding: 8px;
             cursor: pointer;
 
+            & > * {
+                flex: 1 100%;
+            }
+        }
+
+        .agent-list-header {
+            @extend .agent-list-row;
+
+            background: #333;
+        }
+
+        .agent-list-entry {
+            @extend .agent-list-row;
+
             &:hover {
                 background: #444;
             }
 
             & > * {
                 cursor: pointer;
-                flex: 1 100%;
             }
         }
     }
