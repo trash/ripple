@@ -1,14 +1,18 @@
 import * as React from 'react';
 import {AgentListEntry} from '../../interfaces';
-import {agentUtil} from '../../entity/util';
+import {agentUtil, healthUtil} from '../../entity/util';
+import {MapUtil} from '../../map/map-util';
 
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
+import {AgentTrait} from '../../data/AgentTrait';
 
 import {
     IVillagerState,
     IAgentState,
-    IVisitorState
+    IVisitorState,
+    IPositionState,
+    IHealthState
 } from '../../entity/components';
 
 type DisplayProperty = {
@@ -17,10 +21,23 @@ type DisplayProperty = {
     detailedOnly: boolean;
 }
 
+const renderHealthProperties = (healthState: IHealthState): DisplayProperty[] => [
+    {
+        name: 'Health',
+        value: healthUtil.toString(healthState),
+        detailedOnly: false
+    }
+];
+
 const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
     {
         name: 'Agent Type',
         value: Agent[agentState.enum],
+        detailedOnly: false
+    },
+    {
+        name: 'Alive',
+        value: !agentState.dead + '',
         detailedOnly: false
     },
     {
@@ -37,6 +54,19 @@ const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
         name: 'Strength',
         value: agentState.strength,
         detailedOnly: true
+    },
+    {
+        name: 'Traits',
+        value: agentState.traits.map(trait => AgentTrait[trait]).toString(),
+        detailedOnly: true
+    },
+];
+
+const renderPositionProperties = (positionState: IPositionState): DisplayProperty[] => [
+    {
+        name: 'Tile',
+        value: MapUtil.tileToString(positionState.tile),
+        detailedOnly: false
     },
 ];
 
@@ -89,7 +119,15 @@ export const AgentInfoCard = (
             </div>
             { filterAndRenderProperties(
                 detailed,
+                renderHealthProperties(selectedAgent.health)
+            ) }
+            { filterAndRenderProperties(
+                detailed,
                 renderAgentProperties(selectedAgent.agent)
+            ) }
+            { filterAndRenderProperties(
+                detailed,
+                renderPositionProperties(selectedAgent.position)
             ) }
             { selectedAgent.villager && filterAndRenderProperties(
                 detailed,

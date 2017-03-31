@@ -42,9 +42,6 @@ export class AgentSystem extends EntitySystem {
                     agentUtil.getSpriteName(agentState, positionState.direction)
                 );
             }
-            if (!agentState.inventory) {
-                agentState.inventory = [];
-            }
 
             // Check to see if the agent left the building they were in
             if (agentState.buildingInsideOf) {

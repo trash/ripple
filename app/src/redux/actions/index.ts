@@ -20,7 +20,8 @@ import {
     IHarvestableState,
     IVisitorState,
     IAgentState,
-    IVillagerState
+    IVillagerState,
+    IPositionState
 } from '../../entity/components';
 
 import * as actionTypes from './types';
@@ -129,20 +130,26 @@ export interface SpawnAgent {
     agent: IAgentState;
     villager: IVillagerState;
     visitor: IVisitorState;
+    position: IPositionState;
+    health: IHealthState;
 }
 
 export function spawnAgent(
     id: number,
     agent: IAgentState,
     villager: IVillagerState,
-    visitor: IVisitorState
+    visitor: IVisitorState,
+    position: IPositionState,
+    health: IHealthState
 ) {
     return {
         type: actionTypes.SPAWN_AGENT,
         id: id,
         agent: agent,
         villager: villager,
-        visitor: visitor
+        visitor: visitor,
+        position: position,
+        health: health
     };
 }
 

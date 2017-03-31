@@ -17,7 +17,6 @@ export interface IAgentState {
     spriteCount?: number;
     defaultSpriteFrame?: number;
     spriteIndex?: number;
-    inventory?: number[];
     dead?: boolean;
     traits?: AgentTrait[];
     corpseSprite?: PIXI.Sprite;
@@ -44,7 +43,6 @@ export const Agent: IComponent<IAgentState> = {
             spriteIndex: null,
             lastTurn: 0,
             speed: 15,
-            inventory: null,
             dead: false,
             traits: [],
             strength: 1,

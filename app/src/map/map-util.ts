@@ -1,10 +1,19 @@
-import {IRowColumnCoordinates, IRowColumnCoordinateWrapper, XYCoordinates,
-	IRandomTileOptions, Direction} from '../interfaces';
+import {
+	IRowColumnCoordinates,
+	IRowColumnCoordinateWrapper,
+	XYCoordinates,
+	IRandomTileOptions,
+	Direction
+} from '../interfaces';
 import {AStar as aStar} from '../vendor/astar';
 import {constants} from '../data/constants';
 import {MapTile} from './tile';
 
 export class MapUtil {
+	static tileToString(tile: IRowColumnCoordinates): string {
+		return `[${tile.row},${tile.column}]`;
+	}
+
     /**
 	* Takes a pair of tiles and returns a callback that returns the A* path
 	*

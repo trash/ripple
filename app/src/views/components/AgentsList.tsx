@@ -6,7 +6,7 @@ import {agentListSelect} from '../../redux/actions';
 import {IAgentState} from '../../entity/components';
 import {AgentListEntry} from '../../interfaces';
 import {Agent} from '../../data/Agent';
-import {agentUtil} from '../../entity/util';
+import {agentUtil, healthUtil} from '../../entity/util';
 import {AgentInfoCard} from './AgentInfoCard';
 
 interface AgentListProps {
@@ -24,6 +24,7 @@ export class AgentList extends React.Component<AgentListProps, void> {
                 <div className="agent-list-header">
                     <div>Id</div>
                     <div>Image</div>
+                    <div>Health</div>
                     <div>Agent Type</div>
                     <div>Gender</div>
                     <div>Speed</div>
@@ -38,6 +39,7 @@ export class AgentList extends React.Component<AgentListProps, void> {
                             <div>
                                 <img src={agentUtil.getImagePath(agentEntry.agent.enum)}/>
                             </div>
+                            <div>{healthUtil.toString(agentEntry.health)}</div>
                             <div>{Agent[agentEntry.agent.enum]}</div>
                             <div>{agentEntry.agent.gender}</div>
                             <div>{agentEntry.agent.speed}</div>

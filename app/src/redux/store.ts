@@ -189,7 +189,9 @@ function mainReducer(
                 id: action.id,
                 agent: action.agent,
                 villager: action.villager,
-                visitor: action.visitor
+                visitor: action.visitor,
+                position: action.position,
+                health: action.health
             });
             break;
 

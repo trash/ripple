@@ -134,6 +134,8 @@ export class EntitySpawner {
 			Component.Visitor, entityId) as IVisitorState;
 		const renderableState = this.entityManager.getComponentDataForEntity(
 			Component.Renderable, entityId) as IRenderableState;
+		const healthState = this.entityManager.getComponentDataForEntity(
+			Component.Health, entityId) as IHealthState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agent]);
@@ -145,7 +147,14 @@ export class EntitySpawner {
 		positionState.tile = positionState.tile || globalRefs.map.getTile(0, 0);
 
 		// Notify redux of new agent
-		store.dispatch(spawnAgent(entityId, agentState, villagerState, visitorState));
+		store.dispatch(spawnAgent(
+			entityId,
+			agentState,
+			villagerState,
+			visitorState,
+			positionState,
+			healthState
+		));
 
 		return entityId;
 	}

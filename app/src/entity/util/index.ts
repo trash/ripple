@@ -9,5 +9,6 @@ export {mapUtil} from './map';
 export {statusBubbleUtil} from './statusBubble';
 export {positionUtil} from './position';
 export {storageUtil} from './storage';
-export {townUtil} from './town';
 export {visitorUtil} from './visitor';
+export {healthUtil} from './health';
+export {townUtil} from './town';

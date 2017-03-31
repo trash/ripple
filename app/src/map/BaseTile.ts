@@ -12,7 +12,7 @@ export abstract class BaseTile implements IRowColumnCoordinates {
 	}
 
 	toString(): string {
-		return `[${this.row},${this.column}]`;
+		return MapUtil.tileToString(this);
 	}
 
 	_rowFromIndex (index: number) {
