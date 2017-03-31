@@ -23,6 +23,10 @@ export class Instance {
 		this.description = this.options.description;
 	}
 
+	toString(): string {
+		return `${this.id}: ${this.description}`;
+	}
+
 	/**
 	 * If a task instance is interrupted we need to free it up the instance from the task.
 	 * We need to also remove it from the current agent's actions so it can be taken by another agent.

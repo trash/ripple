@@ -187,7 +187,9 @@ function mainReducer(
         case actionTypes.SPAWN_AGENT:
             newState.agentsList = previousState.agentsList.push({
                 id: action.id,
-                agent: action.agent
+                agent: action.agent,
+                villager: action.villager,
+                visitor: action.visitor
             });
             break;
 

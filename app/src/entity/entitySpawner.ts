@@ -26,7 +26,8 @@ import {
 	IHealthState,
 	IVillagerState,
 	IBehaviorTreeState,
-	IConstructibleState
+	IConstructibleState,
+	IVisitorState
 } from '../entity/components';
 
 import {EntityManager} from '../entity/entityManager';
@@ -129,6 +130,8 @@ export class EntitySpawner {
 			Component.Agent, entityId) as IAgentState;
 		const villagerState = this.entityManager.getComponentDataForEntity(
 			Component.Villager, entityId) as IVillagerState;
+		const visitorState = this.entityManager.getComponentDataForEntity(
+			Component.Visitor, entityId) as IVisitorState;
 		const renderableState = this.entityManager.getComponentDataForEntity(
 			Component.Renderable, entityId) as IRenderableState;
 
@@ -142,7 +145,7 @@ export class EntitySpawner {
 		positionState.tile = positionState.tile || globalRefs.map.getTile(0, 0);
 
 		// Notify redux of new agent
-		store.dispatch(spawnAgent(entityId, agentState));
+		store.dispatch(spawnAgent(entityId, agentState, villagerState, visitorState));
 
 		return entityId;
 	}

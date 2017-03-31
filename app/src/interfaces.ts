@@ -257,4 +257,6 @@ export interface ItemSearchOptions {
 export type AgentListEntry = {
     id: number;
     agent: IAgentState;
+	villager: IVillagerState;
+	visitor: IVisitorState;
 }
