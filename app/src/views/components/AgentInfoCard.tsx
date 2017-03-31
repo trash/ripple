@@ -1,50 +1,82 @@
 import * as React from 'react';
 import {AgentListEntry} from '../../interfaces';
 import {agentUtil} from '../../entity/util';
+
 import {Agent} from '../../data/Agent';
+import {VillagerJob} from '../../data/VillagerJob';
+
 import {
     IVillagerState,
     IAgentState,
     IVisitorState
 } from '../../entity/components';
 
-type DisplayProperty = [string, string | number, boolean];
+type DisplayProperty = {
+    name: string;
+    value: string | number;
+    detailedOnly: boolean;
+}
 
 const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
-    ['Agent Type', Agent[agentState.enum], true],
-    ['Gender', agentState.gender, false],
-    ['Speed', agentState.speed, false],
-    ['Strength', agentState.strength, false],
+    {
+        name: 'Agent Type',
+        value: Agent[agentState.enum],
+        detailedOnly: false
+    },
+    {
+        name: 'Gender',
+        value: agentState.gender,
+        detailedOnly: true
+    },
+    {
+        name: 'Speed',
+        value: agentState.speed,
+        detailedOnly: true
+    },
+    {
+        name: 'Strength',
+        value: agentState.strength,
+        detailedOnly: true
+    },
 ];
 
 const renderVillagerProperties = (villagerState: IVillagerState): DisplayProperty[] => [
-    ['Job', villagerState.job, false],
-    ['Current Task', villagerState.currentTask && villagerState.currentTask.toString(), true],
-    ['Home', villagerState.home, false]
+    {
+        name: 'Job',
+        value: VillagerJob[villagerState.job],
+        detailedOnly: true
+    },
+    {
+        name: 'Current Task',
+        value: villagerState.currentTask && villagerState.currentTask.toString(),
+        detailedOnly: false
+    },
+    {
+        name: 'Home',
+        value: villagerState.home,
+        detailedOnly: true
+    },
 ];
 
 const renderVisitorProperties = (visitorState: IVisitorState): DisplayProperty[] => [
-    ['Leaving Town', visitorState.leaveTown + '', true]
+    {
+        name: 'Leaving Town',
+        value: visitorState.leaveTown + '',
+        detailedOnly: false
+    }
 ];
 
-const filterBriefProperties = (brief: boolean, pair: DisplayProperty) =>
-    !brief || pair[2];
-
-const renderDisplayProperty = (pair: DisplayProperty) => (
-    <div key={pair[0]}>{pair[0]}: {pair[1]}</div>
-);
-
 const filterAndRenderProperties = (
-    brief: boolean, properties: DisplayProperty[]
+    detailed: boolean, properties: DisplayProperty[]
 ): JSX.Element[] => {
     return properties
-        .filter(filterBriefProperties.bind(null, brief))
-        .map(renderDisplayProperty);
+        .filter(displayProperty => detailed || !displayProperty.detailedOnly)
+        .map(displayProperty => <div key={displayProperty.name}>{displayProperty.name}: {displayProperty.value}</div>);
 };
 
 export const AgentInfoCard = (
     selectedAgent: AgentListEntry,
-    brief: boolean = true
+    detailed: boolean = false
 ) => {
     if (!selectedAgent) {
         return null;
@@ -56,15 +88,15 @@ export const AgentInfoCard = (
                 <img src={agentUtil.getImagePath(selectedAgent.agent.enum)}/>
             </div>
             { filterAndRenderProperties(
-                brief,
+                detailed,
                 renderAgentProperties(selectedAgent.agent)
             ) }
             { selectedAgent.villager && filterAndRenderProperties(
-                brief,
+                detailed,
                 renderVillagerProperties(selectedAgent.villager)
             ) }
             { selectedAgent.visitor && filterAndRenderProperties(
-                brief,
+                detailed,
                 renderVisitorProperties(selectedAgent.visitor)
             ) }
         </div>

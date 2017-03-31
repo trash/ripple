@@ -48,7 +48,7 @@ export class AgentList extends React.Component<AgentListProps, void> {
             </div>
             <div className="agent-list-bottom">
                 <p>Detailed information on selected agent shown here.</p>
-                {AgentInfoCard(selectedAgent)}
+                {AgentInfoCard(selectedAgent, true)}
             </div>
         </div>
         );
