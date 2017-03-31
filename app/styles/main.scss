@@ -89,6 +89,7 @@ input {
 	width: 100%;
 }
 
+$leftMenuBorderColor: #333;
 .left-menu {
 	width: 640px;
 	flex: 1 100%;
@@ -101,10 +102,12 @@ input {
 	}
 
 	.nav-tabs {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid $leftMenuBorderColor;
     }
 	.tab-content {
 		background: #222;
+		border: 1px solid $leftMenuBorderColor;
+		border-top: 0;
 		color: #fff;
 		overflow: scroll;
     }
@@ -119,4 +122,5 @@ input {
 	'clock',
 	'tabs',
 	'agent-list',
+	'agent-info-card',
 	'hover-tile';

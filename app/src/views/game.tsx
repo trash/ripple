@@ -6,7 +6,7 @@ import {Tabs, Tab} from 'react-bootstrap';
 
 import {ConnectedDebugPanel} from './components/debugPanel';
 import {ConnectedAgentList} from './components/AgentsList';
-import {ConnectedActionBar} from './components/actionBar';
+import {ConnectedActionBar} from './components/ActionBar';
 import {ConnectedClock} from './components/Clock';
 import {ConnectedItemList} from './components/ItemList';
 

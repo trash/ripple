@@ -7,6 +7,7 @@ import {IAgentState} from '../../entity/components';
 import {AgentListEntry} from '../../interfaces';
 import {Agent} from '../../data/Agent';
 import {agentUtil} from '../../entity/util';
+import {AgentInfoCard} from './AgentInfoCard';
 
 interface AgentListProps {
     agents: Immutable.List<AgentListEntry>;
@@ -15,10 +16,12 @@ interface AgentListProps {
 
 export class AgentList extends React.Component<AgentListProps, void> {
     render() {
+        const selectedAgent = this.props.agents.find(agent => agent.id === this.props.agentListSelected);
+
         return (
         <div className="agent-list-container">
             <div className="agent-list">
-                <div className="agent-list-row agent-list-header">
+                <div className="agent-list-header">
                     <div>Id</div>
                     <div>Image</div>
                     <div>Agent Type</div>
@@ -45,7 +48,7 @@ export class AgentList extends React.Component<AgentListProps, void> {
             </div>
             <div className="agent-list-bottom">
                 <p>Detailed information on selected agent shown here.</p>
-                <p>Selected agent: {this.props.agentListSelected}</p>
+                {AgentInfoCard(selectedAgent)}
             </div>
         </div>
         );

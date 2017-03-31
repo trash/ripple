@@ -1,6 +1,7 @@
-.action-bar {
-    height: $actionBarHeight;
+$actionBarCardWidth: 200px;
 
+.action-bar-container {
+    height: $actionBarHeight;
     display: flex;
 
     /* Then we define the flow direction and if we allow the items to wrap
@@ -8,26 +9,49 @@
     * flex-direction: row;
     * flex-wrap: wrap;
     */
-    flex-flow: row wrap;
+    flex-flow: column wrap;
 
     /* Then we define how is distributed the remaining space */
     justify-content: flex-start;
 
-    .action-bar-upper, .action-bar-buttons {
-        height: 0.5 * $actionBarHeight;
-        width: 100%;
+    .action-bar-card {
+        flex: 1 0 100%;
+        width: $actionBarCardWidth;
+        background: #222;
+        color: #fff;
+        display: flex;
     }
 
-    .action-bar-upper {
-        order: -1;
-    }
-    .action-bar-buttons {
-        order: 0;
-        background: #666;
+    .action-bar {
+        display: flex;
+        width: calc(100% - #{$actionBarCardWidth});
 
-        button {
-            margin: 0;
-            height: 100%;
+        /* Then we define the flow direction and if we allow the items to wrap
+        * Remember this is the same as:
+        * flex-direction: row;
+        * flex-wrap: wrap;
+        */
+        flex-flow: row wrap;
+
+        /* Then we define how is distributed the remaining space */
+        justify-content: flex-start;
+
+        .action-bar-upper, .action-bar-buttons {
+            height: 0.5 * $actionBarHeight;
+            width: 100%;
+        }
+
+        .action-bar-upper {
+            order: -1;
+        }
+        .action-bar-buttons {
+            order: 0;
+            background: #666;
+
+            button {
+                margin: 0;
+                height: 100%;
+            }
         }
     }
 }
