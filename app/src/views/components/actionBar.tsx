@@ -19,11 +19,15 @@ interface ActionBarProps {
     craftBarShown: boolean;
     agents: Immutable.List<AgentListEntry>;
     agentListSelected: number;
+    selectedEntity: number;
 }
 
 export class ActionBar extends React.Component<ActionBarProps, void> {
     render () {
-        const selectedAgent = this.props.agents.find(agent => agent.id === this.props.agentListSelected);
+        const selectedAgent = this.props.agents
+            .find(agent =>
+                agent.id === this.props.selectedEntity
+                || agent.id === this.props.agentListSelected);
 
         return (
         <div className="action-bar-container">
@@ -62,6 +66,7 @@ export const ConnectedActionBar = connect((state: StoreState) => {
         debugBarShown: state.debugBarShown,
         craftBarShown: state.craftBarShown,
         agents: state.agentsList,
-        agentListSelected: state.agentListSelected
+        agentListSelected: state.agentListSelected,
+        selectedEntity: state.selectedEntity
     };
 })(ActionBar);

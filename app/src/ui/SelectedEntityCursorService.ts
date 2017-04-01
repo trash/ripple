@@ -9,6 +9,8 @@ import {spriteManager} from '../services/spriteManager';
 import {positionUtil} from '../entity/util';
 import {Component} from '../entity/ComponentEnum';
 import {constants} from '../data/constants';
+import {store} from '../redux/store';
+import {entitySelected} from '../redux/actions';
 
 const spritePosition = {
     offsetX: constants.TILE_HEIGHT / 2,
@@ -58,6 +60,7 @@ export class SelectedEntityCursorService {
     }
 
     updateSelectedEntity(entity: number | null) {
+        store.dispatch(entitySelected(entity));
         this.selectedEntity = entity;
         if (this.hoverSprite) {
             this.hoverSprite.visible = _.isNumber(entity);
