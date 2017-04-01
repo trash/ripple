@@ -21,7 +21,9 @@ import {
     IVisitorState,
     IAgentState,
     IVillagerState,
-    IPositionState
+    IPositionState,
+    IConstructibleState,
+    IBuildingState
 } from '../../entity/components';
 
 import * as actionTypes from './types';
@@ -209,5 +211,32 @@ export function updateGameSpeed(
     return {
         type: actionTypes.UPDATE_GAME_SPEED,
         gameSpeed: gameSpeed
+    };
+}
+
+export interface SpawnBuilding {
+    type: actionTypes.SPAWN_BUILDING;
+    id: number;
+    building: IBuildingState;
+	constructible: IConstructibleState;
+	health: IHealthState;
+	position: IPositionState;
+}
+
+export function spawnBuilding(
+    id: number,
+    building: IBuildingState,
+    constructible: IConstructibleState,
+    health: IHealthState,
+    position: IPositionState,
+
+): SpawnBuilding {
+    return {
+        type: actionTypes.SPAWN_BUILDING,
+        id: id,
+        building: building,
+        constructible: constructible,
+        health: health,
+        position: position
     };
 }

@@ -263,3 +263,11 @@ export type AgentListEntry = {
 	health: IHealthState;
 	lastAction: string;
 }
+
+export type BuildingListEntry = {
+	id: number;
+	building: IBuildingState;
+	constructible: IConstructibleState;
+	health: IHealthState;
+	position: IPositionState;
+}

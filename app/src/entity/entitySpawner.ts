@@ -7,7 +7,7 @@ import {
 import {constants} from '../data/constants';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
-import {addToItemList, spawnAgent} from '../redux/actions';
+import {addToItemList, spawnAgent, spawnBuilding} from '../redux/actions';
 
 import {
 	agents as agentsAssemblageData,
@@ -27,7 +27,8 @@ import {
 	IVillagerState,
 	IBehaviorTreeState,
 	IConstructibleState,
-	IVisitorState
+	IVisitorState,
+	IBuildingState
 } from '../entity/components';
 
 import {EntityManager} from '../entity/entityManager';
@@ -337,6 +338,25 @@ export class EntitySpawner {
 				}
 			});
 		}
+
+		// Get relevant state
+		const positionState = this.entityManager.getComponentDataForEntity(
+			Component.Position, entityId) as IPositionState;
+		const buildingState = this.entityManager.getComponentDataForEntity(
+			Component.Building, entityId) as IBuildingState;
+		const constructibleState = this.entityManager.getComponentDataForEntity(
+			Component.Constructible, entityId) as IConstructibleState;
+		const healthState = this.entityManager.getComponentDataForEntity(
+			Component.Health, entityId) as IHealthState;
+
+		// Notify redux of new agent
+		store.dispatch(spawnBuilding(
+			entityId,
+			buildingState,
+			constructibleState,
+			healthState,
+			positionState
+		));
 
 		return entityId;
 	}

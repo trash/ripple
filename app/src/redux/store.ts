@@ -3,7 +3,7 @@ import * as Immutable from 'immutable';
 import {createStore} from 'redux';
 import * as actionTypes from './actions/types';
 import {Item} from '../data/Item';
-import {AgentListEntry} from '../interfaces';
+import {AgentListEntry, BuildingListEntry} from '../interfaces';
 
 import {
     IAgentState,
@@ -45,6 +45,7 @@ import {
     UpdateHoveredHealth,
     UpdateHoveredHarvestable,
     SpawnAgent,
+    SpawnBuilding,
     AgentListSelect,
     EntitySelected,
     PlayPauseGame,
@@ -69,6 +70,7 @@ type ReducerAction =
     | UpdateHoveredHealth
     | UpdateHoveredHarvestable
     | SpawnAgent
+    | SpawnBuilding
     | EntitySelected
     | PlayPauseGame
     | UpdateGameSpeed
@@ -100,6 +102,7 @@ export interface StoreState {
     craftBarShown: boolean;
     gold: number;
     agentsList: Immutable.List<AgentListEntry>;
+    buildingsList: Immutable.List<BuildingListEntry>;
     agentListSelected: number;
     selectedEntity: number;
     gameSpeed: number;
@@ -110,6 +113,7 @@ const initialState = {
     items: Immutable.Map<Item, number>(),
     gold: 0,
     agentsList: Immutable.List<AgentListEntry>(),
+    buildingsList: Immutable.List<BuildingListEntry>(),
     gameSpeed: 0
 } as StoreState;
 function mainReducer(
@@ -203,6 +207,16 @@ function mainReducer(
                 position: action.position,
                 health: action.health,
                 lastAction: action.lastAction
+            });
+            break;
+
+        case actionTypes.SPAWN_BUILDING:
+            newState.buildingsList = previousState.buildingsList.push({
+                id: action.id,
+                building: action.building,
+                constructible: action.constructible,
+                position: action.position,
+                health: action.health,
             });
             break;
 

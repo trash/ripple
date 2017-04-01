@@ -7,11 +7,12 @@ import {
     showDebugBar,
     showCraftBar
 } from '../../redux/actions';
-import {AgentListEntry} from '../../interfaces';
+import {AgentListEntry, BuildingListEntry} from '../../interfaces';
 import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
 import {CraftBar} from './CraftBar';
 import {AgentInfoCard} from './AgentInfoCard';
+import {BuildingInfoCard} from './BuildingInfoCard';
 import {ConnectedPlayspeedControls} from './PlayspeedControls';
 
 interface ActionBarProps {
@@ -19,12 +20,15 @@ interface ActionBarProps {
     debugBarShown: boolean;
     craftBarShown: boolean;
     agents: Immutable.List<AgentListEntry>;
+    buildings: Immutable.List<BuildingListEntry>;
     agentListSelected: number;
     selectedEntity: number;
 }
 
 export class ActionBar extends React.Component<ActionBarProps, void> {
     render () {
+        const selectedBuilding = this.props.buildings
+            .find(building => building.id === this.props.selectedEntity);
         const selectedAgent = this.props.agents
             .find(agent =>
                 agent.id === this.props.selectedEntity
@@ -33,7 +37,9 @@ export class ActionBar extends React.Component<ActionBarProps, void> {
         return (
         <div className="action-bar-container">
             <div className="action-bar-card">
-                {AgentInfoCard(selectedAgent)}
+                {selectedBuilding
+                    ? BuildingInfoCard(selectedBuilding)
+                    : AgentInfoCard(selectedAgent)}
             </div>
             <div className="action-bar">
                 <div className="action-bar-upper">
@@ -71,6 +77,7 @@ export const ConnectedActionBar = connect((state: StoreState) => {
         craftBarShown: state.craftBarShown,
         agents: state.agentsList,
         agentListSelected: state.agentListSelected,
-        selectedEntity: state.selectedEntity
+        selectedEntity: state.selectedEntity,
+        buildings: state.buildingsList
     };
 })(ActionBar);

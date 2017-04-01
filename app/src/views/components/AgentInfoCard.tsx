@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {AgentListEntry} from '../../interfaces';
-import {agentUtil, healthUtil} from '../../entity/util';
-import {MapUtil} from '../../map/map-util';
+import {agentUtil} from '../../entity/util';
 
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
@@ -15,19 +14,13 @@ import {
     IHealthState
 } from '../../entity/components';
 
-type DisplayProperty = {
-    name: string;
-    value: string | number;
-    detailedOnly: boolean;
-}
+import {
+    DisplayProperty,
+    filterAndRenderProperties,
+    renderHealthProperties,
+    renderPositionProperties
+} from './InfoCard';
 
-const renderHealthProperties = (healthState: IHealthState): DisplayProperty[] => [
-    {
-        name: 'Health',
-        value: healthUtil.toString(healthState),
-        detailedOnly: false
-    }
-];
 
 const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
     {
@@ -62,14 +55,6 @@ const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
     },
 ];
 
-const renderPositionProperties = (positionState: IPositionState): DisplayProperty[] => [
-    {
-        name: 'Tile',
-        value: MapUtil.tileToString(positionState.tile),
-        detailedOnly: false
-    },
-];
-
 const renderVillagerProperties = (villagerState: IVillagerState): DisplayProperty[] => [
     {
         name: 'Job',
@@ -95,14 +80,6 @@ const renderVisitorProperties = (visitorState: IVisitorState): DisplayProperty[]
         detailedOnly: false
     }
 ];
-
-const filterAndRenderProperties = (
-    detailed: boolean, properties: DisplayProperty[]
-): JSX.Element[] => {
-    return properties
-        .filter(displayProperty => detailed || !displayProperty.detailedOnly)
-        .map(displayProperty => <div key={displayProperty.name}>{displayProperty.name}: {displayProperty.value}</div>);
-};
 
 export const AgentInfoCard = (
     selectedAgent: AgentListEntry,
