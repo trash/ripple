@@ -15,7 +15,7 @@ export interface PlayspeedControlsProps {
 
 export class PlayspeedControls extends React.Component<PlayspeedControlsProps, void> {
     render() {
-        let playPauseClass = 'fa';
+        let playPauseClass = 'fa ';
         playPauseClass += this.props.gamePaused
             ? 'fa-play'
             : 'fa-pause';
@@ -23,19 +23,16 @@ export class PlayspeedControls extends React.Component<PlayspeedControlsProps, v
         <div className="playspeed-controls">
             <button onClick={ () => this.props.playPauseGame() }>
                 <i className={ playPauseClass }></i>
-                Play/Pause
             </button>
             <button
                 onClick={ () => this.props.slowGameSpeed() }
                 disabled={ this.props.gameSpeed === 0 }>
                 <i className="fa fa-backward"></i>
-                Slow Down
             </button>
             <button
                 onClick={ () => this.props.speedUpGameSpeed() }
                 disabled={ this.props.gameSpeed === GameSpeed.speeds.length - 1 }>
                 <i className="fa fa-forward"></i>
-                Speed Up
             </button>
             <button
                 className="speed-multiplier"

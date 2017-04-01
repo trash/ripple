@@ -57,6 +57,24 @@ $actionBarCardWidth: 200px;
 
         .action-bar-buttons {
             background: #666;
+            flex: auto;
+        }
+        .playspeed-controls {
+            align-self: flex-end;
+            display: flex;
+            button {
+                width: 0.5 * $actionBarHeight;
+                border: 0;
+                font-size: 24px;
+
+                &:disabled {
+                    background: #666;
+                }
+
+                i {
+                    font-size: 24px;
+                }
+            }
         }
     }
 }
