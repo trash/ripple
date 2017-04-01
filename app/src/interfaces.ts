@@ -261,4 +261,5 @@ export type AgentListEntry = {
 	visitor: IVisitorState;
 	position: IPositionState;
 	health: IHealthState;
+	lastAction: string;
 }

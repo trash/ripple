@@ -5,6 +5,7 @@ import {store, StoreState} from '../../redux/store';
 import {CollisionDebugView} from './collisionDebugView';
 import {Map} from 'immutable';
 import {util} from '../../util';
+import {behaviorTreeUtil} from '../../entity/util';
 import {events} from '../../events';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 
@@ -296,10 +297,9 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
     }
 
     render () {
-        const executionChain = this.props.executionChain;
-        const lastAction = executionChain && executionChain.length
-            ? executionChain[executionChain.length - 1].child.constructor.name
-            : null;
+        const lastAction = behaviorTreeUtil.getLastActionNameFromExecutionChain(
+            this.props.executionChain
+        );
 
         // So we can reference properties when this.props.building is undefined
         // Really wish we had a null-coalescing operator

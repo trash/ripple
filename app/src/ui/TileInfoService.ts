@@ -16,7 +16,7 @@ import {
     updateHoveredHarvestable
 } from '../redux/actions';
 
-import {agentUtil, collisionUtil, positionUtil} from '../entity/util';
+import {agentUtil, collisionUtil, positionUtil, behaviorTreeUtil} from '../entity/util';
 
 import {EntityManager} from '../entity/entityManager';
 import {Component} from '../entity/ComponentEnum';
@@ -129,25 +129,11 @@ export class TileInfoService {
                 inventoryState
             ));
 
-            // Expose info about the agent's behavior tree
-            const behaviorTreeState = positionUtil.getEntitiesWithComponentInTile(
-                        tile,
-                        Component.Agent
-                    ).map(entityId => this.entityManager.getComponentDataForEntity(
-                        Component.BehaviorTree, entityId)
-                    )[0] as IBehaviorTreeState;
-            const backupExecutionChain = behaviorTreeState.blackboard
-                .get('lastExecutionChain', behaviorTreeState.tree.id) as {
-                    success: ChildStatus[];
-                    failure: ChildStatus[];
-                }
-            const executionChain = behaviorTreeState.tree.getExecutionChain();
-            console.info(executionChain);
-            console.info(backupExecutionChain);
+            const backupExecutionChain = behaviorTreeUtil.getExecutionChain(tile);
 
             if (backupExecutionChain) {
                 // store.dispatch(updateHoveredAgentLastExecutionChain(executionChain));
-                store.dispatch(updateHoveredAgentLastExecutionChain(backupExecutionChain.success.reverse()));
+                store.dispatch(updateHoveredAgentLastExecutionChain(backupExecutionChain));
             }
         }
 

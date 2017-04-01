@@ -132,6 +132,7 @@ export interface SpawnAgent {
     visitor: IVisitorState;
     position: IPositionState;
     health: IHealthState;
+    lastAction: string;
 }
 
 export function spawnAgent(
@@ -140,7 +141,8 @@ export function spawnAgent(
     villager: IVillagerState,
     visitor: IVisitorState,
     position: IPositionState,
-    health: IHealthState
+    health: IHealthState,
+    lastAction: string
 ) {
     return {
         type: actionTypes.SPAWN_AGENT,
@@ -149,7 +151,8 @@ export function spawnAgent(
         villager: villager,
         visitor: visitor,
         position: position,
-        health: health
+        health: health,
+        lastAction: lastAction
     };
 }
 

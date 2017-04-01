@@ -153,7 +153,8 @@ export class EntitySpawner {
 			villagerState,
 			visitorState,
 			positionState,
-			healthState
+			healthState,
+			''
 		));
 
 		return entityId;

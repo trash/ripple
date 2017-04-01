@@ -191,7 +191,8 @@ function mainReducer(
                 villager: action.villager,
                 visitor: action.visitor,
                 position: action.position,
-                health: action.health
+                health: action.health,
+                lastAction: action.lastAction
             });
             break;
 

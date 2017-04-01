@@ -117,6 +117,7 @@ export const AgentInfoCard = (
             <div>
                 <img src={agentUtil.getImagePath(selectedAgent.agent.enum)}/>
             </div>
+            <div>Last Action: {selectedAgent.lastAction}</div>
             { filterAndRenderProperties(
                 detailed,
                 renderHealthProperties(selectedAgent.health)
