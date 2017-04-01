@@ -21,10 +21,10 @@ export class PlayspeedControls extends React.Component<PlayspeedControlsProps, v
             : 'fa-pause';
         return (
         <div className="playspeed-controls">
-			<button onClick={ () => this.props.playPauseGame() }>
-				<i className={ playPauseClass }></i>
+            <button onClick={ () => this.props.playPauseGame() }>
+                <i className={ playPauseClass }></i>
                 Play/Pause
-			</button>
+            </button>
             <button
                 onClick={ () => this.props.slowGameSpeed() }
                 disabled={ this.props.gameSpeed === 0 }>
