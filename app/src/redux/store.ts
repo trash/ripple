@@ -46,7 +46,9 @@ import {
     UpdateHoveredHarvestable,
     SpawnAgent,
     AgentListSelect,
-    EntitySelected
+    EntitySelected,
+    PlayPauseGame,
+    UpdateGameSpeed
 } from './actions';
 
 type ReducerAction =
@@ -68,6 +70,8 @@ type ReducerAction =
     | UpdateHoveredHarvestable
     | SpawnAgent
     | EntitySelected
+    | PlayPauseGame
+    | UpdateGameSpeed
     | AgentListSelect;
 
 export interface StoreState {
@@ -98,12 +102,15 @@ export interface StoreState {
     agentsList: Immutable.List<AgentListEntry>;
     agentListSelected: number;
     selectedEntity: number;
+    gameSpeed: number;
+    gamePaused: boolean;
 }
 
 const initialState = {
     items: Immutable.Map<Item, number>(),
     gold: 0,
-    agentsList: Immutable.List<AgentListEntry>()
+    agentsList: Immutable.List<AgentListEntry>(),
+    gameSpeed: 0
 } as StoreState;
 function mainReducer(
     previousState = initialState,
@@ -205,6 +212,15 @@ function mainReducer(
 
         case actionTypes.ENTITY_SELECTED:
             newState.selectedEntity = action.selected;
+            break;
+
+        case actionTypes.PLAY_PAUSE_GAME:
+            newState.gamePaused = action.gamePaused;
+            break;
+
+        case actionTypes.UPDATE_GAME_SPEED:
+            newState.gameSpeed = action.gameSpeed;
+            break;
     }
 
     return newState;

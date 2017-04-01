@@ -183,3 +183,31 @@ export function entitySelected(
         selected: selected
     };
 }
+
+export interface PlayPauseGame {
+    type: actionTypes.PLAY_PAUSE_GAME;
+    gamePaused: boolean;
+}
+
+export function playPauseGame(
+    gamePaused: boolean
+) {
+    return {
+        type: actionTypes.PLAY_PAUSE_GAME,
+        gamePaused: gamePaused
+    };
+}
+
+export interface UpdateGameSpeed {
+    type: actionTypes.UPDATE_GAME_SPEED;
+    gameSpeed: number;
+}
+
+export function updateGameSpeed(
+    gameSpeed: number
+) {
+    return {
+        type: actionTypes.UPDATE_GAME_SPEED,
+        gameSpeed: gameSpeed
+    };
+}

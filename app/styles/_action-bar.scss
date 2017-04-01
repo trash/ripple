@@ -37,7 +37,7 @@ $actionBarCardWidth: 200px;
         /* Then we define how is distributed the remaining space */
         justify-content: flex-start;
 
-        .action-bar-upper, .action-bar-buttons {
+        .action-bar-upper, .action-bar-lower {
             height: 0.5 * $actionBarHeight;
             width: 100%;
         }
@@ -45,14 +45,18 @@ $actionBarCardWidth: 200px;
         .action-bar-upper {
             order: -1;
         }
-        .action-bar-buttons {
+        .action-bar-lower {
             order: 0;
-            background: #666;
+            display: flex;
 
             button {
                 margin: 0;
                 height: 100%;
             }
+        }
+
+        .action-bar-buttons {
+            background: #666;
         }
     }
 }

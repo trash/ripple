@@ -33,7 +33,7 @@ const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
     {
         name: 'Agent Type',
         value: Agent[agentState.enum],
-        detailedOnly: false
+        detailedOnly: true
     },
     {
         name: 'Alive',

@@ -12,6 +12,7 @@ import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
 import {CraftBar} from './CraftBar';
 import {AgentInfoCard} from './AgentInfoCard';
+import {ConnectedPlayspeedControls} from './PlayspeedControls';
 
 interface ActionBarProps {
     buildingsListShown: boolean;
@@ -43,16 +44,19 @@ export class ActionBar extends React.Component<ActionBarProps, void> {
                     { this.props.craftBarShown &&
                     <CraftBar/>}
                 </div>
-                <div className="action-bar-buttons">
-                    <button onClick={() => store.dispatch(
-                        showBuildingsList(!this.props.buildingsListShown))}
-                    >Buildings</button>
-                    <button onClick={() => store.dispatch(
-                        showDebugBar(!this.props.debugBarShown))}
-                    >Debug</button>
-                    <button onClick={() => store.dispatch(
-                        showCraftBar(!this.props.craftBarShown))}
-                    >Craft</button>
+                <div className="action-bar-lower">
+                    <div className="action-bar-buttons">
+                        <button onClick={() => store.dispatch(
+                            showBuildingsList(!this.props.buildingsListShown))}
+                        >Buildings</button>
+                        <button onClick={() => store.dispatch(
+                            showDebugBar(!this.props.debugBarShown))}
+                        >Debug</button>
+                        <button onClick={() => store.dispatch(
+                            showCraftBar(!this.props.craftBarShown))}
+                        >Craft</button>
+                    </div>
+                    <ConnectedPlayspeedControls/>
                 </div>
             </div>
         </div>
