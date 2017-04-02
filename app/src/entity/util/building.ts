@@ -51,6 +51,10 @@ export class BuildingUtil extends BaseUtil {
 		return state.occupants.length < state.maxOccupants;
 	}
 
+	occupancyToString(state: IBuildingState): string {
+		return `${state.occupants.length}/${state.maxOccupants}`;
+	}
+
 	buildingHasOccupancy(id: number): boolean {
 		return this.buildingHasOccupancyByState(this._getBuildingState(id));
 	}

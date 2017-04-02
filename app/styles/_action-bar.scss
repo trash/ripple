@@ -1,4 +1,4 @@
-$actionBarCardWidth: 200px;
+$actionBarCardWidth: $actionBarHeight;
 
 .action-bar-container {
     height: $actionBarHeight;
@@ -12,7 +12,7 @@ $actionBarCardWidth: 200px;
     flex-flow: column wrap;
 
     /* Then we define how is distributed the remaining space */
-    justify-content: flex-start;
+    justify-content: flex-end;
 
     .action-bar-card {
         flex: 1 0 100%;
@@ -34,11 +34,8 @@ $actionBarCardWidth: 200px;
         */
         flex-flow: row wrap;
 
-        /* Then we define how is distributed the remaining space */
-        justify-content: flex-start;
-
         .action-bar-upper, .action-bar-lower {
-            height: 0.5 * $actionBarHeight;
+            height: 0.33 * $actionBarHeight;
             width: 100%;
         }
 
@@ -63,7 +60,7 @@ $actionBarCardWidth: 200px;
             align-self: flex-end;
             display: flex;
             button {
-                width: 0.5 * $actionBarHeight;
+                width: 0.33 * $actionBarHeight;
                 border: 0;
                 font-size: 24px;
 

@@ -12,4 +12,5 @@ export {storageUtil} from './storage';
 export {visitorUtil} from './visitor';
 export {healthUtil} from './health';
 export {townUtil} from './town';
+export {constructibleUtil} from './constructible';
 export {behaviorTreeUtil} from './behaviorTree';

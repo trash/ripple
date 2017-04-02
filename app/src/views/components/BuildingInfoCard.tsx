@@ -4,12 +4,8 @@ import {Building} from '../../data/Building';
 import {buildingUtil} from '../../entity/util';
 
 import {
-    IVillagerState,
-    IAgentState,
-    IVisitorState,
-    IPositionState,
-    IHealthState,
-    IBuildingState
+    IBuildingState,
+    IConstructibleState
 } from '../../entity/components';
 
 import {
@@ -19,12 +15,25 @@ import {
     renderPositionProperties
 } from './InfoCard';
 
-const renderBuildingProperties = (buildingState: IBuildingState): DisplayProperty[] => [
+const renderBuildingProperties = (state: IBuildingState): DisplayProperty[] => [
     {
         name: 'Name',
-        value: buildingState.name,
+        value: state.name,
         detailedOnly: true
-    }
+    },
+    {
+        name: 'Occupants',
+        value: buildingUtil.occupancyToString(state),
+        detailedOnly: false
+    },
+];
+
+const renderConstructibleProperties = (state: IConstructibleState): DisplayProperty[] => [
+    {
+        name: 'Resource Requirements',
+        value: state.resourceRequirements.toString(),
+        detailedOnly: false
+    },
 ];
 
 export const BuildingInfoCard = (
@@ -43,6 +52,10 @@ export const BuildingInfoCard = (
             { filterAndRenderProperties(
                 detailed,
                 renderBuildingProperties(selectedBuilding.building)
+            ) }
+            { filterAndRenderProperties(
+                detailed,
+                renderConstructibleProperties(selectedBuilding.constructible)
             ) }
             { filterAndRenderProperties(
                 detailed,

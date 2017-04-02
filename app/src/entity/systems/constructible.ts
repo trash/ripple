@@ -12,10 +12,8 @@ import {
 } from '../components';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 import {Profession} from '../../data/Profession';
-import {ResourceRequirements} from '../../ResourceRequirements';
-import {IItemSearchResult} from '../../interfaces';
-import {spriteUtil} from '../../util/sprite';
-import {spriteManager, SpriteManager} from '../../services/spriteManager';
+import {SpriteManager} from '../../services/spriteManager';
+import {constructibleUtil} from '../util';
 
 export class ConstructibleSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -51,13 +49,10 @@ export class ConstructibleSystem extends EntitySystem {
                 this.initHealthBarSprites(healthBarState, constructibleState);
             }
             if (!constructibleState.resourceRequirements) {
-                constructibleState.resourceRequirements = new ResourceRequirements(
-                    constructibleState.requiredResources
-                );
-                constructibleState.resourceRequirements.on('add',
-                    (itemSearchResult: IItemSearchResult) => {
-                        this.showAddResourceSprite(itemSearchResult, renderableState, positionState);
-                    }
+                constructibleUtil.initializeResourceRequirements(
+                    constructibleState,
+                    renderableState,
+                    positionState
                 );
             }
             if (!constructibleState.taskCreated) {
@@ -67,43 +62,6 @@ export class ConstructibleSystem extends EntitySystem {
             }
         });
     }
-
-    getFloatSpriteCoords (renderableState: IRenderableState) {
-        return {
-            x: renderableState.spriteGroup.width / 2,
-            y: 4
-        };
-    }
-
-    showAddResourceSprite (
-        itemSearchResult: IItemSearchResult,
-        renderableState: IRenderableState,
-        positionState: IPositionState
-    ) {
-		const coords = this.getFloatSpriteCoords(renderableState);
-        const itemState = itemSearchResult.state;
-		const sprite = spriteManager.create(itemState.name,
-            positionState.tile.column, positionState.tile.row, true);
-
-		renderableState.spriteGroup.addChild(sprite);
-
-        const textNode = spriteManager.createText('+1', {
-            font: 'bold 16px Lora',
-			fill: '#00B200',
-			stroke: '#000',
-			strokeThickness: 2,
-			align: 'center'
-        }, positionState.tile.column, positionState.tile.row);
-		renderableState.spriteGroup.addChild(textNode);
-
-		[sprite, textNode].forEach((sprite, index) => {
-			sprite.position.x = coords.x;
-			sprite.position.y = coords.y;
-			sprite.anchor.x = index === 0 ? 0.85 : -0.25;
-			sprite.anchor.y = 0.5;
-			spriteUtil.floatSprite(sprite);
-		});
-	}
 
     createTask (id: number) {
         const builderTaskQueue = taskQueueManager.professionTaskQueue(Profession.Builder);

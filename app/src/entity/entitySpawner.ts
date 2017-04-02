@@ -37,7 +37,7 @@ import {Building} from '../data/Building';
 import {Agent} from '../data/Agent';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
-import {baseUtil, storageUtil} from './util';
+import {baseUtil, storageUtil, constructibleUtil} from './util';
 import {util} from '../util';
 import {events} from '../events';
 import {globalRefs} from '../globalRefs';
@@ -320,9 +320,21 @@ export class EntitySpawner {
 			const constructibleState = this.entityManager.getComponentDataForEntity(
 				Component.Constructible, entityId) as IConstructibleState;
 			constructibleState.taskCreated = true;
+
 			const healthState = this.entityManager.getComponentDataForEntity(
 				Component.Health, entityId) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;
+
+			const renderableState = this.entityManager.getComponentDataForEntity(
+				Component.Renderable, entityId) as IRenderableState;
+			const positionState = this.entityManager.getComponentDataForEntity(
+				Component.Position, entityId) as IPositionState;
+			constructibleUtil.initializeResourceRequirements(
+				constructibleState,
+				renderableState,
+				positionState,
+				true
+			);
 		}
 
 		if (storage) {

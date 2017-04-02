@@ -34,15 +34,26 @@ export class ResourceRequirements extends EventEmitter2 {
 				gathered: 0,
 				required: resource.count
 			});
-		})
+		});
 	}
 
 	toString(): string {
 		let string = '';
 		this.map.forEach((resourceEntry, resourceType) => {
-			string += `${resourceType}:[${resourceEntry.gathered}/${resourceEntry.required}]`;
-		})
+			const resourceName = Item[resourceType];
+			string += `${resourceName}:[${resourceEntry.gathered}/${resourceEntry.required}]`;
+		});
 		return string;
+	}
+
+	/**
+	 * Method to set all resources as collected. For use when a building is
+	 * spawned as already completed.
+	 */
+	markAsCompleted(): void {
+		this.map.forEach(resourceEntry => {
+			resourceEntry.gathered = resourceEntry.required;
+		});
 	}
 
 	/**
@@ -59,7 +70,7 @@ export class ResourceRequirements extends EventEmitter2 {
 		events.emit('remove-from-resource', itemSearchResult.id);
 
 		// trigger appropriate sound
-		events.emit(['trigger-sound', 'resourceDrop'])
+		events.emit(['trigger-sound', 'resourceDrop']);
 
 		this.emit('add', itemSearchResult);
 	}
@@ -114,7 +125,7 @@ export class ResourceRequirements extends EventEmitter2 {
 		let total = 0;
 		this.map.forEach((resourceEntry) => {
 			total += resourceEntry.required - resourceEntry.gathered;
-		})
+		});
 		return total;
 	}
 
@@ -126,7 +137,7 @@ export class ResourceRequirements extends EventEmitter2 {
 		let total = 0;
 		this.map.forEach((resourceEntry) => {
 			total += resourceEntry.required;
-		})
+		});
 		return total;
 	}
 
