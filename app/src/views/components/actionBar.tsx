@@ -7,11 +7,16 @@ import {
     showDebugBar,
     showCraftBar
 } from '../../redux/actions';
-import {AgentListEntry, BuildingListEntry} from '../../interfaces';
+import {
+    AgentListEntry,
+    BuildingListEntry,
+    ResourceListEntry
+} from '../../interfaces';
 import {BuildingsList} from './BuildingsList';
 import {DebugBar} from './DebugBar';
 import {CraftBar} from './CraftBar';
 import {AgentInfoCard} from './AgentInfoCard';
+import {ResourceInfoCard} from './ResourceInfoCard';
 import {BuildingInfoCard} from './BuildingInfoCard';
 import {ConnectedPlayspeedControls} from './PlayspeedControls';
 
@@ -21,6 +26,7 @@ interface ActionBarProps {
     craftBarShown: boolean;
     agents: Immutable.List<AgentListEntry>;
     buildings: Immutable.List<BuildingListEntry>;
+    resources: Immutable.List<ResourceListEntry>;
     agentListSelected: number;
     selectedEntity: number;
 }
@@ -33,13 +39,22 @@ export class ActionBar extends React.Component<ActionBarProps, void> {
             .find(agent =>
                 agent.id === this.props.selectedEntity
                 || agent.id === this.props.agentListSelected);
+        const selectedResource = this.props.resources
+            .find(resource => resource.id === this.props.selectedEntity);
+
+        let infoCard: JSX.Element;
+        if (selectedBuilding) {
+            infoCard = BuildingInfoCard(selectedBuilding);
+        } else if (selectedAgent) {
+            infoCard = AgentInfoCard(selectedAgent);
+        } else if (selectedResource) {
+            infoCard = ResourceInfoCard(selectedResource);
+        }
 
         return (
         <div className="action-bar-container">
             <div className="action-bar-card">
-                {selectedBuilding
-                    ? BuildingInfoCard(selectedBuilding)
-                    : AgentInfoCard(selectedAgent)}
+                {infoCard}
             </div>
             <div className="action-bar">
                 <div className="action-bar-upper">
@@ -78,6 +93,7 @@ export const ConnectedActionBar = connect((state: StoreState) => {
         agents: state.agentsList,
         agentListSelected: state.agentListSelected,
         selectedEntity: state.selectedEntity,
-        buildings: state.buildingsList
+        buildings: state.buildingsList,
+        resources: state.resourcesList
     };
 })(ActionBar);

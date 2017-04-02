@@ -3,7 +3,12 @@ import * as Immutable from 'immutable';
 import {createStore} from 'redux';
 import * as actionTypes from './actions/types';
 import {Item} from '../data/Item';
-import {AgentListEntry, BuildingListEntry} from '../interfaces';
+import {
+    AgentListEntry,
+    BuildingListEntry,
+    ResourceListEntry,
+    IRowColumnCoordinates
+} from '../interfaces';
 
 import {
     IAgentState,
@@ -23,7 +28,6 @@ import {
     IInventoryState
 } from '../entity/components';
 
-import {IRowColumnCoordinates} from '../interfaces';
 import {ChildStatus} from '../b3/Core';
 
 // Actions
@@ -49,7 +53,8 @@ import {
     AgentListSelect,
     EntitySelected,
     PlayPauseGame,
-    UpdateGameSpeed
+    UpdateGameSpeed,
+    SpawnResource
 } from './actions';
 
 type ReducerAction =
@@ -71,6 +76,7 @@ type ReducerAction =
     | UpdateHoveredHarvestable
     | SpawnAgent
     | SpawnBuilding
+    | SpawnResource
     | EntitySelected
     | PlayPauseGame
     | UpdateGameSpeed
@@ -103,6 +109,7 @@ export interface StoreState {
     gold: number;
     agentsList: Immutable.List<AgentListEntry>;
     buildingsList: Immutable.List<BuildingListEntry>;
+    resourcesList: Immutable.List<ResourceListEntry>;
     agentListSelected: number;
     selectedEntity: number;
     gameSpeed: number;
@@ -114,6 +121,7 @@ const initialState = {
     gold: 0,
     agentsList: Immutable.List<AgentListEntry>(),
     buildingsList: Immutable.List<BuildingListEntry>(),
+    resourcesList: Immutable.List<ResourceListEntry>(),
     gameSpeed: 0
 } as StoreState;
 function mainReducer(
@@ -215,6 +223,16 @@ function mainReducer(
                 id: action.id,
                 building: action.building,
                 constructible: action.constructible,
+                position: action.position,
+                health: action.health,
+            });
+            break;
+
+        case actionTypes.SPAWN_RESOURCE:
+            newState.resourcesList = previousState.resourcesList.push({
+                id: action.id,
+                resource: action.resource,
+                harvestable: action.harvestable,
                 position: action.position,
                 health: action.health,
             });

@@ -23,7 +23,8 @@ import {
     IVillagerState,
     IPositionState,
     IConstructibleState,
-    IBuildingState
+    IBuildingState,
+    IResourceState
 } from '../../entity/components';
 
 import * as actionTypes from './types';
@@ -236,6 +237,33 @@ export function spawnBuilding(
         id: id,
         building: building,
         constructible: constructible,
+        health: health,
+        position: position
+    };
+}
+
+export interface SpawnResource {
+    type: actionTypes.SPAWN_RESOURCE;
+    id: number;
+    resource: IResourceState;
+	harvestable: IHarvestableState;
+	health: IHealthState;
+	position: IPositionState;
+}
+
+export function spawnResource(
+    id: number,
+    resource: IResourceState,
+    harvestable: IHarvestableState,
+    health: IHealthState,
+    position: IPositionState,
+
+): SpawnResource {
+    return {
+        type: actionTypes.SPAWN_RESOURCE,
+        id: id,
+        resource: resource,
+        harvestable: harvestable,
         health: health,
         position: position
     };

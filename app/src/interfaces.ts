@@ -271,3 +271,11 @@ export type BuildingListEntry = {
 	health: IHealthState;
 	position: IPositionState;
 }
+
+export type ResourceListEntry = {
+	id: number;
+	resource: IResourceState;
+	harvestable: IHarvestableState;
+	health: IHealthState;
+	position: IPositionState;
+}
