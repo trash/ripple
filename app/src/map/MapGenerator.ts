@@ -9,17 +9,18 @@ import * as Immutable from 'immutable';
 import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
 import {util, Util} from '../util';
+import {Resource} from '../data/Resource';
 
 type NeighborCheckFunction<T> = (neighbor: T) => boolean;
 
 export interface IMapGenReturn {
 	baseTilemap: string[],
 	upperTilemap: string[],
-	resourceList: string[]
+	resourceList: Resource[]
 };
 
 const isValidResourceTile = (
-	resource: string,
+	resource: Resource,
 	i: number,
 	tiles: Immutable.List<MapGenTile>
 ): boolean => !resource && !tiles.get(i).isWater;
@@ -117,7 +118,9 @@ export class MapGenerator {
 		// Create bridges between islands√
         tiles = this.bridgeIslands(tiles);
 
-		const resourceList = noResources ? Immutable.List<string>() : this.generateResourceList(tiles);
+		const resourceList = noResources
+			? Immutable.List<Resource>()
+			: this.generateResourceList(tiles);
 
 		const upperTilemap = tiles.map(tile => tile.data);
 
@@ -129,8 +132,10 @@ export class MapGenerator {
 		};
     }
 
-	generateResourceList (tiles: Immutable.List<MapGenTile>): Immutable.List<string> {
-		let resourceList = Immutable.List<string>(new Array(tiles.size).fill(null));
+	generateResourceList (
+		tiles: Immutable.List<MapGenTile>
+	): Immutable.List<Resource> {
+		let resourceList = Immutable.List<Resource>(new Array(tiles.size).fill(null));
 
 		this.logUpdate('generating hills');
 		resourceList = this.generateHills(tiles, resourceList);
@@ -179,11 +184,11 @@ export class MapGenerator {
 	 * @returns {number[]}
 	 */
 	_getResourceCluster (
-		tiles: Immutable.List<string>,
+		tiles: Immutable.List<Resource>,
 		size: number,
 		startTileIndex: number,
-		checkFunction: (tile: IRowColumnCoordinateWrapper<string>) => boolean,
-		markFunction: (tile: IRowColumnCoordinateWrapper<string>) => IRowColumnCoordinateWrapper<string>
+		checkFunction: (tile: IRowColumnCoordinateWrapper<Resource>) => boolean,
+		markFunction: (tile: IRowColumnCoordinateWrapper<Resource>) => IRowColumnCoordinateWrapper<Resource>
 	): number[] {
 		const clusterTiles: number[] = [];
 		const searchTiles = MapUtil.arrayToRowColumnCoordinatesArray(tiles.toArray());
@@ -206,12 +211,12 @@ export class MapGenerator {
 
 	generateResourceClusters (
 		tiles: Immutable.List<MapGenTile>,
-		resourceList: Immutable.List<string>,
-		type: string,
+		resourceList: Immutable.List<Resource>,
+		type: Resource,
 		amount: number,
 		clusterBounds: [number, number]
-	): Immutable.List<string> {
-		let clusterTiles = [];
+	): Immutable.List<Resource> {
+		let clusterTiles: number[] = [];
 		while (amount > 0) {
 			const clusterSize = util.randomInRange(clusterBounds[0], clusterBounds[1]);
 			amount -= clusterSize;
@@ -227,9 +232,10 @@ export class MapGenerator {
 					tileIndex,
 					tile => isValidResourceTile(tile.value, tile.index, tiles),
 					tile => {
-						tile.value = 'marked';
+						tile.value = Resource.MapGenMark;
 						return tile
-					})
+					}
+				)
 			);
 		}
 
@@ -274,8 +280,8 @@ export class MapGenerator {
 
 	generateResources (
 		tiles: Immutable.List<MapGenTile>,
-		resourceList: Immutable.List<string>
-	): Immutable.List<string> {
+		resourceList: Immutable.List<Resource>
+	): Immutable.List<Resource> {
 		perlin.seed(this.seed);
 		const fragment = 2;
 
@@ -291,7 +297,7 @@ export class MapGenerator {
 			value = Math.floor(Math.abs(value));
 
 			if (value > 15) {
-				return 'tree';
+				return Resource.Tree;
 			}
 			return null;
 		}).toList();
@@ -305,18 +311,24 @@ export class MapGenerator {
 		// 2.5% to be bushes
 		const bushesCount = Math.floor(tilesCount * 0.025);
 
-		resourceList = this.generateResourceClusters(tiles, resourceList, 'rock', rocksCount, [10, 15]);
-		resourceList = this.generateResourceClusters(tiles, resourceList, 'bush', bushesCount, [2, 5]);
-		resourceList = this.generateResourceClusters(tiles, resourceList, 'mushroom', rocksCount, [3, 5]);
+		resourceList = this.generateResourceClusters(
+			tiles, resourceList, Resource.Rock, rocksCount, [10, 15]
+		);
+		resourceList = this.generateResourceClusters(
+			tiles, resourceList, Resource.Bush, bushesCount, [2, 5]
+		);
+		resourceList = this.generateResourceClusters(
+			tiles, resourceList, Resource.Mushroom, rocksCount, [3, 5]
+		);
 
 		return resourceList;
 	}
 
 	generateHills (
 		tiles: Immutable.List<MapGenTile>,
-		resourceList: Immutable.List<string>,
+		resourceList: Immutable.List<Resource>,
 		noHills: boolean = false
-	): Immutable.List<string> {
+	): Immutable.List<Resource> {
 		if (noHills) {
 			return;
 		}
@@ -332,7 +344,7 @@ export class MapGenerator {
 				value = Math.abs(perlin.simplex2(
 					column / 50 * fragment, row / 50 * fragment) * 40);
 			if (value > 30 && Util.validTiles.resource([tiles.get(i)]).length) {
-				resourceList = resourceList.set(i, 'hill');
+				resourceList = resourceList.set(i, Resource.Hill);
 			}
 		}
 		return resourceList;

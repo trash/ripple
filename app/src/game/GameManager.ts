@@ -25,6 +25,7 @@ import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/spriteManager';
 import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/gameLevelFactory';
+import {Resource} from '../data/Resource';
 import {keybindings} from '../services/keybindings';
 import {GameComponent} from '../views/game';
 import {TileInfoService} from '../ui/TileInfoService';
@@ -152,7 +153,7 @@ export class GameManager {
 
         // Spawn resources
         this.map.resourceList.forEach((resourceName, i) => {
-            if (resourceName && resourceName !== 'hill') {
+            if (resourceName && resourceName !== Resource.Hill) {
                 const tile = this.map.getTileByIndex(i);
                 if (tile.isWater) {
                     debugger;

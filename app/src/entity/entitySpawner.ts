@@ -42,6 +42,7 @@ import {EntityManager} from '../entity/entityManager';
 import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testLevel';
 import {Building} from '../data/Building';
 import {Agent} from '../data/Agent';
+import {Resource} from '../data/Resource';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
 import {baseUtil, storageUtil, constructibleUtil} from './util';
@@ -201,11 +202,11 @@ export class EntitySpawner {
 	}
 
 	spawnResource (
-        resourceName: string,
+        resourceEnum: Resource,
         tile: IRowColumnCoordinates,
         entityComponentData: IEntityComponentData = {}
     ): number {
-		const assemblageData = _.extend({}, resourcesAssemblageData[resourceName]);
+		const assemblageData = _.extend({}, resourcesAssemblageData[resourceEnum]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Resource);
 		entityComponentData.position = {

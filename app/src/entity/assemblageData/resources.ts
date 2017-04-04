@@ -6,6 +6,7 @@ import {util} from '../../util';
 import {config} from '../../data/config';
 import {HarvestType} from '../../data/harvestType';
 import {Profession} from '../../data/Profession';
+import {Resource} from '../../data/Resource';
 import {Item} from '../../data/Item';
 
 const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree)
@@ -16,6 +17,7 @@ const mushroomHealth = 100;
 
 const dataList: IEntityComponentData[] = [{
         resource: {
+            enum: Resource.Tree,
             name: 'tree',
             anchor: [0, 0.6],
             spriteKey: {
@@ -44,6 +46,7 @@ const dataList: IEntityComponentData[] = [{
     },
     {
         resource: {
+            enum: Resource.Rock,
             name: 'rock',
             anchor: [0, 0.6],
             spriteKey: [
@@ -68,6 +71,7 @@ const dataList: IEntityComponentData[] = [{
     },
     {
         resource: {
+            enum: Resource.Bush,
             name: 'bush',
             anchor: [0, 0.6],
             spriteKey: [
@@ -93,6 +97,7 @@ const dataList: IEntityComponentData[] = [{
     },
     {
         resource: {
+            enum: Resource.Mushroom,
             name: 'mushroom',
             anchor: [0, 0.1],
             spriteKey: [
@@ -121,6 +126,6 @@ const dataList: IEntityComponentData[] = [{
 
 export const assemblageData = (() => {
     let assemblageData: IAssemblageDataMap = {};
-    dataList.forEach(data => assemblageData[data.resource.name] = data);
+    dataList.forEach(data => assemblageData[data.resource.enum] = data);
     return assemblageData;
 })();

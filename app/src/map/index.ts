@@ -12,6 +12,7 @@ import {floodfill} from '../vendor/flood-fill';
 import {AStar as aStar} from '../vendor/astar';
 import {perlin} from '../vendor/perlin';
 import {constants} from '../data/constants';
+import {Resource} from '../data/Resource';
 import {util, Util} from '../util';
 import {GameManager} from '../game/GameManager';
 import {MapGenerator, IMapGenReturn} from './MapGenerator';
@@ -19,6 +20,7 @@ import {MapUtil} from './map-util';
 import {MapGenTile} from './map-gen-tile';
 import {MapTile} from './tile';
 import {events} from '../events';
+
 
 let zoneNumber = 10;
 let zoneNumberCount;
@@ -36,7 +38,7 @@ export interface IMapOptions {
 export interface IGeneratedMapData {
 	baseTilemap: string[];
 	upperTilemap: string[];
-	resourceList: string[];
+	resourceList: Resource[];
 }
 
 interface SerializedMapData extends IGeneratedMapData {
@@ -68,7 +70,7 @@ export class GameMap {
 	dimension: number;
 	baseTilemap: string[];
 	upperTilemap: string[];
-	resourceList: string[];
+	resourceList: Resource[];
 	_grid: number[][];
 	_tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
 	_tileHoverListenerInterval: number;
