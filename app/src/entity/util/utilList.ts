@@ -16,7 +16,8 @@ import {
     townUtil,
     healthUtil,
     behaviorTreeUtil,
-    constructibleUtil
+    constructibleUtil,
+    resourceUtil
 } from './index';
 
 export const utilList: BaseUtil[] = [
@@ -35,5 +36,6 @@ export const utilList: BaseUtil[] = [
     townUtil,
     healthUtil,
     behaviorTreeUtil,
-    constructibleUtil
+    constructibleUtil,
+    resourceUtil
 ];

@@ -4,6 +4,7 @@ import {ResourceListEntry} from '../../interfaces';
 import {
     IResourceState
 } from '../../entity/components';
+import {resourceUtil} from '../../entity/util';
 
 import {
     DisplayProperty,
@@ -11,6 +12,8 @@ import {
     renderHealthProperties,
     renderPositionProperties
 } from './InfoCard';
+
+import {Resource} from '../../data/Resource';
 
 const renderResourceProperties = (state: IResourceState): DisplayProperty[] => [
     {
@@ -30,9 +33,9 @@ export const ResourceInfoCard = (
     return (
         <div className="agent-info-card">
             <div>Id: {selectedResource.id}</div>
-            {/*<div>
-                <img src={buildingUtil.getImagePath(selectedResource.building.enum)}/>
-            </div>*/}
+            <div>
+                <img src={resourceUtil.getImagePath(selectedResource.resource.enum)}/>
+            </div>
             { filterAndRenderProperties(
                 detailed,
                 renderResourceProperties(selectedResource.resource)

@@ -14,3 +14,4 @@ export {healthUtil} from './health';
 export {townUtil} from './town';
 export {constructibleUtil} from './constructible';
 export {behaviorTreeUtil} from './behaviorTree';
+export {resourceUtil} from './resource';
