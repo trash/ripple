@@ -12,7 +12,12 @@ export class PositionUtil extends BaseUtil {
 		if (building) {
 			return buildingUtil.getTileFromBuilding(id);
 		}
-        return this._getPositionState(id).tile;
+		const positionState = this._getPositionState(id);
+		if (!positionState) {
+			console.error('No position state found for entity.');
+			return null;
+		}
+        return positionState.tile;
     }
 
     directionToTile (

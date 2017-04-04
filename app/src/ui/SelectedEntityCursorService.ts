@@ -51,6 +51,11 @@ export class SelectedEntityCursorService {
         spritePosition.offsetY = offsetY;
 
         const tile = positionUtil.getTileFromEntityId(this.selectedEntity);
+        // Entity was destroyed
+        if (tile === null) {
+            this.updateSelectedEntity(null);
+            return;
+        }
 
         const coords = globalRefs.map.getSpritePositionFromTile(tile);
         spritePosition.baseY = coords.y;

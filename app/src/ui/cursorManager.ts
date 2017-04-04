@@ -15,7 +15,6 @@ export class CursorManager {
 	currentCursor: string;
 
 	constructor () {
-
 		document.body.addEventListener('mousemove', event => {
 			this.cursorPosition = {
 				x: event.pageX,
