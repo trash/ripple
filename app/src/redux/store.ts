@@ -264,6 +264,13 @@ function mainReducer(
             updatedEntry.villager.job = action.job;
 
             newState.agentsList = newState.agentsList.set(index, updatedEntry);
+            // This is kind of hack. Essentially we have to modify the original reference
+            // because this is still being used by the game engine but we need
+            // to pass in a new object entirely so that redux detects a state change
+            // and re-renders. The solution to this would be to use immutable structs
+            // for every single state object but i fear that would be a premature
+            // optimization that would cause a looot of performance degradation
+            entry.villager.job = action.job;
             break;
     }
 

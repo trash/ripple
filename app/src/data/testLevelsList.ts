@@ -306,6 +306,23 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Professions Tests',
 		list: [
 			{
+				name: 'Villager changes jobs',
+				agents: [{
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Unemployed
+						}
+					}
+				}],
+				gameMap: {
+					noResources: false,
+					dimension: 20,
+					allLand: true,
+					seed: 666
+				}
+			},
+			{
 				name: 'Harvest Test',
 				agents: [{
 					enum: Agent.Villager,
