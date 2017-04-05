@@ -5,7 +5,8 @@ import {store, StoreState} from '../redux/store';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import {ConnectedDebugPanel} from './components/debugPanel';
-import {ConnectedAgentList} from './components/AgentsList';
+import {ConnectedAgentList} from './components/AgentList';
+import {ConnectedVillagerList} from './components/VillagerList';
 import {ConnectedActionBar} from './components/ActionBar';
 import {ConnectedClock} from './components/Clock';
 import {ConnectedItemList} from './components/ItemList';
@@ -28,6 +29,9 @@ export class InnerGameComponent extends React.Component<void, void> {
                         </Tab>
                         <Tab eventKey={2} title="Agent List">
                             <ConnectedAgentList/>
+                        </Tab>
+                        <Tab eventKey={3} title="Villager List">
+                            <ConnectedVillagerList/>
                         </Tab>
                     </Tabs>
                 </div>

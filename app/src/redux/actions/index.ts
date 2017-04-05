@@ -24,7 +24,8 @@ import {
     IPositionState,
     IConstructibleState,
     IBuildingState,
-    IResourceState
+    IResourceState,
+    INameState
 } from '../../entity/components';
 
 import {VillagerJob} from '../../data/VillagerJob';
@@ -133,6 +134,7 @@ export interface SpawnAgent {
     type: actionTypes.SPAWN_AGENT;
     id: number;
     agent: IAgentState;
+    name: INameState;
     villager: IVillagerState;
     visitor: IVisitorState;
     position: IPositionState;
@@ -143,6 +145,7 @@ export interface SpawnAgent {
 export function spawnAgent(
     id: number,
     agent: IAgentState,
+    name: INameState,
     villager: IVillagerState,
     visitor: IVisitorState,
     position: IPositionState,
@@ -153,6 +156,7 @@ export function spawnAgent(
         type: actionTypes.SPAWN_AGENT,
         id: id,
         agent: agent,
+        name: name,
         villager: villager,
         visitor: visitor,
         position: position,

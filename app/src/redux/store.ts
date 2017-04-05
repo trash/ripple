@@ -212,6 +212,7 @@ function mainReducer(
             newState.agentsList = previousState.agentsList.push({
                 id: action.id,
                 agent: action.agent,
+                name: action.name,
                 villager: action.villager,
                 visitor: action.visitor,
                 position: action.position,

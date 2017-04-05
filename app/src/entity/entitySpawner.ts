@@ -35,7 +35,8 @@ import {
 	IVisitorState,
 	IBuildingState,
 	IResourceState,
-	IHarvestableState
+	IHarvestableState,
+	INameState
 } from '../entity/components';
 
 import {EntityManager} from '../entity/entityManager';
@@ -145,6 +146,8 @@ export class EntitySpawner {
 			Component.Renderable, entityId) as IRenderableState;
 		const healthState = this.entityManager.getComponentDataForEntity(
 			Component.Health, entityId) as IHealthState;
+		const nameState = this.entityManager.getComponentDataForEntity(
+			Component.Name, entityId) as INameState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.extend({}, agentsAssemblageData[agent]);
@@ -159,6 +162,7 @@ export class EntitySpawner {
 		store.dispatch(spawnAgent(
 			entityId,
 			agentState,
+			nameState,
 			villagerState,
 			visitorState,
 			positionState,
