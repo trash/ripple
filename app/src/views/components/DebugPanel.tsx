@@ -176,19 +176,18 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         object: any,
         property: string
     ): JSX.JSXElement {
-        const editingKey = this
-            .getComponentPropertyKey(title, property);
-        const editing = this.state
-            .editingComponentProperties.get(editingKey);
+        const editingKey = this.getComponentPropertyKey(title, property);
+        const editing = this.state.editingComponentProperties.get(editingKey);
         const value = object[property];
-        const editingValue = this.state
-            .componentPropertiesValues.get(editingKey);
+        const editingValue = this.state.componentPropertiesValues.get(editingKey);
         const inputType = this.valueToInputType(value);
         const itemOnClick = (e: React.MouseEvent<any>) =>
                 this.editableDebugItemOnClick(
-                    e, editingKey, value, editing);
+                    e, editingKey, value, editing
+                );
         const saveCallback = () => this.editableDebugItemOnSave(
-            editingKey, object, property);
+            editingKey, object, property
+        );
 
         const valueString = util.isPrimitive(value)
             ? JSON.stringify(value)

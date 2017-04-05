@@ -13,7 +13,7 @@ export enum VillagerJob {
 }
 
 export interface IVillagerJob {
-    id?: VillagerJob,
+    enum?: VillagerJob,
     professions: Profession[];
     readableName?: string;
 };
@@ -80,5 +80,5 @@ Object.keys(villagerJobsMap).forEach(enumIdString => {
     let enumId = parseInt(enumIdString);
     let villagerJob = villagerJobsMap[enumId];
     villagerJob.readableName = VillagerJob[enumId];
-    villagerJob.id = enumId;
+    villagerJob.enum = enumId;
 })

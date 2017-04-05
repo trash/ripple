@@ -54,7 +54,8 @@ import {
     EntitySelected,
     PlayPauseGame,
     UpdateGameSpeed,
-    SpawnResource
+    SpawnResource,
+    UpdateVillagerJob
 } from './actions';
 
 type ReducerAction =
@@ -80,6 +81,7 @@ type ReducerAction =
     | EntitySelected
     | PlayPauseGame
     | UpdateGameSpeed
+    | UpdateVillagerJob
     | AgentListSelect;
 
 export interface StoreState {
@@ -252,6 +254,16 @@ function mainReducer(
 
         case actionTypes.UPDATE_GAME_SPEED:
             newState.gameSpeed = action.gameSpeed;
+            break;
+
+        case actionTypes.UPDATE_VILLAGER_JOB:
+            const index = newState.agentsList
+                .findIndex(entry => entry.id === action.id);
+            const entry = newState.agentsList.get(index);
+            const updatedEntry = _.cloneDeep(entry);
+            updatedEntry.villager.job = action.job;
+
+            newState.agentsList = newState.agentsList.set(index, updatedEntry);
             break;
     }
 

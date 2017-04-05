@@ -3,7 +3,7 @@ import {AgentListEntry} from '../../interfaces';
 import {agentUtil} from '../../entity/util';
 
 import {Agent} from '../../data/Agent';
-import {VillagerJob} from '../../data/VillagerJob';
+import {VillagerJob, villagerJobsMap} from '../../data/VillagerJob';
 import {AgentTrait} from '../../data/AgentTrait';
 
 import {
@@ -21,6 +21,8 @@ import {
     renderPositionProperties
 } from './InfoCard';
 
+import {store} from '../../redux/store';
+import {updateVillagerJob} from '../../redux/actions';
 
 const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
     {
@@ -81,6 +83,27 @@ const renderVisitorProperties = (visitorState: IVisitorState): DisplayProperty[]
     }
 ];
 
+export interface VillagerJobSelectProps {
+    currentJob: VillagerJob;
+    onChange: Function;
+}
+
+export const VillagerJobSelect = (props: VillagerJobSelectProps) =>
+    <div>
+        Job
+        <select value={props.currentJob}
+            onChange={e => props.onChange(e.target.value)}>
+            {Object.keys(villagerJobsMap).map(jobKey => {
+                const job = villagerJobsMap[parseInt(jobKey)];
+                return (
+                    <option key={job.enum} value={job.enum}>
+                        {job.readableName}
+                    </option>
+                );
+            })}
+        </select>
+    </div>
+
 export const AgentInfoCard = (
     selectedAgent: AgentListEntry,
     detailed: boolean = false
@@ -115,6 +138,15 @@ export const AgentInfoCard = (
                 detailed,
                 renderVisitorProperties(selectedAgent.visitor)
             ) }
+            { selectedAgent.villager &&
+                VillagerJobSelect({
+                    currentJob: selectedAgent.villager.job,
+                    onChange: job => store.dispatch(updateVillagerJob(
+                        selectedAgent.id,
+                        job
+                    ))
+                })
+            }
         </div>
     );
 }

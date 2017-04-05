@@ -27,6 +27,8 @@ import {
     IResourceState
 } from '../../entity/components';
 
+import {VillagerJob} from '../../data/VillagerJob';
+
 import * as actionTypes from './types';
 
 export interface ShowBuildingsList {
@@ -266,5 +268,22 @@ export function spawnResource(
         harvestable: harvestable,
         health: health,
         position: position
+    };
+}
+
+export interface UpdateVillagerJob {
+    type: actionTypes.UPDATE_VILLAGER_JOB;
+    id: number;
+    job: VillagerJob;
+}
+
+export function updateVillagerJob(
+    id: number,
+    job: VillagerJob
+): UpdateVillagerJob {
+    return {
+        type: actionTypes.UPDATE_VILLAGER_JOB,
+        id: id,
+        job: job
     };
 }
