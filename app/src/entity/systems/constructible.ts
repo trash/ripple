@@ -40,6 +40,11 @@ export class ConstructibleSystem extends EntitySystem {
                 this.initSprites(positionState, constructibleState, renderableState);
             }
             if (this.isComplete(healthState)) {
+                // Bound health in case of multiple villagers causing health to
+                // go over max
+                if (healthState.currentHealth > healthState.maxHealth) {
+                    healthState.currentHealth = healthState.maxHealth;
+                }
                 constructibleState.progressSprite.visible = false;
                 constructibleState.completedSprite.visible = true;
             }
