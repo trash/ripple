@@ -115,7 +115,7 @@ export const AgentInfoCard = (
         <div className="agent-info-card">
             <div>Id: {selectedAgent.id}</div>
             <div>
-                <img src={agentUtil.getImagePath(selectedAgent.agent.enum)}/>
+                <img src={agentUtil.getImagePathFromAgentState(selectedAgent.agent)}/>
             </div>
             <div>Last Action: {selectedAgent.lastAction}</div>
             { filterAndRenderProperties(

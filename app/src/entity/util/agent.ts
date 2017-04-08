@@ -101,6 +101,13 @@ export class AgentUtil extends BaseUtil {
 		return `${constants.SPRITE_PATH}monsters/${agentName}/${spriteName}.png`;
 	}
 
+	getImagePathFromAgentState(
+		agentState: IAgentState
+	) {
+		const spriteName = this.getSpriteName(agentState, 'down');
+		return `${constants.SPRITE_PATH}monsters/${Agent[agentState.enum]}/${spriteName}.png`;
+	}
+
 	agentIsDead (id: number): boolean {
 		if (id in this.entityManager.removedEntities) {
 			return true;

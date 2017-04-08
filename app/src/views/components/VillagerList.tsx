@@ -39,7 +39,7 @@ export class VillagerList extends React.Component<VillagerListProps, void> {
                             key={agentEntry.id}>
                             <div>{agentEntry.name.name}</div>
                             <div>
-                                <img src={agentUtil.getImagePath(agentEntry.agent.enum)}/>
+                                <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>
                             </div>
                             <div>{healthUtil.toString(agentEntry.health)}</div>
                             <div>{agentEntry.agent.gender}</div>
