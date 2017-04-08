@@ -1,7 +1,12 @@
 export const config = {
 	hoursToTendCropAgain: 24,
 	cropsTendTurns: 100,
-	gameHoursToCutDownTree: 2,
+	hoursToDoAction: {
+		cutDownTree: 2,
+		harvestBush: 1,
+		harvestMushroom: 1,
+		mineRock: 4
+	},
 	averageSpeed: {
 		citizen: 10
 	},

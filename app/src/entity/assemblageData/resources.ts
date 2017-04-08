@@ -9,11 +9,14 @@ import {Profession} from '../../data/Profession';
 import {Resource} from '../../data/Resource';
 import {Item} from '../../data/Item';
 
-const treeHealth = util.hoursToTicks(config.gameHoursToCutDownTree)
-    / config.averageSpeed.citizen / 10;
-const rockHealth = 200;
-const bushHealth = 100;
-const mushroomHealth = 100;
+const healthFromActionTime = (hours: number): number => {
+    return util.hoursToTicks(hours) / config.averageSpeed.citizen;
+};
+
+const treeHealth = healthFromActionTime(config.hoursToDoAction.cutDownTree);
+const rockHealth = healthFromActionTime(config.hoursToDoAction.mineRock);
+const bushHealth = healthFromActionTime(config.hoursToDoAction.harvestBush);
+const mushroomHealth = healthFromActionTime(config.hoursToDoAction.harvestMushroom);
 
 const dataList: IEntityComponentData[] = [{
         resource: {

@@ -17,6 +17,7 @@ import {AgentTrait} from '../../data/AgentTrait';
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
 import {constants} from '../../data/constants';
+import {config} from '../../data/config';
 
 const maxHealth = 100;
 const defaultHealthState = {
@@ -134,7 +135,7 @@ const dataList: IEntityComponentData[] = [
                 AgentTrait.Human
             ],
             strength: 3,
-            speed: constants.BASE_SPEED
+            speed: config.averageSpeed.citizen
         },
         health: defaultHealthState,
         villager: {

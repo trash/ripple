@@ -70,7 +70,7 @@ export class ConstructibleSystem extends EntitySystem {
     }
 
     isComplete (healthState: IHealthState) {
-        return healthState.currentHealth === healthState.maxHealth;
+        return healthState.currentHealth >= healthState.maxHealth;
     }
 
     initSprites (

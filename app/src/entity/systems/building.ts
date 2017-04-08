@@ -19,17 +19,17 @@ export class BuildingSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const buildingState = this.manager.getComponentDataForEntity(
-                    Component.Building, id) as IBuildingState;
+                Component.Building, id) as IBuildingState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Component.Position, id) as IPositionState;
+                Component.Position, id) as IPositionState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Component.Health, id) as IHealthState;
+                Component.Health, id) as IHealthState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Component.Name, id) as INameState;
+                Component.Name, id) as INameState;
             const constructibleState = this.manager.getComponentDataForEntity(
-                    Component.Constructible, id) as IConstructibleState;
+                Component.Constructible, id) as IConstructibleState;
             const renderableState = this.manager.getComponentDataForEntity(
-                    Component.Renderable, id) as IRenderableState;
+                Component.Renderable, id) as IRenderableState;
             const collisionState = this.manager.getComponentDataForEntity(
                 Component.Collision, id) as ICollisionState;
             const storageState = this.manager.getComponentDataForEntity(
@@ -50,7 +50,8 @@ export class BuildingSystem extends EntitySystem {
             if (!buildingState.entranceTile && tile) {
                 buildingState.entranceTile = mapUtil.getTile(
                     tile.row + collisionState.entrance.y,
-			        tile.column + collisionState.entrance.x);
+			        tile.column + collisionState.entrance.x
+                );
             }
             if (!nameState.name) {
                 if (nameState.isStatic) {
