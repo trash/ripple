@@ -16,11 +16,11 @@ export class HarvestableSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const healthState = this.manager.getComponentDataForEntity(
-                    Component.Health, id) as IHealthState;
+                Component.Health, id) as IHealthState;
             const harvestableState = this.manager.getComponentDataForEntity(
-                    Component.Harvestable, id) as IHarvestableState;
+                Component.Harvestable, id) as IHarvestableState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Component.Position, id) as IPositionState;
+                Component.Position, id) as IPositionState;
 
             if (healthState.currentHealth <= 0) {
                 this.manager.spawner.spawnItemsFromList(harvestableState.drops, {
@@ -32,6 +32,10 @@ export class HarvestableSystem extends EntitySystem {
                     }
                 });
                 events.emit(['trigger-sound', 'harvestResource']);
+                if (harvestableState.harvestCompleteSound) {
+                    events.emit(['trigger-sound', harvestableState.harvestCompleteSound]);
+                }
+
                 this.manager.destroyEntity(id);
             }
         });

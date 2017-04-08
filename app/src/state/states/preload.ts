@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import {MusicPlayer} from '../../game/music-player';
+import {MusicPlayer} from '../../game/MusicPlayer';
 const spritesDirectories = require('../../../sprites/directory.json');
 import {LoadScreen as LoadScreenComponent} from '../../views/loadScreen';
 let LoadScreen = React.createFactory(LoadScreenComponent);
@@ -32,12 +32,13 @@ export class PreloaderState implements IState {
 		});
 
 
-		new MusicPlayer([
+		const musicPlayer = new MusicPlayer([
 			// 'audio/music/truncate.mp3',
 			// 'audio/music/df.mp3',
 			'audio/music/ragnarok-ethical-aspiration.mp3',
 			'audio/music/df.mp3',
 		]);
+		musicPlayer.mute();
 
 		PIXI.loader
 			.on('progress', loader => {

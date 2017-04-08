@@ -40,7 +40,9 @@ const dataList: IEntityComponentData[] = [{
             drops: [
                 [Item.Wood, '*1']
             ],
-            harvestType: HarvestType.Tree
+            harvestType: HarvestType.Tree,
+            harvestSound: 'chopTree',
+            harvestCompleteSound: 'treeFall'
         },
         health: {
             maxHealth: treeHealth,

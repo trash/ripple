@@ -140,7 +140,7 @@ export class PlaceBuildingService {
 		document.body.removeChild(this.blueprintSprite);
 	}
 
-	createEntity (collisionData: ICollisionState): number {
+	createCollisionEntity (collisionData: ICollisionState): number {
 		const entityId = this.entityManager.createEntity([
 			Component.Collision,
 			Component.Position
@@ -160,7 +160,7 @@ export class PlaceBuildingService {
 		this.building = building;
 		this.active = true;
 
-		this.entity = this.createEntity(building.collision);
+		this.entity = this.createCollisionEntity(building.collision);
 
 		this.hoverSprite = this.createHoverSprite();
 		this.hoverSprite.visible = true;

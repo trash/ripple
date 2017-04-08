@@ -14,6 +14,8 @@ export interface IHarvestableState {
     drops: [Item, string][];
     itemsDropped?: boolean;
     harvestType: HarvestType;
+    harvestSound?: string;
+    harvestCompleteSound?: string;
 }
 
 export const Harvestable: IComponent<IHarvestableState> = {
@@ -27,7 +29,9 @@ export const Harvestable: IComponent<IHarvestableState> = {
             profession: null,
             drops: [],
             itemsDropped: false,
-            harvestType: null
+            harvestType: null,
+            harvestSound: null,
+            harvestCompleteSound: null
         };
     }
 };

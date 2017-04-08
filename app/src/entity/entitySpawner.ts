@@ -338,6 +338,8 @@ export class EntitySpawner {
 		if (!entityComponentData.position.tile) {
 			console.error('Spawning a building without a tile.');
 		}
+		events.emit(['trigger-sound', 'placeBuilding']);
+
 		const assemblageData = _.extend({}, buildingsAssemblageData[building]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 

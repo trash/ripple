@@ -1,3 +1,4 @@
+import {events} from '../../events';
 import {BaseUtil} from './base';
 import {Direction, IRowColumnCoordinates} from '../../interfaces';
 
@@ -10,6 +11,11 @@ export class HarvestableUtil extends BaseUtil {
 
         healthState.currentHealth -= contribution;
         // this.resource.harvest(contribution);
+
+        const harvestableState = this._getHarvestableState(resource);
+        if (harvestableState.harvestSound) {
+            events.emit(['trigger-sound', harvestableState.harvestSound]);
+        }
 
         if (healthState.currentHealth <= 0) {
             return true;

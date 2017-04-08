@@ -16,7 +16,8 @@ import {
     IHungerState,
     IStorageState,
     IVisitorState,
-    ITownState
+    ITownState,
+    IHarvestableState
 } from '../components';
 
 import {EntityManager} from '../entityManager';
@@ -36,6 +37,10 @@ export class BaseUtil {
     _getHealthState (id: number): IHealthState {
         return this.entityManager.getComponentDataForEntity(
             Component.Health, id) as IHealthState;
+    }
+    _getHarvestableState (id: number): IHarvestableState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.Harvestable, id) as IHarvestableState;
     }
     _getAgentState (id: number): IAgentState {
         return this.entityManager.getComponentDataForEntity(

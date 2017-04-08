@@ -1,3 +1,4 @@
+import {events} from '../../events';
 import {b3} from '../index';
 import * as Core from '../Core';
 import {IHealthState} from '../../entity/components/health';
@@ -23,6 +24,8 @@ export class BuildBuilding extends Core.BaseNode {
 		// Add it to the health of the building
 		// this.building.updateProgress(contribution);
 		this.buildingHealthState.currentHealth += contribution;
+
+		events.emit(['trigger-sound', 'construct']);
 
 		if (this.buildingHealthState.currentHealth >= this.buildingHealthState.maxHealth) {
 			return b3.SUCCESS;

@@ -26,8 +26,8 @@ export class HarvestResource extends Core.BaseNode {
 		// Chop the tree
 		const harvested = harvestableUtil.harvest(this.resourceEntityId, contribution);
 
-		return harvested ?
-			b3.SUCCESS :
-			b3.RUNNING;
+		return harvested
+			? b3.SUCCESS
+			: b3.RUNNING;
 	}
 }

@@ -1,3 +1,4 @@
+import {events} from '../../events';
 import * as _ from 'lodash';
 import {Component} from '../ComponentEnum';
 import {spriteUtil} from '../../util/sprite';
@@ -293,6 +294,7 @@ export class AgentUtil extends BaseUtil {
 		item: number
 	) {
 		console.log('agent should be buying item', agent, item);
+		events.emit(['trigger-sound', 'purchase']);
 		const itemState = this._getItemState(item);
 		const value = itemState.value;
 		// Remove gold from agent

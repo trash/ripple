@@ -17,6 +17,7 @@ import {GameMap, IMapOptions} from '../map';
 import {canvasService} from '../ui/canvasService';
 import {placeBuildingService} from '../ui/placeBuildingService';
 import {util} from '../util';
+import {SoundManager} from './SoundManager';
 import {GameLoop} from './GameLoop';
 import {GameSpeed} from './GameSpeed';
 import {GameCamera} from './game-camera';
@@ -54,6 +55,8 @@ export class GameManager {
     constructor (rootElement: Element, mode: string = 'default') {
         console.info(`GameManager initialized. Mode: ${mode}`);
         const gameManager = this;
+
+        new SoundManager();
 
         events.on('level-selected', (level: ITestLevel) => {
             console.log('level-selected', level);
