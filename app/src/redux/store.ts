@@ -264,14 +264,21 @@ function mainReducer(
             const updatedEntry = _.cloneDeep(entry);
             updatedEntry.villager.job = action.job;
 
-            newState.agentsList = newState.agentsList.set(index, updatedEntry);
             // This is kind of hack. Essentially we have to modify the original reference
             // because this is still being used by the game engine but we need
             // to pass in a new object entirely so that redux detects a state change
             // and re-renders. The solution to this would be to use immutable structs
             // for every single state object but i fear that would be a premature
             // optimization that would cause a looot of performance degradation
+            // NOTE: the redundant updates are necessary. The first one makes sure
+            // redux is aware of the change and the second makes sure we maintain the same
+            // reference. If we don't maintain the same reference, future updates
+            // will not actually propagate to the game because we rely on the same
+            // object being used everywhere because of the way the ECS manager
+            // works (keeps a list of references).
+            newState.agentsList = newState.agentsList.set(index, updatedEntry);
             entry.villager.job = action.job;
+            newState.agentsList = newState.agentsList.set(index, entry);
             break;
     }
 

@@ -56,6 +56,7 @@ export class GameManager {
         const gameManager = this;
 
         events.on('level-selected', (level: ITestLevel) => {
+            console.log('level-selected', level);
             this.level = level;
             this.state.start(State.Game);
             this.saveLastOpenedLevel(level);
@@ -98,6 +99,7 @@ export class GameManager {
         this.startRenderer();
 
         this.level = defaultLevel;
+        console.log(this.level);
 
         if (mode === 'mapgen') {
             this.state.start(State.Preload, State.Game);
@@ -140,7 +142,7 @@ export class GameManager {
     }
 
     start () {
-        console.info('Start the game.');
+        console.info('Start the game.', this.level);
         this.map = this.createMap(this.level.gameMap);
         events.emit('map-update', this.map);
 
@@ -166,6 +168,7 @@ export class GameManager {
         // Spawn agents
         if (this.level.agents) {
             this.level.agents.forEach(agent => {
+                console.log('agent', agent);
                 this.entityManager.spawner.spawnAgent(
                     agent.enum,
                     agent.data

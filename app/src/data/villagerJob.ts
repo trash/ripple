@@ -4,8 +4,8 @@ export enum VillagerJob {
     Laborer = 1,
     Guard,
     Builder,
-    Farmer,
-    Fisherman,
+    // Farmer,
+    // Fisherman,
     Blacksmith,
     Unemployed,
     Shopkeeper,
@@ -51,17 +51,17 @@ export const villagerJobsMap: IVillagerJobMap = {
             Profession.Blacksmith
         ]
     },
-    [VillagerJob.Farmer]: {
-        professions: [
-            Profession.Farmer,
-            Profession.Gatherer
-        ]
-    },
-    [VillagerJob.Fisherman]: {
-        professions: [
-            Profession.Fisherman
-        ]
-    },
+    // [VillagerJob.Farmer]: {
+    //     professions: [
+    //         Profession.Farmer,
+    //         Profession.Gatherer
+    //     ]
+    // },
+    // [VillagerJob.Fisherman]: {
+    //     professions: [
+    //         Profession.Fisherman
+    //     ]
+    // },
     [VillagerJob.Shopkeeper]: {
         professions: [
             Profession.Shopkeeper

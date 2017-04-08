@@ -315,12 +315,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 						}
 					}
 				}],
-				gameMap: {
-					noResources: false,
-					dimension: 20,
-					allLand: true,
-					seed: 666
-				}
+				items: buildingsList[0].constructible.requiredResources
 			},
 			{
 				name: 'Harvest Test',

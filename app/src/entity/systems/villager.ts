@@ -71,6 +71,7 @@ export class VillagerSystem extends EntitySystem {
 	}
 
     getTaskForVillager (id: number, villagerState: IVillagerState): Instance {
+		console.log('getTaskForVillager', VillagerJob[villagerState.job]);
         var task = villagerState.currentTask;
 		// Continue on current task unless it's no longer ready then bail on it
 		if (task && task.isReady() && !task.isComplete()) {
@@ -85,7 +86,8 @@ export class VillagerSystem extends EntitySystem {
 
 	private getProfessions(villagerState: IVillagerState): Profession[] {
 		return professionsList.filter(profession =>
-			villagerUtil.hasProfession(villagerState, profession));
+			villagerUtil.hasProfession(villagerState, profession)
+		);
 	}
 
     getTaskFromProfessionList (

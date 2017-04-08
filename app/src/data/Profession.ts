@@ -4,18 +4,18 @@
 export enum Profession {
 	Guard = 1,
 	Gatherer,
-	Farmer,
-	Herbalist,
+	// Farmer,
+	// Herbalist,
 	Builder,
 	Blacksmith,
 	Woodcutter,
 	Miner,
-	Hunter,
+	// Hunter,
 	Baker,
-	Brewer,
+	// Brewer,
 	Carpenter,
 	Hauler,
-	Fisherman,
+	// Fisherman,
 	Shopkeeper
 }
 

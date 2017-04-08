@@ -23,10 +23,8 @@ export class TestSelectState implements IState {
 	}
 
 	startTest (level: ITestLevel) {
-		return () => {
-			events.emit(['trigger-sound', 'uiClick']);
-			events.emit('level-selected', level);
-		};
+		events.emit(['trigger-sound', 'uiClick']);
+		events.emit('level-selected', level);
 	}
 
 	mainMenu () {
