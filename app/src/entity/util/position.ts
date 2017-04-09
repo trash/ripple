@@ -7,9 +7,16 @@ import {IPositionState, ICollisionState, IBuildingState} from '../Components';
 import {util} from '../../util';
 
 export class PositionUtil extends BaseUtil {
-    getTileFromEntityId (id: number) {
+	/**
+	 * Gets the tile from the entity with given id.
+	 * For buildings by default it will return the entrance tile unless
+	 * noEntrance is passed in as true.
+	 * @param id
+	 * @param noEntrance
+	 */
+    getTileFromEntityId (id: number, noEntrance = false) {
 		const building = this._getBuildingState(id);
-		if (building) {
+		if (building && !noEntrance) {
 			return buildingUtil.getTileFromBuilding(id);
 		}
 		const positionState = this._getPositionState(id);
@@ -52,6 +59,11 @@ export class PositionUtil extends BaseUtil {
 		return null;
 	}
 
+	/**
+	 * Returns true if the entity occupies the given tile.
+	 * @param tile
+	 * @param entityId
+	 */
 	private filterEntityByTile(
 		tile: IRowColumnCoordinates,
 		entityId: number
@@ -68,9 +80,7 @@ export class PositionUtil extends BaseUtil {
 		// Need to check each tile occupied by the collidable body
 		if (collisionState) {
 			return collisionUtil.getTilesFromCollisionEntity(entityId)
-				.some(coords => {
-					return util.rowColumnCoordinatesAreEqual(tile, coords);
-				});
+				.some(coords => util.rowColumnCoordinatesAreEqual(tile, coords));
 		}
 		return util.rowColumnCoordinatesAreEqual(tile, positionState.tile);
 	}
@@ -79,10 +89,9 @@ export class PositionUtil extends BaseUtil {
 		tile: IRowColumnCoordinates,
 		componentName: Component
 	): number[] {
-		return Object.keys(
-			this.entityManager.getEntitiesWithComponent(componentName))
-				.map(entityId => parseInt(entityId))
-				.filter(entityId => this.filterEntityByTile(tile, entityId));
+		return Object.keys(this.entityManager.getEntitiesWithComponent(componentName))
+			.map(entityId => parseInt(entityId))
+			.filter(entityId => this.filterEntityByTile(tile, entityId));
 	}
 
 	destroyEntityOfComponentTypeInTile(

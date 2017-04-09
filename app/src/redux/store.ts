@@ -51,7 +51,7 @@ import {
     SpawnAgent,
     SpawnBuilding,
     AgentListSelect,
-    EntitySelected,
+    EntitiesSelected,
     PlayPauseGame,
     UpdateGameSpeed,
     SpawnResource,
@@ -78,7 +78,7 @@ type ReducerAction =
     | SpawnAgent
     | SpawnBuilding
     | SpawnResource
-    | EntitySelected
+    | EntitiesSelected
     | PlayPauseGame
     | UpdateGameSpeed
     | UpdateVillagerJob
@@ -113,7 +113,7 @@ export interface StoreState {
     buildingsList: Immutable.List<BuildingListEntry>;
     resourcesList: Immutable.List<ResourceListEntry>;
     agentListSelected: number;
-    selectedEntity: number;
+    selectedEntities: number[];
     gameSpeed: number;
     gamePaused: boolean;
 }
@@ -124,7 +124,8 @@ const initialState = {
     agentsList: Immutable.List<AgentListEntry>(),
     buildingsList: Immutable.List<BuildingListEntry>(),
     resourcesList: Immutable.List<ResourceListEntry>(),
-    gameSpeed: 0
+    gameSpeed: 0,
+    selectedEntities: []
 } as StoreState;
 function mainReducer(
     previousState = initialState,
@@ -245,8 +246,8 @@ function mainReducer(
             newState.agentListSelected = action.selected;
             break;
 
-        case actionTypes.ENTITY_SELECTED:
-            newState.selectedEntity = action.selected;
+        case actionTypes.ENTITIES_SELECTED:
+            newState.selectedEntities = action.selected;
             break;
 
         case actionTypes.PLAY_PAUSE_GAME:

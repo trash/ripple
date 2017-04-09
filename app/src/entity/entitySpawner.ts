@@ -345,7 +345,7 @@ export class EntitySpawner {
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Building);
 
-		console.info(`Spawning: ${building} with entityId: ${entityId}`);
+		console.info(`Spawning: ${Building[building]} with entityId: ${entityId}`);
 
 		this.copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Building);
 

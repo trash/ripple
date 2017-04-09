@@ -3,6 +3,7 @@ import {IPositionState} from '../components/position';
 import {ICollisionState} from '../components/collision';
 import {events} from '../../events';
 import {BaseUtil} from './base';
+import {positionUtil} from './position';
 import {IRowColumnCoordinates} from '../../interfaces';
 
 export class CollisionUtil extends BaseUtil {
@@ -14,8 +15,7 @@ export class CollisionUtil extends BaseUtil {
         id: number,
         excludeEntranceTile: boolean = false
     ): IRowColumnCoordinates[] {
-        const positionState = this._getPositionState(id);
-        const tile = positionState.tile;
+        const tile = positionUtil.getTileFromEntityId(id, true);
         // Ignore collision entities without a position
         if (!tile) {
             return [];

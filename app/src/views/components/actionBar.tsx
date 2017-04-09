@@ -1,5 +1,6 @@
 import * as Immutable from 'immutable';
 import * as React from 'react'
+import * as _ from 'lodash';
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
 import {
@@ -28,19 +29,30 @@ interface ActionBarProps {
     buildings: Immutable.List<BuildingListEntry>;
     resources: Immutable.List<ResourceListEntry>;
     agentListSelected: number;
-    selectedEntity: number;
+    selectedEntities: number[];
 }
 
 export class ActionBar extends React.Component<ActionBarProps, void> {
     render () {
         const selectedBuilding = this.props.buildings
-            .find(building => building.id === this.props.selectedEntity);
+            .find(building =>
+                !!this.props.selectedEntities.find(entity => building.id === entity)
+            );
         const selectedAgent = this.props.agents
             .find(agent =>
-                agent.id === this.props.selectedEntity
+                !!this.props.selectedEntities.find(entity => agent.id === entity)
                 || agent.id === this.props.agentListSelected);
         const selectedResource = this.props.resources
-            .find(resource => resource.id === this.props.selectedEntity);
+            .find(resource =>
+                !!this.props.selectedEntities.find(entity => resource.id === entity)
+            );
+
+        // console.log(
+        //     `action bar select
+        //     building ${selectedBuilding}
+        //     agent ${selectedAgent}
+        //     resource ${selectedResource}`
+        // );
 
         let infoCard: JSX.Element;
         if (selectedBuilding) {
@@ -92,7 +104,7 @@ export const ConnectedActionBar = connect((state: StoreState) => {
         craftBarShown: state.craftBarShown,
         agents: state.agentsList,
         agentListSelected: state.agentListSelected,
-        selectedEntity: state.selectedEntity,
+        selectedEntities: state.selectedEntities,
         buildings: state.buildingsList,
         resources: state.resourcesList
     };

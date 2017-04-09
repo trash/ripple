@@ -10,7 +10,7 @@ import {positionUtil} from '../entity/util';
 import {Component} from '../entity/ComponentEnum';
 import {constants} from '../data/constants';
 import {store} from '../redux/store';
-import {entitySelected} from '../redux/actions';
+import {entitiesSelected} from '../redux/actions';
 
 const spritePosition = {
     offsetX: constants.TILE_HEIGHT / 2,
@@ -65,7 +65,6 @@ export class SelectedEntityCursorService {
     }
 
     updateSelectedEntity(entity: number | null) {
-        store.dispatch(entitySelected(entity));
         this.selectedEntity = entity;
         if (this.hoverSprite) {
             this.hoverSprite.visible = _.isNumber(entity);
@@ -80,11 +79,13 @@ export class SelectedEntityCursorService {
         if (!this.hoverSprite) {
             return;
         }
-        const hoveredEntity = positionUtil.getEntitiesWithComponentInTile(
+        const hoveredEntities = positionUtil.getEntitiesWithComponentInTile(
             tile,
             Component.Position
-        )[0];
-        this.updateSelectedEntity(hoveredEntity);
+        );
+        store.dispatch(entitiesSelected(hoveredEntities));
+
+        this.updateSelectedEntity(hoveredEntities[0]);
     }
 
     createHoverSprite (): PIXI.Sprite {

@@ -179,16 +179,16 @@ export function agentListSelect(
     };
 }
 
-export interface EntitySelected {
-    type: actionTypes.ENTITY_SELECTED;
-    selected: number;
+export interface EntitiesSelected {
+    type: actionTypes.ENTITIES_SELECTED;
+    selected: number[];
 }
 
-export function entitySelected(
-    selected: number
+export function entitiesSelected(
+    selected: number[]
 ) {
     return {
-        type: actionTypes.ENTITY_SELECTED,
+        type: actionTypes.ENTITIES_SELECTED,
         selected: selected
     };
 }
