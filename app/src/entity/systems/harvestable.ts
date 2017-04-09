@@ -10,9 +10,9 @@ import {IPositionState} from '../components';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
 import {events} from '../../events';
-// import {itemManager} from '../../services/item-manager';
 
 export class HarvestableSystem extends EntitySystem {
+    // This causes errors
     // readonly updateInterval = 4;
 
     update (entityIds: number[]) {

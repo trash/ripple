@@ -414,12 +414,6 @@ export class Tilemap extends PIXI.Container {
 		dontUpdatePosition: boolean,
 		layerIndex: number = defaultSubContainerLayer,
 	): boolean {
-		const currentSubContainerIndex = sprite.subContainer;
-		const nextSubContainerIndex = this.tileToSubContainerIndex(x, y);
-		if (currentSubContainerIndex === nextSubContainerIndex) {
-			return true;
-		}
-
 		const oldSubContainerIndex = this.removeChildFromSubContainer(
 			sprite,
 			layerIndex
