@@ -116,6 +116,7 @@ export interface StoreState {
     selectedEntities: number[];
     gameSpeed: number;
     gamePaused: boolean;
+    gameTurn: number;
 }
 
 const initialState = {

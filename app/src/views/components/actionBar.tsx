@@ -14,7 +14,7 @@ import {
     ResourceListEntry
 } from '../../interfaces';
 import {BuildingsList} from './BuildingsList';
-import {DebugBar} from './DebugBar';
+import {ConnectedDebugBar} from './DebugBar';
 import {CraftBar} from './CraftBar';
 import {AgentInfoCard} from './AgentInfoCard';
 import {ResourceInfoCard} from './ResourceInfoCard';
@@ -73,7 +73,7 @@ export class ActionBar extends React.Component<ActionBarProps, void> {
                     { this.props.buildingsListShown &&
                     <BuildingsList/>}
                     { this.props.debugBarShown &&
-                    <DebugBar/>}
+                    <ConnectedDebugBar/>}
                     { this.props.craftBarShown &&
                     <CraftBar/>}
                 </div>

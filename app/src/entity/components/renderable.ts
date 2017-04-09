@@ -1,5 +1,6 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
+import {XYCoordinates} from '../../interfaces';
 
 export interface IRenderableState {
     sprite: PIXI.Sprite;
@@ -7,6 +8,7 @@ export interface IRenderableState {
     shown: boolean;
     lastSubContainerLayerIndex?: number;
     activeSubContainerTransition?: boolean;
+    lastRenderedCoordinates: XYCoordinates;
 }
 
 export const Renderable: IComponent<IRenderableState> = {
@@ -18,7 +20,8 @@ export const Renderable: IComponent<IRenderableState> = {
             spriteGroup: null,
             shown: true,
             lastSubContainerLayerIndex: null,
-            activeSubContainerTransition: false
+            activeSubContainerTransition: false,
+            lastRenderedCoordinates: null
         };
     }
 }

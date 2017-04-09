@@ -46,7 +46,7 @@ import {Agent} from '../data/Agent';
 import {Resource} from '../data/Resource';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
-import {baseUtil, storageUtil, constructibleUtil} from './util';
+import {baseUtil, storageUtil, constructibleUtil, positionUtil} from './util';
 import {util} from '../util';
 import {events} from '../events';
 import {globalRefs} from '../globalRefs';
@@ -58,8 +58,8 @@ export class EntitySpawner {
 		entityManager: EntityManager
 	) {
         this.entityManager = entityManager;
-		events.on('spawnAgent', (agent: Agent, data?: IEntityComponentData) =>
-			this.spawnAgent(agent, data));
+		events.on('spawnAgent', (agent: Agent, turn: number, data?: IEntityComponentData) =>
+			this.spawnAgent(agent, turn, data));
 		events.on('spawnItem', (item: Item) => this.spawnItem(item, {
 			item: {
 				claimed: true
@@ -123,6 +123,7 @@ export class EntitySpawner {
 	*/
 	spawnAgent (
 		agent: Agent,
+		turn: number,
 		entityComponentData: IEntityComponentData = {}
 	): number {
 		let assemblage = AssemblagesEnum.Agent;
@@ -156,7 +157,12 @@ export class EntitySpawner {
 
 		positionState.hasDirection = true;
 		// Set tile to 0,0
-		positionState.tile = positionState.tile || globalRefs.map.getTile(0, 0);
+		positionUtil.setTile(
+			positionState,
+			positionState.tile || globalRefs.map.getTile(0, 0),
+			turn,
+			agentState.speed
+		);
 
 		// Notify redux of new agent
 		store.dispatch(spawnAgent(

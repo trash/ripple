@@ -291,3 +291,17 @@ export function updateVillagerJob(
         job: job
     };
 }
+
+export interface UpdateGameTurn {
+    type: actionTypes.UPDATE_GAME_TURN;
+    turn: number;
+}
+
+export function updateGameTurn(
+    turn: number
+): UpdateGameTurn {
+    return {
+        type: actionTypes.UPDATE_GAME_TURN,
+        turn: turn
+    };
+}

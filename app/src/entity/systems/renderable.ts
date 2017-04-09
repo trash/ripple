@@ -42,9 +42,27 @@ export class RenderableSystem extends EntitySystem {
 			}
 
 			let lastPosition = spriteManager.positionFromTile(
-				positionState.previousTile.column, positionState.previousTile.row);
+				positionState.previousTile.column, positionState.previousTile.row
+			);
 			let newPosition = spriteManager.positionFromTile(
-				positionState.tile.column, positionState.tile.row);
+				positionState.tile.column, positionState.tile.row
+			);
+
+			let coordsChanged = false;
+
+			if (!renderableState.lastRenderedCoordinates
+				|| !util.coordinatesAreEqual(
+					newPosition, renderableState.lastRenderedCoordinates
+				)
+			) {
+				renderableState.lastRenderedCoordinates = newPosition;
+				coordsChanged = true;
+			}
+
+			const positionHasChanged = !util.coordinatesAreEqual(newPosition, lastPosition);
+			const spritePositionHasChanged =
+				newPosition.x !== renderableState.spriteGroup.position.x
+				|| newPosition.y !== renderableState.spriteGroup.position.y;
 
 			// Handle transitioning between subcontainers
 			const currentIndex = (renderableState.spriteGroup.parent as SubContainerLayer).index;
@@ -62,17 +80,14 @@ export class RenderableSystem extends EntitySystem {
 
 			// We always need to update moving sprites to make sure their
 			// z-index is up to date (so they don't appear behind things wrong)
-			if (!util.coordinatesAreEqual(newPosition, lastPosition)) {
+			if (coordsChanged) {
 				spriteManager.changePosition(renderableState.spriteGroup,
 					positionState.tile.column, positionState.tile.row, true
 				);
 			}
 
-			if (util.coordinatesAreEqual(lastPosition, newPosition) ||
-				(newPosition.x === renderableState.spriteGroup.position.x
-					&& newPosition.y === renderableState.spriteGroup.position.y
-				)
-			) {
+			if (!positionHasChanged || !spritePositionHasChanged) {
+				renderableState.activeSubContainerTransition = false;
 				return;
 			}
 

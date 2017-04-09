@@ -174,6 +174,7 @@ export class GameManager {
                 console.log('agent', agent);
                 this.entityManager.spawner.spawnAgent(
                     agent.enum,
+                    0,
                     agent.data
                 );
             });

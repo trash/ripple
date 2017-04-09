@@ -451,6 +451,25 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Rendering Tests',
 		list: [
 			{
+				name: 'z-index test',
+				agents: [{
+					enum: Agent.Human,
+					data: {
+						position: {
+							tile: {
+								row: 19,
+								column: 19
+							}
+						}
+					}
+				}],
+				gameMap: {
+					dimension: 40,
+					noResources: false,
+					allLand: true
+				}
+			},
+			{
 				name: 'Subcontainer change doesnt cause jumping sprites',
 				agents: [{
 					enum: Agent.Human,
