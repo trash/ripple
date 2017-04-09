@@ -117,6 +117,7 @@ export class PositionUtil extends BaseUtil {
 		positionState.tile = tile;
 		positionState.turnUpdated = turn;
 		positionState.turnCompleted = turn + speed;
+		positionState.dirty = true;
 	}
 }
 

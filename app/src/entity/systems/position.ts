@@ -1,19 +1,20 @@
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Position, IPositionState} from '../components';
 import {positionUtil} from '../util/position';
+import {Component} from '../ComponentEnum';
 
 export class PositionSystem extends EntitySystem {
     update (entityIds: number[]) {
-        const entitiesMap = this.manager.getEntitiesWithComponent(Position.enum);
-
         entityIds.forEach(id => {
-            const entityState = entitiesMap[id] as IPositionState;
+            const positionState = this.manager.getComponentDataForEntity(
+                Component.Position, id
+            ) as IPositionState;
 
-            if (!entityState.previousTile) {
-                entityState.previousTile = entityState.tile;
+            if (!positionState.previousTile) {
+                positionState.previousTile = positionState.tile;
             }
-            if (entityState.hasDirection) {
-                entityState.direction = this.getDirection(entityState) || 'down';
+            if (positionState.hasDirection) {
+                positionState.direction = this.getDirection(positionState) || 'down';
             }
         });
     }

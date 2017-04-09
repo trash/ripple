@@ -3,6 +3,8 @@ import {Component} from '../ComponentEnum';
 import {IRowColumnCoordinates} from '../../interfaces';
 
 export interface IPositionState {
+    // Dirty flag to improve performance when rendering
+    dirty?: boolean;
     tile: IRowColumnCoordinates;
     previousTile?: IRowColumnCoordinates;
     direction?: string;
@@ -16,6 +18,7 @@ export const Position: IComponent<IPositionState> = {
     enum: Component.Position,
     getInitialState: () => {
         return {
+            dirty: true,
             tile: null,
             previousTile: null,
             direction: null,

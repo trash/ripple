@@ -30,7 +30,7 @@ const regularLevel: ITestLevel = {
 		},
 	],
 	gameMap: {
-		dimension: 100
+		dimension: 200
 	}
 };
 

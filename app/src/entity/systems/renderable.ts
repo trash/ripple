@@ -11,8 +11,16 @@ import {Component} from '../ComponentEnum';
 import {spriteManager} from '../../services/spriteManager';
 
 export class RenderableSystem extends EntitySystem {
+	filterEntities(id: number): boolean {
+		const positionState = this.manager.getComponentDataForEntity(
+			Component.Position,
+			id
+		) as IPositionState;
+		return positionState.dirty;
+	}
+
     update (entityIds: number[], turn: number) {
-        entityIds.forEach(id => {
+        entityIds.filter(id => this.filterEntities(id)).forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
 				Component.Renderable,
 				id
@@ -29,7 +37,7 @@ export class RenderableSystem extends EntitySystem {
 			}
 
 			// Stop updating sprites that shouldn't be shown
-			if (!renderableState.shown) {
+			if (!renderableState.shown && renderableState.spriteGroup.visible) {
 				renderableState.spriteGroup.visible = false;
 				return;
 			// Show sprites again
@@ -88,6 +96,7 @@ export class RenderableSystem extends EntitySystem {
 
 			if (!positionHasChanged || !spritePositionHasChanged) {
 				renderableState.activeSubContainerTransition = false;
+				positionState.dirty = false;
 				return;
 			}
 
@@ -104,6 +113,7 @@ export class RenderableSystem extends EntitySystem {
 			// Make sure we turn off any active subcontainer transitions
 			if (turn >= positionState.turnCompleted) {
 				renderableState.activeSubContainerTransition = false;
+				positionState.dirty = false;
 			}
 
 			renderableState.spriteGroup.position.x = calculatedNewPosition.x;

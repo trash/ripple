@@ -13,16 +13,18 @@ import {events} from '../../events';
 // import {itemManager} from '../../services/item-manager';
 
 export class HarvestableSystem extends EntitySystem {
+    // readonly updateInterval = 4;
+
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const healthState = this.manager.getComponentDataForEntity(
                 Component.Health, id) as IHealthState;
-            const harvestableState = this.manager.getComponentDataForEntity(
-                Component.Harvestable, id) as IHarvestableState;
-            const positionState = this.manager.getComponentDataForEntity(
-                Component.Position, id) as IPositionState;
 
             if (healthState.currentHealth <= 0) {
+                const harvestableState = this.manager.getComponentDataForEntity(
+                    Component.Harvestable, id) as IHarvestableState;
+                const positionState = this.manager.getComponentDataForEntity(
+                    Component.Position, id) as IPositionState;
                 this.manager.spawner.spawnItemsFromList(harvestableState.drops, {
                     position: {
                         tile: positionState.tile
