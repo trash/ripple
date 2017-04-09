@@ -26,18 +26,20 @@ export class VillagerSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const agentState = this.manager.getComponentDataForEntity(
-					Component.Agent, id) as IAgentState;
+				Component.Agent, id) as IAgentState;
             const behaviorTreeState = this.manager.getComponentDataForEntity(
-					Component.BehaviorTree, id) as IBehaviorTreeState;
+				Component.BehaviorTree, id) as IBehaviorTreeState;
             const positionState = this.manager.getComponentDataForEntity(
-					Component.Position, id) as IPositionState;
+				Component.Position, id) as IPositionState;
             const statusBubbleState = this.manager.getComponentDataForEntity(
-					Component.StatusBubble, id) as IStatusBubbleState;
+				Component.StatusBubble, id) as IStatusBubbleState;
             const villagerState = this.manager.getComponentDataForEntity(
-					Component.Villager, id) as IVillagerState;
+				Component.Villager, id) as IVillagerState;
 
 			const newTask = this.getTaskForVillager(id, villagerState);
-			const newTaskId = newTask ? newTask.id : null;
+			const newTaskId = newTask
+				? newTask.id
+				: null;
 			const currentTaskId = villagerState.currentTask
 				? villagerState.currentTask.id
 				: null;
@@ -71,7 +73,7 @@ export class VillagerSystem extends EntitySystem {
 	}
 
     getTaskForVillager (id: number, villagerState: IVillagerState): Instance {
-        var task = villagerState.currentTask;
+        let task = villagerState.currentTask;
 		// Continue on current task unless it's no longer ready then bail on it
 		if (task && task.isReady() && !task.isComplete()) {
 			return task;

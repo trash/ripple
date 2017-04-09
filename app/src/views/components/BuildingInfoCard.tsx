@@ -22,6 +22,11 @@ const renderBuildingProperties = (state: IBuildingState): DisplayProperty[] => [
         detailedOnly: true
     },
     {
+        name: 'Occupant Capacity',
+        value: buildingUtil.occupancyToString(state),
+        detailedOnly: false
+    },
+    {
         name: 'Occupants',
         value: buildingUtil.occupancyToStringWithNames(state),
         detailedOnly: false

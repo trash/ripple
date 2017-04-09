@@ -9,6 +9,11 @@ export class HarvestableUtil extends BaseUtil {
     ): boolean {
         const healthState = this._getHealthState(resource);
 
+        if (!healthState) {
+            console.error('Trying to harvest entity that is already destroyed');
+            return true;
+        }
+
         healthState.currentHealth -= contribution;
         // this.resource.harvest(contribution);
 

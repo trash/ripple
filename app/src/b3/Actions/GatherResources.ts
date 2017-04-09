@@ -21,7 +21,8 @@ export class GatherResources extends Core.Sequence {
 								children: [
 									new Core.Inverter({
 										child: new Actions.BlackboardValueExists(
-											requiredResourceKey)
+											requiredResourceKey
+										)
 									}),
 									new Actions.GetRequiredResource(
 										requiredResourceKey,

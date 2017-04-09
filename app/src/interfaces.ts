@@ -252,6 +252,7 @@ export interface ItemSearchOptions {
 	properties?: ItemProperty[];
 	claimed?: boolean;
 	sortBy?: string;
+	toBeStored?: boolean;
 }
 
 export type AgentListEntry = {

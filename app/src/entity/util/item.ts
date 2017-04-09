@@ -119,7 +119,57 @@ export class ItemUtil extends BaseUtil {
 			return !!length;
 		}
 		return length >= count;
-	};
+	}
+
+	private getItemListFromSearchOptions(searchOptions: ItemSearchOptions): IItemSearchResult[] {
+		let itemList = this.getAllItems();
+		if (searchOptions.itemEnums) {
+			searchOptions.itemNames = searchOptions.itemEnums.map(item =>
+				itemUtil.getItemNameFromEnum(item)
+			);
+		}
+
+		if (searchOptions.itemNames) {
+			let itemNames;
+			// Handle if they just pass a single name
+			if (typeof searchOptions.itemNames === 'string') {
+				itemNames = [searchOptions.itemNames];
+			} else if (searchOptions.itemNames instanceof Array) {
+				itemNames = searchOptions.itemNames;
+			}
+			// Add together all the lists of items for the different requested resources
+			itemNames.forEach(itemName => {
+                itemList = itemList.filter(itemSearchResult =>
+                    itemSearchResult.state.name === itemName
+				);
+			});
+		} else if (searchOptions.properties) {
+			itemList = this.getByProperties(searchOptions.properties);
+		}
+
+		if (searchOptions.claimed !== undefined) {
+			itemList = itemList.filter(itemSearchResult =>
+				itemSearchResult.state.claimed === searchOptions.claimed
+			);
+		}
+
+		if (searchOptions.toBeStored !== undefined) {
+			itemList = itemList.filter(itemSearchResult =>
+				!!itemSearchResult.state.toBeStored === !!searchOptions.toBeStored
+			);
+		}
+
+		if (searchOptions.sortBy) {
+			itemList = itemList
+				.filter(item => item[searchOptions.sortBy] !== undefined)
+				.sort((a, b) => a[searchOptions.sortBy] - b[searchOptions.sortBy]);
+		}
+		return itemList;
+	}
+
+	itemExists(searchOptions: ItemSearchOptions): boolean {
+		return this.getItemListFromSearchOptions(searchOptions).length > 0;
+	}
 
     /**
 	 * Finds the closest of a given resource from a given tile.
@@ -141,40 +191,7 @@ export class ItemUtil extends BaseUtil {
 	): IItemSearchResult {
 		let nearest = null;
 		let nearestDistance = Number.MAX_VALUE;
-		let itemList = this.getAllItems();
-
-		if (searchOptions.itemEnums) {
-			searchOptions.itemNames = searchOptions.itemEnums.map(item =>
-				itemUtil.getItemNameFromEnum(item));
-		}
-
-		if (searchOptions.itemNames) {
-			let itemNames;
-			// Handle if they just pass a single name
-			if (typeof searchOptions.itemNames === 'string') {
-				itemNames = [searchOptions.itemNames];
-			} else if (searchOptions.itemNames instanceof Array) {
-				itemNames = searchOptions.itemNames;
-			}
-			// Add together all the lists of items for the different requested resources
-			itemNames.forEach(itemName => {
-                itemList = itemList.filter(itemSearchResult =>
-                    itemSearchResult.state.name === itemName);
-			});
-		} else if (searchOptions.properties) {
-			itemList = this.getByProperties(searchOptions.properties);
-		}
-
-		if (searchOptions.claimed !== undefined) {
-			itemList = itemList.filter(itemSearchResult =>
-				itemSearchResult.state.claimed === searchOptions.claimed);
-		}
-
-		if (searchOptions.sortBy) {
-			itemList = itemList
-				.filter(item => item[searchOptions.sortBy] !== undefined)
-				.sort((a, b) => a[searchOptions.sortBy] - b[searchOptions.sortBy]);
-		}
+		const itemList = this.getItemListFromSearchOptions(searchOptions);
 
 		for (let i = 0; i < itemList.length; i++) {
 			const itemSearchResult = itemList[i];
@@ -182,8 +199,8 @@ export class ItemUtil extends BaseUtil {
 			// Skip if this item is picked up already or it's marked to be stored
 			// cancelItemsToBeStored means that we *do* want items that are queued to be stored
 			// or if they specify a claimed option and it's not equal
-			if (!tile ||
-				(!cancelItemsToBeStored && itemSearchResult.state.toBeStored)) {
+			if (!tile
+				|| (!cancelItemsToBeStored && itemSearchResult.state.toBeStored)) {
 				continue;
 			}
 

@@ -37,6 +37,7 @@ $actionBarCardWidth: $actionBarHeight;
         .action-bar-upper, .action-bar-lower {
             height: 0.33 * $actionBarHeight;
             width: 100%;
+            display: flex;
         }
 
         .action-bar-upper {
@@ -44,7 +45,6 @@ $actionBarCardWidth: $actionBarHeight;
         }
         .action-bar-lower {
             order: 0;
-            display: flex;
 
             button {
                 margin: 0;

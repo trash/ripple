@@ -9,7 +9,7 @@ import {events} from '../events';
 import {IPositionState, IBuildingState, IConstructibleState,
 	IHealthState} from '../entity/components';
 
-import {baseUtil} from '../entity/util';
+import {baseUtil, itemUtil} from '../entity/util';
 import {IRowColumnCoordinates} from '../interfaces';
 
 /**
@@ -24,11 +24,11 @@ import {IRowColumnCoordinates} from '../interfaces';
 */
 export class BuilderTask extends Task {
 	building: number;
-	requiredResources: ResourceRequirements;
+	resourceRequirements: ResourceRequirements;
 	destinationTile: IRowColumnCoordinates;
+	readyCheckInterval: number;
 
 	constructor (building: number) {
-		// Call our parent constructor
 		super({
 			taskType: Profession.Builder,
 			name: 'builder-task',
@@ -36,27 +36,26 @@ export class BuilderTask extends Task {
 			bubble: StatusBubble.Build
 		});
 
-		this.bubble = StatusBubble.Build;
+		const positionState = baseUtil._getPositionState(building);
+		const constructibleState = baseUtil._getConstructibleState(building);
+		const healthState = baseUtil._getHealthState(building);
+		const buildingState = baseUtil._getBuildingState(building);
 
-		const positionState = baseUtil._getPositionState(building),
-			constructibleState = baseUtil._getConstructibleState(building),
-			healthState = baseUtil._getHealthState(building),
-			buildingState = baseUtil._getBuildingState(building);
-
-		this.setBehaviorTree(new Tasks.BuilderTask(healthState,
-			constructibleState.resourceRequirements,
-			buildingState.entranceTile, this));
+		this.setBehaviorTree(
+			new Tasks.BuilderTask(
+				healthState,
+				constructibleState.resourceRequirements,
+				buildingState.entranceTile, this
+			)
+		);
 
 		this.building = building;
-		// The required resource for the task. This is used for the GetResourcesAction instance.
-		// this.requiredResources = building.requiredResources;
+		this.resourceRequirements = constructibleState.resourceRequirements;
 
 		// Make the destination tile one to the left of the building
 		// or entrance if it has one
 		this.destinationTile = positionState.tile;
-		// this.destinationTile = building.entrance ?
-		// 	building.getEntranceTile() :
-		// 	building.tile.leftSibling();
+
 		this.description = `Building a ${ buildingState.name } at ${ this.destinationTile.column } \
 			${ this.destinationTile.row }.`;
 
@@ -69,38 +68,34 @@ export class BuilderTask extends Task {
 		// 		to the building after this task has been initilized.`);
 		// }
 
-		this.bindSuspendEvents();
+		this.readyCheckInterval = setInterval(() => this.readyCheck(), 1000);
 	}
 
 	// Bind to events for resources being added and removed and suspend appropriately
 	// this should only be called by tasks that require resources to be completed
-	bindSuspendEvents () {
-		events.on('remove-from-resource', () => {
-			if (!this.completed && this.isReady() && !this.checkIfReady()) {
-				this.suspend();
-			}
-		});
-		events.on(['resources', '*', 'add'], () => {
-			if (!this.isReady() && this.checkIfReady()) {
-				this.unsuspend();
-			}
-		});
-	}
-
-	checkIfReady (): boolean {
-		return true;
-		// return this.building.requiredResources.claimedResourcesExist();
-	}
-
-	/**
-	 * Call the complete method on the buildign and complete the task
-	 */
-	complete () {
-		// Call the building complete function one time
-		if (!this.completed) {
-			// this.building.complete();
+	private readyCheck () {
+		// Check if it's no longer ready
+		if (this.isReady() && !this.checkIfReady()) {
+			this.suspend();
 		}
+		// Check if it's ready again
+		if (!this.isReady() && this.checkIfReady()) {
+			this.unsuspend();
+		}
+	}
 
-		Task.prototype.complete.call(this);
+	private checkIfReady (): boolean {
+		if (this.resourceRequirements.isCompleted()) {
+			return true;
+		}
+		return itemUtil.itemExists({
+			itemEnums: [this.resourceRequirements.pickRequiredResource()],
+			toBeStored: false
+		});
+	}
+
+	complete() {
+		clearInterval(this.readyCheckInterval);
+		super.complete();
 	}
 }
