@@ -17,7 +17,8 @@ import {
     IStorageState,
     IVisitorState,
     ITownState,
-    IHarvestableState
+    IHarvestableState,
+    INameState
 } from '../components';
 
 import {EntityManager} from '../entityManager';
@@ -34,6 +35,11 @@ export class BaseUtil {
         this.entityManager.destroyEntity(entity);
     }
 
+    _getNameState (id: number): INameState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.Name, id
+        ) as INameState;
+    }
     _getHealthState (id: number): IHealthState {
         return this.entityManager.getComponentDataForEntity(
             Component.Health, id) as IHealthState;

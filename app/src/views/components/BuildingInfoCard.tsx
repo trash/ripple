@@ -23,7 +23,7 @@ const renderBuildingProperties = (state: IBuildingState): DisplayProperty[] => [
     },
     {
         name: 'Occupants',
-        value: buildingUtil.occupancyToString(state),
+        value: buildingUtil.occupancyToStringWithNames(state),
         detailedOnly: false
     },
 ];
