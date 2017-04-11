@@ -14,35 +14,40 @@ export class GatherResources extends Core.Sequence {
 	) {
 		super({
 			children: [
-				new Core.MemPriority({
+				new Core.Priority({
 					children: [
-						new Core.Inverter({
-							child: new Core.Sequence({
-								children: [
-									new Core.Inverter({
-										child: new Actions.BlackboardValueExists(
-											requiredResourceKey
-										)
-									}),
-									new Actions.GetRequiredResource(
-										requiredResourceKey,
-										goToTargetKey,
-										resourceRequirements,
-										dropOffLocation
-									)
-								]
-							}),
-						}),
-						new Core.MemSequence({
+						new Core.Sequence({
 							children: [
-								new Actions.GoToTarget(goToTargetKey),
-								new Actions.PickupItem(requiredResourceKey),
-								new Actions.GoToTarget(dropOffLocation),
-								new Actions.AddResourceToRequirements(
-									requiredResourceKey,
-									resourceRequirements
+								new Actions.BlackboardValueExists(
+									requiredResourceKey
 								),
-								new Actions.ClearBlackboardValue(requiredResourceKey)
+								new Core.MemSequence({
+									children: [
+										new Actions.GoToTarget(goToTargetKey),
+										new Actions.PickupItem(requiredResourceKey),
+										new Actions.GoToTarget(dropOffLocation),
+										new Actions.AddResourceToRequirements(
+											requiredResourceKey,
+											resourceRequirements
+										),
+										new Actions.ClearBlackboardValue(requiredResourceKey)
+									]
+								})
+							]
+						}),
+						new Core.Sequence({
+							children: [
+								new Core.Inverter({
+									child: new Actions.BlackboardValueExists(
+										requiredResourceKey
+									)
+								}),
+								new Actions.GetRequiredResource(
+									requiredResourceKey,
+									goToTargetKey,
+									resourceRequirements,
+									dropOffLocation
+								)
 							]
 						})
 					]

@@ -22,9 +22,15 @@ export interface ITestLevelGroup {
 const defaultBuildingPosition = {
 	tile: {
 		row: 5,
-		column: 5
+		column: 9
 	}
 };
+const defaultBuildingPosition2 = {
+	tile: {
+		row: 10,
+		column: 9
+	}
+}
 
 const allItemsList = [];
 itemsList.forEach(itemData => {
@@ -38,6 +44,42 @@ let testLevelsData: ITestLevelGroup[]  = [
 	{
 		name: 'Building Tests',
 		list: [
+			{
+				name: '2x Building Concurrency test',
+				buildings: [{
+					enum: Building.Hut,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}, {
+					enum: Building.Hut,
+					data: {
+						position: defaultBuildingPosition2
+					}
+				}],
+				agents: [{
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Builder
+						}
+					}
+				}, {
+					enum: Agent.Villager,
+					data: {
+						villager: {
+							job: VillagerJob.Builder
+						}
+					}
+				}],
+				items: [{
+					enum: Item.Wood,
+					count: 39
+				}, {
+					enum: Item.Berries,
+					count: 4
+				}]
+			},
 			{
 				name: 'Agents cant enter buildings at max occupancy',
 				buildings: [{
