@@ -450,7 +450,7 @@ export class GameMap {
 	*/
 	getNearestEmptyTile (
 		tile: IRowColumnCoordinates,
-		checkMethod: (tile: IRowColumnCoordinates) => boolean
+		checkMethod: (tile: MapTile) => boolean
 	): IRowColumnCoordinates {
 		return MapUtil.getNearestTile(this.tiles, tile, checkMethod);
 	}

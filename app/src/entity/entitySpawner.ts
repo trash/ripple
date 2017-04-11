@@ -156,10 +156,18 @@ export class EntitySpawner {
 		this.copyNeededComponentData(entityId, entityComponentData, assemblage);
 
 		positionState.hasDirection = true;
+
+		const spawnTileStart = positionState.tile
+			|| globalRefs.map.getTile(0, 0);
+		const spawnTile = globalRefs.map.getNearestEmptyTile(
+			spawnTileStart,
+			tile => tile.accessible
+		);
+
 		// Set tile to 0,0
 		positionUtil.setTile(
 			positionState,
-			positionState.tile || globalRefs.map.getTile(0, 0),
+			spawnTile,
 			turn,
 			agentState.speed
 		);

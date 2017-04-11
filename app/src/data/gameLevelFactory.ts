@@ -34,17 +34,6 @@ const regularLevel: ITestLevel = {
 	}
 };
 
-regularLevel.agents.forEach(agent => {
-	agent.data = _.extend(agent.data, {
-		position: {
-			tile : {
-				row: 10,
-				column: 10
-			}
-		}
-	});
-});
-
 const testLevel: ITestLevel = {
 	name: 'Test Level',
 	gameMap: {
