@@ -41,7 +41,7 @@ export class ResourceRequirements extends EventEmitter2 {
 		// There doesn't exist some entry where the gathered amount is not the
 		// required amount
 		return !Array.from(this.map).some(([resourceType, resourceEntry]) => {
-			return resourceEntry.gathered !== resourceEntry.required;
+			return resourceEntry.gathered < resourceEntry.required;
 		});
 	}
 
