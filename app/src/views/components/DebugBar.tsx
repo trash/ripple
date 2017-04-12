@@ -38,6 +38,8 @@ export class DebugBar extends React.Component<DebugBarProps, null> {
                     onClick={() => killEntityService.toggle(action.action)}
                 >{action.name}</button>
             })}
+            <button onClick={() => events.emit('spawnAgent', Agent.Villager, this.props.turn)}
+                >Spawn Villager</button>
             <button onClick={() => events.emit('spawnAgent', Agent.Zombie, this.props.turn)}
                 >Spawn Zombie</button>
             <button onClick={() => events.emit('spawnAgent', Agent.Visitor, this.props.turn, {
