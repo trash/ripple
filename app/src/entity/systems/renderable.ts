@@ -36,12 +36,16 @@ export class RenderableSystem extends EntitySystem {
 				);
 			}
 
-			// Stop updating sprites that shouldn't be shown
-			if (!renderableState.shown && renderableState.spriteGroup.visible) {
+			// If we need to optimize this we need to add another value to the state.
+			// Checking the current value of renderableState.spriteGroup.visible
+			// doesn't seem to work. It causes flickering. My guess is it's because
+			// that value isn't actually updated instantly due to PIXI being on a fixed
+			// update time.
+			if (!renderableState.shown) {
 				renderableState.spriteGroup.visible = false;
 				return;
 			// Show sprites again
-			} else if (!renderableState.spriteGroup.visible) {
+			} else {
 				renderableState.spriteGroup.visible = true;
 			}
 			// Wait for position system to bootstrap this

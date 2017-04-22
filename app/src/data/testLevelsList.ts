@@ -493,6 +493,27 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Rendering Tests',
 		list: [
 			{
+				name: 'Agents disappear when they enter buildings',
+				buildings: [{
+					enum: Building.Hut,
+					data: {
+						position: defaultBuildingPosition,
+					},
+					isCompleted: true
+				}],
+				agents: [{
+					enum: Agent.Villager,
+				}, {
+					enum: Agent.Villager,
+				}, {
+					enum: Agent.Zombie,
+				}],
+				items: [{
+					enum: Item.Berries,
+					count: 4
+				}]
+			},
+			{
 				name: 'z-index test',
 				agents: [{
 					enum: Agent.Human,

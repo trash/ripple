@@ -59,8 +59,10 @@ export class AgentSystem extends EntitySystem {
             // Show/hide agent based on whether they're in building
             if (agentState.buildingInsideOf && renderableState.shown) {
                 renderableState.shown = false;
+                console.log('hide agent', id);
             } else if (!agentState.buildingInsideOf && !renderableState.shown) {
                 renderableState.shown = true;
+                console.log('show agent', id);
             }
 
             // Init name
