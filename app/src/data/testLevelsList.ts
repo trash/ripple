@@ -169,6 +169,29 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Villager Tests',
 		list: [
 			{
+				name: 'Villagers select different houses to live in',
+				agents: [{
+					enum: Agent.Villager
+				}, {
+					enum: Agent.Villager
+				}, {
+					enum: Agent.Villager
+				}],
+				buildings: [{
+					enum: Building.Hut,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}, {
+					enum: Building.Hut,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition2
+					}
+				}],
+			},
+			{
 				name: 'Villager eats food when hungry',
 				agents: [{
 					enum: Agent.Villager,

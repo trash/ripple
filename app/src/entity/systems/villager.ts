@@ -57,6 +57,7 @@ export class VillagerSystem extends EntitySystem {
 			if (!villagerState.home) {
 				const freeHome = buildingUtil.getFreeHome();
 				if (freeHome) {
+					buildingUtil.addResident(freeHome, id);
 					villagerState.home = freeHome;
 				}
 			}

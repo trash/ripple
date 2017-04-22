@@ -20,6 +20,11 @@ export class BuildingUtil extends BaseUtil {
         return this.entityManager.getEntityIdsForComponent(Component.Building);
     }
 
+	addResident(building: number, agent: number): void {
+		const state = this._getBuildingState(building);
+		state.residents.push(agent);
+	}
+
 	getBuildingFromEntranceTile(
 		entranceTile: IRowColumnCoordinates
 	): number {
@@ -105,12 +110,17 @@ export class BuildingUtil extends BaseUtil {
 		return this.getAllBuildings()[0];
 	}
 
+	private buildingHasResidencyAvailable(state: IBuildingState): boolean {
+		return state.residents.length < state.maxOccupants;
+	}
+
 	getFreeHome (): number {
 		return this.getAllBuildings()
 			.map(id => this.idToMapResult(id))
 			.filter(result => result.state.isHouse
 				&& this.buildingIsComplete(result.id)
 			)
+			.filter(result => this.buildingHasResidencyAvailable(result.state))
 			.map(result => this.mapResultToId(result))
 			[0];
 	}
