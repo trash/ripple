@@ -23,9 +23,7 @@ gulp.task('sass', function () {
 
 gulp.task('watch', function() {
 	// watch scss files
-	gulp.watch('app/styles/**/*.scss', function() {
-		gulp.run('sass');
-	});
+	gulp.watch('app/styles/**/*.scss', ['sass']);
 
 	gulp.watch(files, ['eslint']);
 });

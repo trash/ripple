@@ -12,6 +12,10 @@ i.fa {
 	font-size: 12px;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 $tileSize: 24px;
 $topSectionHeight: 80px;
 $actionBarHeight: 280px;

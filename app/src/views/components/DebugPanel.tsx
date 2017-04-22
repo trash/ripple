@@ -175,7 +175,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         title: string,
         object: any,
         property: string
-    ): JSX.JSXElement {
+    ): JSX.Element {
         const editingKey = this.getComponentPropertyKey(title, property);
         const editing = this.state.editingComponentProperties.get(editingKey);
         const value = object[property];
