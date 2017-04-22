@@ -1,3 +1,4 @@
+declare function require(arg:string): any;
 import * as _ from 'lodash';;
 import {uniqueId} from '../uniqueId';
 import {Component} from './ComponentEnum';

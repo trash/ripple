@@ -1,3 +1,4 @@
+declare function require(arg:string): any;
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {MusicPlayer} from '../../game/MusicPlayer';
