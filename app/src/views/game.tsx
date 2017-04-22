@@ -4,7 +4,8 @@ import {Provider, connect} from 'react-redux';
 import {store, StoreState} from '../redux/store';
 import {Tabs, Tab} from 'react-bootstrap';
 
-import {ConnectedDebugPanel} from './components/debugPanel';
+import {ConnectedCollisionDebugView} from './components/CollisionDebugView';
+import {ConnectedDebugPanel} from './components/DebugPanel';
 import {ConnectedAgentList} from './components/AgentList';
 import {ConnectedVillagerList} from './components/VillagerList';
 import {ConnectedActionBar} from './components/ActionBar';
@@ -37,6 +38,7 @@ export class InnerGameComponent extends React.Component<void, void> {
                 </div>
             </div>
             <ConnectedActionBar/>
+            <ConnectedCollisionDebugView/>
         </div>
         );
     }

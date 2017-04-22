@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as React from 'react'
 import {connect} from 'react-redux';
 import {store, StoreState} from '../../redux/store';
-import {CollisionDebugView} from './collisionDebugView';
+import {toggleShowCollisionDebug} from '../../redux/actions';
 import {Map} from 'immutable';
 import {util} from '../../util';
 import {behaviorTreeUtil} from '../../entity/util';
@@ -57,11 +57,11 @@ interface DebugPanelProps {
     harvestable: IHarvestableState;
     visitor: IVisitorState;
     inventory: IInventoryState;
+    collisionDebugToggle: boolean;
 }
 
 interface DebugPanelState {
     tilemapDebug?: boolean;
-    collisionDebugToggle?: boolean;
     hiddenDebugGroups?: Map<string, boolean>;
     editingComponentProperties?: Map<string, boolean>;
     componentPropertiesValues?: Map<string, any>;
@@ -73,7 +73,6 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
         super(props);
         this.state = {
             tilemapDebug: false,
-            collisionDebugToggle: false,
             hiddenDebugGroups: Map<string, boolean>(),
             editingComponentProperties: Map<string, boolean>(),
             componentPropertiesValues: Map<string, any>()
@@ -309,11 +308,8 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             <h5>Tilemap Debug:
                 <input onClick={() => this.toggleTilemapDebug()} checked={this.state.tilemapDebug} type="checkbox"/></h5>
             <h5>Collision Debug:
-                <input onClick={() => this.setState({
-                    collisionDebugToggle: !this.state.collisionDebugToggle
-                })} type="checkbox"/>
+                <input checked={this.props.collisionDebugToggle} onClick={() => store.dispatch(toggleShowCollisionDebug())} type="checkbox"/>
             </h5>
-            <CollisionDebugView show={this.state.collisionDebugToggle}/>
             {this.renderDebugGroup('Tile',
                 [this.props.tile
                     && this.props.tile.toString()
@@ -350,6 +346,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         villager: state.hoveredVillager,
         storage: state.hoveredStorage,
         health: state.hoveredHealth,
-        harvestable: state.hoveredHarvestable
+        harvestable: state.hoveredHarvestable,
+        collisionDebugToggle: state.showCollisionDebug
     };
 })(DebugPanel);

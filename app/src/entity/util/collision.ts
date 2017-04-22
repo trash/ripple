@@ -17,6 +17,8 @@ export class CollisionUtil extends BaseUtil {
      * entity.
      * @param id
      * @param excludeEntranceTile
+     * @param tile The tile to start from. This is useful to get previous and current
+     * collision tiles based on an entity that can change its current tile.
      */
     getTilesFromCollisionEntity(
         id: number,
@@ -31,7 +33,7 @@ export class CollisionUtil extends BaseUtil {
         const tiles: IRowColumnCoordinates[] = [];
         for (let x = tile.column; x < tile.column + collisionState.size.x; x++) {
             for (let y = tile.row; y < tile.row + collisionState.size.y; y++) {
-                if (excludeEntranceTile &&
+                if (collisionState.entrance && excludeEntranceTile &&
                     y === tile.row + collisionState.entrance.y &&
                     x === tile.column + collisionState.entrance.x) {
                     continue;

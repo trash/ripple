@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {Provider, connect} from 'react-redux';
+import {store, StoreState} from '../../redux/store';
 import {collisionUtil} from '../../entity/util';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {globalRefs} from '../../globalRefs';
@@ -7,7 +9,10 @@ interface CollisionDebugViewProps {
     show: boolean;
 }
 
-type IdsAndTiles = [number, IRowColumnCoordinates[]];
+type IdsAndTiles = {
+    id: number,
+    tiles: IRowColumnCoordinates[]
+};
 
 export class CollisionDebugView extends React.Component<CollisionDebugViewProps, void> {
     componentWillMount () {
@@ -27,21 +32,21 @@ export class CollisionDebugView extends React.Component<CollisionDebugViewProps,
             .filter(id => {
                 return collisionUtil._getCollisionState(id).updatesTile;
             });
-        const idsAndTiles = ids.map(id => {
+        const idsAndTiles: IdsAndTiles[] = ids.map(id => {
             const tiles = collisionUtil.getTilesFromCollisionEntity(id, true);
-            return [
+            return {
                 id,
                 tiles
-            ];
+            };
         });
 
         return (
-        <div>{idsAndTiles.map(([id, tiles]) => {
-            return (tiles as IRowColumnCoordinates[]).map(tile => {
+        <div>{idsAndTiles.map(idAndTiles => {
+            return idAndTiles.tiles.map(tile => {
                 const elementPosition = globalRefs.map
                     .getElementPositionFromTile(tile);
                 return <div className="hover-tile"
-                    key={`${id}-${tile.row * 1000 + tile.column}`}
+                    key={`${idAndTiles.id}-${tile.row * 1000 + tile.column}`}
                     style={{
                         display: 'block',
                         top: elementPosition.top,
@@ -52,3 +57,9 @@ export class CollisionDebugView extends React.Component<CollisionDebugViewProps,
         );
     }
 }
+
+export const ConnectedCollisionDebugView= connect((state: StoreState) => {
+    return {
+        show: state.showCollisionDebug
+    };
+})(CollisionDebugView);

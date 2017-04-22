@@ -55,6 +55,7 @@ import {
     PlayPauseGame,
     UpdateGameSpeed,
     SpawnResource,
+    ToggleShowCollisionDebug,
     UpdateVillagerJob
 } from './actions';
 
@@ -82,6 +83,7 @@ type ReducerAction =
     | PlayPauseGame
     | UpdateGameSpeed
     | UpdateVillagerJob
+    | ToggleShowCollisionDebug
     | AgentListSelect;
 
 export interface StoreState {
@@ -117,6 +119,7 @@ export interface StoreState {
     gameSpeed: number;
     gamePaused: boolean;
     gameTurn: number;
+    showCollisionDebug: boolean;
 }
 
 const initialState = {
@@ -126,7 +129,8 @@ const initialState = {
     buildingsList: Immutable.List<BuildingListEntry>(),
     resourcesList: Immutable.List<ResourceListEntry>(),
     gameSpeed: 0,
-    selectedEntities: []
+    selectedEntities: [],
+    showCollisionDebug: false
 } as StoreState;
 function mainReducer(
     previousState = initialState,
@@ -281,6 +285,11 @@ function mainReducer(
             newState.agentsList = newState.agentsList.set(index, updatedEntry);
             entry.villager.job = action.job;
             newState.agentsList = newState.agentsList.set(index, entry);
+            break;
+
+        case actionTypes.TOGGLE_SHOW_COLLISION_DEBUG:
+            newState.showCollisionDebug = !newState.showCollisionDebug;
+            console.log(newState.showCollisionDebug);
             break;
     }
 

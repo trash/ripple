@@ -305,3 +305,14 @@ export function updateGameTurn(
         turn: turn
     };
 }
+
+export interface ToggleShowCollisionDebug {
+    type: actionTypes.TOGGLE_SHOW_COLLISION_DEBUG,
+}
+
+export function toggleShowCollisionDebug(
+): ToggleShowCollisionDebug {
+    return {
+        type: actionTypes.TOGGLE_SHOW_COLLISION_DEBUG
+    };
+}
