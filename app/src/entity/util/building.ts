@@ -20,6 +20,38 @@ export class BuildingUtil extends BaseUtil {
         return this.entityManager.getEntityIdsForComponent(Component.Building);
     }
 
+	private idToMapResult(id: number): BuildingMapResult {
+		return {
+			state: this._getBuildingState(id),
+			id: id
+		};
+	}
+
+	private mapResultToId(result: BuildingMapResult): number {
+		return result.id;
+	}
+
+	private buildingIsComplete(id: number): boolean {
+		const healthState = this._getHealthState(id);
+		return healthState.currentHealth === healthState.maxHealth;
+	}
+
+	private hasOccupancyById(
+		building: number
+	): boolean {
+        const buildingState = this._getBuildingState(building);
+
+		return this.buildingHasOccupancyByState(buildingState);
+	}
+
+	private buildingHasOccupancyByState(state: IBuildingState): boolean {
+		return state.occupants.length < state.maxOccupants;
+	}
+
+	private buildingHasResidencyAvailable(state: IBuildingState): boolean {
+		return state.residents.length < state.maxOccupants;
+	}
+
 	addResident(building: number, agent: number): void {
 		const state = this._getBuildingState(building);
 		state.residents.push(agent);
@@ -39,23 +71,6 @@ export class BuildingUtil extends BaseUtil {
 		return this._getBuildingState(building).entranceTile;
 	}
 
-	private idToMapResult(id: number): BuildingMapResult {
-		return {
-			state: this._getBuildingState(id),
-			id: id
-		};
-	}
-	private mapResultToId(result: BuildingMapResult): number {
-		return result.id;
-	}
-	private buildingIsComplete(id: number): boolean {
-		const healthState = this._getHealthState(id);
-		return healthState.currentHealth === healthState.maxHealth;
-	}
-	private buildingHasOccupancyByState(state: IBuildingState): boolean {
-		return state.occupants.length < state.maxOccupants;
-	}
-
 	occupancyToString(state: IBuildingState): string {
 		return `${state.occupants.length}/${state.maxOccupants}`;
 	}
@@ -73,6 +88,11 @@ export class BuildingUtil extends BaseUtil {
 		return this.buildingHasOccupancyByState(this._getBuildingState(id));
 	}
 
+	/**
+	 * Returns all buildings of a given type.
+	 * Returns all buildings if the type is null.
+	 * @param building The type of building. Possibly null.
+	 */
 	getBuildingsByType(building: Building | null): BuildingMapResult[] {
 		const buildings = this.getAllBuildings()
 			.map(result => this.idToMapResult(result));
@@ -110,10 +130,6 @@ export class BuildingUtil extends BaseUtil {
 		return this.getAllBuildings()[0];
 	}
 
-	private buildingHasResidencyAvailable(state: IBuildingState): boolean {
-		return state.residents.length < state.maxOccupants;
-	}
-
 	getFreeHome (): number {
 		return this.getAllBuildings()
 			.map(id => this.idToMapResult(id))
@@ -129,14 +145,6 @@ export class BuildingUtil extends BaseUtil {
         return changeCase.paramCase(Building[building]);
     }
 
-    hasOccupancy(
-		building: number
-	): boolean {
-        const buildingState = this._getBuildingState(building);
-
-		return buildingState.occupants.length < buildingState.maxOccupants;
-	}
-
 	getImagePath(
 		building: Building
 	): string {
@@ -147,9 +155,9 @@ export class BuildingUtil extends BaseUtil {
 	addOccupant(
 		building: number,
 		agent: number
-	) {
+	): void {
 		// How can you enter if there's no room
-		if (!this.hasOccupancy(building)) {
+		if (!this.hasOccupancyById(building)) {
 			console.error('Citizen entering a building that is already full');
 		}
 		const buildingState = this._getBuildingState(building);
@@ -159,7 +167,7 @@ export class BuildingUtil extends BaseUtil {
 	removeOccupant(
 		building: number,
 		agent: number
-	) {
+	): void {
 		const buildingState = this._getBuildingState(building);
 		const index = buildingState.occupants.indexOf(agent);
 		if (index === -1) {
@@ -168,7 +176,7 @@ export class BuildingUtil extends BaseUtil {
 		buildingState.occupants.splice(index, 1);
 	}
 
-	showGoldEarned(value: number, building: number) {
+	showGoldEarned(value: number, building: number): void {
 		const renderableState = this._getRenderableState(building);
 		const tile = positionUtil.getTileFromEntityId(building);
 		spriteUtil.showGoldEarned(value, renderableState.spriteGroup, tile);
