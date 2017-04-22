@@ -9,6 +9,14 @@ import {Profession} from '../../data/Profession';
 import {Resource} from '../../data/Resource';
 import {Item} from '../../data/Item';
 
+const resourceCollisionState = {
+    size: {
+        x: 1,
+        y: 1
+    },
+    softCollision: true
+};
+
 const healthFromActionTime = (hours: number): number => {
     return util.hoursToTicks(hours) / config.averageSpeed.citizen;
 };
@@ -32,6 +40,7 @@ const dataList: IEntityComponentData[] = [{
                 'tree2-2': 1,
             }
         },
+        collision: resourceCollisionState,
         harvestable: {
             profession: Profession.Woodcutter,
             highlighted: false,
@@ -59,6 +68,7 @@ const dataList: IEntityComponentData[] = [{
 				'rock2'
 			],
         },
+        collision: resourceCollisionState,
         harvestable: {
             profession: Profession.Miner,
             highlighted: false,
@@ -85,6 +95,7 @@ const dataList: IEntityComponentData[] = [{
 				'bush2-2-fruit'
 			],
         },
+        collision: resourceCollisionState,
         harvestable: {
             profession: Profession.Gatherer,
             highlighted: false,
@@ -112,6 +123,7 @@ const dataList: IEntityComponentData[] = [{
 				'purple-shroom-4'
 			],
         },
+        collision: resourceCollisionState,
         harvestable: {
             profession: Profession.Gatherer,
             highlighted: false,

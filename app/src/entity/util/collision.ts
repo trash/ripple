@@ -11,11 +11,18 @@ export class CollisionUtil extends BaseUtil {
         return this.entityManager.getEntityIdsForComponent(Component.Collision);
     }
 
+    /**
+     * Returns all tiles that the entity has marked as collidable.
+     * This is determined by the dimensions of the collision component for that
+     * entity.
+     * @param id
+     * @param excludeEntranceTile
+     */
     getTilesFromCollisionEntity(
         id: number,
-        excludeEntranceTile: boolean = false
+        excludeEntranceTile: boolean = false,
+        tile: IRowColumnCoordinates = positionUtil.getTileFromEntityId(id, true)
     ): IRowColumnCoordinates[] {
-        const tile = positionUtil.getTileFromEntityId(id, true);
         // Ignore collision entities without a position
         if (!tile) {
             return [];

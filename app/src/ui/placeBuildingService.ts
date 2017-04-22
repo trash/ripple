@@ -266,13 +266,14 @@ export class PlaceBuildingService {
 
 		// Check for all tiles covered by size
 		const collisionTiles = collisionUtil.getTilesFromCollisionEntity(
-			this.entity);
+			this.entity
+		);
 		const collisionDetected = collisionTiles.some(tile => {
 			const occupiedTile = mapUtil.getTile(tile.row, tile.column);
 			if (!occupiedTile) {
 				return false;
 			}
-			return occupiedTile.collision;
+			return occupiedTile.collision || !!occupiedTile.softCollision;
 		});
 		if (collisionDetected) {
 			return false;

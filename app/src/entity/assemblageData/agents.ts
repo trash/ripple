@@ -24,6 +24,13 @@ const defaultHealthState = {
     currentHealth: maxHealth,
     maxHealth: maxHealth
 };
+const agentCollisionState = {
+    size: {
+        x: 1,
+        y: 1
+    },
+    softCollision: true
+};
 
 const dataList: IEntityComponentData[] = [
     {
@@ -39,6 +46,7 @@ const dataList: IEntityComponentData[] = [
         behaviorTree: {
             tree: zombieTree
         },
+        collision: agentCollisionState,
         health: defaultHealthState
     },
     {
@@ -55,6 +63,7 @@ const dataList: IEntityComponentData[] = [
             // tree: wolfTree,
             tree: deerTree
         },
+        collision: agentCollisionState,
         health: defaultHealthState
     },
     {
@@ -68,6 +77,7 @@ const dataList: IEntityComponentData[] = [
                 AgentTrait.Human
             ]
         },
+        collision: agentCollisionState,
         behaviorTree: {
             tree: pathInCircle,
         },
@@ -88,6 +98,7 @@ const dataList: IEntityComponentData[] = [
         inventory: {
             gold: 50
         },
+        collision: agentCollisionState,
         visitor: {
             desiredItems: [
                 ItemProperty.Armor,
@@ -113,6 +124,7 @@ const dataList: IEntityComponentData[] = [
             strength: 1,
             speed: constants.BASE_SPEED
         },
+        collision: agentCollisionState,
         visitor: {
             desiredItems: [ItemProperty.Food]
         },
@@ -137,6 +149,7 @@ const dataList: IEntityComponentData[] = [
             strength: 3,
             speed: config.averageSpeed.citizen
         },
+        collision: agentCollisionState,
         health: defaultHealthState,
         villager: {
             job: VillagerJob.Unemployed,

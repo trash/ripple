@@ -8,6 +8,7 @@ export interface ICollisionState {
     previousActiveState?: boolean;
     activeState?: boolean;
     updatesTile?: boolean;
+    softCollision?: boolean;
 }
 
 export const Collision: IComponent<ICollisionState> = {
@@ -19,7 +20,8 @@ export const Collision: IComponent<ICollisionState> = {
             previousActiveState: false,
             activeState: true,
             entrance: null,
-            updatesTile: true
+            updatesTile: true,
+            softCollision: false
         };
     }
 };

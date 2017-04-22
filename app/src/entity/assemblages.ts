@@ -27,7 +27,8 @@ const agentComponents = [
     Component.HealthBar,
     Component.BehaviorTree,
     Component.Name,
-    Component.Inventory
+    Component.Inventory,
+    Component.Collision
 ];
 
 const visitorComponents = agentComponents.concat([
@@ -48,6 +49,7 @@ export const assemblages: IAssemblagesMap = {
     [AssemblagesEnum.Adventurer]: visitorComponents,
     [AssemblagesEnum.Resource]: [
         Component.Resource,
+        Component.Collision,
         Component.Renderable,
         Component.Position,
         Component.Harvestable,
@@ -58,10 +60,12 @@ export const assemblages: IAssemblagesMap = {
         Component.Renderable,
         Component.Position,
         Component.Item,
+        Component.Collision,
         Component.Name
     ],
     [AssemblagesEnum.Corpse]: [
         Component.Renderable,
+        Component.Collision,
         Component.Position,
         Component.Corpse
     ],

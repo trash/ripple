@@ -18,19 +18,27 @@ export class CollisionSystem extends EntitySystem {
                 Component.Position, id) as IPositionState;
 
             // Collision toggled, update tiles and then update map
-            if (collisionState.previousActiveState !== collisionState.activeState
-                && positionState.tile
+            if (positionState.tile
+                && (positionState.dirty
+                    || collisionState.previousActiveState !== collisionState.activeState
+                )
             ) {
                 // Update tiles collison flags if necessary
                 if (collisionState.updatesTile) {
-                    this.updateCollisionFlags(id, collisionState,
-                        positionState.tile);
+                    this.updateCollisionFlags(
+                        id,
+                        collisionState,
+                        positionState.tile,
+                        positionState.previousTile
+                    );
                 }
 
                 collisionState.previousActiveState = collisionState.activeState;
 
-                // Update the map
-                mapUtil.updateCollisionGrid();
+                if (!collisionState.softCollision) {
+                    // Update the map
+                    mapUtil.updateCollisionGrid();
+                }
             }
         });
     }
@@ -38,17 +46,33 @@ export class CollisionSystem extends EntitySystem {
     updateCollisionFlags (
         id: number,
         collisionState: ICollisionState,
-        tile: IRowColumnCoordinates
+        tile: IRowColumnCoordinates,
+        previousTile: IRowColumnCoordinates
     ) {
-        collisionUtil.getTilesFromCollisionEntity(id).forEach(coords => {
+        // Clear out old collision tiles
+        if (collisionState.softCollision && previousTile) {
+            collisionUtil.getTilesFromCollisionEntity(id, false, previousTile).forEach(coords => {
+                const occupiedTile = mapUtil.getTile(coords.row, coords.column);
+                occupiedTile.softCollision--;
+            });
+        }
+
+        // Update new collision tiles
+        collisionUtil.getTilesFromCollisionEntity(id, false, tile).forEach(coords => {
             const occupiedTile = mapUtil.getTile(coords.row, coords.column);
-            occupiedTile.collision = collisionState.activeState;
+            const active = collisionState.activeState;
+            if (collisionState.softCollision) {
+                occupiedTile.softCollision++;
+            } else {
+                occupiedTile.collision = active;
+            }
         });
         // Make sure to always make entrances are accessible
         if (collisionState.entrance) {
             const entranceTile = mapUtil.getTile(
                 tile.row + collisionState.entrance.y,
-                tile.column + collisionState.entrance.x);
+                tile.column + collisionState.entrance.x
+            );
             entranceTile.collision = false;
         }
     }

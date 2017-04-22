@@ -19,6 +19,7 @@ i.fa {
 $tileSize: 24px;
 $topSectionHeight: 80px;
 $actionBarHeight: 280px;
+$leftMenuWidth: 400px;
 
 canvas {
     image-rendering: optimizeSpeed;
@@ -106,7 +107,7 @@ input {
 
 $leftMenuBorderColor: #333;
 .left-menu {
-	width: 640px;
+	width: $leftMenuWidth;
 	flex: 1 100%;
 	display: flex;
 

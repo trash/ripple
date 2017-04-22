@@ -6,6 +6,14 @@ import {Profession} from '../../data/Profession';
 import {Item} from '../../data/Item';
 import {ItemProperty} from '../../data/ItemProperty';
 
+const itemCollisionState = {
+    size: {
+        x: 1,
+        y: 1
+    },
+    softCollision: true
+};
+
 export const dataList: IEntityComponentData[] = [{
         item: {
             enum: Item.Wood,
@@ -20,6 +28,7 @@ export const dataList: IEntityComponentData[] = [{
             hasBeenSpawned: null,
             stored: null
         },
+        collision: itemCollisionState
     },
     {
         item: {
@@ -35,6 +44,7 @@ export const dataList: IEntityComponentData[] = [{
             hasBeenSpawned: null,
             stored: null
         },
+        collision: itemCollisionState
     },
     {
         item: {
@@ -44,7 +54,8 @@ export const dataList: IEntityComponentData[] = [{
             readableName: 'mushroom',
             description: 'Purple mushrooms that can be used in alchemists recipes.',
             properties: []
-        }
+        },
+        collision: itemCollisionState
     },
     {
         item: {
@@ -54,7 +65,8 @@ export const dataList: IEntityComponentData[] = [{
             readableName: 'stone',
             description: 'A pile of stone.',
             properties: [ItemProperty.Resource]
-        }
+        },
+        collision: itemCollisionState
     },
     {
         item: {
@@ -70,7 +82,8 @@ export const dataList: IEntityComponentData[] = [{
             }],
             craftTurns: 2,
             profession: Profession.Carpenter
-        }
+        },
+        collision: itemCollisionState
     },
     {
         item: {
@@ -94,6 +107,7 @@ export const dataList: IEntityComponentData[] = [{
             profession: Profession.Blacksmith,
             craftTurns: 20,
         },
+        collision: itemCollisionState
 	},
 ];
 

@@ -530,14 +530,17 @@ export class GameMap {
 
 	_getGrid (ignoreAccessible: boolean = false): number[][] {
 		const grid = [];
-		for (let i=0; i < this.dimension; i++) {
+		for (let i = 0; i < this.dimension; i++) {
 			grid.push([]);
-			for (let j=0; j < this.dimension; j++) {
+			for (let j = 0; j < this.dimension; j++) {
 				if (ignoreAccessible) {
-					grid[i].push(0);
+					grid[i].push(constants.COLLISION_EXISTS_FALSE);
 				} else {
 					const tile = this.getTile(i, j);
-					grid[i].push(!tile.collision ? 0 : 1);
+					grid[i].push(!tile.collision
+						? constants.COLLISION_EXISTS_FALSE
+						: constants.COLLISION_EXISTS_TRUE
+					);
 				}
 			}
 		}

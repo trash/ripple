@@ -35,9 +35,13 @@ interface IConstants {
 	PROTECTED_IDS: number[];
 	SUBCONTAINER_SIZE: number;
 	BASE_SPEED: number;
+	COLLISION_EXISTS_TRUE: 1;
+	COLLISION_EXISTS_FALSE: 0;
 }
 
 export const constants = {
+	COLLISION_EXISTS_TRUE: 1,
+	COLLISION_EXISTS_FALSE: 0,
 	ACCESSIBLE: 0,
 	INACCESSIBLE: 1,
 	colors: {

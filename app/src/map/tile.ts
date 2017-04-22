@@ -8,7 +8,11 @@ export class MapTile extends BaseTile {
     column: number;
     index: number;
     data: string;
-    collision: boolean; // Whether something that causes a collision occupies it
+    // Whether something that causes a collision occupies it
+    collision: boolean;
+    // Essentially a semaphore representing how many soft collidable entities
+    // are in the given tile.
+    softCollision: number;
 
     constructor (
         row: number,
@@ -24,6 +28,7 @@ export class MapTile extends BaseTile {
         this.data = data;
         this.isWater = isWater;
         this.collision = false;
+        this.softCollision = 0;
     }
 
     get accessible (): boolean {
