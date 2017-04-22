@@ -118,8 +118,6 @@ export class EntitySpawner {
 
     /**
 	* Creates a agent and adds it to the list of citizens for the game manager to keep track of.
-	*
-	* @returns {Agent} The agent that was created.
 	*/
 	spawnAgent (
 		agent: Agent,
@@ -151,7 +149,7 @@ export class EntitySpawner {
 			Component.Name, entityId) as INameState;
 
 		// Copy over the defaults for the agent
-		const assemblageData = _.extend({}, agentsAssemblageData[agent]);
+		const assemblageData = _.cloneDeep(agentsAssemblageData[agent]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 		this.copyNeededComponentData(entityId, entityComponentData, assemblage);
 
@@ -224,7 +222,7 @@ export class EntitySpawner {
         tile: IRowColumnCoordinates,
         entityComponentData: IEntityComponentData = {}
     ): number {
-		const assemblageData = _.extend({}, resourcesAssemblageData[resourceEnum]);
+		const assemblageData = _.cloneDeep(resourcesAssemblageData[resourceEnum]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Resource);
 		entityComponentData.position = {
@@ -296,7 +294,7 @@ export class EntitySpawner {
 		item: Item,
         entityComponentData: IEntityComponentData = {}
     ): number {
-		const assemblageData = _.extend({}, itemsAssemblageData[item]);
+		const assemblageData = _.cloneDeep(itemsAssemblageData[item]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Item);
@@ -354,7 +352,7 @@ export class EntitySpawner {
 		}
 		events.emit(['trigger-sound', 'placeBuilding']);
 
-		const assemblageData = _.extend({}, buildingsAssemblageData[building]);
+		const assemblageData = _.cloneDeep(buildingsAssemblageData[building]);
 		entityComponentData = _.merge(assemblageData, entityComponentData);
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Building);
