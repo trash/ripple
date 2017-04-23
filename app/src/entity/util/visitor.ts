@@ -1,8 +1,10 @@
+import * as _ from 'lodash';
 import {IItemSearchResult} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {IVisitorState} from '../components';
 import {itemUtil} from './item';
+import {Item} from '../../data/Item';
 
 export class VisitorUtil extends BaseUtil {
     getItemToBuy(visitorId: number): IItemSearchResult {

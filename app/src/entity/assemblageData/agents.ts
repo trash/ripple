@@ -15,6 +15,7 @@ import {
 import {ItemProperty} from '../../data/ItemProperty';
 import {AgentTrait} from '../../data/AgentTrait';
 import {Agent} from '../../data/Agent';
+import {Item} from '../../data/Item';
 import {VillagerJob} from '../../data/VillagerJob';
 import {constants} from '../../data/constants';
 import {config} from '../../data/config';
@@ -126,7 +127,14 @@ const dataList: IEntityComponentData[] = [
         },
         collision: agentCollisionState,
         visitor: {
-            desiredItems: [ItemProperty.Food]
+            desiredItems: [ItemProperty.Food],
+            recruitCost: [{
+                enum: Item.Wood,
+                count: 10
+            }, {
+                enum: Item.Berries,
+                count: 5
+            }]
         },
         inventory: {
             gold: 10

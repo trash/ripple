@@ -11,6 +11,7 @@ import {ItemProperty} from './ItemProperty';
 
 import {IPositionState, IBuildingState} from '../entity/components';
 import {dataList as buildingsList} from '../entity/assemblageData/buildings';
+import {assemblageData as agentsData} from '../entity/assemblageData/agents';
 import {dataList as itemsList} from '../entity/assemblageData/items';
 import {behaviorTree as pathInCircle} from '../b3/Trees/pathInCircle';
 
@@ -239,6 +240,20 @@ let testLevelsData: ITestLevelGroup[]  = [
 	{
 		name: 'Visitor Tests',
 		list: [
+			{
+				name: 'Can recruit visitor',
+				agents: [{
+					enum: Agent.Visitor
+				}],
+				buildings: [{
+					enum: Building.Tavern,
+					storage: agentsData[Agent.Visitor].visitor.recruitCost,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
+			},
 			{
 				name: 'Adventurer buys items',
 				agents: [{

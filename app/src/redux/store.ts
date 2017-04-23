@@ -88,6 +88,7 @@ type ReducerAction =
 
 export interface StoreState {
     items: Immutable.Map<Item, number>;
+    claimedItems: Immutable.Map<Item, number>;
     tile: IRowColumnCoordinates;
     hoveredAgent: IAgentState;
     hoveredAgentHunger: IHungerState;
@@ -124,6 +125,7 @@ export interface StoreState {
 
 const initialState = {
     items: Immutable.Map<Item, number>(),
+    claimedItems: Immutable.Map<Item, number>(),
     gold: 0,
     agentsList: Immutable.List<AgentListEntry>(),
     buildingsList: Immutable.List<BuildingListEntry>(),
@@ -186,15 +188,19 @@ function mainReducer(
 
         case actionTypes.ADD_TO_ITEM_LIST:
         case actionTypes.REMOVE_FROM_ITEM_LIST:
-            const item = (action as AddToItemList).item;
+            const item = action.item;
             const currentCount = newState.items.get(item) || 0;
+            const currentClaimedCount = newState.claimedItems.get(item) || 0;
             if (action.type === actionTypes.ADD_TO_ITEM_LIST) {
                 newState.items = newState.items.set(item, currentCount + 1);
+                newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount + 1);
             } else {
                 if (currentCount === 1) {
                     newState.items = newState.items.remove(item);
+                    newState.claimedItems = newState.claimedItems.remove(item);
                 }
                 newState.items = newState.items.set(item, currentCount - 1);
+                newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount - 1);
             }
             break;
 

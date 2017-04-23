@@ -58,7 +58,7 @@ export class ItemSystem extends EntitySystem {
     destroyComponent (id: number) {
         const itemState = this.manager.getComponentDataForEntity(
             Component.Item, id) as IItemState;
-        store.dispatch(removeFromItemList(itemState.enum));
+        store.dispatch(removeFromItemList(itemState.enum, itemState.claimed));
     }
 
     spawn (

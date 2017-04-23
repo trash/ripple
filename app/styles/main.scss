@@ -21,6 +21,8 @@ $topSectionHeight: 80px;
 $actionBarHeight: 280px;
 $leftMenuWidth: 400px;
 
+$green: #17690e;
+
 canvas {
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
@@ -139,4 +141,5 @@ $leftMenuBorderColor: #333;
 	'tabs',
 	'agent-list',
 	'agent-info-card',
-	'hover-tile';
+	'hover-tile',
+	'recruit-visitor-section';

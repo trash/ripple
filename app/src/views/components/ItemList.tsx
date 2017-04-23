@@ -7,6 +7,7 @@ import {Item} from '../../data/Item';
 
 export interface ItemListProps {
     itemList: Immutable.Map<Item, number>;
+    claimedItemList: Immutable.Map<Item, number>;
     gold: number;
 }
 
@@ -19,9 +20,10 @@ export class ItemList extends React.Component<ItemListProps, void> {
                     {this.props.gold}
                 </li>
                 {this.props.itemList.entrySeq().map(([item, count]) => {
+                    const claimedCount = this.props.claimedItemList.get(item);
                     return <li key={item}>
                         <img src={itemUtil.getImagePath(item)}/>
-                        {count}
+                        {`${count} (${claimedCount})`}
                     </li>
                 })}
             </ul>
@@ -32,6 +34,7 @@ export class ItemList extends React.Component<ItemListProps, void> {
 export const ConnectedItemList = connect((state: StoreState) => {
     return {
         itemList: state.items,
+        claimedItemList: state.claimedItems,
         gold: state.gold
     };
 })(ItemList);

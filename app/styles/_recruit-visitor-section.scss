@@ -1,0 +1,10 @@
+.recruit-visitor-section {
+    button {
+        background: $green;
+        border: 0;
+
+        &:disabled {
+            background: red;
+        }
+    }
+}

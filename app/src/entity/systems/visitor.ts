@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import {EntitySystem, EntityManager} from '../entityManager';
 import {Component} from '../ComponentEnum';
+import {ResourceRequirements} from '../../ResourceRequirements';
 import {
     IBehaviorTreeState,
     IVisitorState
@@ -14,6 +15,10 @@ export class VisitorSystem extends EntitySystem {
                 Component.Visitor, id) as IVisitorState;
             const behaviorTreeState = this.manager.getComponentDataForEntity(
                 Component.BehaviorTree, id) as IBehaviorTreeState;
+
+            if (!visitorState.recruitState) {
+                visitorState.recruitState = new ResourceRequirements(visitorState.recruitCost);
+            }
         });
     }
 }

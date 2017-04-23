@@ -1,3 +1,4 @@
+import * as Immutable from 'immutable';
 import {events} from './events';
 import {
 	IResourceRequirementsMapEntry,
@@ -34,6 +35,17 @@ export class ResourceRequirements extends EventEmitter2 {
 				gathered: 0,
 				required: resource.count
 			});
+		});
+	}
+
+	/**
+	 * Checks whether or not the given item list contains the amount of items
+	 * necessary to complete the ResourceRequirements object.
+	 * @param itemList Map of items to count of that item
+	 */
+	itemListContainsRequiredResources(itemList: Immutable.Map<Item, number>): boolean {
+		return Array.from(this.map).every(([resourceType, resourceEntry]) => {
+			return itemList.get(resourceType) + resourceEntry.gathered >= resourceEntry.required;
 		});
 	}
 

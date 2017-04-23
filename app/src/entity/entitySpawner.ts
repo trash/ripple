@@ -322,7 +322,7 @@ export class EntitySpawner {
 		positionState.tile = spawnTile;
 		itemState.shouldBeSpawned = true;
 
-        store.dispatch(addToItemList(item));
+        store.dispatch(addToItemList(item, itemState.claimed));
 
 		return entityId;
 	}

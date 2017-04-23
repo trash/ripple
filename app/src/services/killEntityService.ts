@@ -20,10 +20,15 @@ export class KillEntityService {
 		this.active = true;
 		this.entityType = type;
 		cursorManager.showCursor(Cursor.Attack);
-		this.listenerOff = globalRefs.map.addTileClickListener(tile =>
+		this.listenerOff = globalRefs.map.addTileClickListener(tile => {
+			if (!tile) {
+				return;
+			}
             positionUtil.destroyEntityOfComponentTypeInTile(
                 tile,
-                this.entityType));
+                this.entityType
+			);
+		});
 	}
 
 	off () {

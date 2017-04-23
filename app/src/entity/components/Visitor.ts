@@ -3,11 +3,15 @@ import {Component} from '../ComponentEnum';
 
 import {ItemProperty} from '../../data/ItemProperty';
 import {constants} from '../../data/constants';
+import {RequiredResources} from '../../interfaces';
+import {ResourceRequirements} from '../../ResourceRequirements';
 
 export interface IVisitorState {
     desiredItems?: ItemProperty[];
     leaveTown?: boolean;
     boughtItem?: boolean;
+    recruitCost?: RequiredResources;
+    recruitState?: ResourceRequirements;
 }
 
 export const Visitor: IComponent<IVisitorState> = {
@@ -17,7 +21,9 @@ export const Visitor: IComponent<IVisitorState> = {
         return {
             desiredItems: [],
             leaveTown: false,
-            boughtItem: false
+            boughtItem: false,
+            recruitCost: [],
+            recruitState: null
         };
     }
 };
