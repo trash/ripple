@@ -20,7 +20,7 @@ export class CollisionDebugView extends React.Component<CollisionDebugViewProps,
             if (!this.props.show) {
                 return;
             }
-            this.render();
+            this.forceUpdate();
         }, 5);
     }
     render () {
