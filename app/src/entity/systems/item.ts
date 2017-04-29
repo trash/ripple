@@ -14,7 +14,7 @@ import {IRowColumnCoordinates} from '../../interfaces';
 import {spriteManager, SpriteManager} from '../../services/spriteManager';
 import {store} from '../../redux/store';
 import {addToItemList, removeFromItemList} from '../../redux/actions';
-import {itemUtil} from '../util/item';
+import {itemUtil, renderableUtil} from '../util';
 import {taskQueueManager} from '../../Tasks/TaskQueueManager';
 
 export class ItemSystem extends EntitySystem {
@@ -44,7 +44,7 @@ export class ItemSystem extends EntitySystem {
             if (renderableState.spriteGroup && !renderableState.sprite) {
                 renderableState.sprite = this.createSprite(itemState);
                 renderableState.spriteGroup.addChild(renderableState.sprite);
-                renderableState.shown = false;
+                renderableUtil.setShown(renderableState, false);
             }
             if (renderableState.sprite && itemState.shouldBeSpawned && !itemState.hasBeenSpawned) {
                 this.spawn(id, itemState, renderableState, positionState);
@@ -79,7 +79,7 @@ export class ItemSystem extends EntitySystem {
         spriteManager.changePosition(renderableState.spriteGroup,
             nearestEmptyTile.column, nearestEmptyTile.row);
 
-        renderableState.shown = true;
+        renderableUtil.setShown(renderableState, true);
 
         itemState.hasBeenSpawned = true;
 

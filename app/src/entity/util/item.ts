@@ -7,6 +7,7 @@ import {IItemState} from '../components/item';
 import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
 import {BaseUtil} from './base';
+import {renderableUtil} from './renderable';
 import {
 	IItemSearchResult,
 	IRowColumnCoordinates,
@@ -29,8 +30,7 @@ export class ItemUtil extends BaseUtil {
             events.emit(['storage', 'unoccupy'], tile, id);
         }
 
-        renderableState.sprite.visible = false;
-        renderableState.shown = false;
+		renderableUtil.setShown(renderableState, false);
         positionState.tile = null;
     }
 

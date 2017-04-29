@@ -17,7 +17,8 @@ import {
     healthUtil,
     behaviorTreeUtil,
     constructibleUtil,
-    resourceUtil
+    resourceUtil,
+    renderableUtil
 } from './index';
 
 export const utilList: BaseUtil[] = [
@@ -37,5 +38,6 @@ export const utilList: BaseUtil[] = [
     healthUtil,
     behaviorTreeUtil,
     constructibleUtil,
-    resourceUtil
+    resourceUtil,
+    renderableUtil
 ];

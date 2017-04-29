@@ -6,6 +6,7 @@ export interface IRenderableState {
     sprite: PIXI.Sprite;
     spriteGroup: PIXI.Container;
     shown: boolean;
+    dirty: boolean;
     lastSubContainerLayerIndex?: number;
     activeSubContainerTransition?: boolean;
     lastRenderedCoordinates: XYCoordinates;
@@ -19,6 +20,7 @@ export const Renderable: IComponent<IRenderableState> = {
             sprite: null,
             spriteGroup: null,
             shown: true,
+            dirty: true,
             lastSubContainerLayerIndex: null,
             activeSubContainerTransition: false,
             lastRenderedCoordinates: null

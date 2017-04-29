@@ -12,6 +12,14 @@ import {spriteManager} from '../../services/spriteManager';
 
 export class RenderableSystem extends EntitySystem {
 	filterEntities(id: number): boolean {
+		const renderableState = this.manager.getComponentDataForEntity(
+			Component.Renderable,
+			id
+		) as IRenderableState;
+		if (renderableState.dirty) {
+			renderableState.dirty = false;
+			return true;
+		}
 		const positionState = this.manager.getComponentDataForEntity(
 			Component.Position,
 			id

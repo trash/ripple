@@ -15,3 +15,4 @@ export {townUtil} from './town';
 export {constructibleUtil} from './constructible';
 export {behaviorTreeUtil} from './behaviorTree';
 export {resourceUtil} from './resource';
+export {renderableUtil} from './renderable';

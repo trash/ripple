@@ -7,6 +7,7 @@ import {
     IStorageState
 } from '../components';
 import {BaseUtil} from './base';
+import {renderableUtil} from './renderable';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
@@ -35,7 +36,7 @@ export class StorageUtil extends BaseUtil {
         itemPositionState.tile = storageState.tile;
         // Hide the item if necessary
         if (storageState.hideWhenStored) {
-            itemRenderableState.shown = false;
+            renderableUtil.setShown(itemRenderableState, false);
         }
         // Update storage state
         storageState.available--;

@@ -16,7 +16,7 @@ import {events} from '../../events';
 import {names} from '../../names';
 import {SpriteManager} from '../../services/spriteManager';
 import {Agent} from '../../data/Agent';
-import {buildingUtil, positionUtil, agentUtil} from '../util';
+import {renderableUtil, buildingUtil, positionUtil, agentUtil} from '../util';
 
 export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
@@ -58,10 +58,10 @@ export class AgentSystem extends EntitySystem {
 
             // Show/hide agent based on whether they're in building
             if (agentState.buildingInsideOf && renderableState.shown) {
-                renderableState.shown = false;
+                renderableUtil.setShown(renderableState, false);
                 console.log('hide agent', id);
             } else if (!agentState.buildingInsideOf && !renderableState.shown) {
-                renderableState.shown = true;
+                renderableUtil.setShown(renderableState, true);
                 console.log('show agent', id);
             }
 
