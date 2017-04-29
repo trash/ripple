@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {BuildingListEntry} from '../../interfaces';
 import {Building} from '../../data/Building';
-import {buildingUtil} from '../../entity/util';
+import {buildingUtil, storageUtil} from '../../entity/util';
 
 import {
     IBuildingState,
-    IConstructibleState
+    IConstructibleState,
+    IStorageState
 } from '../../entity/components';
 
 import {
@@ -41,6 +42,19 @@ const renderConstructibleProperties = (state: IConstructibleState): DisplayPrope
     },
 ];
 
+const renderStorageProperties = (state: IStorageState): DisplayProperty[] => [
+    {
+        name: 'Storage',
+        value: storageUtil.availableStorageToString(state),
+        detailedOnly: false
+    },
+    {
+        name: 'Storage Restrictions',
+        value: storageUtil.storageRestrictionsToString(state),
+        detailedOnly: false
+    }
+];
+
 export const BuildingInfoCard = (
     selectedBuilding: BuildingListEntry,
     detailed: boolean = false
@@ -69,6 +83,10 @@ export const BuildingInfoCard = (
             { filterAndRenderProperties(
                 detailed,
                 renderPositionProperties(selectedBuilding.position)
+            ) }
+            { selectedBuilding.storage && filterAndRenderProperties(
+                detailed,
+                renderStorageProperties(selectedBuilding.storage)
             ) }
         </div>
     );

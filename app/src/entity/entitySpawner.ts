@@ -9,9 +9,9 @@ import {AssemblagesEnum, assemblages} from '../entity/assemblages';
 import {store} from '../redux/store';
 import {
 	addToItemList,
-	spawnAgent,
-	spawnBuilding,
-	spawnResource
+	spawnAgent as spawnAgentAction,
+	spawnBuilding as spawnBuildingAction,
+	spawnResource as spawnResourceAction
 } from '../redux/actions';
 
 import {
@@ -36,6 +36,7 @@ import {
 	IBuildingState,
 	IResourceState,
 	IHarvestableState,
+	IStorageState,
 	INameState
 } from '../entity/components';
 
@@ -171,7 +172,7 @@ export class EntitySpawner {
 		);
 
 		// Notify redux of new agent
-		store.dispatch(spawnAgent(
+		store.dispatch(spawnAgentAction(
 			entityId,
 			agentState,
 			nameState,
@@ -242,7 +243,7 @@ export class EntitySpawner {
 			Component.Health, entityId) as IHealthState;
 
 		// Notify redux of new entity
-		store.dispatch(spawnResource(
+		store.dispatch(spawnResourceAction(
 			entityId,
 			resourceState,
 			harvestableState,
@@ -405,14 +406,17 @@ export class EntitySpawner {
 			Component.Constructible, entityId) as IConstructibleState;
 		const healthState = this.entityManager.getComponentDataForEntity(
 			Component.Health, entityId) as IHealthState;
+		const storageState = this.entityManager.getComponentDataForEntity(
+			Component.Storage, entityId) as IStorageState;
 
 		// Notify redux of new entity
-		store.dispatch(spawnBuilding(
+		store.dispatch(spawnBuildingAction(
 			entityId,
 			buildingState,
 			constructibleState,
 			healthState,
-			positionState
+			positionState,
+			storageState
 		));
 
 		return entityId;

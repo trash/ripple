@@ -147,8 +147,12 @@ let testLevelsData: ITestLevelGroup[]  = [
 					enum: Building.Tavern,
 					isCompleted: true,
 					data: {
-						position: defaultBuildingPosition
+						position: defaultBuildingPosition,
 					},
+					storage: [{
+						enum: Item.Berries,
+						count: 4
+					}]
 				}],
 				agents: [{
 					enum: Agent.Villager,

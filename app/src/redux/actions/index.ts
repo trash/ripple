@@ -228,6 +228,7 @@ export interface SpawnBuilding {
 	constructible: IConstructibleState;
 	health: IHealthState;
 	position: IPositionState;
+    storage: IStorageState;
 }
 
 export function spawnBuilding(
@@ -236,15 +237,17 @@ export function spawnBuilding(
     constructible: IConstructibleState,
     health: IHealthState,
     position: IPositionState,
+    storage: IStorageState
 
 ): SpawnBuilding {
     return {
         type: actionTypes.SPAWN_BUILDING,
-        id: id,
-        building: building,
-        constructible: constructible,
-        health: health,
-        position: position
+        id,
+        building,
+        constructible,
+        health,
+        position,
+        storage
     };
 }
 

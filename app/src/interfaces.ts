@@ -273,6 +273,7 @@ export type BuildingListEntry = {
 	constructible: IConstructibleState;
 	health: IHealthState;
 	position: IPositionState;
+	storage: IStorageState;
 }
 
 export type ResourceListEntry = {

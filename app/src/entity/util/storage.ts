@@ -11,6 +11,7 @@ import {IRowColumnCoordinates} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
+import {ItemProperty} from '../../data/ItemProperty';
 
 export class StorageUtil extends BaseUtil {
     storeItem(
@@ -42,6 +43,19 @@ export class StorageUtil extends BaseUtil {
 
         // Set item stored to point to this entity
         itemState.stored = storageEntity;
+    }
+
+    availableStorageToString(state: IStorageState): string {
+        return `${state.total - state.available}/${state.total}`;
+    }
+
+    storageRestrictionsToString(state: IStorageState): string {
+        let restrictions = '[';
+        state.itemRestrictions.forEach(restriction =>
+            restrictions += ItemProperty[restriction]
+        );
+        restrictions += ']';
+        return restrictions;
     }
 
     getStorageStateFromItem(

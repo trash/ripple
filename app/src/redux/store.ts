@@ -240,6 +240,7 @@ function mainReducer(
                 constructible: action.constructible,
                 position: action.position,
                 health: action.health,
+                storage: action.storage
             });
             break;
 
