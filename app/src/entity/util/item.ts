@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as changeCase from 'change-case';
+import {ResourceRequirements} from '../../ResourceRequirements';
 import {Component} from '../ComponentEnum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
@@ -129,6 +130,12 @@ export class ItemUtil extends BaseUtil {
 			);
 		}
 
+		// Filter out items with the given ids
+		if (searchOptions.ignoredIds) {
+			itemList = _.difference(itemList.map(entry => entry.id), searchOptions.ignoredIds)
+				.map(id => this.getItemSearchResultFromItem(id));
+		}
+
 		if (searchOptions.itemNames) {
 			let itemNames;
 			// Handle if they just pass a single name
@@ -211,7 +218,24 @@ export class ItemUtil extends BaseUtil {
 			}
 		}
 		return nearest;
-	};
+	}
+
+	getAllItemsForResourceRequirements(
+		startTile: IRowColumnCoordinates,
+		requiredResources: ResourceRequirements
+	): number[] {
+		const items: number[] = [];
+		const countMap = requiredResources.getRequiredCountMap();
+		Array.from(countMap).forEach(([itemType, count]) => {
+			for (let i = 0; i < count; i++) {
+				items.push(this.getNearestItem(startTile, {
+					itemEnums: [itemType],
+					ignoredIds: items
+				}).id);
+			}
+		});
+		return items;
+	}
 }
 
 export const itemUtil = new ItemUtil();

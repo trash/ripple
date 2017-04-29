@@ -24,7 +24,7 @@ type ForEachCallback = (
 *                           i.e. { wood: 10, stone: 5 }
 */
 export class ResourceRequirements extends EventEmitter2 {
-	map: Map<Item, IResourceRequirementsMapEntry>;
+	private map: Map<Item, IResourceRequirementsMapEntry>;
 
 	constructor (resources: RequiredResources) {
 		super();
@@ -36,6 +36,14 @@ export class ResourceRequirements extends EventEmitter2 {
 				required: resource.count
 			});
 		});
+	}
+
+	getRequiredCountMap(): Map<Item, number> {
+		const countMap = new Map<Item, number>();
+		Array.from(this.map).forEach(([resourceType, resourceEntry]) => {
+			countMap.set(resourceType, resourceEntry.required);
+		});
+		return countMap;
 	}
 
 	/**

@@ -61,6 +61,7 @@ export class EntityManager {
     removedEntities: IRemovedEntitiesMap;
     entityComponentToIdListMap: IEntityComponentToIdListMap;
     spawner: EntitySpawner;
+    turn: number;
 
     constructor () {
         this.spawner = new EntitySpawner(this);
@@ -96,6 +97,7 @@ export class EntityManager {
         turn: number,
         stopped: boolean
     ) {
+        this.turn = turn;
         this.systems.forEach(system => {
             if (system.updateInterval && turn % system.updateInterval !== 1) {
                 return;
