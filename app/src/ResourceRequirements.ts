@@ -69,7 +69,7 @@ export class ResourceRequirements extends EventEmitter2 {
 		let string = '';
 		this.map.forEach((resourceEntry, resourceType) => {
 			const resourceName = Item[resourceType];
-			string += `${resourceName}:[${resourceEntry.gathered}/${resourceEntry.required}]`;
+			string += `${resourceName}:[${resourceEntry.gathered}/${resourceEntry.required}] `;
 		});
 		return string;
 	}

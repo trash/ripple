@@ -57,6 +57,22 @@ export class ItemUtil extends BaseUtil {
 		return `${constants.SPRITE_PATH}items/${itemName}.png`;
 	}
 
+	itemListToString(items: number[]): string {
+		const itemNames = items.map(id => this.getItemNameFromEnum(this._getItemState(id).enum));
+		const countMap = new Map<string, number>();
+		itemNames.forEach(name => {
+			if (!countMap.get(name)) {
+				countMap.set(name, 0);
+			}
+			const count = countMap.get(name);
+			countMap.set(name, count + 1);
+		});
+
+		return Array.from(countMap).reduce((previous, [currentItem, currentCount]) => {
+			return previous + `${currentItem} (${currentCount}) `;
+		}, '');
+	}
+
 	private idToItemSearchResult (id: number): IItemSearchResult {
 		return {
 			id: id,

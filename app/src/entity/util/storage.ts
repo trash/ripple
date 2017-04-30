@@ -7,7 +7,7 @@ import {
     IStorageState
 } from '../components';
 import {BaseUtil} from './base';
-import {renderableUtil} from './renderable';
+import {renderableUtil, itemUtil} from './';
 import {IRowColumnCoordinates} from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
@@ -44,6 +44,10 @@ export class StorageUtil extends BaseUtil {
 
         // Set item stored to point to this entity
         itemState.stored = storageEntity;
+    }
+
+    storageItemListToString(state: IStorageState): string {
+        return itemUtil.itemListToString(state.itemList);
     }
 
     availableStorageToString(state: IStorageState): string {

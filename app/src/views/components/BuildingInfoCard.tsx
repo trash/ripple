@@ -49,6 +49,11 @@ const renderStorageProperties = (state: IStorageState): DisplayProperty[] => [
         detailedOnly: false
     },
     {
+        name: 'Items',
+        value: storageUtil.storageItemListToString(state),
+        detailedOnly: false
+    },
+    {
         name: 'Storage Restrictions',
         value: storageUtil.storageRestrictionsToString(state),
         detailedOnly: false

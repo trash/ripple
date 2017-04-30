@@ -344,52 +344,6 @@ export class Util {
 	}
 
 	/**
-	 * Takes a list of items and returns a string like this 'wood (10), iron (20)'
-	 *
-	 * @param {Object[]} itemList
-	 * @return {[type]} [description]
-	 */
-	// itemListString (itemList: number[], toBeStored: boolean): string {
-	// 	var map = {},
-	// 		toBeStoredMap = {};
-	// 	itemList.forEach(item => {
-	// 		if (!map[item.name]) {
-	// 			map[item.name] = 0;
-	// 			toBeStoredMap[item.name] = 0;
-	// 		}
-	// 		map[item.name]++;
-	// 		if (item.toBeStored) {
-	// 			toBeStoredMap[item.name]++;
-	// 		}
-	// 	});
-	// 	var returnString = '';
-	// 	Object.keys(map).forEach(name => {
-	// 		let fragment = `${name} (${map[name]}`;
-	// 		if (toBeStored && toBeStoredMap[name]) {
-	// 			fragment += `; not yet stored: ${ toBeStoredMap[name] }`;
-	// 		}
-	// 		fragment += ') ';
-	// 		returnString += fragment;
-	// 	});
-	// 	return returnString;
-	// }
-
-	itemsToList (list: any[]): string[] {
-		let totals = {};
-		list.forEach(item => {
-			if (!(item.name in totals)) {
-				totals[item.name] = 0;
-			}
-			totals[item.name]++;
-		});
-		let newList = [];
-		for (let itemName in totals) {
-			newList.push(itemName + '*' + totals[itemName]);
-		}
-		return newList;
-	}
-
-	/**
 	 * Returns an object if it is one otherwise fetches the object
 	 * off the blackboard
 	 *
