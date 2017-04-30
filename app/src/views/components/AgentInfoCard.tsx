@@ -123,7 +123,9 @@ export const AgentInfoCard = (
                 renderVisitorProperties(selectedAgent.visitor)
             ) }
             { selectedAgent.visitor &&
-                <ConnectedRecruitVisitorSection visitorId={selectedAgent.id} visitor={selectedAgent.visitor}/>
+                <ConnectedRecruitVisitorSection
+                    visitorId={selectedAgent.id}
+                    visitor={selectedAgent.visitor}/>
             }
             { selectedAgent.villager &&
                 VillagerJobSelect({

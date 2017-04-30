@@ -1,17 +1,17 @@
 import {b3} from '../index';
 import * as Core from '../Core';
-import {ResourceRequirements} from '../../ResourceRequirements';
+import {ItemRequirements} from '../../ItemRequirements';
 import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
 import {inventoryUtil} from '../../entity/util';
 
 export class AddResourceToRequirements extends Core.BaseNode {
 	blackboardKey: string;
-	requiredResources: ResourceRequirements;
+	requiredResources: ItemRequirements;
 
 	constructor (
 		blackboardKey: string,
-		requiredResources: ResourceRequirements
+		requiredResources: ItemRequirements
 	) {
 		super();
 		this.blackboardKey = blackboardKey;

@@ -74,13 +74,13 @@ export interface XYCoordinates {
 	y: number;
 };
 
-export type RequiredResourceEntry = {
+export type RequiredItemEntry = {
 	enum: Item;
 	count: number;
 }
-export type RequiredResources = RequiredResourceEntry[];
+export type RequiredItems = RequiredItemEntry[];
 
-export interface IResourceRequirementsMapEntry {
+export interface IItemRequirementsMapEntry {
 	gathered: number;
 	required: number;
 }

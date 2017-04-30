@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as changeCase from 'change-case';
-import {ResourceRequirements} from '../../ResourceRequirements';
+import {ItemRequirementsMap} from '../../ItemRequirementsMap';
 import {Component} from '../ComponentEnum';
 import {IPositionState} from '../components/position';
 import {IItemState} from '../components/item';
@@ -238,7 +238,7 @@ export class ItemUtil extends BaseUtil {
 
 	getAllItemsForResourceRequirements(
 		startTile: IRowColumnCoordinates,
-		requiredResources: ResourceRequirements
+		requiredResources: ItemRequirementsMap
 	): number[] {
 		const items: number[] = [];
 		const countMap = requiredResources.getRequiredCountMap();

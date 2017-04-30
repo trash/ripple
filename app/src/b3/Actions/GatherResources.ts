@@ -2,14 +2,14 @@ import * as Core from '../Core';
 import * as Actions from './index';
 
 import {dropOffTargetKeyOrFunctionType} from '../../interfaces';
-import {ResourceRequirements} from '../../ResourceRequirements';
+import {ItemRequirements} from '../../ItemRequirements';
 
 const requiredResourceKey = 'required-resource';
 const goToTargetKey = 'required-resource-go-to-target';
 
 export class GatherResources extends Core.Sequence {
 	constructor (
-		resourceRequirements: ResourceRequirements,
+		resourceRequirements: ItemRequirements,
 		dropOffLocation: dropOffTargetKeyOrFunctionType
 	) {
 		super({

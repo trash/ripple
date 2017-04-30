@@ -21,7 +21,7 @@ export class ItemSystem extends EntitySystem {
     constructor (manager: EntityManager, component: Component) {
         super(manager, component);
 
-        events.on('remove-from-resource', (entity: number) => {
+        events.on('add-item-to-requirements', (entity: number) => {
             this.destroyComponent(entity);
         })
     }

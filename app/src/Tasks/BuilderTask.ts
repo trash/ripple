@@ -1,6 +1,6 @@
 import {Task} from './Task';
 import * as Tasks from '../b3/Actions/Tasks';
-import {ResourceRequirements} from '../ResourceRequirements';
+import {ItemRequirements} from '../ItemRequirements';
 import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';
 import {Component} from '../entity/ComponentEnum';
@@ -24,7 +24,7 @@ import {IRowColumnCoordinates} from '../interfaces';
 */
 export class BuilderTask extends Task {
 	building: number;
-	resourceRequirements: ResourceRequirements;
+	resourceRequirements: ItemRequirements;
 	destinationTile: IRowColumnCoordinates;
 	readyCheckInterval: number;
 
@@ -89,7 +89,7 @@ export class BuilderTask extends Task {
 			return true;
 		}
 		return itemUtil.itemExists({
-			itemEnums: [this.resourceRequirements.pickRequiredResource()],
+			itemEnums: [this.resourceRequirements.pickRequiredItem()],
 			toBeStored: false
 		});
 	}

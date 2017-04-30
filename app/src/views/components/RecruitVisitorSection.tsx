@@ -16,6 +16,7 @@ export interface RecruitVisitorSectionProps {
 
 export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, void> {
     render() {
+        this.props.visitor.recruitState.setItemList(this.props.claimedItemList);
         return (
         <div className="recruit-visitor-section">
             <div>Recruit Cost:</div>

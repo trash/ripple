@@ -3,7 +3,7 @@ import {Building} from './Building';
 import {Agent} from './Agent';
 import {Item} from './Item';
 
-import {IEntityComponentData, RequiredResources} from '../interfaces';
+import {IEntityComponentData, RequiredItems} from '../interfaces';
 
 import {IPositionState} from '../entity/components/position';
 import {IHungerState} from '../entity/components/hunger';
@@ -27,7 +27,7 @@ export interface IBuildingAssemblageTestData {
 	enum: Building;
     isCompleted?: boolean;
     data?: IEntityComponentData;
-    storage?: RequiredResources;
+    storage?: RequiredItems;
 }
 
 export interface ITestGameMapOptions {

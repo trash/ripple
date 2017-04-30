@@ -1,8 +1,8 @@
 import _ = require('lodash');
 import {Task, ITaskOptions} from './Task';
-import {ResourceRequirements} from '../ResourceRequirements';
+import {ItemRequirements} from '../ItemRequirements';
 import {events} from '../events';
-import {RequiredResources} from '../interfaces';
+import {RequiredItems} from '../interfaces';
 import {Profession} from '../data/Profession';
 import {Item} from '../data/Item';
 import {CraftTask as CraftTaskAction} from '../b3/Actions/Tasks/CraftTask';
@@ -23,11 +23,11 @@ import {buildingUtil} from '../entity/util/building';
 export abstract class CraftTask extends Task {
     item: Item;
     profession: Profession;
-	resourceRequirements: ResourceRequirements;
+	resourceRequirements: ItemRequirements;
 
 	constructor (options: ITaskOptions, item: Item) {
         const itemData = assemblageData[item];
-		const resourceRequirements = new ResourceRequirements(
+		const resourceRequirements = new ItemRequirements(
             itemData.craftable.requiredResources
         );
 		options.behaviorTreeRoot = new CraftTaskAction(item, resourceRequirements);
@@ -64,7 +64,7 @@ export abstract class CraftTask extends Task {
 			return false;
 		}
 
-		return this.resourceRequirements.claimedResourcesExist();
+		return this.resourceRequirements.claimedItemsExist();
 	};
 
 	/**

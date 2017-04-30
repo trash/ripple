@@ -7,7 +7,7 @@ import {
 import {events} from '../../events';
 import {BaseUtil} from './base';
 import {IRowColumnCoordinates, IItemSearchResult} from '../../interfaces';
-import {ResourceRequirements} from '../../ResourceRequirements';
+import {ItemRequirements} from '../../ItemRequirements';
 import {spriteUtil} from '../../util/sprite';
 import {spriteManager} from '../../services/spriteManager';
 
@@ -18,7 +18,7 @@ export class ConstructibleUtil extends BaseUtil {
         positionState: IPositionState,
         completed: boolean = false
     ) {
-        constructibleState.resourceRequirements = new ResourceRequirements(
+        constructibleState.resourceRequirements = new ItemRequirements(
             constructibleState.requiredResources
         );
         constructibleState.resourceRequirements.on('add',

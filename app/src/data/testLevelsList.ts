@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {constants} from '../data/constants';
 import {util} from '../util';
 
@@ -32,6 +33,11 @@ const defaultBuildingPosition2 = {
 		column: 9
 	}
 }
+
+const visitorRecruitCostPlusOne = _.cloneDeep(agentsData[Agent.Visitor].visitor.recruitCost);
+Array.from(visitorRecruitCostPlusOne).forEach(entry => {
+	entry.count++;
+});
 
 const allItemsList = [];
 itemsList.forEach(itemData => {
@@ -251,12 +257,12 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}],
 				buildings: [{
 					enum: Building.Tavern,
-					storage: agentsData[Agent.Visitor].visitor.recruitCost,
 					isCompleted: true,
 					data: {
 						position: defaultBuildingPosition
 					}
-				}]
+				}],
+				items: visitorRecruitCostPlusOne,
 			},
 			{
 				name: 'Adventurer buys items',

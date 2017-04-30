@@ -1,20 +1,20 @@
 import {b3} from '../index';
 import * as Core from '../Core';
 import {util} from '../../util';
-import {ResourceRequirements} from '../../ResourceRequirements';
+import {ItemRequirements} from '../../ItemRequirements';
 import {itemUtil} from '../../entity/util';
 import {dropOffTargetKeyOrFunctionType, IRowColumnCoordinates} from '../../interfaces';
 
 export class GetRequiredResource extends Core.BaseNode {
 	blackboardKey: string;
 	goToTargetKey: string;
-	requiredResources: ResourceRequirements;
+	requiredResources: ItemRequirements;
 	dropOffTargetKeyOrFunction: dropOffTargetKeyOrFunctionType;
 
 	constructor (
 		blackboardKey: string,
 		goToTargetKey: string,
-		requiredResources: ResourceRequirements,
+		requiredResources: ItemRequirements,
 		dropOffTargetKeyOrFunction: dropOffTargetKeyOrFunctionType
 	) {
 		super();
@@ -25,7 +25,7 @@ export class GetRequiredResource extends Core.BaseNode {
 	}
 	tick (tick: Core.Tick) {
 		const agentData = tick.target;
-		const requiredResourceType = this.requiredResources.pickRequiredResource();
+		const requiredResourceType = this.requiredResources.pickRequiredItem();
 		if (!requiredResourceType) {
 			return b3.FAILURE;
 		}

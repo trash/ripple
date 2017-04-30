@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {
 	IEntityComponentData,
 	IRowColumnCoordinates,
-	RequiredResources
+	RequiredItems
 } from '../interfaces';
 import {constants} from '../data/constants';
 import {AssemblagesEnum, assemblages} from '../entity/assemblages';
@@ -352,7 +352,7 @@ export class EntitySpawner {
 	spawnBuilding (
         building: Building,
 		isCompleted: boolean = false,
-		storage: RequiredResources,
+		storage: RequiredItems,
         entityComponentData: IEntityComponentData = {}
     ): number {
 		if (!entityComponentData.position.tile) {

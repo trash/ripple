@@ -1,14 +1,14 @@
 import {IComponent} from '../entityManager';
 import {Component} from '../ComponentEnum';
-import {ResourceRequirements} from '../../ResourceRequirements';
-import {RequiredResources} from '../../interfaces';
+import {ItemRequirements} from '../../ItemRequirements';
+import {RequiredItems} from '../../interfaces';
 
 export interface IConstructibleState {
-    requiredResources: RequiredResources;
+    requiredResources: RequiredItems;
     progressSpriteName?: string;
     floorSpriteName: string;
 
-    resourceRequirements?: ResourceRequirements;
+    resourceRequirements?: ItemRequirements;
     completedSpriteName?: string;
     progressSprite?: PIXI.Sprite;
     completedSprite?: PIXI.Sprite;
