@@ -30,7 +30,7 @@ export abstract class CraftTask extends Task {
 		const resourceRequirements = new ResourceRequirements(
             itemData.craftable.requiredResources
         );
-		options.behaviorTree = new CraftTaskAction(item, resourceRequirements);
+		options.behaviorTreeRoot = new CraftTaskAction(item, resourceRequirements);
 
 		// Call our parent constructor
 		super(options);

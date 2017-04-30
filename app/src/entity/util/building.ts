@@ -1,9 +1,19 @@
+import * as _ from 'lodash';
 import * as changeCase from 'change-case';
 import {IRowColumnCoordinates} from '../../interfaces';
-import {IBuildingState} from '../components';
+import {
+	IBuildingState,
+	IPositionState,
+	IConstructibleState,
+	IStorageState,
+	IRenderableState,
+	ICollisionState,
+	INameState
+} from '../components';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {positionUtil} from './position';
+import {mapUtil} from './map';
 import {constants} from '../../data/constants';
 import {Profession} from '../../data/Profession';
 import {Building} from '../../data/Building';
@@ -51,6 +61,65 @@ export class BuildingUtil extends BaseUtil {
 	private buildingHasResidencyAvailable(state: IBuildingState): boolean {
 		return state.residents.length < state.maxOccupants;
 	}
+
+	private initEntranceTile(
+		positionState: IPositionState,
+		buildingState: IBuildingState,
+		collisionState: ICollisionState
+	): void {
+		const tile = positionState.tile;
+		if (!buildingState.entranceTile && tile) {
+			buildingState.entranceTile = mapUtil.getTile(
+				tile.row + collisionState.entrance.y,
+				tile.column + collisionState.entrance.x
+			);
+		}
+	}
+
+	buildingInitChecks(
+		buildingState: IBuildingState,
+		renderableState: IRenderableState,
+		constructibleState: IConstructibleState,
+		positionState: IPositionState,
+		collisionState: ICollisionState,
+		storageState: IStorageState,
+		nameState: INameState
+	): void {
+		// Get the name from the enum
+		if (!buildingState.name && _.isNumber(buildingState.enum)) {
+			buildingState.name = buildingUtil.getName(buildingState.enum);
+		}
+
+		if (renderableState.spriteGroup
+			&& !constructibleState.completedSpriteName
+		) {
+			this.initSprites(buildingState, constructibleState, renderableState);
+		}
+		buildingUtil.initEntranceTile(positionState, buildingState, collisionState);
+		if (storageState && !storageState.tile) {
+			storageState.tile = buildingState.entranceTile;
+		}
+		if (!nameState.name) {
+			if (nameState.isStatic) {
+				nameState.name = buildingState.name;
+			}
+		}
+		if (!constructibleState.progressSpriteName) {
+			constructibleState.progressSpriteName =
+				`${buildingState.name}-construction`;
+		}
+	}
+
+	private initSprites (
+        buildingState: IBuildingState,
+        constructibleState: IConstructibleState,
+        renderableState: IRenderableState
+    ) {
+        // The sprite group for the agent
+        const spriteGroup = renderableState.spriteGroup;
+
+        constructibleState.completedSpriteName = buildingState.name;
+    }
 
 	addResident(building: number, agent: number): void {
 		const state = this._getBuildingState(building);

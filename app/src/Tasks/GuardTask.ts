@@ -22,7 +22,7 @@ export class GuardTask extends Task {
 		super({
 			taskType: Profession.Guard,
 			name: 'guard-task',
-			behaviorTree: new GuardTaskAction(guardTarget),
+			behaviorTreeRoot: new GuardTaskAction(guardTarget),
 			effortRating: 3,
 			bubble: StatusBubble.Guard
 		});

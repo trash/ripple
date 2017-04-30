@@ -35,48 +35,17 @@ export class BuildingSystem extends EntitySystem {
             const storageState = this.manager.getComponentDataForEntity(
                 Component.Storage, id) as IStorageState;
 
-            // Get the name from the enum
-            if (!buildingState.name && _.isNumber(buildingState.enum)) {
-                buildingState.name = buildingUtil.getName(buildingState.enum);
-            }
-
-            if (renderableState.spriteGroup
-                && !constructibleState.completedSpriteName
-            ) {
-                this.initSprites(positionState, buildingState,
-                    constructibleState, renderableState);
-            }
-            const tile = positionState.tile;
-            if (!buildingState.entranceTile && tile) {
-                buildingState.entranceTile = mapUtil.getTile(
-                    tile.row + collisionState.entrance.y,
-			        tile.column + collisionState.entrance.x
-                );
-            }
-            if (!nameState.name) {
-                if (nameState.isStatic) {
-                    nameState.name = buildingState.name;
-                }
-            }
-            if (!storageState.tile) {
-                storageState.tile = buildingState.entranceTile;
-            }
-            if (!constructibleState.progressSpriteName) {
-                constructibleState.progressSpriteName =
-                    `${buildingState.name}-construction`;
-            }
+            buildingUtil.buildingInitChecks(
+                buildingState,
+                renderableState,
+                constructibleState,
+                positionState,
+                collisionState,
+                storageState,
+                nameState
+            );
         });
     }
 
-    initSprites (
-        positionState: IPositionState,
-        buildingState: IBuildingState,
-        constructibleState: IConstructibleState,
-        renderableState: IRenderableState
-    ) {
-        // The sprite group for the agent
-        const spriteGroup = renderableState.spriteGroup;
 
-        constructibleState.completedSpriteName = buildingState.name;
-    }
 }

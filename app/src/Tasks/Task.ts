@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
+import {uniqueId} from '../uniqueId';
 import {Instance} from './Instance';
 import {util} from '../util';
 import {events} from '../events';
-import {BehaviorTree} from '../b3/Core';
+import * as Core from '../b3/Core';
 import {TaskQueue} from './TaskQueue';
 import {Profession} from '../data/Profession';
 import {StatusBubble} from '../data/StatusBubble';
@@ -12,7 +13,7 @@ const debouncedError = _.debounce(console.error, 1000);
 const debouncedError2 = _.debounce(console.error, 1000);
 
 export interface ITaskOptions {
-	behaviorTree?: any;
+	behaviorTreeRoot?: Core.BaseNode;
 	taskType: Profession;
 	name: string;
 	description?: string;
@@ -29,18 +30,21 @@ export interface ITaskOptions {
 * @constructor
 */
 export class Task {
+	id: number;
 	ready: boolean;
 	name: string;
-	behaviorTree: any;
+	behaviorTree: Core.BehaviorTree;
 	taskType: Profession;
-	contributions: any;
+	contributions: {
+		[key: number]: number;
+	};
 	bubble: StatusBubble;
 	description: string;
 	effortRating: number;
 	instancePool: Instance[];
 	completed: boolean;
 	maxInstancePool: number;
-	options: any;
+	options: ITaskOptions;
 
 	static defaults = {
 		description: 'This is a generic task description.',
@@ -49,7 +53,9 @@ export class Task {
 	};
 
 	constructor (options: ITaskOptions) {
-		this.options = options || {};
+		this.id = parseInt(uniqueId.get());
+
+		this.options = options || {} as ITaskOptions;
 
 		this.options = util.processOptions(this.options, Task.defaults, {
 				name: true,
@@ -61,9 +67,9 @@ export class Task {
 
 		this.name = this.options.name;
 
-		this.behaviorTree = new BehaviorTree();
-		if (this.options.behaviorTree) {
-			this.setBehaviorTree(this.options.behaviorTree);
+		this.behaviorTree = new Core.BehaviorTree();
+		if (this.options.behaviorTreeRoot) {
+			this.setBehaviorTree(this.options.behaviorTreeRoot);
 		}
 
 		this.bubble = options.bubble;
@@ -86,7 +92,7 @@ export class Task {
 		this.instancePool = [];
 	}
 
-	setBehaviorTree (behaviorTree: any) {
+	setBehaviorTree (behaviorTree: Core.BaseNode) {
 		this.behaviorTree.root = behaviorTree;
 	}
 

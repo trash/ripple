@@ -18,7 +18,7 @@ export class StorageUtil extends BaseUtil {
     storeItem(
         itemEntity: number,
         storageEntity: number
-    ) {
+    ): void {
         const itemState = this._getItemState(itemEntity);
         const storageState = this._getStorageState(storageEntity);
         // Check if adding the item to storage is valid

@@ -37,6 +37,7 @@ import {
 	IResourceState,
 	IHarvestableState,
 	IStorageState,
+	ICollisionState,
 	INameState
 } from '../entity/components';
 
@@ -47,7 +48,7 @@ import {Agent} from '../data/Agent';
 import {Resource} from '../data/Resource';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
-import {baseUtil, storageUtil, constructibleUtil, positionUtil} from './util';
+import {baseUtil, storageUtil, constructibleUtil, mapUtil, positionUtil, buildingUtil} from './util';
 import {util} from '../util';
 import {events} from '../events';
 import {globalRefs} from '../globalRefs';
@@ -320,8 +321,14 @@ export class EntitySpawner {
 		const itemState = this.entityManager.getComponentDataForEntity(
 			Component.Item, entityId) as IItemState;
 
-		positionState.tile = spawnTile;
-		itemState.shouldBeSpawned = true;
+		// Spawn it in storage
+		if (itemState.stored) {
+			storageUtil.storeItem(entityId, itemState.stored);
+		// Normal spawn
+		} else {
+			positionState.tile = spawnTile;
+			itemState.shouldBeSpawned = true;
+		}
 
         store.dispatch(addToItemList(item, itemState.claimed));
 
@@ -381,6 +388,25 @@ export class EntitySpawner {
 				positionState,
 				true
 			);
+
+			const buildingState = this.entityManager.getComponentDataForEntity(
+					Component.Building, entityId) as IBuildingState;
+			const collisionState = this.entityManager.getComponentDataForEntity(
+					Component.Collision, entityId) as ICollisionState;
+			const storageState = this.entityManager.getComponentDataForEntity(
+					Component.Storage, entityId) as IStorageState;
+			const nameState = this.entityManager.getComponentDataForEntity(
+					Component.Name, entityId) as INameState;
+
+			buildingUtil.buildingInitChecks(
+				buildingState,
+				renderableState,
+				constructibleState,
+				positionState,
+				collisionState,
+				storageState,
+				nameState
+			);
 		}
 
 		if (storage) {
@@ -388,11 +414,11 @@ export class EntitySpawner {
 				for (let i = 0; i < itemEntry.count; i++) {
 					const itemId = this.spawnItem(itemEntry.enum, {
 						item: {
+							stored: entityId,
 							claimed: true,
 							forSale: true
 						}
 					});
-					setTimeout(() => storageUtil.storeItem(itemId, entityId), 200);
 				}
 			});
 		}
