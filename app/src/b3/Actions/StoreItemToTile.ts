@@ -2,7 +2,7 @@ import {b3} from '../index';
 import {util} from '../../util';
 import * as Core from '../Core';
 import {IRowColumnCoordinates} from '../../interfaces';
-import {storageUtil} from '../../entity/util/storage';
+import {storageUtil, inventoryUtil} from '../../entity/util';
 
 export class StoreItemToTile extends Core.BaseNode {
 	item: number;
@@ -17,8 +17,9 @@ export class StoreItemToTile extends Core.BaseNode {
         this.storage = storage;
 	}
 
-	tick () {
+	tick (tick: Core.Tick) {
         storageUtil.storeItem(this.item, this.storage());
+        inventoryUtil.remove(tick.target.id, this.item);
 
 		return b3.SUCCESS;
 	}

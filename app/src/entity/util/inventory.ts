@@ -11,9 +11,10 @@ export class InventoryUtil extends BaseUtil {
     }
 
     remove (
-        inventoryState: IInventoryState,
+        inventory: number,
         item: number
     ): number[] {
+        const inventoryState = this._getInventoryState(inventory);
 		const index = inventoryState.items.indexOf(item);
 		if (index === -1) {
 			console.error('nice job broh');

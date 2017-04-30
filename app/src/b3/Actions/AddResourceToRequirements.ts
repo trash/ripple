@@ -21,7 +21,7 @@ export class AddResourceToRequirements extends Core.BaseNode {
 		const agentData = tick.target,
 			target = util.blackboardGet(tick, this.blackboardKey) as IItemSearchResult;
 
-		inventoryUtil.remove(agentData.inventory, target.id);
+		inventoryUtil.remove(agentData.id, target.id);
 
 		this.requiredResources.addToRequirements(target);
 		return b3.SUCCESS;
