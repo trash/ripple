@@ -1,32 +1,41 @@
 import * as Immutable from 'immutable';
 import {connect} from 'react-redux';
-import {StoreState} from '../../redux/store';
 import * as React from 'react';
-import {itemUtil} from '../../entity/util';
+import {store, StoreState} from '../../redux/store';
+// import {buildingListSelect} from '../../redux/actions';
+import {IItemState} from '../../entity/components';
 import {Item} from '../../data/Item';
+import {itemUtil} from '../../entity/util';
 
-export interface ItemListProps {
+interface ItemListProps {
     itemList: Immutable.Map<Item, number>;
     claimedItemList: Immutable.Map<Item, number>;
-    gold: number;
 }
 
 export class ItemList extends React.Component<ItemListProps, void> {
-    render () {
+    render() {
         return (
-            <ul className="item-list">
-                <li key="gold">
-                    <img src={itemUtil.getImagePath(Item.Gold)}/>
-                    {this.props.gold}
-                </li>
+        <div className="agent-list-container">
+            <div className="agent-list">
+                <div className="agent-list-header">
+                    <div></div>
+                    <div></div>
+                    <div>Count</div>
+                </div>
                 {this.props.itemList.entrySeq().map(([item, count]) => {
-                    const claimedCount = this.props.claimedItemList.get(item);
-                    return <li key={item}>
-                        <img src={itemUtil.getImagePath(item)}/>
-                        {`${count} (${claimedCount})`}
-                    </li>
+                    return (
+                        <div className="agent-list-entry"
+                            key={item}>
+                            <div>{Item[item]}</div>
+                            <div>
+                                <img src={itemUtil.getImagePath(item)}/>
+                            </div>
+                            <div>{count}</div>
+                        </div>
+                    );
                 })}
-            </ul>
+            </div>
+        </div>
         );
     }
 }
@@ -34,7 +43,6 @@ export class ItemList extends React.Component<ItemListProps, void> {
 export const ConnectedItemList = connect((state: StoreState) => {
     return {
         itemList: state.items,
-        claimedItemList: state.claimedItems,
-        gold: state.gold
+        claimedItemList: state.claimedItems
     };
 })(ItemList);

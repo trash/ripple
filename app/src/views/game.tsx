@@ -9,16 +9,17 @@ import {ConnectedDebugPanel} from './components/DebugPanel';
 import {ConnectedAgentList} from './components/AgentList';
 import {ConnectedBuildingList} from './components/BuildingList';
 import {ConnectedVillagerList} from './components/VillagerList';
+import {ConnectedItemList} from './components/ItemList';
 import {ConnectedActionBar} from './components/ActionBar';
 import {ConnectedClock} from './components/Clock';
-import {ConnectedItemList} from './components/ItemList';
+import {ConnectedItemCountBar} from './components/ItemCountBar';
 
 export class InnerGameComponent extends React.Component<void, void> {
     render() {
         return (
         <div className="game-ui">
             <div className="top-section">
-                <ConnectedItemList/>
+                <ConnectedItemCountBar/>
                 <ConnectedClock/>
             </div>
             <div className="middle-section">
@@ -37,6 +38,9 @@ export class InnerGameComponent extends React.Component<void, void> {
                         </Tab>
                         <Tab eventKey={4} title="Buildings">
                             <ConnectedBuildingList/>
+                        </Tab>
+                        <Tab eventKey={5} title="Items">
+                            <ConnectedItemList/>
                         </Tab>
                     </Tabs>
                 </div>
