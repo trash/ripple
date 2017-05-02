@@ -13,7 +13,7 @@ import {
     BuildingListEntry,
     ResourceListEntry
 } from '../../interfaces';
-import {BuildingsList} from './BuildingsList';
+import {SpawnBuildingList} from './SpawnBuildingList';
 import {ConnectedDebugBar} from './DebugBar';
 import {CraftBar} from './CraftBar';
 import {AgentInfoCard} from './AgentInfoCard';
@@ -71,7 +71,7 @@ export class ActionBar extends React.Component<ActionBarProps, void> {
             <div className="action-bar">
                 <div className="action-bar-upper">
                     { this.props.buildingsListShown &&
-                    <BuildingsList/>}
+                    <SpawnBuildingList/>}
                     { this.props.debugBarShown &&
                     <ConnectedDebugBar/>}
                     { this.props.craftBarShown &&

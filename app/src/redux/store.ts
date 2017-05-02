@@ -51,6 +51,7 @@ import {
     SpawnAgent,
     SpawnBuilding,
     AgentListSelect,
+    BuildingListSelect,
     EntitiesSelected,
     PlayPauseGame,
     UpdateGameSpeed,
@@ -84,6 +85,7 @@ type ReducerAction =
     | UpdateGameSpeed
     | UpdateVillagerJob
     | ToggleShowCollisionDebug
+    | BuildingListSelect
     | AgentListSelect;
 
 export interface StoreState {
@@ -114,6 +116,7 @@ export interface StoreState {
     gold: number;
     agentsList: Immutable.List<AgentListEntry>;
     buildingsList: Immutable.List<BuildingListEntry>;
+    buildingListSelected: number;
     resourcesList: Immutable.List<ResourceListEntry>;
     agentListSelected: number;
     selectedEntities: number[];
@@ -256,6 +259,10 @@ function mainReducer(
 
         case actionTypes.AGENT_LIST_SELECT:
             newState.agentListSelected = action.selected;
+            break;
+
+        case actionTypes.BUILDING_LIST_SELECT:
+            newState.buildingListSelected = action.selected;
             break;
 
         case actionTypes.ENTITIES_SELECTED:

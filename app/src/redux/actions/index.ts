@@ -179,6 +179,20 @@ export function agentListSelect(
     };
 }
 
+export interface BuildingListSelect {
+    type: actionTypes.BUILDING_LIST_SELECT;
+    selected: number;
+}
+
+export function buildingListSelect(
+    selected: number
+) {
+    return {
+        type: actionTypes.BUILDING_LIST_SELECT,
+        selected: selected
+    };
+}
+
 export interface EntitiesSelected {
     type: actionTypes.ENTITIES_SELECTED;
     selected: number[];

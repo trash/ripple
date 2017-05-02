@@ -7,6 +7,7 @@ import {Tabs, Tab} from 'react-bootstrap';
 import {ConnectedCollisionDebugView} from './components/CollisionDebugView';
 import {ConnectedDebugPanel} from './components/DebugPanel';
 import {ConnectedAgentList} from './components/AgentList';
+import {ConnectedBuildingList} from './components/BuildingList';
 import {ConnectedVillagerList} from './components/VillagerList';
 import {ConnectedActionBar} from './components/ActionBar';
 import {ConnectedClock} from './components/Clock';
@@ -25,14 +26,17 @@ export class InnerGameComponent extends React.Component<void, void> {
                     <Tabs className="left-menu-tabs"
                         id="left-menu-tabs"
                         defaultActiveKey={1}>
-                        <Tab eventKey={1} title="Debug Menu">
+                        <Tab eventKey={1} title="Debug">
                             <ConnectedDebugPanel/>
                         </Tab>
-                        <Tab eventKey={2} title="Agent List">
+                        <Tab eventKey={2} title="Agents">
                             <ConnectedAgentList/>
                         </Tab>
-                        <Tab eventKey={3} title="Villager List">
+                        <Tab eventKey={3} title="Villagers">
                             <ConnectedVillagerList/>
+                        </Tab>
+                        <Tab eventKey={4} title="Buildings">
+                            <ConnectedBuildingList/>
                         </Tab>
                     </Tabs>
                 </div>

@@ -8,7 +8,7 @@ const onBuildingClick = (buildingData: IEntityComponentData) => {
     placeBuildingService.toggle(buildingData);
 }
 
-export class BuildingsList extends React.Component<void, void> {
+export class SpawnBuildingList extends React.Component<void, void> {
     render() {
         return (
         <ul className="buildings-list">

@@ -30,7 +30,7 @@ const renderBuildingProperties = (state: IBuildingState): DisplayProperty[] => [
     {
         name: 'Occupants',
         value: buildingUtil.occupancyToStringWithNames(state),
-        detailedOnly: false
+        detailedOnly: true
     },
 ];
 
@@ -51,12 +51,12 @@ const renderStorageProperties = (state: IStorageState): DisplayProperty[] => [
     {
         name: 'Items',
         value: storageUtil.storageItemListToString(state),
-        detailedOnly: false
+        detailedOnly: true
     },
     {
         name: 'Storage Restrictions',
         value: storageUtil.storageRestrictionsToString(state),
-        detailedOnly: false
+        detailedOnly: true
     }
 ];
 
