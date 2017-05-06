@@ -24,22 +24,22 @@ export class BuildingList extends React.Component<BuildingListProps, void> {
         <div className="agent-list-container">
             <div className="agent-list">
                 <div className="agent-list-header">
-                    <div>Id</div>
-                    <div>Image</div>
-                    <div>Health</div>
-                    <div>Type</div>
+                    <div className="id-column">Id</div>
+                    <div className="sprite-column"></div>
+                    <div className="health-column">Health</div>
+                    <div className="type-column">Type</div>
                 </div>
                 {this.props.buildings.map(buildingEntry => {
                     return (
                         <div className="agent-list-entry"
                             onClick={() => store.dispatch(buildingListSelect(buildingEntry.id))}
                             key={buildingEntry.id}>
-                            <div>{buildingEntry.id}</div>
-                            <div>
+                            <div className="id-column">{buildingEntry.id}</div>
+                            <div className="sprite-column">
                                 <img src={buildingUtil.getImagePath(buildingEntry.building.enum)}/>
                             </div>
-                            <div>{healthUtil.toString(buildingEntry.health)}</div>
-                            <div>{Building[buildingEntry.building.enum]}</div>
+                            <div className="health-column">{healthUtil.toString(buildingEntry.health)}</div>
+                            <div className="type-column">{Building[buildingEntry.building.enum]}</div>
                         </div>
                     );
                 })}

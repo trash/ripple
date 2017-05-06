@@ -26,24 +26,24 @@ export class VillagerList extends React.Component<VillagerListProps, void> {
         <div className="agent-list-container">
             <div className="agent-list">
                 <div className="agent-list-header">
-                    <div>Name</div>
-                    <div></div>
-                    <div>Health</div>
-                    <div>Gender</div>
-                    <div>Job</div>
+                    <div className="name-column">Name</div>
+                    <div className="sprite-column"></div>
+                    <div className="health-column">Health</div>
+                    <div className="gender-column">Gender</div>
+                    <div className="job-column">Job</div>
                 </div>
                 {villagers.map(agentEntry => {
                     return (
                         <div className="agent-list-entry"
                             onClick={() => store.dispatch(agentListSelect(agentEntry.id))}
                             key={agentEntry.id}>
-                            <div>{agentEntry.name.name}</div>
-                            <div>
+                            <div className="name-column">{agentEntry.name.name}</div>
+                            <div className="sprite-column">
                                 <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>
                             </div>
-                            <div>{healthUtil.toString(agentEntry.health)}</div>
-                            <div>{agentEntry.agent.gender}</div>
-                            <div>{VillagerJob[agentEntry.villager.job]}</div>
+                            <div className="health-column">{healthUtil.toString(agentEntry.health)}</div>
+                            <div className="gender-column">{agentEntry.agent.gender}</div>
+                            <div className="job-column">{VillagerJob[agentEntry.villager.job]}</div>
                         </div>
                     );
                 })}

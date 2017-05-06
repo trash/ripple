@@ -5,28 +5,57 @@ $agentListPadding: 16px;
     flex: 1 100%;
     flex-direction: column;
 
-    .agent-list, .agent-list-bottom {
+    & > *{
         flex: 1 50%;
         border: 1px solid #666;
+        overflow: scroll;
+    }
+
+    .id-column {
+        width: 50px;
+    }
+    .type-column {
+        width: 80px;
+    }
+    .name-column {
+        width: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        flex-grow: 1 !important;
+    }
+    .sprite-column {
+        width: 30px;
+        img {
+            width: 24px;
+        }
+    }
+    .health-column {
+        width: 60px;
+    }
+    .gender-column {
+        width: 54px;
+    }
+    .job-column {
+        width: 90px;
     }
 
     .agent-list {
-        display: flex;
-        flex-direction: column;
-        overflow: scroll;
-        padding: $agentListPadding;
+        width: 100%;
+        border-collapse: collapse;
+
+        td, th {
+            border: none;
+            color: #fff;
+        }
 
         .agent-list-row {
+            padding: 8px;
+            cursor: pointer;
             display: flex;
             flex-direction: row;
             flex-grow: 1;
             flex-shrink: 0;
-            padding: 8px;
-            cursor: pointer;
-
-            & > * {
-                flex: 1 100%;
-            }
         }
 
         .agent-list-header {
@@ -40,6 +69,11 @@ $agentListPadding: 16px;
 
             &:hover {
                 background: #444;
+            }
+
+            & > div {
+                flex-grow: 0;
+                flex-shrink: 0;
             }
 
             & > * {

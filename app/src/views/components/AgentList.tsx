@@ -22,28 +22,22 @@ export class AgentList extends React.Component<AgentListProps, void> {
         <div className="agent-list-container">
             <div className="agent-list">
                 <div className="agent-list-header">
-                    <div>Id</div>
-                    <div>Image</div>
-                    <div>Health</div>
-                    <div>Agent Type</div>
-                    <div>Gender</div>
-                    <div>Speed</div>
-                    <div>Strength</div>
+                    <div className="id-column">Id</div>
+                    <div className="sprite-column"></div>
+                    <div className="health-column">Health</div>
+                    <div className="type-column">Agent Type</div>
                 </div>
                 {this.props.agents.map(agentEntry => {
                     return (
                         <div className="agent-list-entry"
                             onClick={() => store.dispatch(agentListSelect(agentEntry.id))}
                             key={agentEntry.id}>
-                            <div>{agentEntry.id}</div>
-                            <div>
+                            <div className="id-column">{agentEntry.id}</div>
+                            <div className="sprite-column">
                                 <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>
                             </div>
-                            <div>{healthUtil.toString(agentEntry.health)}</div>
-                            <div>{Agent[agentEntry.agent.enum]}</div>
-                            <div>{agentEntry.agent.gender}</div>
-                            <div>{agentEntry.agent.speed}</div>
-                            <div>{agentEntry.agent.strength}</div>
+                            <div className="health-column">{healthUtil.toString(agentEntry.health)}</div>
+                            <div className="type-column">{Agent[agentEntry.agent.enum]}</div>
                         </div>
                     );
                 })}
