@@ -177,6 +177,22 @@ let testLevelsData: ITestLevelGroup[]  = [
 		]
 	},
 	{
+		name: 'Item Tests',
+		list: [
+			{
+				name: 'Claimed vs Unclaimed test',
+				items: [{
+					enum: Item.Berries,
+					count: 4
+				}, {
+					enum: Item.Berries,
+					count: 2,
+					claimed: false
+				}]
+			}
+		]
+	},
+	{
 		name: 'Villager Tests',
 		list: [
 			{

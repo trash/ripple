@@ -189,7 +189,9 @@ export class GameManager {
                         itemData.enum,
                         _.extend(itemData.data, {
                             item: {
-                                claimed: !!this.level.itemsClaimed
+                                claimed: itemData.claimed === undefined
+                                    ? true
+                                    : itemData.claimed
                             }
                         })
                     );

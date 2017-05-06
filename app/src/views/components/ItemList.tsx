@@ -22,7 +22,7 @@ export class ItemList extends React.Component<ItemListProps, void> {
                     <div></div>
                     <div>Count</div>
                 </div>
-                {this.props.itemList.entrySeq().map(([item, count]) => {
+                {this.props.claimedItemList.entrySeq().map(([item, count]) => {
                     return (
                         <div className="agent-list-entry"
                             key={item}>

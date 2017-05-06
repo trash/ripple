@@ -21,6 +21,7 @@ export interface IItemAssemblageTestData {
     enum: Item;
     data?: IEntityComponentData;
     count?: number;
+    claimed?: boolean;
 }
 
 export interface IBuildingAssemblageTestData {
@@ -44,5 +45,4 @@ export interface ITestLevel {
 	buildings?: IBuildingAssemblageTestData[];
     gameMap?: ITestGameMapOptions;
 	items?: IItemAssemblageTestData[];
-    itemsClaimed?: boolean;
 }

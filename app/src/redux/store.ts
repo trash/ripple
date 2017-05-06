@@ -196,14 +196,20 @@ function mainReducer(
             const currentClaimedCount = newState.claimedItems.get(item) || 0;
             if (action.type === actionTypes.ADD_TO_ITEM_LIST) {
                 newState.items = newState.items.set(item, currentCount + 1);
-                newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount + 1);
+                if (action.claimed) {
+                    newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount + 1);
+                }
             } else {
                 if (currentCount === 1) {
                     newState.items = newState.items.remove(item);
-                    newState.claimedItems = newState.claimedItems.remove(item);
+                    if (action.claimed) {
+                        newState.claimedItems = newState.claimedItems.remove(item);
+                    }
                 }
                 newState.items = newState.items.set(item, currentCount - 1);
-                newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount - 1);
+                if (action.claimed) {
+                    newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount - 1);
+                }
             }
             break;
 
