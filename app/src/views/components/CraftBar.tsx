@@ -9,19 +9,14 @@ const createCraftTask = (item: Item, profession: Profession) => {
     taskQueue.push(item);
 }
 
-export class CraftBar extends React.Component<void, void> {
-    render() {
+export const CraftBar = () =>
+    <div className="action-bar-buttons">
+    {itemList.filter(item => !!item.craftable).map(item => {
+        const itemName = item.item.name;
         return (
-        <div className="action-bar-buttons">
-        {itemList.filter(item => !!item.craftable).map(item => {
-            const itemName = item.item.name;
-            return (
-            <button key={itemName}
-                onClick={() => createCraftTask(item.item.enum, item.craftable.profession)}
-            >{itemName}</button>
-            );
-        })}
-        </div>
+        <button key={itemName}
+            onClick={() => createCraftTask(item.item.enum, item.craftable.profession)}
+        >{itemName}</button>
         );
-    }
-}
+    })}
+    </div>

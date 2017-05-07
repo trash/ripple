@@ -469,7 +469,6 @@ let testLevelsData: ITestLevelGroup[]  = [
 					enum: Item.Berries,
 					count: 4
 				}],
-				itemsClaimed: true,
 				buildings: [{
 					enum: Building.CarpenterShop,
 					isCompleted: true,
@@ -495,7 +494,6 @@ let testLevelsData: ITestLevelGroup[]  = [
 					enum: Item.Berries,
 					count: 4
 				}],
-				itemsClaimed: true,
 				buildings: [{
 					enum: Building.BlacksmithShop,
 					isCompleted: true,

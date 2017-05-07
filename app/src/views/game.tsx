@@ -14,49 +14,44 @@ import {ConnectedActionBar} from './components/ActionBar';
 import {ConnectedClock} from './components/Clock';
 import {ConnectedItemCountBar} from './components/ItemCountBar';
 
-export class InnerGameComponent extends React.Component<void, void> {
-    render() {
-        return (
-        <div className="game-ui">
-            <div className="top-section">
-                <ConnectedItemCountBar/>
-                <ConnectedClock/>
-            </div>
-            <div className="middle-section">
-                <div className="left-menu">
-                    <Tabs className="left-menu-tabs"
-                        id="left-menu-tabs"
-                        defaultActiveKey={1}>
-                        <Tab eventKey={1} title="Debug">
-                            <ConnectedDebugPanel/>
-                        </Tab>
-                        <Tab eventKey={2} title="Agents">
-                            <ConnectedAgentList/>
-                        </Tab>
-                        <Tab eventKey={3} title="Villagers">
-                            <ConnectedVillagerList/>
-                        </Tab>
-                        <Tab eventKey={4} title="Buildings">
-                            <ConnectedBuildingList/>
-                        </Tab>
-                        <Tab eventKey={5} title="Items">
-                            <ConnectedItemList/>
-                        </Tab>
-                    </Tabs>
-                </div>
-            </div>
-            <ConnectedActionBar/>
-            <ConnectedCollisionDebugView/>
+export const InnerGameComponent = () =>
+    <div className="game-ui">
+        <div className="top-section">
+            <ConnectedItemCountBar/>
+            <ConnectedClock/>
         </div>
-        );
-    }
-}
+        <div className="middle-section">
+            <div className="left-menu">
+                <Tabs className="left-menu-tabs"
+                    id="left-menu-tabs"
+                    defaultActiveKey={1}>
+                    <Tab eventKey={1} title="Debug">
+                        <ConnectedDebugPanel/>
+                    </Tab>
+                    <Tab eventKey={2} title="Agents">
+                        <ConnectedAgentList/>
+                    </Tab>
+                    <Tab eventKey={3} title="Villagers">
+                        <ConnectedVillagerList/>
+                    </Tab>
+                    <Tab eventKey={4} title="Buildings">
+                        <ConnectedBuildingList/>
+                    </Tab>
+                    <Tab eventKey={5} title="Items">
+                        <ConnectedItemList/>
+                    </Tab>
+                </Tabs>
+            </div>
+        </div>
+        <ConnectedActionBar/>
+        <ConnectedCollisionDebugView/>
+    </div>
 
 export class GameComponent extends React.Component<any, any> {
     render () {
         return (
             <Provider store={store}>
-                <InnerGameComponent/>
+                {InnerGameComponent()}
             </Provider>
         );
     }

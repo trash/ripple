@@ -8,21 +8,16 @@ const onBuildingClick = (buildingData: IEntityComponentData) => {
     placeBuildingService.toggle(buildingData);
 }
 
-export class SpawnBuildingList extends React.Component<void, void> {
-    render() {
+export const SpawnBuildingList = () =>
+    <ul className="buildings-list">
+    { buildingsList.map(buildingData => {
+        const building = buildingData.building.enum;
         return (
-        <ul className="buildings-list">
-        { buildingsList.map(buildingData => {
-            const building = buildingData.building.enum;
-            return (
-            <li key={building}
-                onClick={() => onBuildingClick(buildingData)}>
-                <img src={buildingUtil.getImagePath(building)}/>
-                <p>{name}</p>
-            </li>
-            );
-        })}
-        </ul>
+        <li key={building}
+            onClick={() => onBuildingClick(buildingData)}>
+            <img src={buildingUtil.getImagePath(building)}/>
+            <p>{name}</p>
+        </li>
         );
-    }
-}
+    })}
+    </ul>

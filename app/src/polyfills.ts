@@ -1,7 +1,7 @@
 /// <reference path="polyfills.d.ts" />
 
 // Make it so we can use various array functions on NodeLists
-NodeList.prototype.forEach = Array.prototype.forEach;
+// NodeList.prototype.forEach = Array.prototype.forEach;
 
 Array.prototype.equals = function (array) {
 	// if the other array is a falsy value, return
