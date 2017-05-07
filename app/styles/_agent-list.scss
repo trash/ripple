@@ -11,23 +11,33 @@ $agentListPadding: 16px;
         overflow: scroll;
     }
 
-    .id-column {
-        width: 50px;
-    }
-    .type-column {
-        width: 80px;
-    }
-    .name-column {
-        width: 120px;
+    @mixin overflow-column {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         flex-grow: 1 !important;
     }
+
+    .id-column {
+        width: 50px;
+    }
+    .type-column {
+        @include overflow-column();
+        width: 80px;
+        text-transform: capitalize;
+    }
+    .count-column {
+        width: 40px;
+    }
+    .name-column {
+        @include overflow-column();
+        width: 120px;
+        text-transform: capitalize;
+    }
     .sprite-column {
         width: 30px;
         img {
-            width: 24px;
+            max-width: 24px;
         }
     }
     .health-column {

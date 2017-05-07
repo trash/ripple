@@ -6,6 +6,7 @@ import {store, StoreState} from '../../redux/store';
 import {IItemState} from '../../entity/components';
 import {Item} from '../../data/Item';
 import {itemUtil} from '../../entity/util';
+import {assemblageData} from '../../entity/assemblageData/items';
 
 interface ItemListProps {
     itemList: Immutable.Map<Item, number>;
@@ -18,19 +19,19 @@ export class ItemList extends React.Component<ItemListProps, void> {
         <div className="agent-list-container">
             <div className="agent-list">
                 <div className="agent-list-header">
-                    <div></div>
-                    <div></div>
-                    <div>Count</div>
+                    <div className="type-column">Item</div>
+                    <div className="sprite-column"/>
+                    <div className="count-column">Count</div>
                 </div>
                 {this.props.claimedItemList.entrySeq().map(([item, count]) => {
                     return (
                         <div className="agent-list-entry"
                             key={item}>
-                            <div>{Item[item]}</div>
-                            <div>
+                            <div className="type-column">{assemblageData[item].item.readableName}</div>
+                            <div className="sprite-column">
                                 <img src={itemUtil.getImagePath(item)}/>
                             </div>
-                            <div>{count}</div>
+                            <div className="count-column">{count}</div>
                         </div>
                     );
                 })}

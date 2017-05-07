@@ -177,22 +177,6 @@ let testLevelsData: ITestLevelGroup[]  = [
 		]
 	},
 	{
-		name: 'Item Tests',
-		list: [
-			{
-				name: 'Claimed vs Unclaimed test',
-				items: [{
-					enum: Item.Berries,
-					count: 4
-				}, {
-					enum: Item.Berries,
-					count: 2,
-					claimed: false
-				}]
-			}
-		]
-	},
-	{
 		name: 'Villager Tests',
 		list: [
 			{
@@ -546,10 +530,23 @@ let testLevelsData: ITestLevelGroup[]  = [
 	},
 	{
 		name: 'Items Tests',
-		list: [{
-			name: 'Spawn All Items Test',
-			items: allItemsList
-		}]
+		list: [
+			{
+				name: 'Spawn All Items Test',
+				items: allItemsList
+			},
+			{
+				name: 'Claimed vs Unclaimed test',
+				items: [{
+					enum: Item.Berries,
+					count: 4
+				}, {
+					enum: Item.Berries,
+					count: 2,
+					claimed: false
+				}]
+			}
+		]
 	},
 	{
 		name: 'Rendering Tests',
