@@ -28,6 +28,7 @@ import {
     INameState
 } from '../../entity/components';
 
+import {Item} from '../../data/Item';
 import {VillagerJob} from '../../data/VillagerJob';
 
 import * as actionTypes from './types';
@@ -331,5 +332,22 @@ export function toggleShowCollisionDebug(
 ): ToggleShowCollisionDebug {
     return {
         type: actionTypes.TOGGLE_SHOW_COLLISION_DEBUG
+    };
+}
+
+export interface UpdateCraftableQueued {
+    type: actionTypes.UPDATE_CRAFTABLE_QUEUED;
+    item: Item;
+    count: number;
+}
+
+export function updateCraftableQueued(
+    item: Item,
+    count: number
+): UpdateCraftableQueued {
+    return {
+        type: actionTypes.UPDATE_CRAFTABLE_QUEUED,
+        item,
+        count
     };
 }

@@ -3,11 +3,13 @@ import * as Immutable from 'immutable';
 import {createStore} from 'redux';
 import * as actionTypes from './actions/types';
 import {Item} from '../data/Item';
+import {CraftableService} from '../services/CraftableService';
 import {
     AgentListEntry,
     BuildingListEntry,
     ResourceListEntry,
-    IRowColumnCoordinates
+    IRowColumnCoordinates,
+    CraftableItemMap
 } from '../interfaces';
 
 import {
@@ -57,7 +59,8 @@ import {
     UpdateGameSpeed,
     SpawnResource,
     ToggleShowCollisionDebug,
-    UpdateVillagerJob
+    UpdateVillagerJob,
+    UpdateCraftableQueued
 } from './actions';
 
 type ReducerAction =
@@ -86,6 +89,7 @@ type ReducerAction =
     | UpdateVillagerJob
     | ToggleShowCollisionDebug
     | BuildingListSelect
+    | UpdateCraftableQueued
     | AgentListSelect;
 
 export interface StoreState {
@@ -124,7 +128,10 @@ export interface StoreState {
     gamePaused: boolean;
     gameTurn: number;
     showCollisionDebug: boolean;
+    craftableItemMap: CraftableItemMap;
 }
+
+const craftableService = new CraftableService();
 
 const initialState = {
     items: Immutable.Map<Item, number>(),
@@ -135,7 +142,8 @@ const initialState = {
     resourcesList: Immutable.List<ResourceListEntry>(),
     gameSpeed: 0,
     selectedEntities: [],
-    showCollisionDebug: false
+    showCollisionDebug: false,
+    craftableItemMap: craftableService.itemMap
 } as StoreState;
 function mainReducer(
     previousState = initialState,
@@ -310,6 +318,10 @@ function mainReducer(
         case actionTypes.TOGGLE_SHOW_COLLISION_DEBUG:
             newState.showCollisionDebug = !newState.showCollisionDebug;
             console.log(newState.showCollisionDebug);
+            break;
+
+        case actionTypes.UPDATE_CRAFTABLE_QUEUED:
+            newState.craftableItemMap = craftableService.updateQueueCount(action.item, action.count);
             break;
     }
 

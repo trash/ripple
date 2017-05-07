@@ -15,7 +15,7 @@ import {
 } from '../../interfaces';
 import {SpawnBuildingList} from './SpawnBuildingList';
 import {ConnectedDebugBar} from './DebugBar';
-import {CraftBar} from './CraftBar';
+import {ConnectedCraftBar} from './CraftBar';
 import {AgentInfoCard} from './AgentInfoCard';
 import {ResourceInfoCard} from './ResourceInfoCard';
 import {BuildingInfoCard} from './BuildingInfoCard';
@@ -33,17 +33,17 @@ interface ActionBarProps {
 }
 
 export const ActionBar = (props: ActionBarProps) => {
-    const selectedBuilding = this.props.buildings
+    const selectedBuilding = props.buildings
         .find(building =>
-            !!this.props.selectedEntities.find(entity => building.id === entity)
+            !!props.selectedEntities.find(entity => building.id === entity)
         );
-    const selectedAgent = this.props.agents
+    const selectedAgent = props.agents
         .find(agent =>
-            !!this.props.selectedEntities.find(entity => agent.id === entity)
-            || agent.id === this.props.agentListSelected);
-    const selectedResource = this.props.resources
+            !!props.selectedEntities.find(entity => agent.id === entity)
+            || agent.id === props.agentListSelected);
+    const selectedResource = props.resources
         .find(resource =>
-            !!this.props.selectedEntities.find(entity => resource.id === entity)
+            !!props.selectedEntities.find(entity => resource.id === entity)
         );
 
     // console.log(
@@ -69,23 +69,23 @@ export const ActionBar = (props: ActionBarProps) => {
         </div>
         <div className="action-bar">
             <div className="action-bar-upper">
-                { this.props.buildingsListShown &&
+                { props.buildingsListShown &&
                 <SpawnBuildingList/>}
-                { this.props.debugBarShown &&
+                { props.debugBarShown &&
                 <ConnectedDebugBar/>}
-                { this.props.craftBarShown &&
-                <CraftBar/>}
+                { props.craftBarShown &&
+                <ConnectedCraftBar/>}
             </div>
             <div className="action-bar-lower">
                 <div className="action-bar-buttons">
                     <button onClick={() => store.dispatch(
-                        showBuildingsList(!this.props.buildingsListShown))}
+                        showBuildingsList(!props.buildingsListShown))}
                     >Buildings</button>
                     <button onClick={() => store.dispatch(
-                        showDebugBar(!this.props.debugBarShown))}
+                        showDebugBar(!props.debugBarShown))}
                     >Debug</button>
                     <button onClick={() => store.dispatch(
-                        showCraftBar(!this.props.craftBarShown))}
+                        showCraftBar(!props.craftBarShown))}
                     >Craft</button>
                 </div>
                 <ConnectedPlayspeedControls/>

@@ -1,3 +1,4 @@
+import * as Immutable from 'immutable';
 import {MapTile} from './map/tile';
 import {Profession} from './data/Profession';
 import {Item} from './data/Item';
@@ -283,3 +284,9 @@ export type ResourceListEntry = {
 	health: IHealthState;
 	position: IPositionState;
 }
+
+export type CraftableItemEntry = {
+    queued: number;
+}
+
+export type CraftableItemMap = Immutable.Map<Item, CraftableItemEntry>;
