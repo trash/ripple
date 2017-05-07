@@ -2,15 +2,17 @@ import * as Immutable from 'immutable';
 import {connect} from 'react-redux';
 import * as React from 'react';
 import {store, StoreState} from '../../redux/store';
-// import {buildingListSelect} from '../../redux/actions';
+import {updateCraftableQueued} from '../../redux/actions';
+import {CraftableItemMap} from '../../interfaces';
 import {IItemState} from '../../entity/components';
 import {Item} from '../../data/Item';
 import {itemUtil} from '../../entity/util';
-import {assemblageData} from '../../entity/assemblageData/items';
+import {dataList as itemList, assemblageData} from '../../entity/assemblageData/items';
 
 interface ItemListProps {
     itemList: Immutable.Map<Item, number>;
     claimedItemList: Immutable.Map<Item, number>;
+    craftableItemMap: CraftableItemMap;
 }
 
 export class ItemList extends React.Component<ItemListProps, void> {
@@ -21,15 +23,28 @@ export class ItemList extends React.Component<ItemListProps, void> {
                 <div className="agent-list-header">
                     <div className="type-column">Item</div>
                     <div className="sprite-column"/>
+                    <div className="count-column">Queued</div>
                     <div className="count-column">Count</div>
                 </div>
-                {this.props.claimedItemList.entrySeq().map(([item, count]) => {
+                {itemList.map(entry => {
+                    const item = entry.item.enum;
+                    const count = this.props.claimedItemList.get(item) || 0;
+                    const craftableEntry = this.props.craftableItemMap.get(item);
+                    const queueable = !!craftableEntry;
                     return (
                         <div className="agent-list-entry"
                             key={item}>
-                            <div className="type-column">{assemblageData[item].item.readableName}</div>
+                            <div className="type-column">{entry.item.readableName}</div>
                             <div className="sprite-column">
                                 <img src={itemUtil.getImagePath(item)}/>
+                            </div>
+                            <div className="count-column">
+                                {queueable
+                                    ? <input type="number"
+                                        value={craftableEntry.queued}
+                                        onChange={e => store.dispatch(updateCraftableQueued(item, parseInt(e.target.value)))}/>
+                                    : '-'
+                                }
                             </div>
                             <div className="count-column">{count}</div>
                         </div>
@@ -44,6 +59,7 @@ export class ItemList extends React.Component<ItemListProps, void> {
 export const ConnectedItemList = connect((state: StoreState) => {
     return {
         itemList: state.items,
-        claimedItemList: state.claimedItems
+        claimedItemList: state.claimedItems,
+        craftableItemMap: state.craftableItemMap
     };
 })(ItemList);

@@ -1,11 +1,12 @@
 $agentListPadding: 16px;
+$agentListEntryPadding: 8px;
 
 .agent-list-container {
     display: flex;
     flex: 1 100%;
     flex-direction: column;
 
-    & > *{
+    & > * {
         flex: 1 50%;
         border: 1px solid #666;
         overflow: scroll;
@@ -27,7 +28,7 @@ $agentListPadding: 16px;
         text-transform: capitalize;
     }
     .count-column {
-        width: 40px;
+        width: 60px;
     }
     .name-column {
         @include overflow-column();
@@ -35,9 +36,10 @@ $agentListPadding: 16px;
         text-transform: capitalize;
     }
     .sprite-column {
-        width: 30px;
+        width: 40px;
         img {
             max-width: 24px;
+            display: block;
         }
     }
     .health-column {
@@ -59,7 +61,7 @@ $agentListPadding: 16px;
             color: #fff;
         }
 
-        .agent-list-row {
+        @mixin agent-list-row {
             padding: 8px;
             cursor: pointer;
             display: flex;
@@ -69,13 +71,13 @@ $agentListPadding: 16px;
         }
 
         .agent-list-header {
-            @extend .agent-list-row;
+            @include agent-list-row();
 
             background: #333;
         }
 
         .agent-list-entry {
-            @extend .agent-list-row;
+            @include agent-list-row();
 
             &:hover {
                 background: #444;
@@ -84,6 +86,12 @@ $agentListPadding: 16px;
             & > div {
                 flex-grow: 0;
                 flex-shrink: 0;
+            }
+
+            input {
+                width: calc(100% - #{$agentListEntryPadding});
+                background: transparent;
+                border-color: #333;
             }
 
             & > * {

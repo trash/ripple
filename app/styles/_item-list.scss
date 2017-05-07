@@ -17,7 +17,7 @@
     }
 
     img {
-        width: $tileSize;
-        height: $tileSize;
+        max-width: $tileSize;
+        margin: auto;
     }
 }
