@@ -175,6 +175,7 @@ import {
 	ICraftableState,
 	IStorageState,
 	IVisitorState,
+	IShopState,
 } from './entity/components';
 
 export interface IEntityComponentData {
@@ -197,6 +198,7 @@ export interface IEntityComponentData {
 	visitor?: IVisitorState;
 	villager?: IVillagerState;
 	inventory?: IInventoryState;
+	shop?: IShopState;
 }
 
 export interface IAssemblageDataMap {
@@ -275,6 +277,7 @@ export type BuildingListEntry = {
 	health: IHealthState;
 	position: IPositionState;
 	storage: IStorageState;
+	shop: IShopState;
 }
 
 export type ResourceListEntry = {

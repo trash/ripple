@@ -23,6 +23,7 @@ export enum Component {
     Name,
     Hunger,
     Sleep,
+    Shop,
     Inventory,
     Town
 }

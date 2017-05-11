@@ -22,3 +22,4 @@ export {Villager, IVillagerState} from './Villager';
 export {Storage, IStorageState} from './Storage';
 export {Visitor, IVisitorState} from './Visitor';
 export {Town, ITownState} from './Town';
+export {Shop, IShopState} from './Shop';

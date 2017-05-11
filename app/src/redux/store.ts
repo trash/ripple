@@ -257,7 +257,8 @@ function mainReducer(
                 constructible: action.constructible,
                 position: action.position,
                 health: action.health,
-                storage: action.storage
+                storage: action.storage,
+                shop: action.shop
             });
             break;
 

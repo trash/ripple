@@ -225,7 +225,7 @@ export const dataList: IEntityComponentData[] = [
             currentHealth: 0,
             maxHealth: 400
         },
-        storage: {
+        shop: {
             itemRestrictions: [
                 ItemProperty.Food,
                 ItemProperty.Resource,

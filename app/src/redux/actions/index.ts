@@ -25,6 +25,7 @@ import {
     IConstructibleState,
     IBuildingState,
     IResourceState,
+    IShopState,
     INameState
 } from '../../entity/components';
 
@@ -244,6 +245,7 @@ export interface SpawnBuilding {
 	health: IHealthState;
 	position: IPositionState;
     storage: IStorageState;
+    shop: IShopState;
 }
 
 export function spawnBuilding(
@@ -252,7 +254,8 @@ export function spawnBuilding(
     constructible: IConstructibleState,
     health: IHealthState,
     position: IPositionState,
-    storage: IStorageState
+    storage: IStorageState,
+    shop: IShopState
 
 ): SpawnBuilding {
     return {
@@ -262,7 +265,8 @@ export function spawnBuilding(
         constructible,
         health,
         position,
-        storage
+        storage,
+        shop
     };
 }
 

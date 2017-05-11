@@ -81,12 +81,15 @@ export const BuildingInfoCard = (
                 detailed,
                 renderPositionProperties(selectedBuilding.position)
             ) }
-            { selectedBuilding.storage && filterAndRenderProperties(
+            { selectedBuilding.storage && selectedBuilding.storage.total > 0
+             && filterAndRenderProperties(
                 detailed,
                 renderStorageProperties(selectedBuilding.storage)
             ) }
-            {selectedBuilding.storage && detailed &&
-                <BuildingStorageView storage={selectedBuilding.storage}/>
+            {(selectedBuilding.storage || selectedBuilding.shop) && detailed &&
+                <BuildingStorageView
+                    storage={selectedBuilding.storage}
+                    shop={selectedBuilding.shop} />
             }
         </div>
     );

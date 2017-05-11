@@ -3,11 +3,13 @@ import * as React from 'react';
 import {storageUtil} from '../../entity/util';
 
 import {
-    IStorageState
+    IStorageState,
+    IShopState
 } from '../../entity/components';
 
 interface BuildingStorageViewProps {
     storage: IStorageState;
+    shop: IShopState;
 }
 
 export class BuildingStorageView extends React.Component<BuildingStorageViewProps, void> {
@@ -15,14 +17,32 @@ export class BuildingStorageView extends React.Component<BuildingStorageViewProp
         console.info('work on integrating functionality to choose what is stored/sold here');
         return (
         <div>
+            {this.props.storage && this.props.storage.total > 0 &&
             <div>
-                <div>Items</div>
-                <div>{storageUtil.storageItemListToString(this.props.storage)}</div>
+                <h5>Storage</h5>
+                <div>
+                    <div>Items</div>
+                    <div>{storageUtil.storageItemListToString(this.props.storage)}</div>
+                </div>
+                <div>
+                    <div>Item Restrictions</div>
+                    <div>{storageUtil.storageRestrictionsToString(this.props.storage)}</div>
+                </div>
             </div>
+            }
+            {this.props.shop && this.props.shop.total > 0 &&
             <div>
-                <div>Storage Restrictions</div>
-                <div>{storageUtil.storageRestrictionsToString(this.props.storage)}</div>
+                <h5>Shop</h5>
+                <div>
+                    <div>Items</div>
+                    <div>{storageUtil.storageItemListToString(this.props.shop)}</div>
+                </div>
+                <div>
+                    <div>Item Restrictions</div>
+                    <div>{storageUtil.storageRestrictionsToString(this.props.shop)}</div>
+                </div>
             </div>
+            }
         </div>
         );
     }

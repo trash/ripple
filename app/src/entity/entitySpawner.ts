@@ -33,6 +33,7 @@ import {
 	IBehaviorTreeState,
 	IConstructibleState,
 	IVisitorState,
+	IShopState,
 	IBuildingState,
 	IResourceState,
 	IHarvestableState,
@@ -434,6 +435,8 @@ export class EntitySpawner {
 			Component.Health, entityId) as IHealthState;
 		const storageState = this.entityManager.getComponentDataForEntity(
 			Component.Storage, entityId) as IStorageState;
+		const shopState = this.entityManager.getComponentDataForEntity(
+			Component.Shop, entityId) as IShopState;
 
 		// Notify redux of new entity
 		store.dispatch(spawnBuildingAction(
@@ -442,7 +445,8 @@ export class EntitySpawner {
 			constructibleState,
 			healthState,
 			positionState,
-			storageState
+			storageState,
+			shopState
 		));
 
 		return entityId;
