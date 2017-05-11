@@ -3,6 +3,8 @@ import {BuildingListEntry} from '../../interfaces';
 import {Building} from '../../data/Building';
 import {buildingUtil, storageUtil} from '../../entity/util';
 
+import {BuildingStorageView} from './BuildingStorageView';
+
 import {
     IBuildingState,
     IConstructibleState,
@@ -47,16 +49,6 @@ const renderStorageProperties = (state: IStorageState): DisplayProperty[] => [
         name: 'Storage',
         value: storageUtil.availableStorageToString(state),
         detailedOnly: false
-    },
-    {
-        name: 'Items',
-        value: storageUtil.storageItemListToString(state),
-        detailedOnly: true
-    },
-    {
-        name: 'Storage Restrictions',
-        value: storageUtil.storageRestrictionsToString(state),
-        detailedOnly: true
     }
 ];
 
@@ -93,6 +85,9 @@ export const BuildingInfoCard = (
                 detailed,
                 renderStorageProperties(selectedBuilding.storage)
             ) }
+            {selectedBuilding.storage && detailed &&
+                <BuildingStorageView storage={selectedBuilding.storage}/>
+            }
         </div>
     );
 }

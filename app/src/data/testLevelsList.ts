@@ -165,13 +165,17 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}]
 			},
 			{
-				name: 'Item Shop test',
+				name: 'Select Item Shop stock test',
 				buildings: [{
 					enum: Building.ItemShop,
 					isCompleted: true,
 					data: {
 						position: defaultBuildingPosition
 					}
+				}],
+				items: [{
+					enum: Item.Berries,
+					count: 4
 				}]
 			}
 		]
