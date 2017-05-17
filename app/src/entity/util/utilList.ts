@@ -18,7 +18,8 @@ import {
     behaviorTreeUtil,
     constructibleUtil,
     resourceUtil,
-    renderableUtil
+    renderableUtil,
+    shopUtil
 } from './index';
 
 export const utilList: BaseUtil[] = [
@@ -39,5 +40,6 @@ export const utilList: BaseUtil[] = [
     behaviorTreeUtil,
     constructibleUtil,
     resourceUtil,
-    renderableUtil
+    renderableUtil,
+    shopUtil
 ];

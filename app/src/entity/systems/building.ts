@@ -10,7 +10,8 @@ import {
     IHealthState,
     INameState,
     ICollisionState,
-    IStorageState
+    IStorageState,
+    IShopState
 } from '../components';
 import {mapUtil, buildingUtil} from '../util';
 import {Building} from '../../data/Building';
@@ -34,6 +35,8 @@ export class BuildingSystem extends EntitySystem {
                 Component.Collision, id) as ICollisionState;
             const storageState = this.manager.getComponentDataForEntity(
                 Component.Storage, id) as IStorageState;
+            const shopState = this.manager.getComponentDataForEntity(
+                Component.Shop, id) as IShopState;
 
             buildingUtil.buildingInitChecks(
                 buildingState,
@@ -42,6 +45,7 @@ export class BuildingSystem extends EntitySystem {
                 positionState,
                 collisionState,
                 storageState,
+                shopState,
                 nameState
             );
         });

@@ -49,7 +49,7 @@ import {Agent} from '../data/Agent';
 import {Resource} from '../data/Resource';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
-import {baseUtil, storageUtil, constructibleUtil, mapUtil, positionUtil, buildingUtil} from './util';
+import {baseUtil, storageUtil, constructibleUtil, mapUtil, positionUtil, buildingUtil, shopUtil} from './util';
 import {util} from '../util';
 import {events} from '../events';
 import {globalRefs} from '../globalRefs';
@@ -324,7 +324,11 @@ export class EntitySpawner {
 
 		// Spawn it in storage
 		if (itemState.stored) {
-			storageUtil.storeItem(entityId, itemState.stored);
+			if (itemState.forSale) {
+				shopUtil.storeItem(entityId, itemState.stored);
+			} else {
+				storageUtil.storeItem(entityId, itemState.stored);
+			}
 		// Normal spawn
 		} else {
 			positionState.tile = spawnTile;
@@ -354,6 +358,7 @@ export class EntitySpawner {
         building: Building,
 		isCompleted: boolean = false,
 		storage: RequiredItems,
+		shop: RequiredItems,
         entityComponentData: IEntityComponentData = {}
     ): number {
 		if (!entityComponentData.position.tile) {
@@ -396,6 +401,8 @@ export class EntitySpawner {
 					Component.Collision, entityId) as ICollisionState;
 			const storageState = this.entityManager.getComponentDataForEntity(
 					Component.Storage, entityId) as IStorageState;
+			const shopState = this.entityManager.getComponentDataForEntity(
+					Component.Shop, entityId) as IShopState;
 			const nameState = this.entityManager.getComponentDataForEntity(
 					Component.Name, entityId) as INameState;
 
@@ -406,23 +413,13 @@ export class EntitySpawner {
 				positionState,
 				collisionState,
 				storageState,
+				shopState,
 				nameState
 			);
 		}
 
-		if (storage) {
-			storage.forEach(itemEntry => {
-				for (let i = 0; i < itemEntry.count; i++) {
-					const itemId = this.spawnItem(itemEntry.enum, {
-						item: {
-							stored: entityId,
-							claimed: true,
-							forSale: true
-						}
-					});
-				}
-			});
-		}
+		this.spawnItemsForBuilding(entityId, storage);
+		this.spawnItemsForBuilding(entityId, shop, true);
 
 		// Get relevant state
 		const positionState = this.entityManager.getComponentDataForEntity(
@@ -450,5 +447,21 @@ export class EntitySpawner {
 		));
 
 		return entityId;
+	}
+
+	private spawnItemsForBuilding(buildingId: number, items: RequiredItems, shop = false) {
+		if (items) {
+			items.forEach(itemEntry => {
+				for (let i = 0; i < itemEntry.count; i++) {
+					const itemId = this.spawnItem(itemEntry.enum, {
+						item: {
+							stored: buildingId,
+							claimed: true,
+							forSale: shop
+						}
+					});
+				}
+			});
+		}
 	}
 }

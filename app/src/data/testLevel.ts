@@ -29,6 +29,7 @@ export interface IBuildingAssemblageTestData {
     isCompleted?: boolean;
     data?: IEntityComponentData;
     storage?: RequiredItems;
+    shop?: RequiredItems;
 }
 
 export interface ITestGameMapOptions {

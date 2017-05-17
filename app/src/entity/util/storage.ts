@@ -14,13 +14,17 @@ import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
 import {ItemProperty} from '../../data/ItemProperty';
 
-export class StorageUtil extends BaseUtil {
+export class BaseStorageUtil<T extends IStorageState> extends BaseUtil {
+    getStorageState(entity: number): T {
+        return this._getStorageState(entity) as T;
+    }
+
     storeItem(
         itemEntity: number,
         storageEntity: number
     ): void {
         const itemState = this._getItemState(itemEntity);
-        const storageState = this._getStorageState(storageEntity);
+        const storageState = this.getStorageState(storageEntity);
         // Check if adding the item to storage is valid
         if (!this.checkIfAddValid(itemState, storageState)) {
             console.warn('Invalid add to storage. aborting');
@@ -46,15 +50,15 @@ export class StorageUtil extends BaseUtil {
         itemState.stored = storageEntity;
     }
 
-    storageItemListToString(state: IStorageState): string {
+    storageItemListToString(state: T): string {
         return itemUtil.itemListToString(state.itemList);
     }
 
-    availableStorageToString(state: IStorageState): string {
+    availableStorageToString(state: T): string {
         return `${state.total - state.available}/${state.total}`;
     }
 
-    storageRestrictionsToString(state: IStorageState): string {
+    storageRestrictionsToString(state: T): string {
         let restrictions = '[';
         state.itemRestrictions.forEach(restriction =>
             restrictions += ItemProperty[restriction]
@@ -65,17 +69,17 @@ export class StorageUtil extends BaseUtil {
 
     getStorageStateFromItem(
         item: number
-    ): IStorageState {
+    ): T {
         const storage = this._getItemState(item).stored;
         if (!_.isNumber(storage)) {
 			debugger;
 		}
-        return this._getStorageState(storage);
+        return this.getStorageState(storage);
     }
 
     checkIfAddValid(
         itemState: IItemState,
-        storageState: IStorageState
+        storageState: T
     ): boolean {
         if (!storageState.available) {
             return false;
@@ -97,11 +101,11 @@ export class StorageUtil extends BaseUtil {
         const storageEntities = this.entityManager.getEntityIdsForComponent(
             Component.Storage
         ).filter(entity => {
-            const storageState = this._getStorageState(entity);
+            const storageState = this.getStorageState(entity);
             return this.checkIfAddValid(itemState, storageState);
         });
         const storageTiles = storageEntities.map(
-            entity => this._getStorageState(entity).tile
+            entity => this.getStorageState(entity).tile
         );
         const nearest = MapUtil.nearestTileFromSet(tile, storageTiles);
 
@@ -109,8 +113,12 @@ export class StorageUtil extends BaseUtil {
     }
 
     getItems(storage: number): number[] {
-        return this._getStorageState(storage).itemList;
+        return this.getStorageState(storage).itemList;
     }
+}
+
+export class StorageUtil extends BaseStorageUtil<IStorageState> {
+
 }
 
 export const storageUtil = new StorageUtil();

@@ -8,7 +8,8 @@ import {
 	IStorageState,
 	IRenderableState,
 	ICollisionState,
-	INameState
+	INameState,
+	IShopState
 } from '../components';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
@@ -83,6 +84,7 @@ export class BuildingUtil extends BaseUtil {
 		positionState: IPositionState,
 		collisionState: ICollisionState,
 		storageState: IStorageState,
+		shopState: IShopState,
 		nameState: INameState
 	): void {
 		// Get the name from the enum
@@ -98,6 +100,9 @@ export class BuildingUtil extends BaseUtil {
 		buildingUtil.initEntranceTile(positionState, buildingState, collisionState);
 		if (storageState && !storageState.tile) {
 			storageState.tile = buildingState.entranceTile;
+		}
+		if (shopState && !shopState.tile) {
+			shopState.tile = buildingState.entranceTile;
 		}
 		if (!nameState.name) {
 			if (nameState.isStatic) {

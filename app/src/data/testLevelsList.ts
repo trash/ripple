@@ -171,7 +171,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 					isCompleted: true,
 					data: {
 						position: defaultBuildingPosition
-					}
+					},
+					shop: [{
+						enum: Item.Berries,
+						count: 2
+					}]
 				}],
 				items: [{
 					enum: Item.Berries,

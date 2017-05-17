@@ -18,7 +18,8 @@ import {
     IVisitorState,
     ITownState,
     IHarvestableState,
-    INameState
+    INameState,
+    IShopState
 } from '../components';
 
 import {EntityManager} from '../entityManager';
@@ -95,6 +96,10 @@ export class BaseUtil {
     _getStorageState (id: number): IStorageState {
         return this.entityManager.getComponentDataForEntity(
             Component.Storage, id) as IStorageState;
+    }
+    _getShopState (id: number): IShopState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.Shop, id) as IShopState;
     }
     _getVisitorState (id: number): IVisitorState {
         return this.entityManager.getComponentDataForEntity(

@@ -206,7 +206,9 @@ export class GameManager {
                     building.enum,
                     building.isCompleted,
                     building.storage,
-                    building.data);
+                    building.shop,
+                    building.data
+                );
             });
         }
 
