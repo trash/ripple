@@ -308,6 +308,8 @@ export class AgentUtil extends BaseUtil {
 
 		// Make sure item is unclaimed and has its tile updated
 		itemUtil.pickupItem(item);
+		itemUtil.unclaim(item);
+
 		// Add the item to the agent's inventory
 		inventoryUtil.add(agent, item);
 	}

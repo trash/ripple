@@ -60,6 +60,7 @@ import {
     SpawnResource,
     ToggleShowCollisionDebug,
     UpdateVillagerJob,
+    UnclaimItem,
     UpdateCraftableQueued
 } from './actions';
 
@@ -84,6 +85,7 @@ type ReducerAction =
     | SpawnBuilding
     | SpawnResource
     | EntitiesSelected
+    | UnclaimItem
     | PlayPauseGame
     | UpdateGameSpeed
     | UpdateVillagerJob
@@ -197,6 +199,7 @@ function mainReducer(
             newState.craftBarShown = action.show;
             break;
 
+        case actionTypes.UNCLAIM_ITEM:
         case actionTypes.ADD_TO_ITEM_LIST:
         case actionTypes.REMOVE_FROM_ITEM_LIST:
             const item = action.item;
@@ -207,15 +210,19 @@ function mainReducer(
                 if (action.claimed) {
                     newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount + 1);
                 }
-            } else {
+            } else if (action.type === actionTypes.REMOVE_FROM_ITEM_LIST) {
                 if (currentCount === 1) {
                     newState.items = newState.items.remove(item);
-                    if (action.claimed) {
-                        newState.claimedItems = newState.claimedItems.remove(item);
-                    }
+                } else {
+                    newState.items = newState.items.set(item, currentCount - 1);
                 }
-                newState.items = newState.items.set(item, currentCount - 1);
-                if (action.claimed) {
+            }
+            if (action.type === actionTypes.REMOVE_FROM_ITEM_LIST && action.claimed
+                || action.type === actionTypes.UNCLAIM_ITEM
+            ) {
+                if (currentClaimedCount === 1) {
+                    newState.claimedItems = newState.claimedItems.remove(item);
+                } else {
                     newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount - 1);
                 }
             }

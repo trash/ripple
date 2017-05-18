@@ -12,7 +12,9 @@ export {
     addToItemList,
     removeFromItemList,
     AddToItemList,
-    RemoveFromItemList
+    RemoveFromItemList,
+    unclaimItem,
+    UnclaimItem
 } from './updateItemList';
 import {
     IStorageState,

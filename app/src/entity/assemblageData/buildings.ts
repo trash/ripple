@@ -128,7 +128,7 @@ export const dataList: IEntityComponentData[] = [
             currentHealth: 0,
             maxHealth: 500
         },
-        storage: {
+        shop: {
             itemRestrictions: [ItemProperty.Food],
             total: 20,
             available: 20
@@ -189,13 +189,13 @@ export const dataList: IEntityComponentData[] = [
             currentHealth: 0,
             maxHealth: 400
         },
-        storage: {
+        shop: {
             itemRestrictions: [
                 ItemProperty.Weapon,
                 ItemProperty.Armor
             ],
-            total: 20,
-            available: 20
+            total: 10,
+            available: 10
         }
     },
     {

@@ -279,7 +279,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}],
 				buildings: [{
 					enum: Building.BlacksmithShop,
-					storage: [{
+					shop: [{
 						enum: Item.SwordWood,
 						count: 4
 					}],
@@ -307,7 +307,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}],
 				buildings: [{
 					enum: Building.Tavern,
-					storage: [{
+					shop: [{
 						enum: Item.Berries,
 						count: 4
 					}],

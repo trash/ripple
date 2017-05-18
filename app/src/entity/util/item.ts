@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import * as changeCase from 'change-case';
+import {store} from '../../redux/store';
+import {unclaimItem} from '../../redux/actions';
 import {ItemRequirementsMap} from '../../ItemRequirementsMap';
 import {Component} from '../ComponentEnum';
 import {IPositionState} from '../components/position';
@@ -192,6 +194,12 @@ export class ItemUtil extends BaseUtil {
 
 	itemExists(searchOptions: ItemSearchOptions): boolean {
 		return this.getItemListFromSearchOptions(searchOptions).length > 0;
+	}
+
+	unclaim(item: number): void {
+		const itemState = this._getItemState(item);
+		itemState.claimed = false;
+		store.dispatch(unclaimItem(itemState.enum));
 	}
 
     /**
