@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {VillagerJob} from './VillagerJob';
 import {Agent} from './Agent';
-import {ITestLevel} from './testLevel';
+import {ITestLevel} from './TestLevel';
 
 const regularLevel: ITestLevel = {
 	name: 'Regular Level',

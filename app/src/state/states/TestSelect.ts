@@ -5,7 +5,7 @@ import {IState} from './state';
 import {State} from '../StateEnum';
 import {StateManager} from '../state-manager';
 import {TestSelect as TestSelectComponent} from '../../views/testSelect';
-import {ITestLevel} from '../../data/testLevel';
+import {ITestLevel} from '../../data/TestLevel';
 
 export class TestSelectState implements IState {
 	manager: StateManager;

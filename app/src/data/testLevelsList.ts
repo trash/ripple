@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {constants} from '../data/constants';
 import {Util} from '../util';
 
-import {ITestLevel} from './testLevel';
+import {ITestLevel} from './TestLevel';
 import {gameLevelFactory} from './gameLevelFactory';
 import {VillagerJob} from './VillagerJob';
 import {Building} from './Building';
@@ -48,6 +48,16 @@ itemsList.forEach(itemData => {
 });
 
 let testLevelsData: ITestLevelGroup[]  = [
+	{
+		name: 'Map Tests',
+		list: [{
+			name: 'Seed is deterministic',
+			gameMap: {
+				seed: 666,
+				dimension: 40
+			}
+		}]
+	},
 	{
 		name: 'Building Tests',
 		list: [

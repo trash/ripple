@@ -11,7 +11,7 @@ import {
     GameState
 } from '../state/states';
 import {State} from '../state/StateEnum';
-import {ITestLevel, ITestGameMapOptions} from '../data/testLevel';
+import {ITestLevel, ITestGameMapOptions} from '../data/TestLevel';
 import {EntityManager} from '../entity/entityManager';
 import {GameMap, IMapOptions} from '../map';
 import {canvasService} from '../ui/canvasService';

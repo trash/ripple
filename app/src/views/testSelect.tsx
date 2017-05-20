@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import {events} from '../events';
 import {testLevelsList, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevelsList';
-import {TestLevel} from './testLevel';
+import {TestLevel} from './TestLevel';
 import {ShowHideComponent, ShowHideComponentState} from './higherOrder/showHideComponent';
 
 interface TestSelectProps {

@@ -2,7 +2,6 @@ import {GameMap} from '../Src/Map';
 import {TileData} from '../Src/Map/TileData';
 import {MapGenerator} from '../Src/Map/MapGenerator';
 
-
 describe('MapGenerator', () => {
     let sut: MapGenerator;
     const dimension = 10;

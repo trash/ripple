@@ -43,7 +43,7 @@ import {
 } from '../entity/components';
 
 import {EntityManager} from '../entity/entityManager';
-import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/testLevel';
+import {IAgentAssemblageTestData, IVillagerComponentOptions} from '../data/TestLevel';
 import {Building} from '../data/Building';
 import {Agent} from '../data/Agent';
 import {Resource} from '../data/Resource';
