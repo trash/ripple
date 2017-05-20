@@ -17,9 +17,10 @@ import {util, Util} from '../util';
 import {GameManager} from '../game/GameManager';
 import {MapGenerator, IMapGenReturn} from './MapGenerator';
 import {MapUtil} from './map-util';
-import {MapGenTile} from './map-gen-tile';
+import {MapGenTile} from './MapGenTile';
 import {MapTile} from './tile';
 import {events} from '../events';
+import {Biome} from './Biome';
 
 
 let zoneNumber = 10;
@@ -65,33 +66,6 @@ export class GameMap {
 	dimension: number;
 	resourceList: Resource[];
 
-	static ForestBiome = {
-		name: 'forest',
-		baseTile: 'full-grass',
-		// full-grass: background
-		// 1: background
-		// grass: grass
-		// 3: grass rock top right
-		// grass3: grass rock top left
-		// 5: grass multiple rocks
-		// 6: grass multiple rocks 2
-		// grass6: grass with mushrooms
-		// 8: dirt on grass 1
-		// 9: dirt on grass 2
-		// 10: dirt on grass 3
-		ratios: {
-			'empty': 40, //effectively 'full-grass'
-			'grass': 20,
-			// 'grass2': 8,
-			'grass3': 2,
-			// 'grass4': 2,
-			// 'grass5': 2,
-			'grass6': 2,
-			// 'dirt1': 2
-
-		}
-	};
-
 	private biome: Biome;
 	private tiles: MapTile[];
 	private seed: number;
@@ -122,7 +96,7 @@ export class GameMap {
 
 		// Should be getting a biome from somewhere but right now we'll hardcode
 		// it as forest
-		this.biome = GameMap.ForestBiome;
+		this.biome = Biome.Forest;
 
 		// The height/width of the grid
 		this.dimension = saveData && saveData.dimension || dimension || 120;

@@ -5,7 +5,7 @@ import {floodfill} from '../vendor/flood-fill';
 import {NDArray, XYCoordinates, IRowColumnCoordinateWrapper} from '../interfaces';
 import ndarray = require('ndarray');
 import {TileData} from './TileData';
-import {MapGenTile} from './map-gen-tile';
+import {MapGenTile} from './MapGenTile';
 import * as Immutable from 'immutable';
 import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
@@ -88,8 +88,6 @@ export class MapGenerator {
         allLand: boolean = false,
 		logEnabled: boolean = true
     ) {
-		console.info('new MapGenerator with seed', seed);
-
         this.startTime = performance.now();
         this.dimension = dimension;
         this.seed = seed;
@@ -116,9 +114,15 @@ export class MapGenerator {
 			baseTilemap.map((tile, index) => {
 				const isWater = tile.includes('water');
 				return new MapGenTile(
-					isWater ? 'empty' : Util.randomFromRatios(this.biome.ratios, this.seedrandom),
-					index, this.dimension, isWater);
-			}));
+					isWater
+						? 'empty'
+						: Util.randomFromRatios(this.biome.ratios, this.seedrandom),
+					index,
+					this.dimension,
+					isWater
+				);
+			})
+		);
 
 		this.logUpdate('marking border water tiles');
 		tiles = this.markBorderWaterTiles(tiles);
@@ -141,7 +145,7 @@ export class MapGenerator {
 		};
     }
 
-	generateResourceList (
+	private generateResourceList (
 		tiles: Immutable.List<MapGenTile>
 	): Immutable.List<Resource> {
 		let resourceList = Immutable.List<Resource>(new Array(tiles.size).fill(null));
@@ -263,12 +267,12 @@ export class MapGenerator {
 	 * @param {Object} data.size width, height integer dimensions of clear space
 	 */
 	clearTiles (tiles: Immutable.List<MapGenTile>, data: IClearTilesInput) {
-		const tileStart = data.position,
-			clearDimensions = data.size,
-			tileEnd = {
-				x: tileStart.x + clearDimensions.width,
-				y: tileStart.y + clearDimensions.height
-			};
+		const tileStart = data.position;
+		const clearDimensions = data.size;
+		const tileEnd = {
+			x: tileStart.x + clearDimensions.width,
+			y: tileStart.y + clearDimensions.height
+		};
 		const tilesToClear = [];
 		for (let x = tileStart.x; x < tileEnd.x; x++) {
 			for (let y = tileStart.y; y < tileEnd.y; y++) {
@@ -299,8 +303,8 @@ export class MapGenerator {
 			if (!isValidResourceTile(resource, i, tiles)) {
 				return resource;
 			}
-			const column = i % this.dimension,
-				row = Math.floor(i / this.dimension);
+			const column = i % this.dimension;
+			const row = Math.floor(i / this.dimension);
 			let value = perlin.simplex2(column / 50 * fragment, row / 50 * fragment);
 			value *= 40;
 			value = Math.floor(Math.abs(value));
@@ -348,10 +352,11 @@ export class MapGenerator {
 		let i;
 
 		for (i = 0; i < tiles.size; i++) {
-			const row = Math.floor(i / this.dimension),
-				column = i % this.dimension,
-				value = Math.abs(perlin.simplex2(
-					column / 50 * fragment, row / 50 * fragment) * 40);
+			const row = Math.floor(i / this.dimension);
+			const column = i % this.dimension;
+			const value = Math.abs(
+				perlin.simplex2(column / 50 * fragment, row / 50 * fragment) * 40
+			);
 			if (value > 30 && Util.validTiles.resource([tiles.get(i)]).length) {
 				resourceList = resourceList.set(i, Resource.Hill);
 			}
@@ -418,7 +423,7 @@ export class MapGenerator {
 
 		// Mark the tiles themselves with the island number
 		tiles = tiles.withMutations(tiles => {
-			for (var i=0; i < array.data.length; i++) {
+			for (let i = 0; i < array.data.length; i++) {
 				if (array.data[i] === mark) {
 					const copy = MapGenTile.copyTile(tiles.get(i));
 					copy.zoneNumber = mark;
@@ -499,9 +504,9 @@ export class MapGenerator {
 		for (let x = 0; x < zoneNumberCount - zoneNumberStart - 1; x++) {
 			const borderTiles = tiles.filter(tile => tile.zoneNumber && tile.borderWater);
 			// Get all border tiles for first island
-			const islandTiles = borderTiles.filter(tile => tile.zoneNumber === zoneNumberStart),
+			const islandTiles = borderTiles.filter(tile => tile.zoneNumber === zoneNumberStart);
 			// Get border tiles for the rest of the tiles
-				otherTiles = borderTiles.filter(tile => tile.zoneNumber !== zoneNumberStart);
+			const otherTiles = borderTiles.filter(tile => tile.zoneNumber !== zoneNumberStart);
 
 			// We're done
 			if (!otherTiles.size) {
@@ -509,14 +514,15 @@ export class MapGenerator {
 			}
 
 			// Find the pair that are closest
-			var closest = {
-					distance: 999999999,
-					first: null,
-					second: null
-				}, i;
-			for (i=0; i < islandTiles.size; i++) {
-				for (var j=0; j < otherTiles.size; j++) {
-					var distance = Math.ceil(islandTiles.get(i).distanceTo(otherTiles.get(j)));
+			let closest = {
+				distance: 999999999,
+				first: null,
+				second: null
+			};
+			let i;
+			for (i = 0; i < islandTiles.size; i++) {
+				for (let j = 0; j < otherTiles.size; j++) {
+					const distance = Math.ceil(islandTiles.get(i).distanceTo(otherTiles.get(j)));
 					if (distance < closest.distance) {
 						closest = {
 							distance: distance,
@@ -536,13 +542,13 @@ export class MapGenerator {
 			let direction;
 
 			// Now create the bridge for the path
-			for (i=0; i < path.length; i++) {
+			for (i = 0; i < path.length; i++) {
 				// Grab the neighboring tiles based on direction
-				const tile = tiles.get(path[i].row * this.dimension + path[i].column),
-					nextTile = i < path.length - 1 ?
-						tiles.get(path[i + 1].row * this.dimension + path[i + 1].column) :
-						null,
-					firstOrLast = i === 0 || i === path.length - 1;
+				const tile = tiles.get(path[i].row * this.dimension + path[i].column);
+				const nextTile = i < path.length - 1
+					? tiles.get(path[i + 1].row * this.dimension + path[i + 1].column)
+					: null;
+				const firstOrLast = i === 0 || i === path.length - 1;
 
 				direction = nextTile ? tile.directionToTile(nextTile) : direction;
 
@@ -551,8 +557,8 @@ export class MapGenerator {
 					case 'left':
 						/* falls through */
 					case 'right':
-						const up = tiles.get((tile.row - 1) * this.dimension + tile.column),
-							down = tiles.get((tile.row + 1) * this.dimension + tile.column);
+						const up = tiles.get((tile.row - 1) * this.dimension + tile.column);
+						const down = tiles.get((tile.row + 1) * this.dimension + tile.column);
 
 						if (up) {
 							bridgedTiles.push([up, firstOrLast]);
@@ -565,8 +571,8 @@ export class MapGenerator {
 					case 'up':
 						/* falls through */
 					case 'down':
-						var left = tiles.get(tile.row * this.dimension + tile.column - 1),
-							right = tiles.get(tile.row * this.dimension + tile.column + 1);
+						const left = tiles.get(tile.row * this.dimension + tile.column - 1);
+						const right = tiles.get(tile.row * this.dimension + tile.column + 1);
 
 						if (left) {
 							bridgedTiles.push([left, firstOrLast]);
@@ -587,8 +593,8 @@ export class MapGenerator {
 		// Update the tiles and create a new list with the modified tiles
 		tiles = tiles.withMutations(tiles => {
 			bridgedTiles.forEach(pair => {
-				const tile = pair[0],
-					firstOrLast = pair[1];
+				const tile = pair[0];
+				const firstOrLast = pair[1];
 				tiles.set(tile.index, this.makeTileBridge(tile, firstOrLast));
 			});
 		});
@@ -635,32 +641,32 @@ export class MapGenerator {
 			return data[row * this.dimension + column];
 		};
 
-		let row = Math.floor(index / this.dimension),
-			column = index % this.dimension,
-			neighborMap = {
-				// If it's not the first column
-				left: column > 0 ?
-					// get the tile to the left
-					tileFromRowColumn(row, column - 1) : null,
-				// If it's not the last column
-				right: column < this.dimension - 1 ?
-					tileFromRowColumn(row, column + 1) : null,
-				top: row > 0 ?
-					tileFromRowColumn(row - 1, column) : null,
-				bottom: row < this.dimension - 1 ?
-					tileFromRowColumn(row + 1, column) : null,
-				topLeft: row > 0 && column > 0 ?
-					tileFromRowColumn(row - 1, column - 1) : null,
-				topRight: row > 0 && column < this.dimension - 1 ?
-					tileFromRowColumn(row - 1, column + 1) : null,
-				bottomLeft: row < this.dimension - 1 && column > 0 ?
-					tileFromRowColumn(row + 1, column - 1) : null,
-				bottomRight: row < this.dimension - 1 && column < this.dimension - 1 ?
-					tileFromRowColumn(row + 1, column + 1) : null
-			};
+		const row = Math.floor(index / this.dimension);
+		const column = index % this.dimension;
+		const neighborMap = {
+			// If it's not the first column
+			left: column > 0 ?
+				// get the tile to the left
+				tileFromRowColumn(row, column - 1) : null,
+			// If it's not the last column
+			right: column < this.dimension - 1 ?
+				tileFromRowColumn(row, column + 1) : null,
+			top: row > 0 ?
+				tileFromRowColumn(row - 1, column) : null,
+			bottom: row < this.dimension - 1 ?
+				tileFromRowColumn(row + 1, column) : null,
+			topLeft: row > 0 && column > 0 ?
+				tileFromRowColumn(row - 1, column - 1) : null,
+			topRight: row > 0 && column < this.dimension - 1 ?
+				tileFromRowColumn(row - 1, column + 1) : null,
+			bottomLeft: row < this.dimension - 1 && column > 0 ?
+				tileFromRowColumn(row + 1, column - 1) : null,
+			bottomRight: row < this.dimension - 1 && column < this.dimension - 1 ?
+				tileFromRowColumn(row + 1, column + 1) : null
+		};
 
-		for (var direction in neighborMap) {
-			var neighbor = neighborMap[direction];
+		for (const direction in neighborMap) {
+			const neighbor = neighborMap[direction];
 			// Tiles that are water but aren't bridges
 			neighborMap[direction] = checkFunction(neighbor);
 		}
@@ -674,9 +680,9 @@ export class MapGenerator {
 		sprites: string[],
         checkFunction: NeighborCheckFunction<T>
     ): string {
-		var row = Math.floor(index / this.dimension),
-			column = index % this.dimension,
-			neighborMap = this.getTileNeighborMap(data, index, checkFunction);
+		const row = Math.floor(index / this.dimension);
+		const column = index % this.dimension;
+		let neighborMap = this.getTileNeighborMap(data, index, checkFunction);
 
 		// top left
 		if (!neighborMap.left && neighborMap.bottom && neighborMap.right && !neighborMap.top) {
@@ -740,8 +746,8 @@ export class MapGenerator {
 					data[(row+1) * this.dimension + column+1] :
 					null,
 			};
-			for (var direction in neighborMap) {
-				var neighbor = neighborMap[direction];
+			for (const direction in neighborMap) {
+				const neighbor = neighborMap[direction];
 				neighborMap[direction] = checkFunction(neighbor);
 			}
 

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';;
 import {constants} from '../data/constants';
 import {MapTile} from '../map/tile';
-import {MapGenTile} from '../map/map-gen-tile';
+import {MapGenTile} from '../map/MapGenTile';
 import {INearestTile, XYCoordinates, IRowColumnCoordinates} from '../interfaces';
 import {IPositionState} from '../entity/components/position';
 import {Component} from '../entity/ComponentEnum';
