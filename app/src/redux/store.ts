@@ -3,7 +3,6 @@ import * as Immutable from 'immutable';
 import {createStore} from 'redux';
 import * as actionTypes from './actions/types';
 import {Item} from '../data/Item';
-import {CraftableService} from '../services/CraftableService';
 import {
     AgentListEntry,
     BuildingListEntry,
@@ -133,8 +132,6 @@ export interface StoreState {
     craftableItemMap: CraftableItemMap;
 }
 
-const craftableService = new CraftableService();
-
 const initialState = {
     items: Immutable.Map<Item, number>(),
     claimedItems: Immutable.Map<Item, number>(),
@@ -145,7 +142,7 @@ const initialState = {
     gameSpeed: 0,
     selectedEntities: [],
     showCollisionDebug: false,
-    craftableItemMap: craftableService.itemMap
+    craftableItemMap: null
 } as StoreState;
 function mainReducer(
     previousState = initialState,
@@ -329,7 +326,7 @@ function mainReducer(
             break;
 
         case actionTypes.UPDATE_CRAFTABLE_QUEUED:
-            newState.craftableItemMap = craftableService.updateQueueCount(action.item, action.count);
+            newState.craftableItemMap = action.itemMap;
             break;
     }
 

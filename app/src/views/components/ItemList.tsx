@@ -1,13 +1,14 @@
 import * as Immutable from 'immutable';
 import {connect} from 'react-redux';
 import * as React from 'react';
-import {store, StoreState} from '../../redux/store';
+import {StoreState} from '../../redux/store';
 import {updateCraftableQueued} from '../../redux/actions';
 import {CraftableItemMap} from '../../interfaces';
 import {IItemState} from '../../entity/components';
 import {Item} from '../../data/Item';
 import {itemUtil} from '../../entity/util';
 import {dataList as itemList, assemblageData} from '../../entity/assemblageData/items';
+import {craftableService} from '../../services/CraftableService';
 
 interface ItemListProps {
     itemList: Immutable.Map<Item, number>;
@@ -42,7 +43,7 @@ export class ItemList extends React.Component<ItemListProps, void> {
                                 {queueable
                                     ? <input type="number"
                                         value={craftableEntry.queued}
-                                        onChange={e => store.dispatch(updateCraftableQueued(item, parseInt(e.target.value)))}/>
+                                        onChange={e => craftableService.updateQueueCount(item, parseInt(e.target.value))}/>
                                     : '-'
                                 }
                             </div>

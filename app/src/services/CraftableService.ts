@@ -4,6 +4,8 @@ import {Item} from '../data/Item';
 import {CraftableItemEntry, CraftableItemMap} from '../interfaces';
 import {dataList as itemList, assemblageData} from '../entity/assemblageData/items';
 import {taskQueueManager} from '../Tasks/TaskQueueManager';
+import {store} from '../redux/store';
+import {updateCraftableQueued} from '../redux/actions';
 
 export class CraftableService {
     itemMap: CraftableItemMap;
@@ -15,6 +17,10 @@ export class CraftableService {
                 this.updateQueueCount(entry.item.enum, 0)
             }
         });
+    }
+
+    updateStore(): void {
+        store.dispatch(updateCraftableQueued(this.itemMap));
     }
 
     private getItemEntry(item: Item): CraftableItemEntry {
@@ -42,6 +48,11 @@ export class CraftableService {
             taskQueue.push(item);
         }
 
+        this.updateStore();
+
         return this.itemMap;
     }
 }
+
+export const craftableService = new CraftableService();
+craftableService.updateStore();

@@ -31,6 +31,8 @@ import {
     INameState
 } from '../../entity/components';
 
+import {CraftableItemMap} from '../../interfaces';
+
 import {Item} from '../../data/Item';
 import {VillagerJob} from '../../data/VillagerJob';
 
@@ -343,17 +345,14 @@ export function toggleShowCollisionDebug(
 
 export interface UpdateCraftableQueued {
     type: actionTypes.UPDATE_CRAFTABLE_QUEUED;
-    item: Item;
-    count: number;
+    itemMap: CraftableItemMap;
 }
 
 export function updateCraftableQueued(
-    item: Item,
-    count: number
+    itemMap: CraftableItemMap
 ): UpdateCraftableQueued {
     return {
         type: actionTypes.UPDATE_CRAFTABLE_QUEUED,
-        item,
-        count
+        itemMap
     };
 }
