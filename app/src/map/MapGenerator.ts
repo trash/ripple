@@ -110,19 +110,7 @@ export class MapGenerator {
 		// Normalize it
 		baseTilemap = this.normalizeWaterTiles(baseTilemap);
 
-		let tiles = Immutable.List<MapGenTile>(
-			baseTilemap.map((tile, index) => {
-				const isWater = tile.includes('water');
-				return new MapGenTile(
-					isWater
-						? 'empty'
-						: Util.randomFromRatios(this.biome.ratios, this.seedrandom),
-					index,
-					this.dimension,
-					isWater
-				);
-			})
-		);
+		let tiles = this.generateInitialMapGenTiles(baseTilemap);
 
 		this.logUpdate('marking border water tiles');
 		tiles = this.markBorderWaterTiles(tiles);
@@ -144,6 +132,22 @@ export class MapGenerator {
 			resourceList: resourceList.toArray()
 		};
     }
+
+	private generateInitialMapGenTiles(baseTilemap: string[]): Immutable.List<MapGenTile> {
+		return Immutable.List<MapGenTile>(
+			baseTilemap.map((tile, index) => {
+				const isWater = tile.includes('water');
+				return new MapGenTile(
+					isWater
+						? 'empty'
+						: Util.randomFromRatios(this.biome.ratios, this.seedrandom),
+					index,
+					this.dimension,
+					isWater
+				);
+			})
+		);
+	}
 
 	private generateResourceList (
 		tiles: Immutable.List<MapGenTile>
@@ -222,7 +226,7 @@ export class MapGenerator {
 		return clusterTiles;
 	}
 
-	generateResourceClusters (
+	private generateResourceClusters (
 		tiles: Immutable.List<MapGenTile>,
 		resourceList: Immutable.List<Resource>,
 		type: Resource,
@@ -231,11 +235,17 @@ export class MapGenerator {
 	): Immutable.List<Resource> {
 		let clusterTiles: number[] = [];
 		while (amount > 0) {
-			const clusterSize = Util.randomInRange(clusterBounds[0], clusterBounds[1]);
+			const clusterSize = Util.randomInRange(
+				clusterBounds[0],
+				clusterBounds[1],
+				false,
+				true,
+				this.seedrandom
+			);
 			amount -= clusterSize;
 
 			// Pick the starting tile for cluster from all filtered tiles
-			const tileIndex = Util.randomInRange(0 , tiles.size, false, false);
+			const tileIndex = Util.randomInRange(0 , tiles.size, false, false, this.seedrandom);
 
 			// Generate the cluster
 			clusterTiles = clusterTiles.concat(
@@ -291,7 +301,7 @@ export class MapGenerator {
 		});
 	}
 
-	generateResources (
+	private generateResources (
 		tiles: Immutable.List<MapGenTile>,
 		resourceList: Immutable.List<Resource>
 	): Immutable.List<Resource> {
@@ -337,7 +347,7 @@ export class MapGenerator {
 		return resourceList;
 	}
 
-	generateHills (
+	private generateHills (
 		tiles: Immutable.List<MapGenTile>,
 		resourceList: Immutable.List<Resource>,
 		noHills: boolean = false
@@ -349,9 +359,8 @@ export class MapGenerator {
 		perlin.seed(this.seed / 3);
 
 		const fragment = 0.5;
-		let i;
 
-		for (i = 0; i < tiles.size; i++) {
+		for (let i = 0; i < tiles.size; i++) {
 			const row = Math.floor(i / this.dimension);
 			const column = i % this.dimension;
 			const value = Math.abs(

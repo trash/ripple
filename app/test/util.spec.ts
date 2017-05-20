@@ -62,4 +62,18 @@ describe('Util', () => {
             }
         });
     });
+
+    describe('randomInRange', () => {
+        test('is deterministic based on an optional seed', () => {
+            const lower = 0;
+            const upper = 10;
+            const random = seedrandom('test');
+            const random2 = seedrandom('test');
+
+            const output = Util.randomInRange(lower, upper, false, true, random);
+            const output2 = Util.randomInRange(lower, upper, false, true, random2);
+
+            expect(output).toEqual(output2);
+        });
+    });
 });

@@ -225,15 +225,19 @@ export class Util {
 	 * @param {Number} upper Upper bound
 	 * @return {Number} An integer between lower and upper
 	 */
-	static randomInRange (lower: number, upper?: number, float:  boolean = false,
-		inclusive: boolean = true): number
-	{
+	static randomInRange (
+		lower: number,
+		upper?: number,
+		float: boolean = false,
+		inclusive: boolean = true,
+		randomFunc = Math.random
+	): number {
 		if (arguments.length === 1) {
 			upper = lower;
 			lower = 0;
 		}
 		const boundAdd = inclusive ? 1 : 0;
-		let value = Math.random() * ((upper + boundAdd) - lower) + lower;
+		let value = randomFunc() * ((upper + boundAdd) - lower) + lower;
 		if (!float) {
 			value = Math.floor(value);
 		}
