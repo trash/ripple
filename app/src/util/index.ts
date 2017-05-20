@@ -9,7 +9,7 @@ import {positionUtil} from '../entity/util';
 import {Tick} from '../b3/Core';
 
 // This is 1 minute of real time at regular speed
-var ticksPerHour = constants.TICKS_PER_HOUR;
+const ticksPerHour = constants.TICKS_PER_HOUR;
 
 /**
  * Returns an instance of a valid tiles filter based on the given filter condition
@@ -40,10 +40,10 @@ export class Util {
 	 */
 	static validTiles = {
 		resource: defaultValidTilesCheck
-	};
+	}
 
 	saveToFile (data) {
-		var url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
+		const url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
 		window.open(url, '_blank');
 	}
 
@@ -52,14 +52,14 @@ export class Util {
 		if (color.match('0x')) {
 			color = color.slice(2);
 		}
-		const f = parseInt(color.slice(1), 16),
-			t = percent < 0 ? 0 : 255,
-			p = percent < 0 ? percent * -1 : percent,
-			R = f>>16,
-			G = f>>8&0x00FF,
-			B = f&0x0000FF;
-		let shaded = '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
-			(Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+		const f = parseInt(color.slice(1), 16);
+		const t = percent < 0 ? 0 : 255;
+		const p = percent < 0 ? percent * -1 : percent;
+		const R = f>>16;
+		const G = f>>8&0x00FF;
+		const B = f&0x0000FF;
+		let shaded = '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000
+			+ (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
 		shaded = '0x' + shaded.slice(1).toUpperCase();
 		return shaded;
 	}
@@ -84,19 +84,20 @@ export class Util {
 
 	getTextWidth (text: string, font: string): number {
 		// re-use canvas object for better performance
-		let canvas = this.canvas || (this.canvas = document.createElement('canvas')),
-			context = canvas.getContext('2d');
+		const canvas = this.canvas || (this.canvas = document.createElement('canvas'));
+		const context = canvas.getContext('2d');
 		context.font = font;
-		let metrics = context.measureText(text);
+		const metrics = context.measureText(text);
 		return metrics.width;
 	}
 
 	shuffle<T> (array: T[]): T[] {
-		var currentIndex = array.length, temporaryValue, randomIndex ;
+		let currentIndex = array.length;
+		let temporaryValue;
+		let randomIndex;
 
 		// While there remain elements to shuffle...
 		while (0 !== currentIndex) {
-
 			// Pick a remaining element...
 			randomIndex = Math.floor(Math.random() * currentIndex);
 			currentIndex -= 1;
@@ -118,13 +119,13 @@ export class Util {
 	 * @return {Tile} The nearest tile from the start tile
 	 */
 	nearestTile (tiles: any[], start: any): INearestTile {
-		var nearest = {
+		const nearest = {
 			distance: Number.MAX_VALUE,
 			tile: null
 		};
 
-		for (var i=0; i < tiles.length; i++) {
-			var distance = tiles[i].distanceTo(start);
+		for (let i=0; i < tiles.length; i++) {
+			const distance = tiles[i].distanceTo(start);
 			if (distance < nearest.distance) {
 				nearest.tile = tiles[i];
 				nearest.distance = distance;
@@ -149,10 +150,10 @@ export class Util {
 
 		// Validate required options
 		if (requiredOptions) {
-			for (var option in requiredOptions) {
+			for (const option in requiredOptions) {
 				// Depends on another option being defined
 				if (typeof requiredOptions[option] === 'string') {
-					let dependency = requiredOptions[option];
+					const dependency = requiredOptions[option];
 					if (!(option in options) && !(dependency in options)) {
 						this.error(`Missing required option with (dependency): ${option} (${dependency})`);
 					}
@@ -175,8 +176,8 @@ export class Util {
 	 * @param {String[]} strings The list of strings to add together with spaces.
 	 */
 	addSpaces (strings: string[]): string {
-		var spacedString = '';
-		strings.forEach(function (string) {
+		let spacedString = '';
+		strings.forEach(string => {
 			spacedString += string + ' ';
 		});
 		return spacedString;
@@ -227,8 +228,8 @@ export class Util {
 			upper = lower;
 			lower = 0;
 		}
-		let boundAdd = inclusive ? 1 : 0;
-		var value = Math.random() * ((upper + boundAdd) - lower) + lower;
+		const boundAdd = inclusive ? 1 : 0;
+		let value = Math.random() * ((upper + boundAdd) - lower) + lower;
 		if (!float) {
 			value = Math.floor(value);
 		}
@@ -244,11 +245,11 @@ export class Util {
 	 * @return {String[]} List of keys, the chance map
 	 */
 	ratiosToChanceMap (ratios: any): string[] {
-		var map = [];
+		const map = [];
 
 		for (const key in ratios) {
 			const count = ratios[key];
-			for (let i=0; i < count; i++) {
+			for (let i = 0; i < count; i++) {
 				map.push(key);
 			}
 		}
@@ -263,14 +264,14 @@ export class Util {
 	 * @return {String} The random key chosen
 	 */
 	randomFromRatios (ratios: any): string {
-		var map = this.ratiosToChanceMap(ratios);
+		const map = this.ratiosToChanceMap(ratios);
 		return map[Math.floor(Math.random() * map.length)];
 	}
 
 	// Either returns -1 or 1
 	randomPositiveNegative (): number {
 		// Allow single argument with default lower bound of 0
-		var random = Math.random();
+		const random = Math.random();
 		if (random < 0.5) {
 			return -1;
 		}
@@ -280,11 +281,12 @@ export class Util {
 	/**
 	 * Given a list of values, and a target value,
 	 * finds the spot where the given value would fit in between.
-	 * It return the index of the element that the target is
-	 * greater than or equal to
+	 * It returns the index of the element that is less than or equal to
+	 * the target
+	 * NOTE: assumes a sorted listed
 	 *
 	 * @example
-	 * var list = [0, 2, 5, 7, 10];
+	 * const list = [0, 2, 5, 7, 10];
 	 *
 	 * util.getIndexInRange(list, 3);
 	 * // 1
@@ -294,26 +296,23 @@ export class Util {
 	 * @param {*} value The value of the same comparable type as the elems in list to find the index
 	 * @return {Number} The index
 	 */
-	getIndexInRange (list: any[], value: any): number {
-		var index;
+	static getIndexInRange<T>(list: T[], value: T): number {
+		let index;
 
-		for (var i=0; i < list.length; i++) {
-			var current = list[i],
-				next = list[i+1];
+		for (let i = 0; i < list.length; i++) {
+			const current = list[i];
+			const next = list[i+1];
 
-			if (value === current) {
-				index = i;
-			} else if (value === next || value > current && value < next) {
-				index = i+1;
+			if (value < current) {
+				return i;
 			}
-
-			if (index !== undefined) {
-				return index;
+			if (value >= current && value < next) {
+				return Math.min(i + 1, list.length - 1);
 			}
 		}
 		// Just return the last one if it's out of bounds
-		return list.length-1;
-	};
+		return list.length - 1;
+	}
 
 	/**
 	 * Converts a given number of ingame hours into the proper amount of clock ticks
@@ -332,9 +331,9 @@ export class Util {
 	 * @return {String} String with part(s) capitalized
 	 */
 	capitalize (string: string): string {
-		var parts = string.split(' ');
+		const parts = string.split(' ');
 		if (parts.length > 1) {
-			var capitalizedString = '';
+			let capitalizedString = '';
 			parts.forEach(word => {
 				capitalizedString += this.capitalize(word) + ' ';
 			});
@@ -352,7 +351,7 @@ export class Util {
 	 * @return {Object}
 	 */
 	targetOrKey (tick, targetOrKey) {
-		var target;
+		let target;
 		if (typeof targetOrKey === 'string') {
 			target = this.blackboardGet(tick, targetOrKey);
 		} else {
@@ -438,4 +437,4 @@ export class Util {
 	}
 }
 
-export let util = new Util();
+export const util = new Util();

@@ -41,11 +41,30 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "start": "webpack-dev-server --content-base app/build/"
+    "start": "webpack-dev-server --content-base app/build/",
+    "test": "jest",
+    "test-watch": "node --debug-brk ./node_modules/jest/bin/jest --watch --runInBand"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/trash/ripple.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^19.2.3",
+    "jest": "^20.0.3",
+    "ts-jest": "^20.0.4"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  }
 }

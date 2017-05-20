@@ -97,5 +97,3 @@ constants.HUNGER = {
 	MAX: constants.TICKS_PER_HOUR * 24 * config.daysToStarve
 };
 constants.foodValue = constants.HUNGER.MAX / 3;
-
-console.log(constants);
