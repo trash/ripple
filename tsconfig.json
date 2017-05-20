@@ -11,6 +11,7 @@
         "app/bower_components",
         "node_modules",
         "app/src/vendor",
-        "lib"
+        "lib",
+        "app/test"
     ]
 }

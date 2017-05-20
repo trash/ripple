@@ -62,25 +62,26 @@ interface Biome {
 }
 
 export class GameMap {
-	private edgeTiles: MapTile[];
-	seed: number;
-	gameManager: GameManager;
-	biome: Biome;
-	tiles: MapTile[];
 	dimension: number;
-	baseTilemap: string[];
-	upperTilemap: string[];
 	resourceList: Resource[];
-	_grid: number[][];
-	_tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
-	_tileHoverListenerInterval: number;
-	_hoverCoords: XYCoordinates;
-	_hoverTile: MapTile;
-	onMouseMoveListener: (e: MouseEvent) => void;
+
+	private biome: Biome;
+	private tiles: MapTile[];
+	private seed: number;
+	private gameManager: GameManager;
+	private edgeTiles: MapTile[];
+	private onMouseMoveListener: (e: MouseEvent) => void;
+	private baseTilemap: string[];
+	private upperTilemap: string[];
+	private _grid: number[][];
+	private tileHoverListenerCallbacks: ((tile: MapTile) => void)[]
+	private tileHoverListenerInterval: number;
+	private hoverCoords: XYCoordinates;
+	private hoverTile: MapTile;
 
 	constructor (options: IMapOptions) {
 		const gameManager = options.gameManager;
-		let dimension = options.dimension;
+		const dimension = options.dimension;
 		const seed = options.seed;
 		const allLand = options.allLand;
 		const saveData = options.saveData;
@@ -124,21 +125,17 @@ export class GameMap {
 		// The height/width of the grid
 		this.dimension = saveData && saveData.dimension || dimension || 120;
 
+		this.loadGeneratedMapData(saveData || this.generate(allLand, options));
 
-		if (saveData) {
-			dimension = saveData.dimension;
-		}
-		this._loadGeneratedMapData(saveData || this.generate(allLand, options));
+		this.tileHoverListenerCallbacks = [];
 
-		this._tileHoverListenerCallbacks = [];
-
-		gameManager.loop.on('update', () => this._onLoopUpdate());
+		gameManager.loop.on('update', () => this.onLoopUpdate());
 
 		this.onMouseMoveListener = (e: MouseEvent) => this._onMouseMoveListener(e);
 		window.addEventListener('mousemove', this.onMouseMoveListener);
 	}
 
-	_loadGeneratedMapData (mapData: IGeneratedMapData) {
+	private loadGeneratedMapData (mapData: IGeneratedMapData) {
 		this.baseTilemap = mapData.baseTilemap;
 		this.upperTilemap = mapData.upperTilemap;
 		this.resourceList = mapData.resourceList;
@@ -167,18 +164,18 @@ export class GameMap {
 		return generator.generate(options.noResources);
 	}
 
-	_onLoopUpdate () {
-		if (!this._hoverTile) {
+	private onLoopUpdate () {
+		if (!this.hoverTile) {
 			return;
 		}
-		this._tileHoverListenerCallbacks.forEach(callback => {
-			callback(this._hoverTile);
+		this.tileHoverListenerCallbacks.forEach(callback => {
+			callback(this.hoverTile);
 		});
 	}
 
-	_onMouseMoveListener (event: MouseEvent) {
-		this._hoverCoords = this.positionToTile(event.x, event.y);
-		this._hoverTile = this.getTile(this._hoverCoords.y, this._hoverCoords.x);
+	private _onMouseMoveListener (event: MouseEvent) {
+		this.hoverCoords = this.positionToTile(event.x, event.y);
+		this.hoverTile = this.getTile(this.hoverCoords.y, this.hoverCoords.x);
 	}
 
 	destroy () {
@@ -348,7 +345,7 @@ export class GameMap {
 	addTileHoverListener (
 		callback: (tile: IRowColumnCoordinates) => void
 	): () => void {
-		this._tileHoverListenerCallbacks.push(callback);
+		this.tileHoverListenerCallbacks.push(callback);
 
 		return () => {
 			this.removeTileHoverListener(callback);
@@ -356,8 +353,8 @@ export class GameMap {
 	}
 
 	removeTileHoverListener (callback: (tile: IRowColumnCoordinates) => void) {
-		const index = this._tileHoverListenerCallbacks.indexOf(callback);
-		this._tileHoverListenerCallbacks.splice(index, 1);
+		const index = this.tileHoverListenerCallbacks.indexOf(callback);
+		this.tileHoverListenerCallbacks.splice(index, 1);
 	}
 
 	getElementPositionFromTile (
@@ -524,11 +521,11 @@ export class GameMap {
 		if (this._grid && !skipCache) {
 			return this._grid;
 		}
-		this._grid = this._getGrid();
+		this._grid = this.getGrid();
 		return this._grid;
 	}
 
-	_getGrid (ignoreAccessible: boolean = false): number[][] {
+	private getGrid (ignoreAccessible: boolean = false): number[][] {
 		const grid = [];
 		for (let i = 0; i < this.dimension; i++) {
 			grid.push([]);
@@ -547,8 +544,8 @@ export class GameMap {
 		return grid;
 	}
 
-	bridgeGrid () {
-		return this._getGrid(true);
+	private bridgeGrid () {
+		return this.getGrid(true);
 	}
 
 	pathExists (
