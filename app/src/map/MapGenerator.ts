@@ -4,6 +4,7 @@ import {perlin} from '../vendor/perlin';
 import {floodfill} from '../vendor/flood-fill';
 import {NDArray, XYCoordinates, IRowColumnCoordinateWrapper} from '../interfaces';
 import ndarray = require('ndarray');
+import {TileData} from './TileData';
 import {MapGenTile} from './map-gen-tile';
 import * as Immutable from 'immutable';
 import {MapUtil} from './map-util';
@@ -67,15 +68,15 @@ interface IBiome {
 	ratios: IBiomeRatiosMap
 }
 
-let zoneNumberStart = 10,
-	zoneNumberCount;
+const zoneNumberStart = 10;
+let zoneNumberCount;
 
 export class MapGenerator {
-    startTime: number;
-    dimension: number;
-    seed: number;
-    allLand: boolean;
-    biome: IBiome;
+    private startTime: number;
+    private dimension: number;
+    private seed: number;
+    private allLand: boolean;
+    private biome: IBiome;
 
     constructor (
         dimension: number,
@@ -151,7 +152,7 @@ export class MapGenerator {
 	 * This method does not modify the input object but returns a copy of
 	 * the object with the property modified.
 	 */
-	_makeTileBridge (tile: MapGenTile, firstBridgeTile: boolean): MapGenTile {
+	private makeTileBridge (tile: MapGenTile, firstBridgeTile: boolean): MapGenTile {
 		// Don't do anything if it's not water
 		if (!tile.isWater) {
 			return tile;
@@ -163,7 +164,7 @@ export class MapGenerator {
 		return copy;
 	}
 
-	_clearZoneNumbers (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
+	private clearZoneNumbers (tiles: Immutable.List<MapGenTile>): Immutable.List<MapGenTile> {
 		return tiles.withMutations(tiles => {
 			tiles.forEach(tile => {
 				const copy = MapGenTile.copyTile(tile);
@@ -183,7 +184,7 @@ export class MapGenerator {
 	 * @param {(tile: IRowColumnCoordinateWrapper<string>) => boolean} checkFunction
 	 * @returns {number[]}
 	 */
-	_getResourceCluster (
+	private getResourceCluster (
 		tiles: Immutable.List<Resource>,
 		size: number,
 		startTileIndex: number,
@@ -226,7 +227,7 @@ export class MapGenerator {
 
 			// Generate the cluster
 			clusterTiles = clusterTiles.concat(
-				this._getResourceCluster(
+				this.getResourceCluster(
 					resourceList,
 					clusterSize,
 					tileIndex,
@@ -451,7 +452,7 @@ export class MapGenerator {
 		return tiles;
 	}
 
-	_tilesToGrid (
+	private tilesToGrid (
 		tiles: Immutable.List<MapGenTile>,
 		ignoreAccessible: boolean = false
 	): number[][] {
@@ -520,7 +521,7 @@ export class MapGenerator {
 
 			// Now form a bridge between the two island
 			// First get a path from the first tile to the second
-			const path = MapUtil.getPath(this._tilesToGrid(tiles, true), closest.first, closest.second);
+			const path = MapUtil.getPath(this.tilesToGrid(tiles, true), closest.first, closest.second);
 			// Last tile is land we don't want it
 			path.pop();
 
@@ -580,7 +581,7 @@ export class MapGenerator {
 			bridgedTiles.forEach(pair => {
 				const tile = pair[0],
 					firstOrLast = pair[1];
-				tiles.set(tile.index, this._makeTileBridge(tile, firstOrLast));
+				tiles.set(tile.index, this.makeTileBridge(tile, firstOrLast));
 			});
 		});
 
@@ -594,11 +595,13 @@ export class MapGenerator {
 
 			const fragment = 0.45;
 			data = data.map((tile, index) => {
-				const row = Math.floor(index / this.dimension),
-					column = index % this.dimension,
-					value = Math.abs(perlin.simplex2(column / 50 * fragment, row / 50 * fragment) * 40);
+				const row = Math.floor(index / this.dimension);
+				const column = index % this.dimension;
+				const value = Math.abs(
+					perlin.simplex2(column / 50 * fragment, row / 50 * fragment) * 40
+				);
 				if (value < 5) {
-					return 'water-full';
+					return TileData.waterFull;
 				}
 				return tile;
 			});
