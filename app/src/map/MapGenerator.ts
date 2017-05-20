@@ -9,8 +9,9 @@ import {MapGenTile} from './map-gen-tile';
 import * as Immutable from 'immutable';
 import {MapUtil} from './map-util';
 import {constants} from '../data/constants';
-import {util, Util} from '../util';
+import {Util} from '../util';
 import {Resource} from '../data/Resource';
+import * as seedrandom from 'seedrandom';
 
 type NeighborCheckFunction<T> = (neighbor: T) => boolean;
 
@@ -78,6 +79,7 @@ export class MapGenerator {
     private allLand: boolean;
     private biome: IBiome;
 	private logEnabled: boolean;
+	private seedrandom: seedrandom.prng;
 
     constructor (
         dimension: number,
@@ -86,12 +88,15 @@ export class MapGenerator {
         allLand: boolean = false,
 		logEnabled: boolean = true
     ) {
+		console.info('new MapGenerator with seed', seed);
+
         this.startTime = performance.now();
         this.dimension = dimension;
         this.seed = seed;
         this.allLand = allLand;
         this.biome = biome;
 		this.logEnabled = logEnabled;
+		this.seedrandom = seedrandom(this.seed + '');
     }
 
     generate (noResources: boolean): IMapGenReturn {
@@ -111,7 +116,7 @@ export class MapGenerator {
 			baseTilemap.map((tile, index) => {
 				const isWater = tile.includes('water');
 				return new MapGenTile(
-					isWater ? 'empty' : util.randomFromRatios(this.biome.ratios),
+					isWater ? 'empty' : Util.randomFromRatios(this.biome.ratios, this.seedrandom),
 					index, this.dimension, isWater);
 			}));
 
@@ -163,7 +168,7 @@ export class MapGenerator {
 		const copy = MapGenTile.copyTile(tile);
 		copy.data = firstBridgeTile ?
 			'water-bridge-base' :
-			util.randomFromList(['water-bridge-1', 'water-bridge-2', 'water-bridge-3']);
+			Util.randomFromList(['water-bridge-1', 'water-bridge-2', 'water-bridge-3']);
 		return copy;
 	}
 
@@ -222,11 +227,11 @@ export class MapGenerator {
 	): Immutable.List<Resource> {
 		let clusterTiles: number[] = [];
 		while (amount > 0) {
-			const clusterSize = util.randomInRange(clusterBounds[0], clusterBounds[1]);
+			const clusterSize = Util.randomInRange(clusterBounds[0], clusterBounds[1]);
 			amount -= clusterSize;
 
 			// Pick the starting tile for cluster from all filtered tiles
-			const tileIndex = util.randomInRange(0 , tiles.size, false, false);
+			const tileIndex = Util.randomInRange(0 , tiles.size, false, false);
 
 			// Generate the cluster
 			clusterTiles = clusterTiles.concat(

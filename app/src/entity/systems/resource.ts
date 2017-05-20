@@ -7,7 +7,7 @@ import {IRenderableState} from '../components';
 import {IPositionState} from '../components';
 import {INameState} from '../components';
 import {IHealthState} from '../components';
-import {util} from '../../util';
+import {Util} from '../../util';
 import {constants} from '../../data/constants';
 import {TilemapSprite} from '../../tilemap';
 import {spriteManager, SpriteManager} from '../../services/spriteManager';
@@ -51,9 +51,9 @@ export class ResourceSystem extends EntitySystem {
         let spriteName: string;
 
         if (spriteKey instanceof Array) {
-			spriteName = util.randomFromList(spriteKey);
+			spriteName = Util.randomFromList(spriteKey);
 		} else if (spriteKey instanceof Object) {
-			spriteName = util.randomFromRatios(spriteKey);
+			spriteName = Util.randomFromRatios(spriteKey);
 		}
         return spriteName;
     }

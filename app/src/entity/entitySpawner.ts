@@ -50,7 +50,7 @@ import {Resource} from '../data/Resource';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
 import {baseUtil, storageUtil, constructibleUtil, mapUtil, positionUtil, buildingUtil, shopUtil} from './util';
-import {util} from '../util';
+import {Util} from '../util';
 import {events} from '../events';
 import {globalRefs} from '../globalRefs';
 
@@ -276,7 +276,7 @@ export class EntitySpawner {
 			if (itemCount) {
 				count = itemCount;
 			} else if (itemRangeStart) {
-				count = util.randomInRange(itemRangeStart, itemRangeEnd);
+				count = Util.randomInRange(itemRangeStart, itemRangeEnd);
 			}
 
 			// Only spawn *any* items if spawn chance succeeds

@@ -11,7 +11,7 @@ import {
     IBuildingState
 } from '../components';
 import {IAgentSprite} from '../../interfaces';
-import {util} from '../../util';
+import {Util} from '../../util';
 import {events} from '../../events';
 import {names} from '../../names';
 import {SpriteManager} from '../../services/spriteManager';
@@ -48,7 +48,7 @@ export class AgentSystem extends EntitySystem {
                 const buildingTile = positionUtil.getTileFromEntityId(
                     agentState.buildingInsideOf
                 );
-                if (!util.rowColumnCoordinatesAreEqual(
+                if (!Util.rowColumnCoordinatesAreEqual(
                     positionState.tile, buildingTile)
                 ) {
                     buildingUtil.removeOccupant(agentState.buildingInsideOf, id);
@@ -134,7 +134,7 @@ export class AgentSystem extends EntitySystem {
 
         // Init sprites
         if (agentState.spriteCount && !agentState.spriteIndex) {
-            agentState.spriteIndex = util.randomInRange(1, agentState.spriteCount);
+            agentState.spriteIndex = Util.randomInRange(1, agentState.spriteCount);
         }
         if (renderableState.spriteGroup && !renderableState.sprite) {
             renderableState.sprite = this.initAgentSprite(renderableState, agentState, positionState);

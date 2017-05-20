@@ -43,7 +43,7 @@ import {
 } from '../entity/components';
 
 import {IRowColumnCoordinates} from '../interfaces';
-import {util} from '../util';
+import {Util} from '../util';
 
 const getNameFromEntity = (
     entityManager: EntityManager,
@@ -82,7 +82,7 @@ export class TileInfoService {
     onTileHover (tile: IRowColumnCoordinates) {
 		if (!tile
             || (this.previousTile
-                && util.rowColumnCoordinatesAreEqual(tile, this.previousTile)
+                && Util.rowColumnCoordinatesAreEqual(tile, this.previousTile)
             )
         ) {
 			return;

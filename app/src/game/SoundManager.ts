@@ -1,4 +1,4 @@
-import {util} from '../util';
+import {Util} from '../util';
 import {events} from '../events';
 import {sounds} from './sounds';
 import {ISoundDataList} from '../interfaces';
@@ -56,7 +56,7 @@ export class SoundManager {
 			return;
 		}
 
-		let sound = util.randomFromList(soundEntry.list);
+		let sound = Util.randomFromList(soundEntry.list);
 		if (this.shouldThrottle(name)) {
 			return;
 		}

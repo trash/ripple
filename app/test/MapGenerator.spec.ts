@@ -7,6 +7,7 @@ describe('MapGenerator', () => {
     let sut: MapGenerator;
     const dimension = 10;
     const seed = 666;
+    const startInput = Array(Math.pow(dimension, 2)).fill('test');
 
     beforeEach(() => {
         sut = new MapGenerator(dimension, seed, GameMap.ForestBiome, false, false);
@@ -22,13 +23,30 @@ describe('MapGenerator', () => {
     });
 
     describe('generateWater', () => {
+        test('it is deterministic based on the seed', () => {
+            const output = sut.generateWater(startInput);
+            const output2 = sut.generateWater(startInput);
+
+            expect(output).toEqual(output2);
+        });
+
         test('generates no water tiles if allLand is true', () => {
-            const input = Array(Math.pow(dimension, 2)).fill('test');
             sut['allLand'] = true;
 
-            const output = sut.generateWater(input);
+            const output = sut.generateWater(startInput);
 
             output.forEach(tile => expect(tile).not.toBe(TileData.waterFull))
+        });
+    });
+
+    describe('normalizeWaterTiles', () => {
+        test('it is deterministic based on the seed', () => {
+            const input = sut.generateWater(startInput);
+
+            const output = sut.normalizeWaterTiles(input);
+            const output2 = sut.normalizeWaterTiles(input);
+
+            expect(output).toEqual(output2);
         });
     });
 });

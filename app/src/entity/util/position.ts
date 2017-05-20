@@ -4,7 +4,7 @@ import {Component} from '../ComponentEnum';
 import {collisionUtil} from './collision';
 import {buildingUtil} from './building';
 import {IPositionState, ICollisionState, IBuildingState} from '../Components';
-import {util} from '../../util';
+import {Util} from '../../util';
 
 export class PositionUtil extends BaseUtil {
 	/**
@@ -80,9 +80,9 @@ export class PositionUtil extends BaseUtil {
 		// Need to check each tile occupied by the collidable body
 		if (collisionState) {
 			return collisionUtil.getTilesFromCollisionEntity(entityId)
-				.some(coords => util.rowColumnCoordinatesAreEqual(tile, coords));
+				.some(coords => Util.rowColumnCoordinatesAreEqual(tile, coords));
 		}
-		return util.rowColumnCoordinatesAreEqual(tile, positionState.tile);
+		return Util.rowColumnCoordinatesAreEqual(tile, positionState.tile);
 	}
 
 	getEntitiesWithComponentInTile(

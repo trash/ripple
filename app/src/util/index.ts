@@ -27,6 +27,10 @@ const defaultValidTilesCheck = validTilesCheck(tile =>
 	tile.accessible
 );
 
+type RatioMap = {
+	[key: string]: number;
+};
+
 export class Util {
 	canvas: any;
 
@@ -193,7 +197,7 @@ export class Util {
 
 	noop () {}
 
-	randomFromList<T> (list: T[]): T {
+	static randomFromList<T> (list: T[]): T {
 		return list[Math.floor(Math.random() * list.length)];
 	}
 
@@ -221,7 +225,7 @@ export class Util {
 	 * @param {Number} upper Upper bound
 	 * @return {Number} An integer between lower and upper
 	 */
-	randomInRange (lower: number, upper?: number, float:  boolean = false,
+	static randomInRange (lower: number, upper?: number, float:  boolean = false,
 		inclusive: boolean = true): number
 	{
 		if (arguments.length === 1) {
@@ -241,10 +245,14 @@ export class Util {
 	 * chance map, a list that when an element is randomly selected from it
 	 * will return an item with a frequency corresponding to the ratio
 	 *
+	 * @example
+	 * ratiosToChanceMap({ 'a': 3, 'b': 1 })
+	 * // ['a', 'a', 'a', 'b']
+	 *
 	 * @param {Object} ratios Ratio map
 	 * @return {String[]} List of keys, the chance map
 	 */
-	ratiosToChanceMap (ratios: any): string[] {
+	static ratiosToChanceMap (ratios: RatioMap): string[] {
 		const map = [];
 
 		for (const key in ratios) {
@@ -263,9 +271,9 @@ export class Util {
 	 * @param {Object} ratios Map of keys with ratios
 	 * @return {String} The random key chosen
 	 */
-	randomFromRatios (ratios: any): string {
-		const map = this.ratiosToChanceMap(ratios);
-		return map[Math.floor(Math.random() * map.length)];
+	static randomFromRatios (ratios: RatioMap, randomFunc = Math.random): string {
+		const map = Util.ratiosToChanceMap(ratios);
+		return map[Math.floor(randomFunc() * map.length)];
 	}
 
 	// Either returns -1 or 1
@@ -330,7 +338,7 @@ export class Util {
 	 * @param {String} string String to capitalize each of words for
 	 * @return {String} String with part(s) capitalized
 	 */
-	capitalize (string: string): string {
+	static capitalize (string: string): string {
 		const parts = string.split(' ');
 		if (parts.length > 1) {
 			let capitalizedString = '';
@@ -386,7 +394,7 @@ export class Util {
 			`${blackboardKey}:${tick.target.id}`, value, tick.tree.id, nodeScope);
 	}
 
-	rowColumnCoordinatesAreEqual (
+	static rowColumnCoordinatesAreEqual (
 		coord1: IRowColumnCoordinates,
 		coord2: IRowColumnCoordinates
 	): boolean {

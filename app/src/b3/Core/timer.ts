@@ -28,7 +28,7 @@ export class Timer extends Core.Decorator {
 		this.hours = options.hours || null;
 		this.id = uniqueId.get();
 
-		console.log('timer init', this.id, this.hours);
+		// console.log('timer init', this.id, this.hours);
 	}
 	open (tick: Core.Tick) {
 		util.blackboardSet(tick, timerKey, false, this.id);

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {constants} from '../data/constants';
-import {util} from '../util';
+import {Util} from '../util';
 
 import {ITestLevel} from './testLevel';
 import {gameLevelFactory} from './gameLevelFactory';
@@ -43,7 +43,7 @@ const allItemsList = [];
 itemsList.forEach(itemData => {
 	allItemsList.push({
 		enum: itemData.item.enum,
-		count: util.randomInRange(5, 12)
+		count: Util.randomInRange(5, 12)
 	});
 });
 

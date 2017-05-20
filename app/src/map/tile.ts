@@ -1,6 +1,6 @@
 import {IRowColumnCoordinates} from '../interfaces';
 import {BaseTile} from './BaseTile';
-import {util} from '../util';
+import {Util} from '../util';
 
 export class MapTile extends BaseTile {
     isWater: boolean;
@@ -39,6 +39,6 @@ export class MapTile extends BaseTile {
         return this.index === other.index;
     }
     isEqualToCoords (other: IRowColumnCoordinates): boolean {
-        return util.rowColumnCoordinatesAreEqual(this, other);
+        return Util.rowColumnCoordinatesAreEqual(this, other);
     }
 }

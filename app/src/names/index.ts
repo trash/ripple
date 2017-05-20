@@ -1,4 +1,4 @@
-import {util} from '../util';
+import {Util} from '../util';
 import {humanNames} from './human';
 import {Gender} from '../interfaces';
 // import {wolfNames} from './wolf-names';
@@ -38,7 +38,7 @@ export class Names {
 			firstNameList = firstNameList[gender];
 		}
 
-		return util.capitalize(util.randomFromList<string>(firstNameList));
+		return Util.capitalize(Util.randomFromList<string>(firstNameList));
 	}
 
 	/**
@@ -71,8 +71,8 @@ export class Names {
 		var surnamePrefixList = Names.raceMap[race].surnamePrefix,
 			surnameSuffixList = Names.raceMap[race].surnameSuffix;
 
-		return util.capitalize(util.randomFromList<string>(surnamePrefixList)) +
-			util.randomFromList<string>(surnameSuffixList);
+		return Util.capitalize(Util.randomFromList<string>(surnamePrefixList)) +
+			Util.randomFromList<string>(surnameSuffixList);
 	}
 }
 
