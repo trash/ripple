@@ -77,18 +77,21 @@ export class MapGenerator {
     private seed: number;
     private allLand: boolean;
     private biome: IBiome;
+	private logEnabled: boolean;
 
     constructor (
         dimension: number,
         seed: number,
         biome: IBiome,
-        allLand: boolean = false
+        allLand: boolean = false,
+		logEnabled: boolean = true
     ) {
         this.startTime = performance.now();
         this.dimension = dimension;
         this.seed = seed;
         this.allLand = allLand;
         this.biome = biome;
+		this.logEnabled = logEnabled;
     }
 
     generate (noResources: boolean): IMapGenReturn {
@@ -849,7 +852,10 @@ export class MapGenerator {
 		return data.map((tile, index) => this.normalizeWaterTile(data, tile, index));
 	}
 
-    logUpdate (message: string) {
+    logUpdate (message: string): void {
+		if (!this.logEnabled) {
+			return;
+		}
         const timePassed = performance.now() - this.startTime;
         console.info(`mapGen update: [${message}] @ ${timePassed}`);
     }
