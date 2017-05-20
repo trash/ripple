@@ -18,11 +18,16 @@ import {
 import {Blackboard} from '../../b3/Core';
 import {events} from '../../events';
 import {GameMap} from '../../map';
+import {GameClock} from '../../game/GameClock';
 import {IBehaviorTreeTickTarget} from '../../interfaces';
 
+let clock: GameClock;
 let map: GameMap;
 events.on('map-update', (newMap: GameMap) => {
     map = newMap;
+});
+events.on('clock-update', (clock: GameClock) => {
+    clock = clock;
 });
 
 export class BehaviorTreeSystem extends EntitySystem {
@@ -33,27 +38,27 @@ export class BehaviorTreeSystem extends EntitySystem {
 
         entityIds.forEach(id => {
             const behaviorTreeState = this.manager.getComponentDataForEntity(
-                    Component.BehaviorTree, id) as IBehaviorTreeState;
+                Component.BehaviorTree, id) as IBehaviorTreeState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Component.Health, id) as IHealthState;
+                Component.Health, id) as IHealthState;
             const agentState = this.manager.getComponentDataForEntity(
-                    Component.Agent, id) as IAgentState;
+                Component.Agent, id) as IAgentState;
             const villagerState = this.manager.getComponentDataForEntity(
-                    Component.Villager, id) as IVillagerState;
+                Component.Villager, id) as IVillagerState;
             const statusBubbleState = this.manager.getComponentDataForEntity(
-                    Component.StatusBubble, id) as IStatusBubbleState;
+                Component.StatusBubble, id) as IStatusBubbleState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Component.Position, id) as IPositionState;
+                Component.Position, id) as IPositionState;
             const inventoryState = this.manager.getComponentDataForEntity(
-                    Component.Inventory, id) as IInventoryState;
+                Component.Inventory, id) as IInventoryState;
             const sleepState = this.manager.getComponentDataForEntity(
-                    Component.Sleep, id) as ISleepState;
+                Component.Sleep, id) as ISleepState;
             const hungerState = this.manager.getComponentDataForEntity(
-                    Component.Hunger, id) as IHungerState;
+                Component.Hunger, id) as IHungerState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Component.Name, id) as INameState;
+                Component.Name, id) as INameState;
             const visitorState = this.manager.getComponentDataForEntity(
-                    Component.Visitor, id) as IVisitorState;
+                Component.Visitor, id) as IVisitorState;
 
             // initialize blackboard
             if (!behaviorTreeState.blackboard) {
@@ -78,6 +83,7 @@ export class BehaviorTreeSystem extends EntitySystem {
                     statusBubble: statusBubbleState,
                     turn: turn,
                     map: map,
+                    clock: clock,
                     inventory: inventoryState,
                     entitySpawner: this.manager.spawner,
                     visitor: visitorState

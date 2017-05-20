@@ -1,6 +1,5 @@
 import {b3} from '../index';
 import {util} from '../../util';
-import {gameClock} from '../../game/game-clock';
 import {uniqueId} from '../../uniqueId';
 import * as Core from './index';
 
@@ -32,7 +31,7 @@ export class Timer extends Core.Decorator {
 	}
 	open (tick: Core.Tick) {
 		util.blackboardSet(tick, timerKey, false, this.id);
-		gameClock.timer(this.hours, () => {
+		tick.target.clock.timer(this.hours, () => {
 			util.blackboardSet(tick, timerKey, true, this.id);
 		});
 	}

@@ -6,8 +6,12 @@ import {StatusBubble} from '../data/StatusBubble';
 import {Component} from '../entity/ComponentEnum';
 import {events} from '../events';
 
-import {IPositionState, IBuildingState, IConstructibleState,
-	IHealthState} from '../entity/components';
+import {
+	IPositionState,
+	IBuildingState,
+	IConstructibleState,
+	IHealthState
+} from '../entity/components';
 
 import {baseUtil, itemUtil} from '../entity/util';
 import {IRowColumnCoordinates} from '../interfaces';

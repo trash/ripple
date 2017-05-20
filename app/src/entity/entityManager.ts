@@ -8,6 +8,7 @@ import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems';
 import {EventEmitter2} from 'eventemitter2';
 import {EntitySpawner} from './entitySpawner';
+import {GameClock} from '../game/GameClock';
 
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;
@@ -24,7 +25,7 @@ export class EntitySystem extends EventEmitter2 {
     }
     createComponent (id: number) {}
     destroyComponent (id: number) {}
-    update (entities: number[], turn?: number, stopped?: boolean) {};
+    update (entities: number[], turn?: number, stopped?: boolean, clock?: GameClock) {};
 }
 
 export interface IComponent<T> {
@@ -95,7 +96,8 @@ export class EntityManager {
 
     update (
         turn: number,
-        stopped: boolean
+        stopped: boolean,
+        clock: GameClock
     ) {
         this.turn = turn;
         this.systems.forEach(system => {
@@ -103,7 +105,7 @@ export class EntityManager {
                 return;
             }
             const entityIds = this.getEntityIdsForComponent(system.componentType);
-            system.update(entityIds, turn, stopped);
+            system.update(entityIds, turn, stopped, clock);
         });
     }
 

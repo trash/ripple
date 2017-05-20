@@ -6,6 +6,7 @@ import {ItemProperty} from './data/ItemProperty';
 import {AgentTrait} from './data/AgentTrait';
 import {Tick} from './b3/Core';
 import {EntitySpawner} from './entity/entitySpawner';
+import {GameClock} from './game/GameClock';
 
 export interface ITileset {
 	name: string;
@@ -238,6 +239,7 @@ export interface IBehaviorTreeTickTarget {
     inventory: IInventoryState;
 	entitySpawner: EntitySpawner;
 	visitor?: IVisitorState;
+	clock: GameClock;
 }
 
 export interface IAgentSearchOptions {

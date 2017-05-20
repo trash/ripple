@@ -21,7 +21,7 @@ import {SoundManager} from './SoundManager';
 import {GameLoop} from './GameLoop';
 import {GameSpeed} from './GameSpeed';
 import {GameCamera} from './game-camera';
-import {gameClock} from './game-clock';
+import {GameClock} from './GameClock';
 import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/spriteManager';
 import {IRowColumnCoordinates} from '../interfaces';
@@ -51,6 +51,7 @@ export class GameManager {
     camera: GameCamera;
     stage: PIXI.Container;
     tilemap: Tilemap;
+    clock: GameClock;
 
     constructor (rootElement: Element, mode: string = 'default') {
         console.info(`GameManager initialized. Mode: ${mode}`);
@@ -98,6 +99,8 @@ export class GameManager {
         new GameSpeed(this.loop);
 
         this.camera = new GameCamera();
+        this.clock = new GameClock();
+        events.emit('update-clock', this.clock);
 
         this.startRenderer();
 
@@ -119,10 +122,10 @@ export class GameManager {
 
     update (turn: number, stopped: boolean) {
         if (!stopped) {
-            gameClock.update();
+            this.clock.update();
         }
 
-		this.entityManager.update(turn, stopped);
+		this.entityManager.update(turn, stopped, this.clock);
     }
 
     startRenderer () {

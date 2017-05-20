@@ -1,7 +1,6 @@
 import {constants} from '../data/constants';
 import {events} from '../events';
 import {util} from '../util'
-
 import {store} from '../redux/store';
 import {updateClockTime} from '../redux/actions';
 
@@ -82,7 +81,7 @@ export class GameClock {
 	 * @param {Function} callback
 	 */
 	addTimerCallback (tick: number, callback: () => void) {
-		var existing = this.callbacks[tick];
+		const existing = this.callbacks[tick];
 		if (!existing) {
 			this.callbacks[tick] = [];
 		}
@@ -90,11 +89,11 @@ export class GameClock {
 
 		// Remove a callback
 		return () => {
-			var callbacks = this.callbacks[tick];
+			const callbacks = this.callbacks[tick];
 			if (!callbacks) {
 				debugger;
 			}
-			var index = callbacks.indexOf(callback);
+			const index = callbacks.indexOf(callback);
 			if (index === -1) {
 				debugger;
 			}
@@ -107,7 +106,7 @@ export class GameClock {
 	 * Calls any callbacks for the given tick
 	 */
 	checkCallbacks () {
-		var callbacks = this.callbacks[this.ticks];
+		const callbacks = this.callbacks[this.ticks];
 
 		// If we got callbacks call them then get rid of them
 		if (callbacks) {
@@ -173,11 +172,9 @@ export class GameClock {
 	 * @param {Function} callback The callback to call after the time has passed
 	 */
 	timer (hours: number, callback: () => void) {
-		var start = this.ticks,
-			end = start + hoursToTicks(hours);
+		const start = this.ticks;
+		const end = start + hoursToTicks(hours);
 
 		return this.addTimerCallback(end, callback);
 	}
 }
-
-export const gameClock = new GameClock();

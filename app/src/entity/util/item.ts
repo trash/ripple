@@ -72,7 +72,7 @@ export class ItemUtil extends BaseUtil {
 
 		return Array.from(countMap).reduce((previous, [currentItem, currentCount]) => {
 			return previous + `${currentItem} (${currentCount}) `;
-		}, '');
+		}, '').trim();
 	}
 
 	private idToItemSearchResult (id: number): IItemSearchResult {

@@ -85,7 +85,7 @@ export class TaskQueueManager {
 			taskType: number,
 			taskTarget: number
 		) => {
-			var taskQueue = this.professionTaskQueue(taskType);
+			const taskQueue = this.professionTaskQueue(taskType);
 			taskQueue.push(taskTarget);
 		});
 	}
