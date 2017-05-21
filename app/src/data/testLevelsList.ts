@@ -165,7 +165,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 					data: {
 						position: defaultBuildingPosition,
 					},
-					storage: [{
+					shop: [{
 						enum: Item.Berries,
 						count: 4
 					}]

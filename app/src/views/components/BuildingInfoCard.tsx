@@ -75,7 +75,7 @@ class BuildingInfoCardComponent extends React.Component<BuildingInfoCardProps, v
                     detailed,
                     renderBuildingProperties(selectedBuilding.building)
                 ) }
-                { filterAndRenderProperties(
+                { !buildingUtil.buildingIsComplete(selectedBuilding.id) && filterAndRenderProperties(
                     detailed,
                     renderConstructibleProperties(selectedBuilding.constructible)
                 ) }

@@ -42,7 +42,7 @@ export class BuildingUtil extends BaseUtil {
 		return result.id;
 	}
 
-	private buildingIsComplete(id: number): boolean {
+	buildingIsComplete(id: number): boolean {
 		const healthState = this._getHealthState(id);
 		return healthState.currentHealth === healthState.maxHealth;
 	}
