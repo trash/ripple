@@ -27,7 +27,7 @@ import {updateVillagerJob} from '../../redux/actions';
 
 import {AutoUpdate} from '../higherOrder/AutoUpdate';
 import {VillagerJobSelect} from './VillagerJobSelect';
-import {ConnectedRecruitVisitorSection} from './RecruitVisitorSection';
+import {RecruitVisitorSection} from './RecruitVisitorSection';
 
 const renderAgentProperties = (agentState: IAgentState): DisplayProperty[] => [
     {
@@ -145,7 +145,7 @@ class AgentInfoCardComponent extends React.Component<AgentInfoCardComponentProps
                     renderInventoryProperties(selectedAgent.inventory)
                 ) }
                 { selectedAgent.visitor &&
-                    <ConnectedRecruitVisitorSection
+                    <RecruitVisitorSection
                         visitorId={selectedAgent.id}
                         visitor={selectedAgent.visitor}/>
                 }

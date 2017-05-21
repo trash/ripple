@@ -11,10 +11,13 @@ import {Item} from '../../data/Item';
 export interface RecruitVisitorSectionProps {
     visitorId: number;
     visitor: IVisitorState;
+}
+
+export interface RecruitVisitorSectionInnerProps extends RecruitVisitorSectionProps {
     claimedItemList: Immutable.Map<Item, number>;
 }
 
-export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, void> {
+export class RecruitVisitorSectionInner extends React.Component<RecruitVisitorSectionInnerProps, void> {
     render() {
         this.props.visitor.recruitState.setItemList(this.props.claimedItemList);
         return (
@@ -34,4 +37,10 @@ export const ConnectedRecruitVisitorSection= connect((state: StoreState) => {
     return {
         claimedItemList: state.claimedItems
     };
-})(RecruitVisitorSection) as any;
+})(RecruitVisitorSectionInner);
+
+export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, void> {
+    render() {
+        return <ConnectedRecruitVisitorSection {...this.props}/>
+    }
+}
