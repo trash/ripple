@@ -18,20 +18,15 @@ import {
 import {Blackboard} from '../../b3/Core';
 import {events} from '../../events';
 import {GameMap} from '../../map';
-import {GameClock} from '../../game/GameClock';
 import {IBehaviorTreeTickTarget} from '../../interfaces';
 
-let clock: GameClock;
 let map: GameMap;
 events.on('map-update', (newMap: GameMap) => {
     map = newMap;
 });
-events.on('clock-update', (clock: GameClock) => {
-    clock = clock;
-});
 
 export class BehaviorTreeSystem extends EntitySystem {
-    update (entityIds: number[], turn: number, stopped: boolean) {
+    update (entityIds, turn, stopped, clock) {
         if (stopped) {
             return;
         }

@@ -50,6 +50,16 @@ export class BaseStorageUtil<T extends IStorageState> extends BaseUtil {
         itemState.stored = storageEntity;
     }
 
+    remove(item: number, storage: number) {
+        const storageState = this.getStorageState(storage);
+
+        const index = storageState.itemList.indexOf(item);
+        if (index === -1) {
+            debugger;
+        }
+        storageState.itemList.splice(index, 1);
+    }
+
     storageItemListToString(state: T): string {
         return itemUtil.itemListToString(state.itemList);
     }

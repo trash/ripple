@@ -4,7 +4,7 @@ import {Component} from '../ComponentEnum';
 import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
 import {IAgentState} from '../../entity/components';
-import {buildingUtil, positionUtil, itemUtil, inventoryUtil, townUtil} from './index';
+import {buildingUtil, positionUtil, itemUtil, inventoryUtil, townUtil, shopUtil, storageUtil} from './index';
 import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
@@ -309,6 +309,14 @@ export class AgentUtil extends BaseUtil {
 		// Make sure item is unclaimed and has its tile updated
 		itemUtil.pickupItem(item);
 		itemUtil.unclaim(item);
+
+		// Remove item from proper storage. This might need to be moved somewhere else
+		if (itemState.stored) {
+			const storageState = this._getStorageState(item);
+			const util = storageState ? storageUtil : shopUtil;
+			util.remove(item, itemState.stored);
+			itemState.stored = null;
+		}
 
 		// Add the item to the agent's inventory
 		inventoryUtil.add(agent, item);

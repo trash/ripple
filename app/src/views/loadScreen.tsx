@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ShowHideComponent, ShowHideComponentState} from './higherOrder/showHideComponent';
+import {ShowHideComponent, ShowHideComponentState} from './higherOrder/ShowHideComponent';
 
 interface LoadScreenProps {
 	percent: number;

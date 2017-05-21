@@ -14,12 +14,13 @@ export class UniqueId {
 	}
 
 	/**
-	 * Gets a new unique id
+	 * Gets a new unique id.
+	 * Will never return 0. Thus unique ids are always truthy
 	 *
 	 * @return {String} unique id
 	 */
 	get (): string {
-		var id = this.currentId;
+		const id = this.currentId;
 		this.currentId++;
 		localStorage.setItem(localStorageKey, this.currentId + '');
 		// Return it as a string so it's always truthy (even when 0)

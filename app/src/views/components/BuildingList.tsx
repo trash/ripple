@@ -46,7 +46,7 @@ export class BuildingList extends React.Component<BuildingListProps, void> {
             </div>
             <div className="agent-list-bottom">
                 <p>Detailed information on selected agent shown here.</p>
-                {BuildingInfoCard(selectedBuilding, true)}
+                <BuildingInfoCard selectedBuilding={selectedBuilding} detailed={true}/>
             </div>
         </div>
         );

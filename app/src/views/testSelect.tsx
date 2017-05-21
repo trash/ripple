@@ -3,7 +3,7 @@ import * as React from 'react';
 import {events} from '../events';
 import {testLevelsList, ITestLevelGroup, lastLoadedLevelGroup} from '../data/testLevelsList';
 import {TestLevel} from './TestLevel';
-import {ShowHideComponent, ShowHideComponentState} from './higherOrder/showHideComponent';
+import {ShowHideComponent, ShowHideComponentState} from './higherOrder/ShowHideComponent';
 
 interface TestSelectProps {
 	mainMenu: Function;

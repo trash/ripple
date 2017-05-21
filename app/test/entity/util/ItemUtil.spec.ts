@@ -7,6 +7,8 @@ describe('ItemUtil', () => {
     beforeEach(() => {
         sut = new ItemUtil();
 
+        // Instead of entity ids we'll just use the enum of the item
+        // for simplicity
         sut._getItemState = jest.fn((id: number) => {
             return {
                 enum: id

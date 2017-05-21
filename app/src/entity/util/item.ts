@@ -59,6 +59,15 @@ export class ItemUtil extends BaseUtil {
 		return `${constants.SPRITE_PATH}items/${itemName}.png`;
 	}
 
+	/**
+	 * Takes a list of items by the entity ids and returns a string representing
+	 * the count of all the items.
+	 * @example
+	 * itemListToString([1, 2, 3]);
+	 * // 'wood (2) berries (1)'
+	 *
+	 * @param items
+	 */
 	itemListToString(items: number[]): string {
 		const itemNames = items.map(id => this.getItemNameFromEnum(this._getItemState(id).enum));
 		const countMap = new Map<string, number>();
