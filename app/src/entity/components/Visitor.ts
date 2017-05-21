@@ -22,7 +22,7 @@ export const Visitor: IComponent<IVisitorState> = {
             desiredItems: [],
             leaveTown: false,
             boughtItem: false,
-            recruitCost: [],
+            recruitCost: null,
             recruitState: null
         };
     }

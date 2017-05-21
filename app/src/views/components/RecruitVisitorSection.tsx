@@ -8,17 +8,21 @@ import {
 import {visitorUtil} from '../../entity/util';
 import {Item} from '../../data/Item';
 
-export interface RecruitVisitorSectionProps {
+interface RecruitVisitorSectionProps {
     visitorId: number;
     visitor: IVisitorState;
 }
 
-export interface RecruitVisitorSectionInnerProps extends RecruitVisitorSectionProps {
+interface InnerProps extends RecruitVisitorSectionProps {
     claimedItemList: Immutable.Map<Item, number>;
 }
 
-export class RecruitVisitorSectionInner extends React.Component<RecruitVisitorSectionInnerProps, void> {
+class Inner extends React.Component<InnerProps, void> {
     render() {
+        if (!this.props.visitor.recruitCost) {
+            return null;
+        }
+
         this.props.visitor.recruitState.setItemList(this.props.claimedItemList);
         return (
         <div className="recruit-visitor-section">
@@ -33,14 +37,16 @@ export class RecruitVisitorSectionInner extends React.Component<RecruitVisitorSe
     }
 }
 
-export const ConnectedRecruitVisitorSection= connect((state: StoreState) => {
+const ConnectedInner= connect((state: StoreState) => {
     return {
         claimedItemList: state.claimedItems
     };
-})(RecruitVisitorSectionInner);
+})(Inner);
 
+// We do this so we can pass down the required props but still have redux supply
+// claimedItemList
 export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, void> {
     render() {
-        return <ConnectedRecruitVisitorSection {...this.props}/>
+        return <ConnectedInner {...this.props}/>
     }
 }
