@@ -250,7 +250,8 @@ function mainReducer(
                 visitor: action.visitor,
                 position: action.position,
                 health: action.health,
-                lastAction: action.lastAction
+                lastAction: action.lastAction,
+                inventory: action.inventory
             });
             break;
 

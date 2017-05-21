@@ -1,4 +1,5 @@
 import {BaseUtil} from './base';
+import {itemUtil} from './item';
 import {IInventoryState} from '../components/inventory';
 
 export class InventoryUtil extends BaseUtil {
@@ -45,6 +46,10 @@ export class InventoryUtil extends BaseUtil {
 
     getItems(inventory: number): number[] {
         return this._getInventoryState(inventory).items;
+    }
+
+    itemListToString(inventoryState: IInventoryState): string {
+        return itemUtil.itemListToString(inventoryState.items);
     }
 }
 

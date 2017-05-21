@@ -30,6 +30,7 @@ import {
 	IAgentState,
 	IHealthState,
 	IVillagerState,
+	IInventoryState,
 	IBehaviorTreeState,
 	IConstructibleState,
 	IVisitorState,
@@ -150,6 +151,8 @@ export class EntitySpawner {
 			Component.Health, entityId) as IHealthState;
 		const nameState = this.entityManager.getComponentDataForEntity(
 			Component.Name, entityId) as INameState;
+		const inventoryState = this.entityManager.getComponentDataForEntity(
+			Component.Inventory, entityId) as IInventoryState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.cloneDeep(agentsAssemblageData[agent]);
@@ -181,6 +184,7 @@ export class EntitySpawner {
 			villagerState,
 			visitorState,
 			positionState,
+			inventoryState,
 			healthState,
 			''
 		));

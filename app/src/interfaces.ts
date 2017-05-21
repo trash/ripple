@@ -268,6 +268,7 @@ export type AgentListEntry = {
 	villager: IVillagerState;
 	visitor: IVisitorState;
 	position: IPositionState;
+	inventory: IInventoryState;
 	health: IHealthState;
 	lastAction: string;
 }

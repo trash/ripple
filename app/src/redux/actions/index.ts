@@ -27,6 +27,7 @@ import {
     IConstructibleState,
     IBuildingState,
     IResourceState,
+    IInventoryState,
     IShopState,
     INameState
 } from '../../entity/components';
@@ -142,6 +143,7 @@ export interface SpawnAgent {
     agent: IAgentState;
     name: INameState;
     villager: IVillagerState;
+    inventory: IInventoryState;
     visitor: IVisitorState;
     position: IPositionState;
     health: IHealthState;
@@ -155,19 +157,21 @@ export function spawnAgent(
     villager: IVillagerState,
     visitor: IVisitorState,
     position: IPositionState,
+    inventory: IInventoryState,
     health: IHealthState,
     lastAction: string
 ) {
     return {
         type: actionTypes.SPAWN_AGENT,
-        id: id,
-        agent: agent,
-        name: name,
-        villager: villager,
-        visitor: visitor,
-        position: position,
-        health: health,
-        lastAction: lastAction
+        id,
+        agent,
+        name,
+        villager,
+        inventory,
+        visitor,
+        position,
+        health,
+        lastAction
     };
 }
 

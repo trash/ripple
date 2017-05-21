@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {AgentListEntry} from '../../interfaces';
-import {agentUtil} from '../../entity/util';
+import {agentUtil, inventoryUtil} from '../../entity/util';
 
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
@@ -9,6 +9,7 @@ import {AgentTrait} from '../../data/AgentTrait';
 import {
     IVillagerState,
     IAgentState,
+    IInventoryState,
     IVisitorState,
     IPositionState,
     IHealthState
@@ -24,6 +25,7 @@ import {
 import {store} from '../../redux/store';
 import {updateVillagerJob} from '../../redux/actions';
 
+import {AutoUpdate} from '../higherOrder/AutoUpdate';
 import {VillagerJobSelect} from './VillagerJobSelect';
 import {ConnectedRecruitVisitorSection} from './RecruitVisitorSection';
 
@@ -86,56 +88,79 @@ const renderVisitorProperties = (visitorState: IVisitorState): DisplayProperty[]
     }
 ];
 
-
-
-export const AgentInfoCard = (
-    selectedAgent: AgentListEntry,
-    detailed: boolean = false
-) => {
-    if (!selectedAgent) {
-        return null;
+const renderInventoryProperties = (inventoryState: IInventoryState): DisplayProperty[] => [
+    {
+        name: 'Gold',
+        value: inventoryState.gold,
+        detailedOnly: false
+    },
+    {
+        name: 'Inventory',
+        value: inventoryUtil.itemListToString(inventoryState),
+        detailedOnly: false
     }
-    return (
-        <div className="agent-info-card">
-            <div>Id: {selectedAgent.id}</div>
-            <div>
-                <img src={agentUtil.getImagePathFromAgentState(selectedAgent.agent)}/>
-            </div>
-            <div>Last Action: {selectedAgent.lastAction}</div>
-            { filterAndRenderProperties(
-                detailed,
-                renderHealthProperties(selectedAgent.health)
-            ) }
-            { filterAndRenderProperties(
-                detailed,
-                renderAgentProperties(selectedAgent.agent)
-            ) }
-            { filterAndRenderProperties(
-                detailed,
-                renderPositionProperties(selectedAgent.position)
-            ) }
-            { selectedAgent.villager && filterAndRenderProperties(
-                detailed,
-                renderVillagerProperties(selectedAgent.villager)
-            ) }
-            { selectedAgent.visitor && filterAndRenderProperties(
-                detailed,
-                renderVisitorProperties(selectedAgent.visitor)
-            ) }
-            { selectedAgent.visitor &&
-                <ConnectedRecruitVisitorSection
-                    visitorId={selectedAgent.id}
-                    visitor={selectedAgent.visitor}/>
-            }
-            { selectedAgent.villager &&
-                VillagerJobSelect({
-                    currentJob: selectedAgent.villager.job,
-                    onChange: job => store.dispatch(updateVillagerJob(
-                        selectedAgent.id,
-                        job
-                    ))
-                })
-            }
-        </div>
-    );
+];
+
+interface AgentInfoCardComponentProps {
+    selectedAgent: AgentListEntry;
+    detailed?: boolean;
 }
+
+class AgentInfoCardComponent extends React.Component<AgentInfoCardComponentProps, void> {
+    render() {
+        const selectedAgent = this.props.selectedAgent;
+        const detailed = this.props.detailed || false;
+        if (!selectedAgent) {
+            return null;
+        }
+        return (
+            <div className="agent-info-card">
+                <div>Id: {selectedAgent.id}</div>
+                <div>
+                    <img src={agentUtil.getImagePathFromAgentState(selectedAgent.agent)}/>
+                </div>
+                <div>Last Action: {selectedAgent.lastAction}</div>
+                { filterAndRenderProperties(
+                    detailed,
+                    renderHealthProperties(selectedAgent.health)
+                ) }
+                { filterAndRenderProperties(
+                    detailed,
+                    renderAgentProperties(selectedAgent.agent)
+                ) }
+                { filterAndRenderProperties(
+                    detailed,
+                    renderPositionProperties(selectedAgent.position)
+                ) }
+                { selectedAgent.villager && filterAndRenderProperties(
+                    detailed,
+                    renderVillagerProperties(selectedAgent.villager)
+                ) }
+                { selectedAgent.visitor && filterAndRenderProperties(
+                    detailed,
+                    renderVisitorProperties(selectedAgent.visitor)
+                ) }
+                { filterAndRenderProperties(
+                    detailed,
+                    renderInventoryProperties(selectedAgent.inventory)
+                ) }
+                { selectedAgent.visitor &&
+                    <ConnectedRecruitVisitorSection
+                        visitorId={selectedAgent.id}
+                        visitor={selectedAgent.visitor}/>
+                }
+                { selectedAgent.villager &&
+                    VillagerJobSelect({
+                        currentJob: selectedAgent.villager.job,
+                        onChange: job => store.dispatch(updateVillagerJob(
+                            selectedAgent.id,
+                            job
+                        ))
+                    })
+                }
+            </div>
+        );
+    }
+}
+
+export const AgentInfoCard = AutoUpdate(AgentInfoCardComponent, 1000);

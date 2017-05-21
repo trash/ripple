@@ -57,7 +57,7 @@ export const ActionBar = (props: ActionBarProps) => {
     if (selectedBuilding) {
         infoCard = <BuildingInfoCard selectedBuilding={selectedBuilding}/>;
     } else if (selectedAgent) {
-        infoCard = AgentInfoCard(selectedAgent);
+        infoCard = <AgentInfoCard selectedAgent={selectedAgent}/>;
     } else if (selectedResource) {
         infoCard = ResourceInfoCard(selectedResource);
     }
