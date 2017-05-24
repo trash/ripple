@@ -209,7 +209,14 @@ export class EntitySpawner {
 	spawnCorpse (
 		entityComponentData: IEntityComponentData = {}
 	): number {
-		return this.spawnFromAssemblage(AssemblagesEnum.Corpse, entityComponentData);
+		return this.spawnFromAssemblage(AssemblagesEnum.Corpse, _.extend({
+			collision: {
+				size: {
+					x: 1,
+					y: 1
+				}
+			}
+		}, entityComponentData));
 	}
 
 	spawnTown(
