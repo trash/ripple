@@ -8,13 +8,14 @@ import {AgentListEntry} from '../../interfaces';
 import {Agent} from '../../data/Agent';
 import {agentUtil, healthUtil} from '../../entity/util';
 import {AgentInfoCard} from './AgentInfoCard';
+import {AutoUpdate} from '../higherOrder/AutoUpdate';
 
 interface AgentListProps {
     agents: Immutable.List<AgentListEntry>;
     agentListSelected: number;
 }
 
-export class AgentList extends React.Component<AgentListProps, void> {
+export class AgentListComponent extends React.Component<AgentListProps, void> {
     render() {
         const selectedAgent = this.props.agents.find(agent => agent.id === this.props.agentListSelected);
 
@@ -50,6 +51,8 @@ export class AgentList extends React.Component<AgentListProps, void> {
         );
     }
 }
+
+const AgentList = AutoUpdate(AgentListComponent, 1000);
 
 export const ConnectedAgentList = connect((state: StoreState) => {
     return {

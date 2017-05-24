@@ -9,13 +9,14 @@ import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
 import {agentUtil, healthUtil} from '../../entity/util';
 import {AgentInfoCard} from './AgentInfoCard';
+import {AutoUpdate} from '../higherOrder/AutoUpdate';
 
 interface VillagerListProps {
     agents: Immutable.List<AgentListEntry>;
     agentListSelected: number;
 }
 
-export class VillagerList extends React.Component<VillagerListProps, void> {
+export class VillagerListComponent extends React.Component<VillagerListProps, void> {
     render() {
         const villagers = this.props.agents.filter(entry => !!entry.villager);
 
@@ -56,6 +57,8 @@ export class VillagerList extends React.Component<VillagerListProps, void> {
         );
     }
 }
+
+const VillagerList = AutoUpdate(VillagerListComponent, 1000);
 
 export const ConnectedVillagerList = connect((state: StoreState) => {
     return {

@@ -8,13 +8,14 @@ import {BuildingListEntry} from '../../interfaces';
 import {Building} from '../../data/Building';
 import {buildingUtil, healthUtil} from '../../entity/util';
 import {BuildingInfoCard} from './BuildingInfoCard';
+import {AutoUpdate} from '../higherOrder/AutoUpdate';
 
 interface BuildingListProps {
     buildings: Immutable.List<BuildingListEntry>;
     buildingListSelected: number;
 }
 
-export class BuildingList extends React.Component<BuildingListProps, void> {
+export class BuildingListComponent extends React.Component<BuildingListProps, void> {
     render() {
         const selectedBuilding = this.props.buildings.find(agent =>
             agent.id === this.props.buildingListSelected
@@ -52,6 +53,8 @@ export class BuildingList extends React.Component<BuildingListProps, void> {
         );
     }
 }
+
+const BuildingList = AutoUpdate(BuildingListComponent, 1000);
 
 export const ConnectedBuildingList = connect((state: StoreState) => {
     return {
