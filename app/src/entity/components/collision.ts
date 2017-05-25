@@ -16,7 +16,10 @@ export const Collision: IComponent<ICollisionState> = {
     enum: Component.Collision,
     getInitialState: () => {
         return {
-            size: null,
+            size: {
+                x: 1,
+                y: 1
+            },
             previousActiveState: false,
             activeState: true,
             entrance: null,
