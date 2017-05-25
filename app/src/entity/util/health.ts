@@ -3,7 +3,10 @@ import {BaseUtil} from './base';
 import {IHealthState} from '../components';
 
 export class HealthUtil extends BaseUtil {
-    toString(healthState: IHealthState): string {
+    toString(healthState: IHealthState, deadString?: string): string {
+        if (deadString && healthState.currentHealth <= 0) {
+            return deadString;
+        }
         return `${healthState.currentHealth}/${healthState.maxHealth}`;
     }
 }

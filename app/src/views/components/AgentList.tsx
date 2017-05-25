@@ -37,7 +37,7 @@ export class AgentListComponent extends React.Component<AgentListProps, void> {
                             <div className="sprite-column">
                                 <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>
                             </div>
-                            <div className="health-column">{healthUtil.toString(agentEntry.health)}</div>
+                            <div className="health-column">{healthUtil.toString(agentEntry.health, 'dead')}</div>
                             <div className="type-column">{Agent[agentEntry.agent.enum]}</div>
                         </div>
                     );

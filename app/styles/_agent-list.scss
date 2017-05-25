@@ -45,6 +45,9 @@ $agentListEntryPadding: 8px;
     .health-column {
         width: 60px;
     }
+    .agent-list-entry .health-column {
+        text-transform: uppercase;
+    }
     .gender-column {
         width: 54px;
     }

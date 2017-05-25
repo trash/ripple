@@ -39,7 +39,7 @@ export class BuildingListComponent extends React.Component<BuildingListProps, vo
                             <div className="sprite-column">
                                 <img src={buildingUtil.getImagePath(buildingEntry.building.enum)}/>
                             </div>
-                            <div className="health-column">{healthUtil.toString(buildingEntry.health)}</div>
+                            <div className="health-column">{healthUtil.toString(buildingEntry.health, 'DESTROYED')}</div>
                             <div className="type-column">{Building[buildingEntry.building.enum]}</div>
                         </div>
                     );

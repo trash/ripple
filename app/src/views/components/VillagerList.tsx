@@ -42,7 +42,7 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
                             <div className="sprite-column">
                                 <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>
                             </div>
-                            <div className="health-column">{healthUtil.toString(agentEntry.health)}</div>
+                            <div className="health-column">{healthUtil.toString(agentEntry.health, 'dead')}</div>
                             <div className="gender-column">{agentEntry.agent.gender}</div>
                             <div className="job-column">{VillagerJob[agentEntry.villager.job]}</div>
                         </div>
