@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
@@ -21,7 +22,10 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-bundle.js', Infinity),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor-bundle.js'
+    }),
     new webpack.SourceMapDevToolPlugin({
         filename: '[file].map',
         exclude: [
@@ -37,13 +41,13 @@ module.exports = {
   ],
   devtool: 'eval',
   output: {
-    path: 'app/build/src/',
+    path: path.join(__dirname, 'app/build/src/'),
     filename: '[name]-bundle.js',
     publicPath: '/assets/'
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.jsx']
   },
   module: {
     loaders: [
