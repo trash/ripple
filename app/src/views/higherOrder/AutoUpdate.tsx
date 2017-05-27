@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 export function AutoUpdate<P>(
     WrappedComponent: new () => React.Component<P, any>,
@@ -19,7 +19,7 @@ export function AutoUpdate<P>(
 
         render() {
             return (
-                <WrappedComponent {...this.props}/>
+                <WrappedComponent {...this.props as any}/>
             );
         }
     }

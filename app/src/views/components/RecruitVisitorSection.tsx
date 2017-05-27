@@ -47,6 +47,6 @@ const ConnectedInner= connect((state: StoreState) => {
 // claimedItemList
 export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, void> {
     render() {
-        return <ConnectedInner {...this.props}/>
+        return <ConnectedInner {...this.props as any}/>
     }
 }
