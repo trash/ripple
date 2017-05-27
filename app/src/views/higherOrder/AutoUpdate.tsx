@@ -13,7 +13,7 @@ export function AutoUpdate<P>(
             }, updateInterval);
         }
 
-        componentWillUnMount() {
+        componentWillUnmount() {
             clearInterval(this.autoUpdateIntervalId);
         }
 
