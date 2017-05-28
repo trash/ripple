@@ -8,6 +8,7 @@ import {BuildingListEntry} from '../../interfaces';
 import {Building} from '../../data/Building';
 import {buildingUtil, healthUtil} from '../../entity/util';
 import {BuildingInfoCard} from './BuildingInfoCard';
+import {EntityList} from './EntityList';
 import {AutoUpdate} from '../higherOrder/AutoUpdate';
 
 interface BuildingListProps {
@@ -16,24 +17,31 @@ interface BuildingListProps {
 }
 
 export class BuildingListComponent extends React.Component<BuildingListProps, void> {
+    entityList: EntityList;
+
+    selectEntity(id: number): void {
+        this.entityList.toggleBottomOpen();
+        store.dispatch(buildingListSelect(id));
+    }
+
     render() {
         const selectedBuilding = this.props.buildings.find(agent =>
             agent.id === this.props.buildingListSelected
         );
 
-        return (
-        <div className="agent-list-container">
-            <div className="agent-list">
-                <div className="agent-list-header">
+        return <EntityList
+            ref={el => this.entityList = el}
+            topContent={[
+                <div key="nah" className="agent-list-header">
                     <div className="id-column">Id</div>
                     <div className="sprite-column"></div>
                     <div className="health-column">Health</div>
                     <div className="type-column">Type</div>
-                </div>
-                {this.props.buildings.map(buildingEntry => {
+                </div>,
+                ...this.props.buildings.map(buildingEntry => {
                     return (
                         <div className="agent-list-entry"
-                            onClick={() => store.dispatch(buildingListSelect(buildingEntry.id))}
+                            onClick={() => this.selectEntity(buildingEntry.id)}
                             key={buildingEntry.id}>
                             <div className="id-column">{buildingEntry.id}</div>
                             <div className="sprite-column">
@@ -43,14 +51,11 @@ export class BuildingListComponent extends React.Component<BuildingListProps, vo
                             <div className="type-column">{Building[buildingEntry.building.enum]}</div>
                         </div>
                     );
-                })}
-            </div>
-            <div className="agent-list-bottom">
-                <p>Detailed information on selected agent shown here.</p>
-                <BuildingInfoCard selectedBuilding={selectedBuilding} detailed={true}/>
-            </div>
-        </div>
-        );
+                }).toArray()
+            ]}
+            bottomContent={[
+                <BuildingInfoCard key="no" selectedBuilding={selectedBuilding} detailed={true}/>
+            ]}/>;
     }
 }
 

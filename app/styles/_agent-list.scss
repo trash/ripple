@@ -12,6 +12,12 @@ $agentListEntryPadding: 8px;
         overflow: scroll;
     }
 
+    &.bottom-closed .agent-list-bottom {
+        flex: 0 0;
+        border: 0;
+    }
+
+
     @mixin overflow-column {
         overflow: hidden;
         white-space: nowrap;

@@ -50,7 +50,6 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
                 })}
             </div>
             <div className="agent-list-bottom">
-                <p>Detailed information on selected agent shown here.</p>
                 <AgentInfoCard selectedAgent={selectedAgent} detailed={true}/>
             </div>
         </div>
