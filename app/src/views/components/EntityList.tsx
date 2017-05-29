@@ -27,9 +27,9 @@ export class EntityList extends React.Component<EntityListProps, EntityListState
         };
     }
 
-    toggleBottomOpen(): void {
+    toggleBottomOpen(open = !this.state.bottomOpen): void {
         this.setState({
-            bottomOpen: !this.state.bottomOpen
+            bottomOpen: open
         });
     }
 

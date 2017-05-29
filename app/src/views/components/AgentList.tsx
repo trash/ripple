@@ -20,7 +20,7 @@ export class AgentListComponent extends React.Component<AgentListProps, void> {
     entityList: EntityList;
 
     selectEntity(id: number): void {
-        this.entityList.toggleBottomOpen();
+        this.entityList.toggleBottomOpen(true);
         store.dispatch(agentListSelect(id));
     }
 

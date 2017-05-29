@@ -21,7 +21,7 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
     entityList: EntityList;
 
     selectEntity(id: number): void {
-        this.entityList.toggleBottomOpen();
+        this.entityList.toggleBottomOpen(true);
         store.dispatch(agentListSelect(id));
     }
 

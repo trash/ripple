@@ -20,7 +20,7 @@ export class BuildingListComponent extends React.Component<BuildingListProps, vo
     entityList: EntityList;
 
     selectEntity(id: number): void {
-        this.entityList.toggleBottomOpen();
+        this.entityList.toggleBottomOpen(true);
         store.dispatch(buildingListSelect(id));
     }
 
