@@ -9,6 +9,7 @@ import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
 import {agentUtil, healthUtil} from '../../entity/util';
 import {AgentInfoCard} from './AgentInfoCard';
+import {EntityList} from './EntityList';
 import {AutoUpdate} from '../higherOrder/AutoUpdate';
 
 interface VillagerListProps {
@@ -17,6 +18,13 @@ interface VillagerListProps {
 }
 
 export class VillagerListComponent extends React.Component<VillagerListProps, void> {
+    entityList: EntityList;
+
+    selectEntity(id: number): void {
+        this.entityList.toggleBottomOpen();
+        store.dispatch(agentListSelect(id));
+    }
+
     render() {
         const villagers = this.props.agents.filter(entry => !!entry.villager);
 
@@ -24,19 +32,20 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
             .find(agent => agent.id === this.props.agentListSelected);
 
         return (
-        <div className="agent-list-container">
-            <div className="agent-list">
-                <div className="agent-list-header">
+        <EntityList
+            ref={el => this.entityList = el}
+            topContent={[
+                <div key="noh" className="agent-list-header">
                     <div className="name-column">Name</div>
                     <div className="sprite-column"></div>
                     <div className="health-column">Health</div>
                     <div className="gender-column">Gender</div>
                     <div className="job-column">Job</div>
-                </div>
-                {villagers.map(agentEntry => {
+                </div>,
+                ...villagers.map(agentEntry => {
                     return (
                         <div className="agent-list-entry"
-                            onClick={() => store.dispatch(agentListSelect(agentEntry.id))}
+                            onClick={() => this.selectEntity(agentEntry.id)}
                             key={agentEntry.id}>
                             <div className="name-column">{agentEntry.name.name}</div>
                             <div className="sprite-column">
@@ -47,12 +56,12 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
                             <div className="job-column">{VillagerJob[agentEntry.villager.job]}</div>
                         </div>
                     );
-                })}
-            </div>
-            <div className="agent-list-bottom">
-                <AgentInfoCard selectedAgent={selectedAgent} detailed={true}/>
-            </div>
-        </div>
+                }).toArray()
+            ]}
+            bottomContent={[
+                <AgentInfoCard key="no" selectedAgent={selectedAgent} detailed={true}/>
+            ]}
+        />
         );
     }
 }

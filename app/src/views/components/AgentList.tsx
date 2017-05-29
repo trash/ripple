@@ -17,11 +17,19 @@ interface AgentListProps {
 }
 
 export class AgentListComponent extends React.Component<AgentListProps, void> {
+    entityList: EntityList;
+
+    selectEntity(id: number): void {
+        this.entityList.toggleBottomOpen();
+        store.dispatch(agentListSelect(id));
+    }
+
     render() {
         const selectedAgent = this.props.agents.find(agent => agent.id === this.props.agentListSelected);
 
         return (
             <EntityList
+                ref={el => this.entityList = el}
                 topContent={[
                     <div key="nah" className="agent-list-header">
                         <div className="id-column">Id</div>
@@ -32,7 +40,7 @@ export class AgentListComponent extends React.Component<AgentListProps, void> {
                     ...this.props.agents.map(agentEntry => {
                         return (
                             <div className="agent-list-entry"
-                                onClick={() => store.dispatch(agentListSelect(agentEntry.id))}
+                                onClick={() => this.selectEntity(agentEntry.id)}
                                 key={agentEntry.id}>
                                 <div className="id-column">{agentEntry.id}</div>
                                 <div className="sprite-column">

@@ -7,7 +7,7 @@ $agentListEntryPadding: 8px;
     flex-direction: column;
 
     & > * {
-        flex: 1 50%;
+        flex: 1 auto;
         border: 1px solid #666;
         overflow: scroll;
     }
@@ -16,7 +16,16 @@ $agentListEntryPadding: 8px;
         flex: 0 0;
         border: 0;
     }
-
+    .agent-list {
+        flex: 1 0 120px;
+    }
+    &.bottom-closed .agent-list {
+        flex: 1 auto;
+    }
+    .agent-list-bottom-toggle {
+        flex: 1 0 42px;
+        background: #444;
+    }
 
     @mixin overflow-column {
         overflow: hidden;
