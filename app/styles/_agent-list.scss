@@ -12,6 +12,10 @@ $agentListEntryPadding: 8px;
         overflow: scroll;
     }
 
+    .agent-list-bottom {
+        border-top: 0;
+        flex: 2 auto;
+    }
     &.bottom-closed .agent-list-bottom {
         flex: 0 0;
         border: 0;
@@ -23,7 +27,8 @@ $agentListEntryPadding: 8px;
         flex: 1 auto;
     }
     .agent-list-bottom-toggle {
-        flex: 1 0 42px;
+        flex: 0 0 42px;
+        border-top: 0;
         background: #444;
     }
 
