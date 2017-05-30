@@ -31,7 +31,7 @@ export class AgentListComponent extends React.Component<AgentListProps, void> {
             <EntityList
                 ref={el => this.entityList = el}
                 topContent={[
-                    <div key="nah" className="agent-list-header">
+                    <div key="nah" className="entity-list-header">
                         <div className="id-column">Id</div>
                         <div className="sprite-column"></div>
                         <div className="health-column">Health</div>
@@ -39,7 +39,7 @@ export class AgentListComponent extends React.Component<AgentListProps, void> {
                     </div>,
                     ...this.props.agents.map(agentEntry => {
                         return (
-                            <div className="agent-list-entry"
+                            <div className="entity-list-entry"
                                 onClick={() => this.selectEntity(agentEntry.id)}
                                 key={agentEntry.id}>
                                 <div className="id-column">{agentEntry.id}</div>

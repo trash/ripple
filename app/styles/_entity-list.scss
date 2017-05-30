@@ -1,7 +1,7 @@
-$agentListPadding: 16px;
-$agentListEntryPadding: 8px;
+$entityListPadding: 16px;
+$entityListEntryPadding: 8px;
 
-.agent-list-container {
+.entity-list-container {
     display: flex;
     flex: 1 100%;
     flex-direction: column;
@@ -12,21 +12,21 @@ $agentListEntryPadding: 8px;
         overflow: scroll;
     }
 
-    .agent-list-bottom {
+    .entity-list-bottom {
         border-top: 0;
         flex: 2 auto;
     }
-    &.bottom-closed .agent-list-bottom {
+    &.bottom-closed .entity-list-bottom {
         flex: 0 0;
         border: 0;
     }
-    .agent-list {
+    .entity-list {
         flex: 1 0 120px;
     }
-    &.bottom-closed .agent-list {
+    &.bottom-closed .entity-list {
         flex: 1 auto;
     }
-    .agent-list-bottom-toggle {
+    .entity-list-bottom-toggle {
         flex: 0 0 42px;
         border-top: 0;
         background: #444;
@@ -65,7 +65,7 @@ $agentListEntryPadding: 8px;
     .health-column {
         width: 60px;
     }
-    .agent-list-entry .health-column {
+    .entity-list-entry .health-column {
         text-transform: uppercase;
     }
     .gender-column {
@@ -75,7 +75,7 @@ $agentListEntryPadding: 8px;
         width: 90px;
     }
 
-    .agent-list {
+    .entity-list {
         width: 100%;
         border-collapse: collapse;
 
@@ -84,7 +84,7 @@ $agentListEntryPadding: 8px;
             color: #fff;
         }
 
-        @mixin agent-list-row {
+        @mixin entity-list-row {
             padding: 8px;
             cursor: pointer;
             display: flex;
@@ -93,14 +93,14 @@ $agentListEntryPadding: 8px;
             flex-shrink: 0;
         }
 
-        .agent-list-header {
-            @include agent-list-row();
+        .entity-list-header {
+            @include entity-list-row();
 
             background: #333;
         }
 
-        .agent-list-entry {
-            @include agent-list-row();
+        .entity-list-entry {
+            @include entity-list-row();
 
             &:hover {
                 background: #444;
@@ -112,7 +112,7 @@ $agentListEntryPadding: 8px;
             }
 
             input {
-                width: calc(100% - #{$agentListEntryPadding});
+                width: calc(100% - #{$entityListEntryPadding});
                 background: transparent;
                 border-color: #333;
             }

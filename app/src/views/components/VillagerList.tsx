@@ -35,7 +35,7 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
         <EntityList
             ref={el => this.entityList = el}
             topContent={[
-                <div key="noh" className="agent-list-header">
+                <div key="noh" className="entity-list-header">
                     <div className="name-column">Name</div>
                     <div className="sprite-column"></div>
                     <div className="health-column">Health</div>
@@ -44,7 +44,7 @@ export class VillagerListComponent extends React.Component<VillagerListProps, vo
                 </div>,
                 ...villagers.map(agentEntry => {
                     return (
-                        <div className="agent-list-entry"
+                        <div className="entity-list-entry"
                             onClick={() => this.selectEntity(agentEntry.id)}
                             key={agentEntry.id}>
                             <div className="name-column">{agentEntry.name.name}</div>

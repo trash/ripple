@@ -19,9 +19,9 @@ interface ItemListProps {
 export class ItemList extends React.Component<ItemListProps, void> {
     render() {
         return (
-        <div className="agent-list-container">
-            <div className="agent-list">
-                <div className="agent-list-header">
+        <div className="entity-list-container">
+            <div className="entity-list">
+                <div className="entity-list-header">
                     <div className="type-column">Item</div>
                     <div className="sprite-column"/>
                     <div className="count-column">Queued</div>
@@ -33,7 +33,7 @@ export class ItemList extends React.Component<ItemListProps, void> {
                     const craftableEntry = this.props.craftableItemMap.get(item);
                     const queueable = !!craftableEntry;
                     return (
-                        <div className="agent-list-entry"
+                        <div className="entity-list-entry"
                             key={item}>
                             <div className="type-column">{entry.item.readableName}</div>
                             <div className="sprite-column">

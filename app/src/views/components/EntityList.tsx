@@ -35,15 +35,15 @@ export class EntityList extends React.Component<EntityListProps, EntityListState
 
     render() {
         return (
-        <div className={`agent-list-container ${this.state.bottomOpen ? '' : 'bottom-closed'}`}>
-            <div className="agent-list">
+        <div className={`entity-list-container ${this.state.bottomOpen ? '' : 'bottom-closed'}`}>
+            <div className="entity-list">
                 {...this.props.topContent}
             </div>
-            <div className="agent-list-bottom">
+            <div className="entity-list-bottom">
                 {...this.props.bottomContent}
             </div>
             { this.state.bottomOpen &&
-            <button className="agent-list-bottom-toggle" onClick={() => this.toggleBottomOpen()}>Close</button>}
+            <button className="entity-list-bottom-toggle" onClick={() => this.toggleBottomOpen()}>Close</button>}
         </div>
         );
     }

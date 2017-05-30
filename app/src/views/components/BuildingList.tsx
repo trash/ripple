@@ -32,7 +32,7 @@ export class BuildingListComponent extends React.Component<BuildingListProps, vo
         return <EntityList
             ref={el => this.entityList = el}
             topContent={[
-                <div key="nah" className="agent-list-header">
+                <div key="nah" className="entity-list-header">
                     <div className="id-column">Id</div>
                     <div className="sprite-column"></div>
                     <div className="health-column">Health</div>
@@ -40,7 +40,7 @@ export class BuildingListComponent extends React.Component<BuildingListProps, vo
                 </div>,
                 ...this.props.buildings.map(buildingEntry => {
                     return (
-                        <div className="agent-list-entry"
+                        <div className="entity-list-entry"
                             onClick={() => this.selectEntity(buildingEntry.id)}
                             key={buildingEntry.id}>
                             <div className="id-column">{buildingEntry.id}</div>
