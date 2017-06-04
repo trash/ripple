@@ -16,7 +16,7 @@ interface EntityListState {
 
 interface EntityListProps {
     topContent: (Element | JSX.Element)[];
-    bottomContent: (Element | JSX.Element)[];
+    bottomContent?: (Element | JSX.Element)[];
 }
 
 export class EntityList extends React.Component<EntityListProps, EntityListState> {
