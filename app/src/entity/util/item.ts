@@ -125,6 +125,13 @@ export class ItemUtil extends BaseUtil {
 		return this.getAllItems().filter(item => item.state.name === name);
 	}
 
+	itemAvailableForSaleFilter(result: IItemSearchResult): boolean {
+		return result.state.forSale
+			&& !result.state.toBeStored
+			&& !!result.state.stored
+			&& result.state.claimed;
+	}
+
 	/**
 	 * Returns true if at least one of the resource with the given name
 	 * exists and is claimed.

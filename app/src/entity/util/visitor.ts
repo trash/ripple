@@ -13,8 +13,9 @@ export class VisitorUtil extends BaseUtil {
         const inventoryState = this._getInventoryState(visitorId);
         const items = itemUtil
             .getByProperties(visitorState.desiredItems, true)
-            .filter(item => item.state.forSale
-                && item.state.value <= inventoryState.gold
+            .filter(item => itemUtil.itemAvailableForSaleFilter(item))
+            .filter(item =>
+                item.state.value <= inventoryState.gold
             );
         return items[0];
     }
