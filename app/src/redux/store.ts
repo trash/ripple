@@ -8,7 +8,8 @@ import {
     BuildingListEntry,
     ResourceListEntry,
     IRowColumnCoordinates,
-    CraftableItemMap
+    CraftableItemMap,
+    ShopItemMap
 } from '../interfaces';
 
 import {
@@ -60,7 +61,8 @@ import {
     ToggleShowCollisionDebug,
     UpdateVillagerJob,
     UnclaimItem,
-    UpdateCraftableQueued
+    UpdateCraftableQueued,
+    UpdateItemToBeSold
 } from './actions';
 
 type ReducerAction =
@@ -91,6 +93,7 @@ type ReducerAction =
     | ToggleShowCollisionDebug
     | BuildingListSelect
     | UpdateCraftableQueued
+    | UpdateItemToBeSold
     | AgentListSelect;
 
 export interface StoreState {
@@ -130,6 +133,7 @@ export interface StoreState {
     gameTurn: number;
     showCollisionDebug: boolean;
     craftableItemMap: CraftableItemMap;
+    shopItemMap: ShopItemMap;
 }
 
 const initialState = {
@@ -328,6 +332,10 @@ function mainReducer(
 
         case actionTypes.UPDATE_CRAFTABLE_QUEUED:
             newState.craftableItemMap = action.itemMap;
+            break;
+
+        case actionTypes.UPDATE_ITEM_TO_BE_SOLD:
+            newState.shopItemMap = action.itemMap;
             break;
     }
 

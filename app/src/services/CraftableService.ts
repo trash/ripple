@@ -8,18 +8,19 @@ import {store} from '../redux/store';
 import {updateCraftableQueued} from '../redux/actions';
 
 export class CraftableService {
-    itemMap: CraftableItemMap;
+    private itemMap: CraftableItemMap;
 
     constructor() {
         this.itemMap = Immutable.Map<Item, CraftableItemEntry>();
         itemList.forEach(entry => {
             if (entry.craftable) {
-                this.updateQueueCount(entry.item.enum, 0)
+                this.updateQueueCount(entry.item.enum, 0);
             }
         });
+        this.updateStore();
     }
 
-    updateStore(): void {
+    private updateStore(): void {
         store.dispatch(updateCraftableQueued(this.itemMap));
     }
 
@@ -29,7 +30,7 @@ export class CraftableService {
             craftableItemEntry = {
                 queued: 0
             };
-            this.itemMap.set(item, craftableItemEntry);
+            this.itemMap = this.itemMap.set(item, craftableItemEntry);
         }
         return _.clone(craftableItemEntry);
     }
@@ -47,6 +48,9 @@ export class CraftableService {
             const taskQueue = taskQueueManager.professionTaskQueue(profession);
             taskQueue.push(item);
         }
+        if (diff < 0) {
+            console.info('Need to implement cancelling queued up craft tasks');
+        }
 
         this.updateStore();
 
@@ -55,4 +59,3 @@ export class CraftableService {
 }
 
 export const craftableService = new CraftableService();
-craftableService.updateStore();

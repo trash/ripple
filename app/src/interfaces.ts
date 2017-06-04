@@ -296,3 +296,9 @@ export type CraftableItemEntry = {
 }
 
 export type CraftableItemMap = Immutable.Map<Item, CraftableItemEntry>;
+
+export type ShopItemEntry = {
+	toBeSold: number;
+}
+
+export type ShopItemMap = Immutable.Map<Item, ShopItemEntry>;

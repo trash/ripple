@@ -32,7 +32,7 @@ import {
     INameState
 } from '../../entity/components';
 
-import {CraftableItemMap} from '../../interfaces';
+import {CraftableItemMap, ShopItemMap} from '../../interfaces';
 
 import {Item} from '../../data/Item';
 import {VillagerJob} from '../../data/VillagerJob';
@@ -357,6 +357,20 @@ export function updateCraftableQueued(
 ): UpdateCraftableQueued {
     return {
         type: actionTypes.UPDATE_CRAFTABLE_QUEUED,
+        itemMap
+    };
+}
+
+export interface UpdateItemToBeSold {
+    type: actionTypes.UPDATE_ITEM_TO_BE_SOLD;
+    itemMap: ShopItemMap;
+}
+
+export function updateItemToBeSold(
+    itemMap: ShopItemMap
+): UpdateItemToBeSold {
+    return {
+        type: actionTypes.UPDATE_ITEM_TO_BE_SOLD,
         itemMap
     };
 }
