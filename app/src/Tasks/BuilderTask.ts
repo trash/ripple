@@ -40,20 +40,13 @@ export class BuilderTask extends Task {
 			bubble: StatusBubble.Build
 		});
 
+		this.building = building;
+
+		this.resetBehaviorTree(building);
+
+		const buildingState = baseUtil._getBuildingState(building);
 		const positionState = baseUtil._getPositionState(building);
 		const constructibleState = baseUtil._getConstructibleState(building);
-		const healthState = baseUtil._getHealthState(building);
-		const buildingState = baseUtil._getBuildingState(building);
-
-		this.setBehaviorTree(
-			new Tasks.BuilderTask(
-				healthState,
-				constructibleState.resourceRequirements,
-				buildingState.entranceTile, this
-			)
-		);
-
-		this.building = building;
 		this.resourceRequirements = constructibleState.resourceRequirements;
 
 		// Make the destination tile one to the left of the building
@@ -73,6 +66,21 @@ export class BuilderTask extends Task {
 		// }
 
 		this.readyCheckInterval = setInterval(() => this.readyCheck(), 1000);
+	}
+
+	private resetBehaviorTree(building: number) {
+		const constructibleState = baseUtil._getConstructibleState(building);
+		const healthState = baseUtil._getHealthState(building);
+		const buildingState = baseUtil._getBuildingState(building);
+
+		this.setBehaviorTree(
+			new Tasks.BuilderTask(
+				healthState,
+				constructibleState.resourceRequirements,
+				buildingState.entranceTile,
+				this
+			)
+		);
 	}
 
 	// Bind to events for resources being added and removed and suspend appropriately
@@ -96,6 +104,11 @@ export class BuilderTask extends Task {
 			itemEnums: [this.resourceRequirements.pickRequiredItem()],
 			toBeStored: false
 		});
+	}
+
+	// We need to reset the task because they might be hauling items
+	cancel (entity: number) {
+		this.resetBehaviorTree(this.building);
 	}
 
 	complete() {

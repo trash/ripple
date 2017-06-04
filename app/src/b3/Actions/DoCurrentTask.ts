@@ -40,6 +40,7 @@ export class DoCurrentTask extends Core.BaseNode {
 		// Clean up incomplete task
 		if (!currentTask.isComplete()) {
 			currentTask.cancel();
+			entityData.villager.currentTask = null;
 		}
 	}
 }

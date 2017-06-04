@@ -14,6 +14,7 @@ import {storageUtil, positionUtil, itemUtil, agentUtil} from '../entity/util';
  */
 export class HaulerTask extends Task {
 	item: number;
+	shop: boolean;
 
 	constructor (item: number, shop?: number) {
 		super({
@@ -25,6 +26,7 @@ export class HaulerTask extends Task {
 		});
 
 		this.item = item;
+		this.shop = !!shop;
 
 		const itemState = itemUtil._getItemState(item);
 		if (itemState.haulerTask) {
@@ -50,6 +52,8 @@ export class HaulerTask extends Task {
 	cancel (entity: number) {
 		console.info('drop item being held');
 		agentUtil.dropItem(entity, this.item);
+		// Reset the behavior tree for the task
+		this.setBehaviorTree(new Tasks.HaulerTask(this.item, this.shop));
 	}
 
 	complete (itemState?: IItemState) {
