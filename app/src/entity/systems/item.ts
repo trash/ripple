@@ -73,7 +73,7 @@ export class ItemSystem extends EntitySystem {
         // is storage space available and it's storable
         if (itemState.claimed) {
             const taskQueue = taskQueueManager.professionTaskQueue(Profession.Hauler);
-            taskQueue.push(id);
+            taskQueue.push([id]);
         }
 
         spriteManager.changePosition(renderableState.spriteGroup,

@@ -46,7 +46,7 @@ export class CraftableService {
             console.info('queue up task');
             const profession = assemblageData[item].craftable.profession;
             const taskQueue = taskQueueManager.professionTaskQueue(profession);
-            taskQueue.push(item);
+            taskQueue.push([item]);
         }
         if (diff < 0) {
             console.info('Need to implement cancelling queued up craft tasks');

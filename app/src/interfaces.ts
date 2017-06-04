@@ -259,6 +259,8 @@ export interface ItemSearchOptions {
 	sortBy?: string;
 	toBeStored?: boolean;
 	ignoredIds?: number[];
+	forSale?: boolean;
+	stored?: boolean;
 }
 
 export type AgentListEntry = {

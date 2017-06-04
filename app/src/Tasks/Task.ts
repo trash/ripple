@@ -241,7 +241,6 @@ export class Task {
 	 */
 	getTaskQueue (callback: (taskQueue: TaskQueue) => void) {
 		events.emit(['task-queue-manager', 'get-task-queue'], this.taskType, callback);
-		// return TaskQueueManager.professionTaskQueue(this.taskType);
 	}
 
 	/**

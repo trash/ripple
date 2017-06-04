@@ -71,7 +71,7 @@ export class ConstructibleSystem extends EntitySystem {
     createTask (id: number) {
         const builderTaskQueue = taskQueueManager.professionTaskQueue(Profession.Builder);
 		// Add the build job to the task queue
-		builderTaskQueue.push(id);
+		builderTaskQueue.push([id]);
     }
 
     isComplete (healthState: IHealthState) {

@@ -255,6 +255,32 @@ export class BuildingUtil extends BaseUtil {
 		const tile = positionUtil.getTileFromEntityId(building);
 		spriteUtil.showGoldEarned(value, renderableState.spriteGroup, tile);
 	}
+
+	private getAllShops(): BuildingMapResult[] {
+		return this.getAllBuildings()
+			// Only enter completed buildings
+			.filter(id => this.buildingIsComplete(id))
+			// Shops
+			.filter(id => !!this._getShopState(id))
+			.map(id => this.idToMapResult(id));
+	}
+
+	shopWithSpaceAvailableExists(): boolean {
+		const buildings = this.getAllShops()
+			.filter(result => {
+				const shopState = this._getShopState(result.id);
+				return shopState.available < shopState.total;
+			});
+		return !!buildings.length;
+	}
+
+	getShopWithSpaceAvailable(): number {
+		const shop = this.getAllShops()[0];
+		if (shop) {
+			return shop.id;
+		}
+		return null;
+	}
 }
 
 export const buildingUtil = new BuildingUtil();

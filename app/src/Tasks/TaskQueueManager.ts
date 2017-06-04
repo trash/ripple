@@ -39,8 +39,8 @@ const professionTaskQueueMap: IProfessionTaskQueueMap = {
 	),
 	[Profession.Hauler]: new TaskQueue(
 		'hauler',
-		(item: number) => {
-			return new HaulerTask(item);
+		(item: number, building?: number) => {
+			return new HaulerTask(item, building);
 		}
 	),
 	[Profession.Miner]: new TaskQueue(
@@ -78,15 +78,6 @@ export class TaskQueueManager {
 		) => void) => {
 			// Call the callback passing the matching queue
 			callback(this.professionTaskQueue(taskType));
-		});
-
-		// Queues up a task to create a new instance of the resource
-		events.on(['task-queue-manager', 'new-task'], (
-			taskType: number,
-			taskTarget: number
-		) => {
-			const taskQueue = this.professionTaskQueue(taskType);
-			taskQueue.push(taskTarget);
 		});
 	}
 	/**

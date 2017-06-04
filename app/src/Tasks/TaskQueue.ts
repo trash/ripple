@@ -38,10 +38,10 @@ export class TaskQueue {
 	* @param {Task} task The task to push to the queue
 	*/
 	push (
-		taskItem: any,
+		taskArgs: any[],
 		front?: boolean
 	): Task {
-		const newTask = this.createTask(taskItem);
+		const newTask = this.createTask(...taskArgs);
 		return this.pushTask(newTask);
 	}
 

@@ -73,7 +73,7 @@ export class HarvestSelectSystem extends EntitySystem {
 			harvestableState.queued = true;
 
 			const professionTaskQueue = taskQueueManager.professionTaskQueue(harvestableState.profession);
-			harvestableState.task = professionTaskQueue.push(id);
+			harvestableState.task = professionTaskQueue.push([id]);
 		});
 	}
 

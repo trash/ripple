@@ -79,7 +79,7 @@ export class GuardSystem extends EntitySystem {
 				if (!this.taskMap.has(target)) {
 					const guardTaskManager = taskQueueManager
                         .professionTaskQueue(Profession.Guard);
-					const task = guardTaskManager.push(target) as GuardTask;
+					const task = guardTaskManager.push([target]) as GuardTask;
 					this.taskMap.set(target, task);
 				}
 				if (this.taskMap.get(target).isComplete()) {

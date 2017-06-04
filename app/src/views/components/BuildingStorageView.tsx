@@ -21,6 +21,10 @@ export class BuildingStorageView extends React.Component<BuildingStorageViewProp
             <div>
                 <h5>Storage</h5>
                 <div>
+                    <div>Capacity</div>
+                    <div>{storageUtil.availableStorageToString(this.props.storage)}</div>
+                </div>
+                <div>
                     <div>Items</div>
                     <div>{storageUtil.storageItemListToString(this.props.storage)}</div>
                 </div>
@@ -33,6 +37,10 @@ export class BuildingStorageView extends React.Component<BuildingStorageViewProp
             {this.props.shop && this.props.shop.total > 0 &&
             <div>
                 <h5>Shop</h5>
+                <div>
+                    <div>Capacity</div>
+                    <div>{storageUtil.availableStorageToString(this.props.shop)}</div>
+                </div>
                 <div>
                     <div>Items</div>
                     <div>{storageUtil.storageItemListToString(this.props.shop)}</div>

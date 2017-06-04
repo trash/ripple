@@ -8,7 +8,8 @@ const targetKey = 'hauler-task-target';
 
 export class HaulerTask extends Core.MemSequence {
 	constructor (
-		item: number
+		item: number,
+		shop = false
 	) {
 		let storage: number;
 		super({
@@ -20,10 +21,11 @@ export class HaulerTask extends Core.MemSequence {
 				new Actions.GetStorageLocation(
 					item,
 					positionUtil.getTileFromEntityId(item),
-					storageId => storage = storageId
+					storageId => storage = storageId,
+					shop
 				),
 				new Actions.GoToTarget(() => positionUtil.getTileFromEntityId(storage)),
-				new Actions.StoreItemToTile(item, () => storage)
+				new Actions.StoreItemToTile(item, () => storage, shop)
 			]
 		});
 	}

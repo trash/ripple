@@ -190,6 +190,9 @@ let testLevelsData: ITestLevelGroup[]  = [
 				items: [{
 					enum: Item.Berries,
 					count: 4
+				}],
+				agents: [{
+					enum: Agent.Villager,
 				}]
 			}
 		]

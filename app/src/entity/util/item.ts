@@ -187,10 +187,21 @@ export class ItemUtil extends BaseUtil {
 			);
 		}
 
+		if (searchOptions.stored !== undefined) {
+			itemList = itemList.filter(itemSearchResult =>
+				!!itemSearchResult.state.stored === searchOptions.stored
+			);
+		}
+
 		if (searchOptions.toBeStored !== undefined) {
 			itemList = itemList.filter(itemSearchResult =>
 				!!itemSearchResult.state.toBeStored === !!searchOptions.toBeStored
 			);
+		}
+
+		if (searchOptions.forSale !== undefined) {
+			itemList = itemList.filter(itemSearchResult =>
+				itemSearchResult.state.forSale === searchOptions.forSale);
 		}
 
 		if (searchOptions.sortBy) {
