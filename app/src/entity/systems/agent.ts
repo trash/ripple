@@ -111,6 +111,23 @@ export class AgentSystem extends EntitySystem {
         });
     }
 
+    /**
+     * Handle cleanup for destroyed agents
+     * @param entity
+     */
+    destroyComponent(
+        destroyedEntity: number
+    ): void {
+        // Remove all references to this agent as lastAttacker
+        const entities = this.manager.getEntityIdsForComponent(Component.Agent);
+        entities.forEach(entity => {
+            const agentState = this.manager.getComponentDataForEntity(Component.Agent, entity);
+            if (agentState.lastAttacker === destroyedEntity) {
+                agentState.lastAttacker = null;
+            }
+        });
+    }
+
     handleInit (
         agentState: IAgentState,
         renderableState: IRenderableState,

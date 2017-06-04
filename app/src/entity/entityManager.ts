@@ -81,8 +81,8 @@ export class EntityManager {
             this.addComponent(component);
         });
         systemsList.forEach(SystemComponentPair => {
-            const System = SystemComponentPair[0],
-                ComponentsEnum = SystemComponentPair[1];
+            const System = SystemComponentPair[0];
+            const ComponentsEnum = SystemComponentPair[1];
             this.addSystem(new System(this, ComponentsEnum));
         });
         utilList.forEach(util => {
@@ -132,17 +132,16 @@ export class EntityManager {
         return this.createEntity(assemblages[assemblageEnum], entityId);
     }
 
-    _getSystemForComponent (component: Component): EntitySystem {
-        return this.systems.find(system => system.componentType === component);
+    _getSystemsForComponent (component: Component): EntitySystem[] {
+        return this.systems.filter(system => system.componentType === component);
     }
 
     removeComponentDataEntry (entityId: number, componentName: Component) {
         const componentEntry = this.entityComponentDataMap[componentName];
         if (entityId in componentEntry) {
-            const system = this._getSystemForComponent(componentName);
-            if (system) {
-                system.destroyComponent(entityId);
-            }
+            this._getSystemsForComponent(componentName).forEach(system =>
+                system.destroyComponent(entityId)
+            );
 
             delete componentEntry[entityId];
             // Remove the id
@@ -182,10 +181,9 @@ export class EntityManager {
         this.getEntitiesWithComponent(componentName)[entityId] = this.createNewComponentDataMapEntry(componentName);
         this.entityComponentToIdListMap[componentName].push(entityId);
         // Let system handle creation
-        const system = this._getSystemForComponent(componentName);
-        if (system) {
-            system.createComponent(entityId);
-        }
+        this._getSystemsForComponent(componentName).forEach(system =>
+            system.createComponent(entityId)
+        );
     }
 
     addComponent (component: IComponent<any>) {

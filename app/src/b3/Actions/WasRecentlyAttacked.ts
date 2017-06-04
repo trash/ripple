@@ -23,6 +23,7 @@ export class WasRecentlyAttacked extends Core.BaseNode {
 		const target = tick.target;
 		const agent = target.agent;
 		const wasRecentlyAttacked = agent.lastAttacked
+			&& agent.lastAttacker
 			&& (target.turn - agent.lastAttacked)
 				/ agent.speed < this.turnsSinceLastAttack;
 
