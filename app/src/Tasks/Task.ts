@@ -163,7 +163,7 @@ export class Task {
 	/**
 	 * If a task is cancelled, this method will be called
 	 */
-	cancel () {}
+	cancel (entity: number) {}
 
 	/**
 	 * Spawns a unique instance of a task for a given citizen.
@@ -173,7 +173,7 @@ export class Task {
 	 * @return {Instance} The instance of the task tied to the citizen.
 	 */
 	spawnInstance (entity: number): Instance {
-		var instance = new Instance({
+		const instance = new Instance({
 			task: this,
 			entity: entity,
 			description: this.description,
@@ -193,8 +193,8 @@ export class Task {
 	}
 
 	dropInstance (instance: Instance) {
-		var isntInQueue = this.instancePool.length === this.maxInstancePool;
-		var index = this.instancePool.indexOf(instance);
+		const isntInQueue = this.instancePool.length === this.maxInstancePool;
+		const index = this.instancePool.indexOf(instance);
 
 		this.instancePool.splice(index, 1);
 
@@ -215,14 +215,14 @@ export class Task {
 		// Flip the complete flag
 		this.completed = true;
 		// Add experience for the citizen's profession
-		for (var id in this.contributions) {
+		for (const id in this.contributions) {
 			events.emit('get-villager', id, (citizen: number) => {
 				// MAybe they died?
 				if (!citizen) {
 					console.log('didnt receive citizen. escaping');
 					return;
 				}
-				var contribution = this.contributions[id];
+				const contribution = this.contributions[id];
 				this.addExperience(citizen, contribution);
 			});
 		}

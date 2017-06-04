@@ -119,6 +119,7 @@ export class TileInfoService {
             const inventoryState = this.entityManager.getComponentDataForEntity(
                 Component.Inventory, agent) as IInventoryState;
             store.dispatch(updateHoveredAgent(
+                agent,
                 agentState,
                 hungerState,
                 sleepState,
@@ -150,7 +151,7 @@ export class TileInfoService {
         if (item) {
             const itemState = this.entityManager.getComponentDataForEntity(
                 Component.Item, item) as IItemState;
-            store.dispatch(updateHoveredItem(itemState));
+            store.dispatch(updateHoveredItem(item, itemState));
         }
 
         // Get the name of any building occupying the tile
@@ -160,7 +161,7 @@ export class TileInfoService {
                 Component.Building, building) as IBuildingState;
             const constructibleState = this.entityManager.getComponentDataForEntity(
                 Component.Constructible, building) as IConstructibleState;
-            store.dispatch(updateHoveredBuilding(buildingState, constructibleState));
+            store.dispatch(updateHoveredBuilding(building, buildingState, constructibleState));
         }
 
         const storage = getEntityWithComponentInTile(Component.Storage);

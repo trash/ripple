@@ -10,6 +10,7 @@ import {IRenderableState} from '../components/renderable';
 import {events} from '../../events';
 import {BaseUtil} from './base';
 import {renderableUtil} from './renderable';
+import {positionUtil} from './position';
 import {
 	IItemSearchResult,
 	IRowColumnCoordinates,
@@ -27,14 +28,16 @@ export class ItemUtil extends BaseUtil {
         const renderableState = this._getRenderableState(id);
         const tile = positionState.tile;
 
-        // Free up storage space
-        if (itemState.stored !== null) {
-            events.emit(['storage', 'unoccupy'], tile, id);
-        }
-
 		renderableUtil.setShown(renderableState, false);
         positionState.tile = null;
     }
+
+	addToTile(id: number, tile: IRowColumnCoordinates): void {
+		const positionState = this._getPositionState(id);
+        const renderableState = this._getRenderableState(id);
+		renderableState.shown = true;
+		positionUtil.setTile(positionState, tile, 0, 0);
+}
 
 	getItemSearchResultFromItem(
 		item: number

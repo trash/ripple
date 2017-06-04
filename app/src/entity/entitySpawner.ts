@@ -338,6 +338,7 @@ export class EntitySpawner {
 			positionState.tile = spawnTile;
 			itemState.shouldBeSpawned = true;
 		}
+		console.log(positionState);
 
         store.dispatch(addToItemList(item, itemState.claimed));
 

@@ -38,6 +38,7 @@ type PlainObject = {
 }
 
 interface DebugPanelProps {
+    entity: number;
     tile: MapTile;
     agent: IAgentState;
     agentHunger: IHungerState;
@@ -275,6 +276,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
     getDebugGroups (): [string, any, string[]][] {
         return [
+            ['Entity', { id: this.props.entity }, []],
             ['Agent', this.props.agent, []],
             ['Health', this.props.health, []],
             ['Agent Position', this.props.agentPosition, []],
@@ -328,6 +330,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
 
 export const ConnectedDebugPanel = connect((state: StoreState) => {
     return {
+        entity: state.hoveredEntity,
         tile: state.tile,
         agent: state.hoveredAgent,
         agentHunger: state.hoveredAgentHunger,

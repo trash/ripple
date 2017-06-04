@@ -13,6 +13,7 @@ import {
 
 export interface UpdateHoveredAgent {
     type: UPDATE_HOVERED_AGENT;
+    id: number;
     agent: IAgentState;
     hunger: IHungerState;
     sleep: ISleepState;
@@ -24,6 +25,7 @@ export interface UpdateHoveredAgent {
 }
 
 export function updateHoveredAgent (
+    id: number,
     agent: IAgentState,
     hunger: IHungerState,
     sleep: ISleepState,
@@ -34,14 +36,15 @@ export function updateHoveredAgent (
     inventory: IInventoryState
 ): UpdateHoveredAgent {
     return {
+        id,
         type: UPDATE_HOVERED_AGENT,
-        agent: agent,
-        hunger: hunger,
-        sleep: sleep,
-        position: position,
-        villager: villager,
-        statusBubble: statusBubble,
-        visitor: visitor,
-        inventory: inventory
+        agent,
+        hunger,
+        sleep,
+        position,
+        villager,
+        statusBubble,
+        visitor,
+        inventory
     };
 }

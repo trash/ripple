@@ -306,7 +306,8 @@ export class AgentUtil extends BaseUtil {
 		// Update the town
 		townUtil.addGold(value);
 
-		// Make sure item is unclaimed and has its tile updated
+		// Make sure item is unclaimed (it's bought by someone not from the town)
+		// and has its tile updated
 		itemUtil.pickupItem(item);
 		itemUtil.unclaim(item);
 
@@ -320,6 +321,14 @@ export class AgentUtil extends BaseUtil {
 
 		// Add the item to the agent's inventory
 		inventoryUtil.add(agent, item);
+	}
+
+	dropItem(agent: number, item: number): void {
+		// Remove from their inventory
+		inventoryUtil.remove(agent, item);
+		// And place it on the ground where they are
+		const tile = this._getPositionState(agent).tile;
+		itemUtil.addToTile(item, tile);
 	}
 }
 

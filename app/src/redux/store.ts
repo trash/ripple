@@ -100,6 +100,7 @@ export interface StoreState {
     items: Immutable.Map<Item, number>;
     claimedItems: Immutable.Map<Item, number>;
     tile: IRowColumnCoordinates;
+    hoveredEntity: number;
     hoveredAgent: IAgentState;
     hoveredAgentHunger: IHungerState;
     hoveredAgentSleep: ISleepState;
@@ -160,6 +161,7 @@ function mainReducer(
             break;
 
         case actionTypes.UPDATE_HOVERED_AGENT:
+            newState.hoveredEntity = action.id;
             newState.hoveredAgent = action.agent;
             newState.hoveredAgentHunger = action.hunger;
             newState.hoveredAgentSleep = action.sleep;
@@ -171,15 +173,17 @@ function mainReducer(
             break;
 
         case actionTypes.UPDATE_HOVERED_RESOURCE:
-            newState.hoveredResource = (action as UpdateHoveredResource).resource;
+            newState.hoveredResource = action.resource;
             break;
         case actionTypes.UPDATE_HOVERED_ITEM:
-            newState.hoveredItem = (action as UpdateHoveredItem).item;
+            newState.hoveredEntity = action.id;
+            newState.hoveredItem = action.item;
             break;
         case actionTypes.UPDATE_HOVERED_AGENT_LAST_EXECUTION_CHAIN:
-            newState.hoveredAgentLastExecutionChain = (action as UpdateHoveredAgentLastExecutionChain).executionChain;
+            newState.hoveredAgentLastExecutionChain = action.executionChain;
             break;
         case actionTypes.UPDATE_HOVERED_BUILDING:
+            newState.hoveredEntity = action.id;
             newState.hoveredBuildingState = action.building;
             newState.hoveredBuildingConstructibleState = action.constructible;
             break;

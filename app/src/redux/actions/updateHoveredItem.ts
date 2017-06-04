@@ -5,14 +5,17 @@ import {IItemState} from '../../entity/components';
 
 export interface UpdateHoveredItem {
     type: UPDATE_HOVERED_ITEM;
+    id: number;
     item: IItemState;
 }
 
 export function updateHoveredItem (
+    id: number,
     item: IItemState
 ): UpdateHoveredItem {
     return {
         type: UPDATE_HOVERED_ITEM,
-        item: item
+        id,
+        item
     };
 }

@@ -35,7 +35,7 @@ export class Instance {
 	 */
 	cancel () {
 		// Call the task's cancel method
-		this.task.cancel();
+		this.task.cancel(this.entity);
 		// Free up teh instance from the task
 		this.task.dropInstance(this);
 	}
