@@ -306,10 +306,7 @@ export class AgentUtil extends BaseUtil {
 		// Update the town
 		townUtil.addGold(value);
 
-		// Make sure item is unclaimed (it's bought by someone not from the town)
-		// and has its tile updated
-		itemUtil.pickupItem(item);
-		itemUtil.unclaim(item);
+		itemUtil.itemBought(item);
 
 		// Remove item from proper storage. This might need to be moved somewhere else
 		if (itemState.stored) {

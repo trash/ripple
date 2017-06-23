@@ -20,6 +20,11 @@ import {MapUtil} from '../../map/map-util';
 import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
 import {ItemProperty} from '../../data/ItemProperty';
+import {ShopService} from '../../services/ShopService';
+
+let shopService: ShopService;
+
+events.on('shopService', (s: ShopService) => shopService = s);
 
 export class ItemUtil extends BaseUtil {
     removeFromTile (id: number) {
@@ -289,6 +294,15 @@ export class ItemUtil extends BaseUtil {
 			}
 		});
 		return items;
+	}
+
+	// Make sure item is unclaimed (it's bought by someone not from the town)
+	// and has its tile updated
+	itemBought(item: number): void {
+		this.pickupItem(item);
+		this.unclaim(item);
+		const itemState = this._getItemState(item);
+		shopService.queueUpItemToBeSold(itemState.enum);
 	}
 }
 

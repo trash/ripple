@@ -62,6 +62,23 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Building Tests',
 		list: [
 			{
+				name: 'Item Shop auto-stock test',
+				buildings: [{
+					enum: Building.ItemShop,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					},
+				}],
+				items: [{
+					enum: Item.Berries,
+					count: 24
+				}],
+				agents: [{
+					enum: Agent.Villager,
+				}]
+			},
+			{
 				name: '2x Building Concurrency test',
 				buildings: [{
 					enum: Building.Hut,

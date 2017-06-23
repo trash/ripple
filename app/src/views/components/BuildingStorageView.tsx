@@ -14,7 +14,6 @@ interface BuildingStorageViewProps {
 
 export class BuildingStorageView extends React.Component<BuildingStorageViewProps, void> {
     render() {
-        console.info('work on integrating functionality to choose what is stored/sold here');
         return (
         <div>
             {this.props.storage && this.props.storage.total > 0 &&
