@@ -46,18 +46,11 @@ export const ActionBar = (props: ActionBarProps) => {
             !!props.selectedEntities.find(entity => resource.id === entity)
         );
 
-    // console.log(
-    //     `action bar select
-    //     building ${selectedBuilding}
-    //     agent ${selectedAgent}
-    //     resource ${selectedResource}`
-    // );
-
     let infoCard: JSX.Element;
     if (selectedBuilding) {
-        infoCard = <BuildingInfoCard selectedBuilding={selectedBuilding}/>;
+        infoCard = <BuildingInfoCard detailed={true} selectedBuilding={selectedBuilding}/>;
     } else if (selectedAgent) {
-        infoCard = <AgentInfoCard selectedAgent={selectedAgent}/>;
+        infoCard = <AgentInfoCard detailed={true} selectedAgent={selectedAgent}/>;
     } else if (selectedResource) {
         infoCard = ResourceInfoCard(selectedResource);
     }

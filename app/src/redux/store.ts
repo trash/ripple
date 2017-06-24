@@ -294,6 +294,7 @@ function mainReducer(
             break;
 
         case actionTypes.ENTITIES_SELECTED:
+            console.log(action.selected);
             newState.selectedEntities = action.selected;
             break;
 
@@ -331,7 +332,6 @@ function mainReducer(
 
         case actionTypes.TOGGLE_SHOW_COLLISION_DEBUG:
             newState.showCollisionDebug = !newState.showCollisionDebug;
-            console.log(newState.showCollisionDebug);
             break;
 
         case actionTypes.UPDATE_CRAFTABLE_QUEUED:

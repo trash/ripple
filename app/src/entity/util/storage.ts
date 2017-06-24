@@ -58,6 +58,7 @@ export class BaseStorageUtil<T extends IStorageState> extends BaseUtil {
             debugger;
         }
         storageState.itemList.splice(index, 1);
+        storageState.available--;
     }
 
     storageItemListToString(state: T): string {

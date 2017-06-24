@@ -35,7 +35,7 @@ $actionBarCardWidth: $actionBarHeight;
         flex-flow: row wrap;
 
         .action-bar-upper, .action-bar-lower {
-            height: 0.33 * $actionBarHeight;
+            height: 100px;
             width: 100%;
             display: flex;
         }
