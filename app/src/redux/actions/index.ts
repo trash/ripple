@@ -29,6 +29,7 @@ import {
     IResourceState,
     IInventoryState,
     IShopState,
+    IEquipsArmorState,
     INameState
 } from '../../entity/components';
 
@@ -147,6 +148,7 @@ export interface SpawnAgent {
     visitor: IVisitorState;
     position: IPositionState;
     health: IHealthState;
+    equipsArmor: IEquipsArmorState;
     lastAction: string;
 }
 
@@ -159,6 +161,7 @@ export function spawnAgent(
     position: IPositionState,
     inventory: IInventoryState,
     health: IHealthState,
+    equipsArmor: IEquipsArmorState,
     lastAction: string
 ) {
     return {
@@ -171,6 +174,7 @@ export function spawnAgent(
         visitor,
         position,
         health,
+        equipsArmor,
         lastAction
     };
 }

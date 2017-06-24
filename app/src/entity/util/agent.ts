@@ -9,13 +9,15 @@ import {MapUtil} from '../../map/map-util';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
 import {constants} from '../../data/constants';
+import {ItemProperty} from '../../data/ItemProperty';
 import {Agent} from '../../data/Agent';
 import {StatusBubble} from '../../data/StatusBubble';
 import {
 	IAgentSearchOptions,
 	IRowColumnCoordinates,
 	AgentSearchResult,
-	Gender
+	Gender,
+	IItemSearchResult
 } from '../../interfaces';
 import {cacheService} from '../../services/cache';
 import {statusBubbleUtil} from './statusBubble';
@@ -326,6 +328,25 @@ export class AgentUtil extends BaseUtil {
 		// And place it on the ground where they are
 		const tile = this._getPositionState(agent).tile;
 		itemUtil.addToTile(item, tile);
+	}
+
+	/**
+	 * Finds better armor than what the agent currently has equipped that they
+	 * can go fetch to equip.
+	 */
+	findBetterArmor(agent: number, townOnly = false): IItemSearchResult {
+		const armorState = this._getEquipsArmorState(agent);
+		const currentArmor = armorState.armor;
+		const items = itemUtil
+            .getByProperties([ItemProperty.Armor], townOnly)
+            .filter(item => {
+				if (!currentArmor) {
+					return true;
+				}
+				console.warn('Need to be comparing armor values here');
+				return currentArmor < item.id;
+			});
+		return items[0];
 	}
 }
 

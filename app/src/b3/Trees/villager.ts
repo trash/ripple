@@ -5,6 +5,8 @@ import {StatusBubble} from '../../data/StatusBubble';
 import {Profession} from '../../data/Profession';
 import {Building} from '../../data/Building';
 import {villagerUtil} from '../../entity/util/villager';
+import {agentUtil} from '../../entity/util/agent';
+import {positionUtil} from '../../entity/util/position';
 
 import * as Core from '../Core';
 import * as Actions from '../Actions';
@@ -15,6 +17,9 @@ const wasRecentlyAttackedKey = 'was-recently-attacked';
 const wasRecentlyAttackedTileKey = 'was-recently-attacked-tile';
 const fleeBuildingKey = 'flee-building';
 const findHomeKey = 'find-home';
+const findBetterArmorKey = 'find-better-armor';
+
+let findBetterArmorId: number = null;
 
 behaviorTree.root = new Core.Priority({
 	children: [
@@ -88,6 +93,22 @@ behaviorTree.root = new Core.Priority({
 			children: [
 				new Actions.IsTrue(tick => tick.target.hunger.value > constants.HUNGER.MAX * 2/3),
 				new Actions.FindFoodAndEat()
+			]
+		}),
+		// Equip armor if needed
+		new Core.Sequence({
+			children: [
+				new Actions.IsTrue(tick => tick.target.equipsArmor.armor === null),
+				new Actions.IsTrue(tick =>
+					!!agentUtil.findBetterArmor(tick.target.id, true)
+				),
+				new Actions.SetBlackboardValue(findBetterArmorKey, tick => {
+					const betterArmor = agentUtil.findBetterArmor(tick.target.id);
+					findBetterArmorId = betterArmor.id;
+					return betterArmor;
+				}),
+				new Actions.GoToTarget(() => positionUtil.getTileFromEntityId(findBetterArmorId)),
+				new Actions.PickupItem(findBetterArmorKey)
 			]
 		}),
 		// Profession stuff

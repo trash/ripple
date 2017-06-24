@@ -176,6 +176,7 @@ import {
 	ICraftableState,
 	IStorageState,
 	IVisitorState,
+	IEquipsArmorState,
 	IShopState,
 } from './entity/components';
 
@@ -239,6 +240,7 @@ export interface IBehaviorTreeTickTarget {
     inventory: IInventoryState;
 	entitySpawner: EntitySpawner;
 	visitor?: IVisitorState;
+	equipsArmor?: IEquipsArmorState;
 	clock: GameClock;
 }
 
@@ -272,6 +274,7 @@ export type AgentListEntry = {
 	position: IPositionState;
 	inventory: IInventoryState;
 	health: IHealthState;
+	equipsArmor: IEquipsArmorState;
 	lastAction: string;
 }
 

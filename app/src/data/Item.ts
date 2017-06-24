@@ -5,5 +5,6 @@ export enum Item {
     Stone,
     Plank,
     Gold,
-    SwordWood
+    SwordWood,
+    ArmorWood
 }

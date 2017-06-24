@@ -19,7 +19,8 @@ import {
     ITownState,
     IHarvestableState,
     INameState,
-    IShopState
+    IShopState,
+    IEquipsArmorState
 } from '../components';
 
 import {EntityManager} from '../entityManager';
@@ -64,6 +65,10 @@ export class BaseUtil {
     _getRenderableState (id: number): IRenderableState {
         return this.entityManager.getComponentDataForEntity(
             Component.Renderable, id) as IRenderableState;
+    }
+    _getEquipsArmorState (id: number): IEquipsArmorState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.EquipsArmor, id) as IEquipsArmorState;
     }
     _getConstructibleState (id: number): IConstructibleState {
         return this.entityManager.getComponentDataForEntity(

@@ -34,6 +34,7 @@ import {
 	IBehaviorTreeState,
 	IConstructibleState,
 	IVisitorState,
+	IEquipsArmorState,
 	IShopState,
 	IBuildingState,
 	IResourceState,
@@ -153,6 +154,8 @@ export class EntitySpawner {
 			Component.Name, entityId) as INameState;
 		const inventoryState = this.entityManager.getComponentDataForEntity(
 			Component.Inventory, entityId) as IInventoryState;
+		const equipsArmorState = this.entityManager.getComponentDataForEntity(
+			Component.EquipsArmor, entityId) as IEquipsArmorState;
 
 		// Copy over the defaults for the agent
 		const assemblageData = _.cloneDeep(agentsAssemblageData[agent]);
@@ -186,6 +189,7 @@ export class EntitySpawner {
 			positionState,
 			inventoryState,
 			healthState,
+			equipsArmorState,
 			''
 		));
 

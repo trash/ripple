@@ -44,6 +44,7 @@ export const assemblages: IAssemblagesMap = {
         Component.Villager,
         Component.Hunger,
         Component.Sleep,
+        Component.EquipsArmor
     ]),
     [AssemblagesEnum.Visitor]: visitorComponents,
     [AssemblagesEnum.Adventurer]: visitorComponents,

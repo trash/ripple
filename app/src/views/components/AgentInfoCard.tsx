@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {Tabs, Tab} from 'react-bootstrap';
+
 import {AgentListEntry} from '../../interfaces';
 import {agentUtil, inventoryUtil} from '../../entity/util';
 
@@ -12,7 +14,8 @@ import {
     IInventoryState,
     IVisitorState,
     IPositionState,
-    IHealthState
+    IHealthState,
+    IEquipsArmorState
 } from '../../entity/components';
 
 import {
@@ -101,6 +104,14 @@ const renderInventoryProperties = (inventoryState: IInventoryState): DisplayProp
     }
 ];
 
+const renderArmorProperties = (equipsArmorState: IEquipsArmorState): DisplayProperty[] => [
+    {
+        name: 'Armor',
+        value: equipsArmorState.armor,
+        detailedOnly: false
+    }
+];
+
 interface AgentInfoCardComponentProps {
     selectedAgent: AgentListEntry;
     detailed?: boolean;
@@ -114,51 +125,63 @@ class AgentInfoCardComponent extends React.Component<AgentInfoCardComponentProps
             return null;
         }
         return (
-            <div className="agent-info-card">
-                <div>Id: {selectedAgent.id}</div>
-                <div>
-                    <img src={agentUtil.getImagePathFromAgentState(selectedAgent.agent)}/>
-                </div>
-                <div>Last Action: {selectedAgent.lastAction}</div>
-                { filterAndRenderProperties(
-                    detailed,
-                    renderHealthProperties(selectedAgent.health)
-                ) }
-                { filterAndRenderProperties(
-                    detailed,
-                    renderAgentProperties(selectedAgent.agent)
-                ) }
-                { filterAndRenderProperties(
-                    detailed,
-                    renderPositionProperties(selectedAgent.position)
-                ) }
-                { selectedAgent.villager && filterAndRenderProperties(
-                    detailed,
-                    renderVillagerProperties(selectedAgent.villager)
-                ) }
-                { selectedAgent.visitor && filterAndRenderProperties(
-                    detailed,
-                    renderVisitorProperties(selectedAgent.visitor)
-                ) }
-                { filterAndRenderProperties(
-                    detailed,
-                    renderInventoryProperties(selectedAgent.inventory)
-                ) }
-                { selectedAgent.visitor &&
-                    <RecruitVisitorSection
-                        visitorId={selectedAgent.id}
-                        visitor={selectedAgent.visitor}/>
-                }
+            <Tabs
+                className="agent-info-card"
+                id="agent-info-card-tabs"
+                defaultActiveKey={1}>
+                <Tab eventKey={1} title="Info">
+                    <div>Id: {selectedAgent.id}</div>
+                    <div>
+                        <img src={agentUtil.getImagePathFromAgentState(selectedAgent.agent)}/>
+                    </div>
+                    <div>Last Action: {selectedAgent.lastAction}</div>
+                    { filterAndRenderProperties(
+                        detailed,
+                        renderHealthProperties(selectedAgent.health)
+                    ) }
+                    { filterAndRenderProperties(
+                        detailed,
+                        renderAgentProperties(selectedAgent.agent)
+                    ) }
+                    { filterAndRenderProperties(
+                        detailed,
+                        renderPositionProperties(selectedAgent.position)
+                    ) }
+                    { selectedAgent.visitor && filterAndRenderProperties(
+                        detailed,
+                        renderVisitorProperties(selectedAgent.visitor)
+                    ) }
+                    { selectedAgent.visitor &&
+                        <RecruitVisitorSection
+                            visitorId={selectedAgent.id}
+                            visitor={selectedAgent.visitor}/>
+                    }
+                </Tab>
+                <Tab eventKey={2} title="Equipment">
+                    { filterAndRenderProperties(
+                        detailed,
+                        renderInventoryProperties(selectedAgent.inventory)
+                    ) }
+                    { selectedAgent.equipsArmor && filterAndRenderProperties(
+                        detailed,
+                        renderArmorProperties(selectedAgent.equipsArmor)
+                    ) }
+                </Tab>
                 { selectedAgent.villager &&
-                    VillagerJobSelect({
+                <Tab eventKey={3} title="Villager">
+                    { filterAndRenderProperties(
+                        detailed,
+                        renderVillagerProperties(selectedAgent.villager)
+                    ) }
+                    { VillagerJobSelect({
                         currentJob: selectedAgent.villager.job,
                         onChange: job => store.dispatch(updateVillagerJob(
                             selectedAgent.id,
                             job
                         ))
-                    })
-                }
-            </div>
+                    }) }
+                </Tab> }
+            </Tabs>
         );
     }
 }

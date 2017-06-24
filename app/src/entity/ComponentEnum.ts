@@ -24,6 +24,7 @@ export enum Component {
     Hunger,
     Sleep,
     Shop,
+    EquipsArmor,
     Inventory,
     Town
 }

@@ -12,7 +12,8 @@ import {
     IHungerState,
     IInventoryState,
     IStatusBubbleState,
-    IVisitorState
+    IVisitorState,
+    IEquipsArmorState
 } from '../components';
 
 import {Blackboard} from '../../b3/Core';
@@ -54,6 +55,9 @@ export class BehaviorTreeSystem extends EntitySystem {
                 Component.Name, id) as INameState;
             const visitorState = this.manager.getComponentDataForEntity(
                 Component.Visitor, id) as IVisitorState;
+            const equipsArmorState = this.manager.getComponentDataForEntity(
+                Component.EquipsArmor, id
+            ) as IEquipsArmorState;
 
             // initialize blackboard
             if (!behaviorTreeState.blackboard) {
@@ -81,7 +85,8 @@ export class BehaviorTreeSystem extends EntitySystem {
                     clock: clock,
                     inventory: inventoryState,
                     entitySpawner: this.manager.spawner,
-                    visitor: visitorState
+                    visitor: visitorState,
+                    equipsArmor: equipsArmorState
                 }, behaviorTreeState.blackboard);
             }
         });

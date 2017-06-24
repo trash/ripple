@@ -1,7 +1,15 @@
 .agent-info-card {
-    padding: 8px;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    flex: 1 100%;
 
     select {
         background: inherit;
+    }
+
+    .tab-pane {
+        flex-flow: column;
+        overflow: scroll;
     }
 }

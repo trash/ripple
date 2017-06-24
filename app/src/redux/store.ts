@@ -259,7 +259,8 @@ function mainReducer(
                 position: action.position,
                 health: action.health,
                 lastAction: action.lastAction,
-                inventory: action.inventory
+                inventory: action.inventory,
+                equipsArmor: action.equipsArmor
             });
             break;
 

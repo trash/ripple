@@ -537,6 +537,9 @@ let testLevelsData: ITestLevelGroup[]  = [
 				items: [{
 					enum: Item.Berries,
 					count: 4
+				}, {
+					enum: Item.ArmorWood,
+					count: 1
 				}],
 				buildings: [{
 					enum: Building.Hut,
