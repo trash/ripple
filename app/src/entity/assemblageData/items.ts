@@ -147,6 +147,58 @@ export const dataList: IEntityComponentData[] = [{
         },
         collision: itemCollisionState
 	},
+    {
+        item: {
+            enum: Item.ArmorCopper,
+            value: 50,
+            name: 'armor-copper',
+            readableName: 'Copper Armor',
+            description: `Armor forged from copper. Solid protection.`,
+            properties: [
+                ItemProperty.Copper,
+                ItemProperty.Armor,
+            ],
+        },
+        armor: {
+            value: 3
+        },
+        // damage: 1,
+        craftable: {
+            requiredResources: [{
+                enum: Item.Copper,
+                count: 10
+            }],
+            profession: Profession.Blacksmith,
+            craftTurns: 30,
+        },
+        collision: itemCollisionState
+	},
+    {
+        item: {
+            enum: Item.ArmorIron,
+            value: 100,
+            name: 'armor-iron',
+            readableName: 'Iron Armor',
+            description: `Heavy, sturdy armor forged from iron. Fierce.`,
+            properties: [
+                ItemProperty.Iron,
+                ItemProperty.Armor,
+            ],
+        },
+        armor: {
+            value: 5
+        },
+        // damage: 1,
+        craftable: {
+            requiredResources: [{
+                enum: Item.Iron,
+                count: 10
+            }],
+            profession: Profession.Blacksmith,
+            craftTurns: 50,
+        },
+        collision: itemCollisionState
+	},
 ];
 
 export const assemblageData = (() => {

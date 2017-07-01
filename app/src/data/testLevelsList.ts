@@ -218,6 +218,22 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Villager Tests',
 		list: [
 			{
+				name: 'Villagers equip best armor available',
+				agents: [{
+					enum: Agent.Villager
+				}],
+				items: [{
+					enum: Item.Berries,
+					count: 4
+				}, {
+					enum: Item.ArmorWood,
+					count: 1
+				}, {
+					enum: Item.ArmorCopper,
+					count: 1
+				}],
+			},
+			{
 				name: 'Villagers select different houses to live in',
 				agents: [{
 					enum: Agent.Villager

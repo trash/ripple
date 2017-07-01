@@ -363,6 +363,9 @@ export class AgentUtil extends BaseUtil {
 	findBetterArmor(agent: number, townOnly = false): IItemSearchResult {
 		const armorState = this._getEquipsArmorState(agent);
 		const currentArmor = armorState.armor;
+		const currentArmorState = currentArmor
+			? this._getArmorState(armorState.armor)
+			: null;
 		const items = itemUtil
             .getByProperties([ItemProperty.Armor], townOnly)
             .filter(item => {
@@ -370,7 +373,13 @@ export class AgentUtil extends BaseUtil {
 					return true;
 				}
 				console.warn('Need to be comparing armor values here');
-				return currentArmor < item.id;
+				const armorState = this._getArmorState(item.id);
+				return currentArmorState.value < armorState.value;
+			})
+			.sort((a, b) => {
+				const aState = this._getArmorState(a.id);
+				const bState = this._getArmorState(b.id);
+				return bState.value - aState.value;
 			});
 		return items[0];
 	}
