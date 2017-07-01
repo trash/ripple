@@ -34,13 +34,16 @@ $actionBarCardWidth: $actionBarHeight;
         */
         flex-flow: row wrap;
 
-        .action-bar-upper, .action-bar-lower {
+        .action-bar-upper, .action-bar-middle, .action-bar-lower {
             height: 100px;
             width: 100%;
             display: flex;
         }
 
         .action-bar-upper {
+            order: -2;
+        }
+        .action-bar-middle {
             order: -1;
         }
         .action-bar-lower {
@@ -71,6 +74,26 @@ $actionBarCardWidth: $actionBarHeight;
                 i {
                     font-size: 24px;
                 }
+            }
+        }
+    }
+
+    .item-list {
+        margin: 0;
+        height: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+
+        li {
+            list-style: none;
+            flex: auto;
+            margin: 0;
+            border: 1px solid #444;
+            background: #333;
+            color: #fff;
+
+            img {
+                height: 24px;
             }
         }
     }

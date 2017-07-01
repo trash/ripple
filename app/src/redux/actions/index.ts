@@ -378,3 +378,13 @@ export function updateItemToBeSold(
         itemMap
     };
 }
+
+export interface ShowSpawnItemList {
+    type: actionTypes.SHOW_SPAWN_ITEM_LIST;
+}
+
+export function showSpawnItemList(): ShowSpawnItemList {
+    return {
+        type: actionTypes.SHOW_SPAWN_ITEM_LIST
+    };
+}

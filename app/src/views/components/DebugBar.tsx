@@ -2,6 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 
 import {store, StoreState} from '../../redux/store';
+import {showSpawnItemList} from '../../redux/actions';
 import {IEntityComponentData} from '../../interfaces';
 import {Component} from '../../entity/ComponentEnum';
 import {killEntityService} from '../../services/killEntityService';
@@ -48,7 +49,7 @@ export class DebugBar extends React.Component<DebugBarProps, null> {
             <button onClick={() => events.emit('spawnAgent', Agent.Adventurer, this.props.turn, {
                 } as IEntityComponentData)}
                 >Spawn Adventurer</button>
-            <button onClick={() => events.emit('spawnItem', Item.Wood, this.props.turn)}
+            <button onClick={() => store.dispatch(showSpawnItemList())}
                 >Spawn Item</button>
             <button onClick={() => events.emit('spawnItem', Item.Berries, this.props.turn)}
                 >Spawn Food</button>

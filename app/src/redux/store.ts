@@ -62,7 +62,8 @@ import {
     UpdateVillagerJob,
     UnclaimItem,
     UpdateCraftableQueued,
-    UpdateItemToBeSold
+    UpdateItemToBeSold,
+    ShowSpawnItemList
 } from './actions';
 
 type ReducerAction =
@@ -92,6 +93,7 @@ type ReducerAction =
     | UpdateVillagerJob
     | ToggleShowCollisionDebug
     | BuildingListSelect
+    | ShowSpawnItemList
     | UpdateCraftableQueued
     | UpdateItemToBeSold
     | AgentListSelect;
@@ -119,7 +121,7 @@ export interface StoreState {
     hoveredInventory: IInventoryState;
     hours: number;
     days: number;
-    buildingsListShown: boolean;
+    spawnBuildingsListShown: boolean;
     debugBarShown: boolean;
     craftBarShown: boolean;
     gold: number;
@@ -135,6 +137,7 @@ export interface StoreState {
     showCollisionDebug: boolean;
     craftableItemMap: CraftableItemMap;
     shopItemMap: ShopItemMap;
+    spawnItemListShown: boolean;
 }
 
 const initialState = {
@@ -193,7 +196,11 @@ function mainReducer(
             break;
 
         case actionTypes.SHOW_BUILDINGS_LIST:
-            newState.buildingsListShown = action.show;
+            newState.spawnBuildingsListShown = action.show;
+            break;
+
+        case actionTypes.SHOW_SPAWN_ITEM_LIST:
+            newState.spawnItemListShown = !newState.spawnItemListShown;
             break;
 
         case actionTypes.SHOW_DEBUG_BAR:

@@ -20,6 +20,7 @@ import {AgentInfoCard} from './AgentInfoCard';
 import {ResourceInfoCard} from './ResourceInfoCard';
 import {BuildingInfoCard} from './BuildingInfoCard';
 import {ConnectedPlayspeedControls} from './PlayspeedControls';
+import {ConnectedSpawnItemList} from './SpawnItemList';
 
 interface ActionBarProps {
     buildingsListShown: boolean;
@@ -30,6 +31,7 @@ interface ActionBarProps {
     resources: Immutable.List<ResourceListEntry>;
     agentListSelected: number;
     selectedEntities: number[];
+    spawnItemListShown: boolean;
 }
 
 export const ActionBar = (props: ActionBarProps) => {
@@ -62,6 +64,10 @@ export const ActionBar = (props: ActionBarProps) => {
         </div>
         <div className="action-bar">
             <div className="action-bar-upper">
+                { props.spawnItemListShown &&
+                <ConnectedSpawnItemList/> }
+            </div>
+            <div className="action-bar-middle">
                 { props.buildingsListShown &&
                 <SpawnBuildingList/>}
                 { props.debugBarShown &&
@@ -90,7 +96,8 @@ export const ActionBar = (props: ActionBarProps) => {
 
 export const ConnectedActionBar = connect((state: StoreState) => {
     return {
-        buildingsListShown: state.buildingsListShown,
+        spawnItemListShown: state.spawnItemListShown,
+        buildingsListShown: state.spawnBuildingsListShown,
         debugBarShown: state.debugBarShown,
         craftBarShown: state.craftBarShown,
         agents: state.agentsList,
