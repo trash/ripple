@@ -24,3 +24,4 @@ export {Visitor, IVisitorState} from './Visitor';
 export {Town, ITownState} from './Town';
 export {Shop, IShopState} from './Shop';
 export {EquipsArmor, IEquipsArmorState} from './EquipsArmor';
+export {Armor, IArmorState} from './Armor';

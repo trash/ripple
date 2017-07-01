@@ -8,6 +8,7 @@ export enum Component {
     Agent,
     Villager,
     Visitor,
+    Armor,
     Craftable,
     StatusBubble,
     BehaviorTree,

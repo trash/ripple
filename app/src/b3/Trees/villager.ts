@@ -108,7 +108,7 @@ behaviorTree.root = new Core.Priority({
 					return betterArmor;
 				}),
 				new Actions.GoToTarget(() => positionUtil.getTileFromEntityId(findBetterArmorId)),
-				new Actions.PickupItem(findBetterArmorKey)
+				new Actions.EquipItem(findBetterArmorKey)
 			]
 		}),
 		// Profession stuff

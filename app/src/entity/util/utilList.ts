@@ -18,6 +18,7 @@ import {
     behaviorTreeUtil,
     constructibleUtil,
     resourceUtil,
+    equipsArmorUtil,
     renderableUtil,
     shopUtil
 } from './index';
@@ -41,5 +42,6 @@ export const utilList: BaseUtil[] = [
     constructibleUtil,
     resourceUtil,
     renderableUtil,
-    shopUtil
+    shopUtil,
+    equipsArmorUtil,
 ];

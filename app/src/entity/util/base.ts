@@ -20,7 +20,8 @@ import {
     IHarvestableState,
     INameState,
     IShopState,
-    IEquipsArmorState
+    IEquipsArmorState,
+    IArmorState,
 } from '../components';
 
 import {EntityManager} from '../entityManager';
@@ -118,6 +119,11 @@ export class BaseUtil {
         return this.entityManager.getComponentDataForEntity(
             Component.Town, id
         ) as ITownState;
+    }
+    _getArmorState(id: number): IArmorState {
+        return this.entityManager.getComponentDataForEntity(
+            Component.Armor, id
+        ) as IArmorState;
     }
 
     tileContainsEntityOfComponent (componentName: Component, tile: MapTile): boolean {

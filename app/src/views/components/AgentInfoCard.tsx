@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import {AgentListEntry} from '../../interfaces';
-import {agentUtil, inventoryUtil} from '../../entity/util';
+import {agentUtil, inventoryUtil, equipsArmorUtil} from '../../entity/util';
 
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
@@ -104,10 +104,10 @@ const renderInventoryProperties = (inventoryState: IInventoryState): DisplayProp
     }
 ];
 
-const renderArmorProperties = (equipsArmorState: IEquipsArmorState): DisplayProperty[] => [
+const renderArmorProperties = (equipsArmorState: IEquipsArmorState, entity: number): DisplayProperty[] => [
     {
         name: 'Armor',
-        value: equipsArmorState.armor,
+        value: equipsArmorUtil.toString(entity),
         detailedOnly: false
     }
 ];
@@ -164,7 +164,7 @@ class AgentInfoCardComponent extends React.Component<AgentInfoCardComponentProps
                     ) }
                     { selectedAgent.equipsArmor && filterAndRenderProperties(
                         detailed,
-                        renderArmorProperties(selectedAgent.equipsArmor)
+                        renderArmorProperties(selectedAgent.equipsArmor, selectedAgent.id)
                     ) }
                 </Tab>
                 { selectedAgent.villager &&

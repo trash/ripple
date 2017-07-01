@@ -17,3 +17,4 @@ export {behaviorTreeUtil} from './behaviorTree';
 export {resourceUtil} from './resource';
 export {renderableUtil} from './renderable';
 export {shopUtil} from './shop';
+export {equipsArmorUtil} from './equipsArmor';

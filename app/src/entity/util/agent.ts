@@ -205,6 +205,32 @@ export class AgentUtil extends BaseUtil {
 		positionUtil.setTile(agentPositionState, tile, turn, agentData.speed);
 	}
 
+	pickupItem(
+		agent: number,
+		item: number
+	): void {
+		const villagerState = this._getVillagerState(agent);
+		inventoryUtil.add(agent, item);
+		itemUtil.removeFromTile(item);
+		if (villagerState) {
+			const itemState = this._getItemState(item);
+			itemState.claimed = true;
+		}
+	}
+
+	equipItem(
+		agent: number,
+		item: number
+	): void {
+		this.pickupItem(agent, item);
+		console.log('equip item');
+		const equipState = this._getEquipsArmorState(agent);
+		const armorState = this._getArmorState(item);
+		if (armorState.value) {
+			equipState.armor = item;
+		}
+	}
+
     attackAgent (
 		turn: number,
         attacker: number,

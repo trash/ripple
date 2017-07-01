@@ -178,6 +178,7 @@ import {
 	IVisitorState,
 	IEquipsArmorState,
 	IShopState,
+	IArmorState,
 } from './entity/components';
 
 export interface IEntityComponentData {
@@ -201,6 +202,7 @@ export interface IEntityComponentData {
 	villager?: IVillagerState;
 	inventory?: IInventoryState;
 	shop?: IShopState;
+	armor?: IArmorState;
 }
 
 export interface IAssemblageDataMap {

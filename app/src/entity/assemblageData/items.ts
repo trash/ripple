@@ -121,6 +121,9 @@ export const dataList: IEntityComponentData[] = [{
                 ItemProperty.Armor,
             ],
         },
+        armor: {
+            value: 1
+        },
         // damage: 1,
         craftable: {
             requiredResources: [{

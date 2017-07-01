@@ -4,7 +4,7 @@ import {util} from '../../util';
 import {IItemSearchResult} from '../../interfaces';
 import {agentUtil} from '../../entity/util/agent';
 
-export class PickupItem extends Core.BaseNode {
+export class EquipItem extends Core.BaseNode {
 	targetKey: string;
 
 	constructor (targetKey: string) {
@@ -12,9 +12,10 @@ export class PickupItem extends Core.BaseNode {
 		this.targetKey = targetKey;
 	}
 	tick (tick: Core.Tick) {
+		const agentData = tick.target;
 		const target = util.blackboardGet(tick, this.targetKey) as IItemSearchResult;
 
-		agentUtil.pickupItem(tick.target.id, target.id);
+		agentUtil.equipItem(tick.target.id, target.id);
 
 		return b3.SUCCESS;
 	}

@@ -62,7 +62,8 @@ export const assemblages: IAssemblagesMap = {
         Component.Position,
         Component.Item,
         Component.Collision,
-        Component.Name
+        Component.Name,
+        Component.Armor
     ],
     [AssemblagesEnum.Corpse]: [
         Component.Renderable,
