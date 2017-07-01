@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as changeCase from 'change-case';
 import {store} from '../../redux/store';
 import {unclaimItem} from '../../redux/actions';
 import {ItemRequirementsMap} from '../../ItemRequirementsMap';
@@ -17,6 +16,7 @@ import {
 	ItemSearchOptions
 } from '../../interfaces';
 import {MapUtil} from '../../map/map-util';
+import {assemblageData} from '../assemblageData/items';
 import {constants} from '../../data/constants';
 import {Item} from '../../data/Item';
 import {ItemProperty} from '../../data/ItemProperty';
@@ -57,7 +57,11 @@ export class ItemUtil extends BaseUtil {
 	getItemNameFromEnum(
 		item: Item
 	): string {
-		return changeCase.paramCase(Item[item]);
+		return assemblageData[item].item.name;
+	}
+
+	getReadableItemNameFromEnum(item: Item): string {
+		return assemblageData[item].item.readableName;
 	}
 
 	getImagePath(
@@ -77,7 +81,7 @@ export class ItemUtil extends BaseUtil {
 	 * @param items
 	 */
 	itemListToString(items: number[]): string {
-		const itemNames = items.map(id => this.getItemNameFromEnum(this._getItemState(id).enum));
+		const itemNames = items.map(id => this.getReadableItemNameFromEnum(this._getItemState(id).enum));
 		const countMap = new Map<string, number>();
 		itemNames.forEach(name => {
 			if (!countMap.get(name)) {

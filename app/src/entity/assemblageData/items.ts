@@ -87,6 +87,18 @@ export const dataList: IEntityComponentData[] = [{
     },
     {
         item: {
+            enum: Item.Gold,
+            value: 1,
+            name: 'gold',
+            readableName: 'Gold',
+            description: 'One gold coin. Shiny.',
+            properties: [
+                ItemProperty.Gold
+            ]
+        }
+    },
+    {
+        item: {
             enum: Item.SwordWood,
             value: 10,
             name: 'sword-wood',
