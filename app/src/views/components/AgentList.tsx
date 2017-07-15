@@ -16,7 +16,7 @@ interface AgentListProps {
     agentListSelected: number;
 }
 
-export class AgentListComponent extends React.Component<AgentListProps, void> {
+export class AgentListComponent extends React.Component<AgentListProps, object> {
     entityList: EntityList;
 
     selectEntity(id: number): void {
@@ -66,4 +66,4 @@ export const ConnectedAgentList = connect((state: StoreState) => {
         agents: state.agentsList,
         agentListSelected: state.agentListSelected
     };
-})(AgentList);
+}, function(){return{}} as any)(AgentList);

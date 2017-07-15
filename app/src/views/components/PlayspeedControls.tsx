@@ -13,7 +13,7 @@ export interface PlayspeedControlsProps {
     gamePaused: boolean;
 }
 
-export class PlayspeedControls extends React.Component<PlayspeedControlsProps, void> {
+export class PlayspeedControls extends React.Component<PlayspeedControlsProps, object> {
     render() {
         let playPauseClass = 'fa ';
         playPauseClass += this.props.gamePaused
@@ -50,4 +50,4 @@ export const ConnectedPlayspeedControls = connect((state: StoreState) => {
         gameSpeed: state.gameSpeed,
         gamePaused: state.gamePaused
     };
-})(PlayspeedControls);
+}, function(){return{}} as any)(PlayspeedControls);

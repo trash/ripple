@@ -7,7 +7,7 @@ export interface ClockProps {
     days: number;
 }
 
-export class Clock extends React.Component<ClockProps, void> {
+export class Clock extends React.Component<ClockProps, object> {
     render () {
         return (
             <div className="clock">
@@ -22,4 +22,4 @@ export const ConnectedClock = connect((state: StoreState) => {
         days: state.days,
         hours: state.hours
     };
-})(Clock);
+}, function () {} as any)(Clock);

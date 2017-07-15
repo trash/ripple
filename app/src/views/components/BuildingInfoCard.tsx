@@ -58,7 +58,7 @@ interface BuildingInfoCardProps {
     detailed?: boolean;
 }
 
-class BuildingInfoCardComponent extends React.Component<BuildingInfoCardProps, void> {
+class BuildingInfoCardComponent extends React.Component<BuildingInfoCardProps, object> {
     render() {
         const selectedBuilding = this.props.selectedBuilding;
         const detailed = this.props.detailed || false;

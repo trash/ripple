@@ -62,4 +62,4 @@ export const ConnectedDebugBar = connect((state: StoreState) => {
     return {
         turn: state.gameTurn
     };
-})(DebugBar);
+}, function(){return{}} as any)(DebugBar);

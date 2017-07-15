@@ -6,7 +6,7 @@ interface TestLevelProps {
 	level: ITestLevel;
 }
 
-export class TestLevel extends React.Component<TestLevelProps, void> {
+export class TestLevel extends React.Component<TestLevelProps, object> {
 	render () {
 		let level = this.props.level;
 		return (

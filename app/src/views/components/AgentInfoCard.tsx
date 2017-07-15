@@ -117,7 +117,7 @@ interface AgentInfoCardComponentProps {
     detailed?: boolean;
 }
 
-class AgentInfoCardComponent extends React.Component<AgentInfoCardComponentProps, void> {
+class AgentInfoCardComponent extends React.Component<AgentInfoCardComponentProps, object> {
     render() {
         const selectedAgent = this.props.selectedAgent;
         const detailed = this.props.detailed || false;

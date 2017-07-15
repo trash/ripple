@@ -20,7 +20,7 @@ interface ItemListProps {
     shopItemMap: ShopItemMap;
 }
 
-export class ItemListComponent extends React.Component<ItemListProps, void> {
+export class ItemListComponent extends React.Component<ItemListProps, object> {
     render() {
         return (
         <EntityList
@@ -77,4 +77,4 @@ export const ConnectedItemList = connect((state: StoreState) => {
         craftableItemMap: state.craftableItemMap,
         shopItemMap: state.shopItemMap
     };
-})(ItemList);
+}, function(){return{}} as any)(ItemList);

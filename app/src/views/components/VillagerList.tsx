@@ -17,7 +17,7 @@ interface VillagerListProps {
     agentListSelected: number;
 }
 
-export class VillagerListComponent extends React.Component<VillagerListProps, void> {
+export class VillagerListComponent extends React.Component<VillagerListProps, object> {
     entityList: EntityList;
 
     selectEntity(id: number): void {
@@ -73,4 +73,4 @@ export const ConnectedVillagerList = connect((state: StoreState) => {
         agents: state.agentsList,
         agentListSelected: state.agentListSelected
     };
-})(VillagerList);
+}, function(){return{}} as any)(VillagerList);

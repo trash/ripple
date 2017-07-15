@@ -16,7 +16,7 @@ interface BuildingListProps {
     buildingListSelected: number;
 }
 
-export class BuildingListComponent extends React.Component<BuildingListProps, void> {
+export class BuildingListComponent extends React.Component<BuildingListProps, object> {
     entityList: EntityList;
 
     selectEntity(id: number): void {
@@ -66,4 +66,4 @@ export const ConnectedBuildingList = connect((state: StoreState) => {
         buildings: state.buildingsList,
         buildingListSelected: state.buildingListSelected
     };
-})(BuildingList);
+}, function(){return{}} as any)(BuildingList);

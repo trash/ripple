@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+var HappyPack = require('happypack');
+var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -35,6 +37,19 @@ module.exports = {
     new DashboardPlugin(),
     // Stop the infinite locales from being loaded
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    new HappyPack({
+         id: 'ts',
+         threads: 4,
+         loaders: [
+             {
+                 path: 'ts-loader',
+                 query: {
+                   happyPackMode: true
+                 }
+             }
+         ]
+     }),
+     new ForkTsCheckerWebpackPlugin()
     // new CircularDependencyPlugin({
     //   exclude: /a\.js/
     // })
@@ -52,7 +67,7 @@ module.exports = {
   module: {
     loaders: [
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      { test: /\.tsx?$/, loader: 'happypack/loader?id=ts' },
       // { test: /\.ts?$/, loader: 'ts-loader' },
       { test: /\.json?$/, loader: 'json-loader' },
       {

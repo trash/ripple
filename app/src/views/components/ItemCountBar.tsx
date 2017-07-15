@@ -11,7 +11,7 @@ export interface ItemCountBarProps {
     gold: number;
 }
 
-export class ItemCountBar extends React.Component<ItemCountBarProps, void> {
+export class ItemCountBar extends React.Component<ItemCountBarProps, object> {
     render () {
         return (
             <ul className="item-list">
@@ -37,4 +37,4 @@ export const ConnectedItemCountBar = connect((state: StoreState) => {
         claimedItemList: state.claimedItems,
         gold: state.gold
     };
-})(ItemCountBar);
+}, function(){return{}} as any)(ItemCountBar);

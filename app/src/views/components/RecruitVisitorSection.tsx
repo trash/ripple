@@ -17,7 +17,7 @@ interface InnerProps extends RecruitVisitorSectionProps {
     claimedItemList: Immutable.Map<Item, number>;
 }
 
-class Inner extends React.Component<InnerProps, void> {
+class Inner extends React.Component<InnerProps, object> {
     render() {
         if (!this.props.visitor.recruitCost) {
             return null;
@@ -41,11 +41,11 @@ const ConnectedInner= connect((state: StoreState) => {
     return {
         claimedItemList: state.claimedItems
     };
-})(Inner);
+}, function(){return{}} as any)(Inner);
 
 // We do this so we can pass down the required props but still have redux supply
 // claimedItemList
-export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, void> {
+export class RecruitVisitorSection extends React.Component<RecruitVisitorSectionProps, object> {
     render() {
         return <ConnectedInner {...this.props as any}/>
     }

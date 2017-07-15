@@ -12,7 +12,7 @@ interface BuildingStorageViewProps {
     shop: IShopState;
 }
 
-export class BuildingStorageView extends React.Component<BuildingStorageViewProps, void> {
+export class BuildingStorageView extends React.Component<BuildingStorageViewProps, object> {
     render() {
         return (
         <div>

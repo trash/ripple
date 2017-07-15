@@ -14,7 +14,7 @@ type IdsAndTiles = {
     tiles: IRowColumnCoordinates[]
 };
 
-export class CollisionDebugView extends React.Component<CollisionDebugViewProps, void> {
+export class CollisionDebugView extends React.Component<CollisionDebugViewProps, object> {
     componentWillMount () {
         setInterval(() => {
             if (!this.props.show) {
@@ -62,4 +62,4 @@ export const ConnectedCollisionDebugView= connect((state: StoreState) => {
     return {
         show: state.showCollisionDebug
     };
-})(CollisionDebugView);
+}, function(){return{}} as any)(CollisionDebugView);

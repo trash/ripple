@@ -352,4 +352,4 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         harvestable: state.hoveredHarvestable,
         collisionDebugToggle: state.showCollisionDebug
     };
-})(DebugPanel);
+}, function(){return{}} as any)(DebugPanel);
