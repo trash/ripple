@@ -109,6 +109,7 @@ export interface StoreState {
     hoveredAgentPosition: IPositionState;
     hoveredAgentStatusBubble: IStatusBubbleState;
     hoveredItem: IItemState;
+    hoveredItemPosition: IPositionState;
     hoveredResource: IResourceState;
     hoveredStorage: IStorageState;
     hoveredBuildingState: IBuildingState;
@@ -181,6 +182,7 @@ function mainReducer(
         case actionTypes.UPDATE_HOVERED_ITEM:
             newState.hoveredEntity = action.id;
             newState.hoveredItem = action.item;
+            newState.hoveredItemPosition = action.itemPosition;
             break;
         case actionTypes.UPDATE_HOVERED_AGENT_LAST_EXECUTION_CHAIN:
             newState.hoveredAgentLastExecutionChain = action.executionChain;

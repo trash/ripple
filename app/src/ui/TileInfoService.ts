@@ -150,8 +150,12 @@ export class TileInfoService {
         const item = getEntityWithComponentInTile(Component.Item);
         if (item) {
             const itemState = this.entityManager.getComponentDataForEntity(
-                Component.Item, item) as IItemState;
-            store.dispatch(updateHoveredItem(item, itemState));
+                Component.Item, item
+            ) as IItemState;
+            const itemPositionState = this.entityManager.getComponentDataForEntity(
+                Component.Position, item
+            ) as IPositionState;
+            store.dispatch(updateHoveredItem(item, itemState, itemPositionState));
         }
 
         // Get the name of any building occupying the tile

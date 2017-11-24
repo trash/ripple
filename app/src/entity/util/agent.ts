@@ -223,9 +223,12 @@ export class AgentUtil extends BaseUtil {
 		item: number
 	): void {
 		this.pickupItem(agent, item);
-		console.log('equip item');
 		const equipState = this._getEquipsArmorState(agent);
 		const armorState = this._getArmorState(item);
+		// Unequip/drop existing armor
+		if (equipState.armor) {
+			this.dropItem(agent, equipState.armor);
+		}
 		if (armorState.value) {
 			equipState.armor = item;
 		}

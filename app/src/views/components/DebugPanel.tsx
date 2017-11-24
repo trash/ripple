@@ -47,6 +47,7 @@ interface DebugPanelProps {
     agentStatusBubble: IStatusBubbleState;
     resource: IResourceState;
     item: IItemState;
+    itemPosition: IPositionState;
     building: IBuildingState;
     villager: IVillagerState;
     buildingConstructible: IConstructibleState;
@@ -287,6 +288,7 @@ export class DebugPanel extends React.Component<DebugPanelProps, DebugPanelState
             ['Agent Hunger', this.props.agentHunger, []],
             ['Agent Sleep', this.props.agentSleep, []],
             ['Item', this.props.item, []],
+            ['Item Position', this.props.itemPosition, []],
             ['Resource', this.props.resource, []],
             ['Harvestable', this.props.harvestable, []],
             ['Storage', this.props.storage, []],
@@ -340,6 +342,7 @@ export const ConnectedDebugPanel = connect((state: StoreState) => {
         visitor: state.hoveredVisitor,
         inventory: state.hoveredInventory,
         item: state.hoveredItem,
+        itemPosition: state.hoveredItemPosition,
         resource: state.hoveredResource,
         executionChain: state.hoveredAgentLastExecutionChain,
         building: state.hoveredBuildingState,
