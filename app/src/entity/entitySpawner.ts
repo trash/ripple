@@ -312,7 +312,7 @@ export class EntitySpawner {
 
 		// Get the tile to spawn *before* creating the item or the item itself will
 		// show up in the search
-		const tileDoesntContainItem = (tile: MapTile): boolean => {
+		const tileDoesntContainItem = (tile: IRowColumnCoordinates): boolean => {
 			return !baseUtil.tileContainsEntityOfComponent(Component.Item, tile);
 		};
 		const spawnTileStart = (entityComponentData.position
@@ -326,9 +326,11 @@ export class EntitySpawner {
 		this.copyNeededComponentData(entityId, entityComponentData, AssemblagesEnum.Item);
 
 		const positionState = this.entityManager.getComponentDataForEntity(
-			Component.Position, entityId) as IPositionState;
+			Component.Position, entityId
+		) as IPositionState;
 		const itemState = this.entityManager.getComponentDataForEntity(
-			Component.Item, entityId) as IItemState;
+			Component.Item, entityId
+		) as IItemState;
 
 		// Spawn it in storage
 		if (itemState.stored) {
@@ -386,17 +388,21 @@ export class EntitySpawner {
 
 		if (isCompleted) {
 			const constructibleState = this.entityManager.getComponentDataForEntity(
-				Component.Constructible, entityId) as IConstructibleState;
+				Component.Constructible, entityId
+			) as IConstructibleState;
 			constructibleState.taskCreated = true;
 
 			const healthState = this.entityManager.getComponentDataForEntity(
-				Component.Health, entityId) as IHealthState;
+				Component.Health, entityId
+			) as IHealthState;
 			healthState.currentHealth = healthState.maxHealth;
 
 			const renderableState = this.entityManager.getComponentDataForEntity(
-				Component.Renderable, entityId) as IRenderableState;
+				Component.Renderable, entityId
+			) as IRenderableState;
 			const positionState = this.entityManager.getComponentDataForEntity(
-				Component.Position, entityId) as IPositionState;
+				Component.Position, entityId
+			) as IPositionState;
 			constructibleUtil.initializeResourceRequirements(
 				constructibleState,
 				renderableState,

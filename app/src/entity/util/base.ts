@@ -1,5 +1,7 @@
 import {Component} from '../ComponentEnum';
 
+import {Util} from '../../util';
+
 import {
     IHealthState,
     ICollisionState,
@@ -26,6 +28,8 @@ import {
 
 import {EntityManager} from '../entityManager';
 import {MapTile} from '../../map/tile';
+
+import {IRowColumnCoordinates} from '../../interfaces';
 
 export class BaseUtil {
     entityManager: EntityManager;
@@ -107,11 +111,11 @@ export class BaseUtil {
         return this.entityManager.getComponentDataForEntity(
             Component.Shop, id) as IShopState;
     }
-    _getVisitorState (id: number): IVisitorState {
+    _getVisitorState(id: number): IVisitorState {
         return this.entityManager.getComponentDataForEntity(
             Component.Visitor, id) as IVisitorState;
     }
-    _getInventoryState (id: number): IInventoryState {
+    _getInventoryState(id: number): IInventoryState {
         return this.entityManager.getComponentDataForEntity(
             Component.Inventory, id) as IInventoryState;
     }
@@ -126,13 +130,14 @@ export class BaseUtil {
         ) as IArmorState;
     }
 
-    tileContainsEntityOfComponent (componentName: Component, tile: MapTile): boolean {
+    tileContainsEntityOfComponent(componentName: Component, tile: IRowColumnCoordinates): boolean {
         return Object.keys(this.entityManager.getEntitiesWithComponent(componentName))
             .map(entityId => parseInt(entityId))
             .filter(entityId => {
                 const positionState = this.entityManager.getComponentDataForEntity(
-                    Component.Position, entityId) as IPositionState;
-                return positionState.tile && tile.isEqualToCoords(positionState.tile);
+                    Component.Position, entityId
+                ) as IPositionState;
+                return positionState.tile && Util.rowColumnCoordinatesAreEqual(tile, positionState.tile);
             }).length !== 0;
     }
 }

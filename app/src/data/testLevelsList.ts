@@ -34,6 +34,13 @@ const defaultBuildingPosition2 = {
 	}
 }
 
+const lowerRightPosition = {
+	tile: {
+		row: 10,
+		column: 9
+	}
+};
+
 const visitorRecruitCostPlusOne = _.cloneDeep(agentsData[Agent.Visitor].visitor.recruitCost);
 Array.from(visitorRecruitCostPlusOne).forEach(entry => {
 	entry.count++;
@@ -230,7 +237,10 @@ let testLevelsData: ITestLevelGroup[]  = [
 					count: 1
 				}, {
 					enum: Item.ArmorCopper,
-					count: 1
+					count: 1,
+					data: {
+						position: lowerRightPosition
+					}
 				}],
 			},
 			{
