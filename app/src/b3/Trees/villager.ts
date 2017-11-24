@@ -98,7 +98,7 @@ behaviorTree.root = new Core.Priority({
 		// Equip armor if needed
 		new Core.Sequence({
 			children: [
-				new Actions.IsTrue(tick => tick.target.equipsArmor.armor === null),
+				// new Actions.IsTrue(tick => tick.target.equipsArmor.armor === null),
 				new Actions.IsTrue(tick =>
 					!!agentUtil.findBetterArmor(tick.target.id, true)
 				),

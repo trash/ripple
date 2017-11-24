@@ -228,10 +228,7 @@ let testLevelsData: ITestLevelGroup[]  = [
 				name: 'Villagers equip best armor available',
 				agents: [{
 					enum: Agent.Villager,
-					inventory: [{
-						enum: Item.ArmorWood,
-						count: 1
-					}]
+					armor: Item.ArmorWood
 				}],
 				items: [{
 					enum: Item.Berries,

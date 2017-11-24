@@ -16,6 +16,7 @@ export interface IAgentAssemblageTestData {
     enum: Agent;
     data?: IEntityComponentData;
     inventory?: RequiredItems;
+    armor?: Item;
 }
 
 export interface IItemAssemblageTestData {

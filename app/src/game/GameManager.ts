@@ -179,7 +179,8 @@ export class GameManager {
                     agent.enum,
                     0,
                     agent.data,
-                    agent.inventory
+                    agent.inventory,
+                    agent.armor
                 );
             });
         }

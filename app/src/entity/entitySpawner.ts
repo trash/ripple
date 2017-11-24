@@ -128,7 +128,8 @@ export class EntitySpawner {
 		agent: Agent,
 		turn: number,
 		entityComponentData: IEntityComponentData = {},
-		inventory?: RequiredItems
+		inventory?: RequiredItems,
+		armor?: Item
 	): number {
 		let assemblage = AssemblagesEnum.Agent;
 		if (agent in EntitySpawner.agentEnumToAssemblageMap) {
@@ -199,6 +200,17 @@ export class EntitySpawner {
 			this.spawnItemsInAgentInventory(inventory, entityId, _.cloneDeep(positionState));
 		}
 
+		// Spawn and equip armor
+		if (armor) {
+			const armorId = this.spawnItem(armor, {
+				item: {
+					claimed: true
+				},
+				position: positionState
+			});
+			_.defer(() => agentUtil.equipItem(entityId, armorId));
+		}
+
 		return entityId;
 	}
 
@@ -216,12 +228,9 @@ export class EntitySpawner {
 						},
 						position: positionState
 					});
-					console.log('Spawn inventory item:', itemId);
+					// console.log('Spawn inventory item:', itemId);
 					// Wait a tick so that it gets bootstrapped by Renderable system
-					_.defer(() => {
-						console.log('pick dat ish up');
-						agentUtil.pickupItem(agentId, itemId);
-					});
+					_.defer(() => agentUtil.pickupItem(agentId, itemId));
 				}
 			});
 		}
