@@ -69,17 +69,22 @@ export class ItemSystem extends EntitySystem {
     ) {
         const nearestEmptyTile = positionState.tile;
 
-		// If it's claimed, create a new hauler task for this item if there
-        // is storage space available and it's storable
-        if (itemState.claimed) {
-            const taskQueue = taskQueueManager.professionTaskQueue(Profession.Hauler);
-            taskQueue.push([id]);
+		if (positionState.tile) {
+            // If it's claimed, create a new hauler task for this item if there
+            // is storage space available and it's storable
+            if (itemState.claimed) {
+                const taskQueue = taskQueueManager.professionTaskQueue(Profession.Hauler);
+                taskQueue.push([id]);
+            }
+
+            spriteManager.changePosition(
+                renderableState.spriteGroup,
+                nearestEmptyTile.column,
+                nearestEmptyTile.row
+            );
+
+            renderableUtil.setShown(renderableState, true);
         }
-
-        spriteManager.changePosition(renderableState.spriteGroup,
-            nearestEmptyTile.column, nearestEmptyTile.row);
-
-        renderableUtil.setShown(renderableState, true);
 
         itemState.shouldBeSpawned = false;
         itemState.hasBeenSpawned = true;

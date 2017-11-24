@@ -36,8 +36,8 @@ const defaultBuildingPosition2 = {
 
 const lowerRightPosition = {
 	tile: {
-		row: 10,
-		column: 9
+		row: 15,
+		column: 15
 	}
 };
 
@@ -227,7 +227,11 @@ let testLevelsData: ITestLevelGroup[]  = [
 			{
 				name: 'Villagers equip best armor available',
 				agents: [{
-					enum: Agent.Villager
+					enum: Agent.Villager,
+					inventory: [{
+						enum: Item.ArmorWood,
+						count: 1
+					}]
 				}],
 				items: [{
 					enum: Item.Berries,

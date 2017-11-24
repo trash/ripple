@@ -31,6 +31,10 @@ export class PositionUtil extends BaseUtil {
         tile: IRowColumnCoordinates,
         nextTile: IRowColumnCoordinates
     ): Direction {
+		if (!nextTile) {
+			return null;
+		}
+
 		const rowDiff = nextTile.row - tile.row;
 		const columnDiff = nextTile.column - tile.column;
 

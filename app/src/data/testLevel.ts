@@ -15,6 +15,7 @@ export interface IVillagerComponentOptions {
 export interface IAgentAssemblageTestData {
     enum: Agent;
     data?: IEntityComponentData;
+    inventory?: RequiredItems;
 }
 
 export interface IItemAssemblageTestData {

@@ -51,7 +51,7 @@ import {Agent} from '../data/Agent';
 import {Resource} from '../data/Resource';
 import {Item} from '../data/Item';
 import {MapTile} from '../map/tile';
-import {baseUtil, storageUtil, constructibleUtil, mapUtil, positionUtil, buildingUtil, shopUtil} from './util';
+import {baseUtil, storageUtil, constructibleUtil, mapUtil, positionUtil, buildingUtil, shopUtil, agentUtil} from './util';
 import {Util} from '../util';
 import {events} from '../events';
 import {globalRefs} from '../globalRefs';
@@ -127,7 +127,8 @@ export class EntitySpawner {
 	spawnAgent (
 		agent: Agent,
 		turn: number,
-		entityComponentData: IEntityComponentData = {}
+		entityComponentData: IEntityComponentData = {},
+		inventory?: RequiredItems
 	): number {
 		let assemblage = AssemblagesEnum.Agent;
 		if (agent in EntitySpawner.agentEnumToAssemblageMap) {
@@ -193,7 +194,37 @@ export class EntitySpawner {
 			''
 		));
 
+		// Spawn inventory items
+		if (inventory) {
+			this.spawnItemsInAgentInventory(inventory, entityId, _.cloneDeep(positionState));
+		}
+
 		return entityId;
+	}
+
+	private spawnItemsInAgentInventory(
+		items: RequiredItems,
+		agentId: number,
+		positionState: IPositionState
+	): void {
+		if (items) {
+			items.forEach(itemEntry => {
+				for (let i = 0; i < itemEntry.count; i++) {
+					const itemId = this.spawnItem(itemEntry.enum, {
+						item: {
+							claimed: true
+						},
+						position: positionState
+					});
+					console.log('Spawn inventory item:', itemId);
+					// Wait a tick so that it gets bootstrapped by Renderable system
+					_.defer(() => {
+						console.log('pick dat ish up');
+						agentUtil.pickupItem(agentId, itemId);
+					});
+				}
+			});
+		}
 	}
 
 	private spawnFromAssemblage(
@@ -464,7 +495,11 @@ export class EntitySpawner {
 		return entityId;
 	}
 
-	private spawnItemsForBuilding(buildingId: number, items: RequiredItems, shop = false) {
+	private spawnItemsForBuilding(
+		buildingId: number,
+		items: RequiredItems,
+		shop = false
+	): void {
 		if (items) {
 			items.forEach(itemEntry => {
 				for (let i = 0; i < itemEntry.count; i++) {

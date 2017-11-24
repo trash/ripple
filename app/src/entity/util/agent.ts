@@ -372,7 +372,6 @@ export class AgentUtil extends BaseUtil {
 				if (!currentArmor) {
 					return true;
 				}
-				console.warn('Need to be comparing armor values here');
 				const armorState = this._getArmorState(item.id);
 				return currentArmorState.value < armorState.value;
 			})

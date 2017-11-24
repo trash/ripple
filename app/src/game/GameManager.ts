@@ -178,7 +178,8 @@ export class GameManager {
                 this.entityManager.spawner.spawnAgent(
                     agent.enum,
                     0,
-                    agent.data
+                    agent.data,
+                    agent.inventory
                 );
             });
         }
