@@ -9,6 +9,9 @@ export class EquipsArmorUtil extends BaseUtil {
 		const state = this._getEquipsArmorState(entity);
 		const itemState = this._getItemState(state.armor);
 		const armorState = this._getArmorState(state.armor);
+		if (!armorState) {
+			return '';
+		}
 		return `${itemState.readableName} (${armorState.value})`;
 	}
 }

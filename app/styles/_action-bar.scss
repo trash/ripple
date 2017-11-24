@@ -35,7 +35,7 @@ $actionBarCardWidth: $actionBarHeight;
         flex-flow: row wrap;
 
         .action-bar-upper, .action-bar-middle, .action-bar-lower {
-            height: 100px;
+            height: (0.33 * $actionBarHeight);
             width: 100%;
             display: flex;
         }
@@ -60,10 +60,16 @@ $actionBarCardWidth: $actionBarHeight;
             flex: auto;
         }
         .playspeed-controls {
+            background: #666;
             align-self: flex-end;
+            justify-content: flex-end;
             display: flex;
+            flex: auto;
+
             button {
-                width: 0.33 * $actionBarHeight;
+                // width: 0.33 * $actionBarHeight;
+                // So they're square to the action bar
+                flex: 0 1 (0.33 * $actionBarHeight);
                 border: 0;
                 font-size: 24px;
 
