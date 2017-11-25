@@ -228,7 +228,6 @@ export class EntitySpawner {
 						},
 						position: positionState
 					});
-					// console.log('Spawn inventory item:', itemId);
 					// Wait a tick so that it gets bootstrapped by Renderable system
 					_.defer(() => agentUtil.pickupItem(agentId, itemId));
 				}
@@ -350,6 +349,8 @@ export class EntitySpawner {
 
 		const entityId = this.entityManager.createEntityFromAssemblage(AssemblagesEnum.Item);
 
+		console.log(`spawning ${Item[item]} with id: ${entityId}`);
+
 		// Get the tile to spawn *before* creating the item or the item itself will
 		// show up in the search
 		const tileDoesntContainItem = (tile: IRowColumnCoordinates): boolean => {
@@ -384,7 +385,6 @@ export class EntitySpawner {
 			positionState.tile = spawnTile;
 			itemState.shouldBeSpawned = true;
 		}
-		console.log(positionState);
 
         store.dispatch(addToItemList(item, itemState.claimed));
 

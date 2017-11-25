@@ -106,7 +106,8 @@ export class RenderableSystem extends EntitySystem {
 				);
 			}
 
-			if (!positionHasChanged || !spritePositionHasChanged) {
+			// NOTE: this used to be an OR. not sure why
+			if (!positionHasChanged && !spritePositionHasChanged) {
 				renderableState.activeSubContainerTransition = false;
 				positionState.dirty = false;
 				return;

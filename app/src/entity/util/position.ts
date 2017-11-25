@@ -117,6 +117,9 @@ export class PositionUtil extends BaseUtil {
 		turn: number,
 		speed: number
 	) {
+		if (speed === 0) {
+			throw new Error('Do not pass a speed of 0. It breaks calculations in the renderable system.');
+		}
 		positionState.previousTile = positionState.tile;
 		positionState.tile = tile;
 		positionState.turnUpdated = turn;

@@ -40,9 +40,10 @@ export class ItemUtil extends BaseUtil {
 	addToTile(id: number, tile: IRowColumnCoordinates): void {
 		const positionState = this._getPositionState(id);
         const renderableState = this._getRenderableState(id);
-		renderableState.shown = true;
-		positionUtil.setTile(positionState, tile, 0, 0);
-}
+
+		renderableUtil.setShown(renderableState, true);
+		positionUtil.setTile(positionState, tile, 0, 1);
+	}
 
 	getItemSearchResultFromItem(
 		item: number
