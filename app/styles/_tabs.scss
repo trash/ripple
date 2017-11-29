@@ -6,7 +6,7 @@ $tabsHeight: 48px;
 	border: 0;
     list-style: none;
     margin: 0;
-    flex: 1 $tabsHeight;
+    flex: 0;
 
     & > li {
         float: left;
@@ -37,7 +37,7 @@ $tabsHeight: 48px;
 
 .tab-content {
     display: flex;
-    flex: 1 calc(100% - #{$tabsHeight});
+    flex: auto;
 }
 
 .tab-pane {

@@ -42,7 +42,7 @@
     "webpack-dev-server": "^2.5.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --content-base app/build/",
+    "start": "node server & webpack-dev-server --content-base app/build/ & gulp watch",
     "test": "jest",
     "test-watch": "node --debug-brk ./node_modules/jest/bin/jest --watch --runInBand"
   },
