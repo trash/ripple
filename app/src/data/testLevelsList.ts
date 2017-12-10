@@ -313,6 +313,16 @@ let testLevelsData: ITestLevelGroup[]  = [
 		name: 'Visitor Tests',
 		list: [
 			{
+				name: 'Visitor Service test',
+				buildings: [{
+					enum: Building.ItemShop,
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
+			},
+			{
 				name: 'Can recruit visitor',
 				agents: [{
 					enum: Agent.Visitor

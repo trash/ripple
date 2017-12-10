@@ -24,6 +24,7 @@ import {GameCamera} from './game-camera';
 import {GameClock} from './GameClock';
 import {Tilemap} from '../tilemap';
 import {spriteManager} from '../services/spriteManager';
+import {VisitorService} from '../services/VisitorService';
 import {IRowColumnCoordinates} from '../interfaces';
 import {gameLevelFactory} from '../data/gameLevelFactory';
 import {Resource} from '../data/Resource';
@@ -52,6 +53,7 @@ export class GameManager {
     stage: PIXI.Container;
     tilemap: Tilemap;
     clock: GameClock;
+    private visitorService: VisitorService;
 
     constructor (rootElement: Element, mode: string = 'default') {
         console.info(`GameManager initialized. Mode: ${mode}`);
@@ -225,6 +227,9 @@ export class GameManager {
         this.loop.start();
 
         this.renderGameUI();
+
+        // Bootstrap services
+        this.visitorService = new VisitorService();
     }
 
     updateTilemap () {
@@ -261,6 +266,7 @@ export class GameManager {
     destroy () {
         console.info('Destroy the current game.');
         this.entityManager.destroy();
+        this.visitorService.destroy();
     }
 
     bootstrapGameStates () {

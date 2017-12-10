@@ -8,6 +8,14 @@ import {Item} from '../../data/Item';
 import {Agent} from '../../data/Agent';
 
 export class VisitorUtil extends BaseUtil {
+    getAllVisitors(): number[] {
+        return this.entityManager.getEntityIdsForComponent(Component.Visitor);
+    }
+
+    spawnVisitor(agentType: Agent): number {
+        return this.entityManager.spawner.spawnAgent(agentType, this.entityManager.turn);
+    }
+
     getItemToBuy(visitorId: number): IItemSearchResult {
         const visitorState = this._getVisitorState(visitorId);
         const inventoryState = this._getInventoryState(visitorId);
