@@ -23,11 +23,11 @@ export class GameClock {
 	ticksToHour: number;
 	callbacks: any;
 
-	constructor () {
+	constructor() {
 		this.reset();
 	}
 
-	reset () {
+	reset() {
 		this.ticks = 0;
 
 		this.ticksToHour = 0;
@@ -38,12 +38,12 @@ export class GameClock {
 		this.updateDay(1);
 	}
 
-	load (saveData: any) {
+	load(saveData: any) {
 		this.ticks = saveData.ticks;
 		this.setTime(saveData.days, saveData.hours);
 	}
 
-	serialize (): { ticks: number, hours: number, days: number } {
+	serialize(): { ticks: number, hours: number, days: number } {
 		return {
 			ticks: this.ticks,
 			hours: this.hours,
@@ -51,7 +51,7 @@ export class GameClock {
 		};
 	}
 
-	setTime (days: number, hours: number) {
+	setTime(days: number, hours: number) {
 		this.updateDay(days);
 		this.updateHour(hours);
 	}
@@ -60,7 +60,7 @@ export class GameClock {
 	 * Increments ticks
 	 * Increments hour after the required amount of ticks per hour passes
 	 */
-	update () {
+	update() {
 		this.ticks++;
 		this.ticksToHour++;
 
@@ -80,7 +80,7 @@ export class GameClock {
 	 * @param {Number} tick Tick to call the callback
 	 * @param {Function} callback
 	 */
-	addTimerCallback (tick: number, callback: () => void) {
+	addTimerCallback(tick: number, callback: () => void) {
 		const existing = this.callbacks[tick];
 		if (!existing) {
 			this.callbacks[tick] = [];
@@ -105,7 +105,7 @@ export class GameClock {
 	/**
 	 * Calls any callbacks for the given tick
 	 */
-	checkCallbacks () {
+	checkCallbacks() {
 		const callbacks = this.callbacks[this.ticks];
 
 		// If we got callbacks call them then get rid of them
@@ -118,7 +118,7 @@ export class GameClock {
 		}
 	}
 
-	updateHour (value: number) {
+	updateHour(value: number) {
 		this.hours = value;
 
 		if (this.hours === 24) {
@@ -134,11 +134,11 @@ export class GameClock {
 	 * Increments the game clock by one hour
 	 * Increments day after 24
 	 */
-	incrementHour () {
+	incrementHour() {
 		this.updateHour(this.hours + 1);
 	}
 
-	updateDay (value: number) {
+	updateDay(value: number) {
 		this.days = value;
 		events.emit(['clock', 'day'], this.days);
 		store.dispatch(updateClockTime(this.hours, this.days));
@@ -147,7 +147,7 @@ export class GameClock {
 	/**
 	 * Increments the days by one
 	 */
-	incrementDay () {
+	incrementDay() {
 		this.updateDay(this.days + 1);
 	}
 
@@ -156,7 +156,7 @@ export class GameClock {
 	 *
 	 * @return {Object} Timestamp object with [day, hour, string] props
 	 */
-	getTimestamp (): { day: number, hour: number, string: string } {
+	getTimestamp(): { day: number, hour: number, string: string } {
 		return {
 			day: this.days,
 			hour: this.hours,
@@ -171,7 +171,7 @@ export class GameClock {
 	 * @param {Number} hours The hours to set the timer for
 	 * @param {Function} callback The callback to call after the time has passed
 	 */
-	timer (hours: number, callback: () => void) {
+	timer(hours: number, callback: () => void) {
 		const start = this.ticks;
 		const end = start + hoursToTicks(hours);
 

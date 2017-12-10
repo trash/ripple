@@ -1,16 +1,19 @@
+import {events} from '../events';
 import {Agent} from '../data/Agent';
 import {visitorUtil} from '../entity/util/visitor';
 
 export class VisitorService {
     updateInterval = 1000;
-    private intervalId: number;
+    private removeEventListener: Function;
 
     constructor() {
-        this.intervalId = setInterval(() => this.update(), this.updateInterval);
+        const update = () => this.update();
+        events.on('clock.hour', update);
+        this.removeEventListener = () => events.off('clock.hour', update);
     }
 
     destroy(): void {
-        clearInterval(this.intervalId);
+        this.removeEventListener();
     }
 
     private update(): void {
