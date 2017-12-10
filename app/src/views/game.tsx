@@ -13,6 +13,7 @@ import {ConnectedItemList} from './components/ItemList';
 import {ConnectedActionBar} from './components/ActionBar';
 import {ConnectedClock} from './components/Clock';
 import {ConnectedItemCountBar} from './components/ItemCountBar';
+import {ConnectedEconomyView} from './components/EconomyView';
 
 export const InnerGameComponent = () =>
     <div className="game-ui">
@@ -39,6 +40,9 @@ export const InnerGameComponent = () =>
                     </Tab>
                     <Tab eventKey={5} title="Items">
                         <ConnectedItemList/>
+                    </Tab>
+                    <Tab eventKey={6} title="Economy">
+                        <ConnectedEconomyView/>
                     </Tab>
                 </Tabs>
             </div>
