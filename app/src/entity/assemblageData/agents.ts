@@ -34,6 +34,7 @@ const agentCollisionState = {
 };
 
 const dataList: IEntityComponentData[] = [
+    // Zombie
     {
         agent: {
             enum: Agent.Zombie,
@@ -50,6 +51,8 @@ const dataList: IEntityComponentData[] = [
         collision: agentCollisionState,
         health: defaultHealthState
     },
+
+    // Wolf
     {
         agent: {
             enum: Agent.Wolf,
@@ -67,6 +70,8 @@ const dataList: IEntityComponentData[] = [
         collision: agentCollisionState,
         health: defaultHealthState
     },
+
+    // Generic human
     {
         agent: {
             enum: Agent.Human,
@@ -84,39 +89,12 @@ const dataList: IEntityComponentData[] = [
         },
         health: defaultHealthState
     },
+
+    // Merchant visitor
     {
         agent: {
-            enum: Agent.Adventurer,
-            genderEnabled: true,
-            speed: constants.BASE_SPEED,
-            strength: 3,
-            traits: [
-                AgentTrait.Human
-            ],
-            gender: 'male',
-            nameType: 'human'
-        },
-        inventory: {
-            gold: 50
-        },
-        collision: agentCollisionState,
-        visitor: {
-            desiredItems: [
-                ItemProperty.Armor,
-                ItemProperty.Weapon,
-                ItemProperty.Potion,
-                ItemProperty.Food
-            ]
-        },
-        behaviorTree: {
-            tree: adventurerTree,
-        },
-        health: defaultHealthState
-    },
-    {
-        agent: {
-            enum: Agent.Visitor,
-            genderEnabled: true,
+            enum: Agent.Merchant,
+            genderEnabled: false,
             gender: 'male',
             nameType: 'human',
             traits: [
@@ -127,7 +105,13 @@ const dataList: IEntityComponentData[] = [
         },
         collision: agentCollisionState,
         visitor: {
-            desiredItems: [ItemProperty.Food],
+            desiredItems: [
+                ItemProperty.Food,
+                ItemProperty.Resource,
+                ItemProperty.Potion,
+                ItemProperty.Armor,
+                ItemProperty.Weapon
+            ],
             recruitCost: [{
                 enum: Item.Wood,
                 count: 10
@@ -144,6 +128,75 @@ const dataList: IEntityComponentData[] = [
             tree: visitorTree,
         },
     },
+
+    // Adventurer visitor
+    {
+        agent: {
+            enum: Agent.Adventurer,
+            genderEnabled: true,
+            speed: constants.BASE_SPEED,
+            strength: 3,
+            traits: [
+                AgentTrait.Human
+            ],
+            gender: 'male',
+            nameType: 'human'
+        },
+        inventory: {
+            gold: 100
+        },
+        collision: agentCollisionState,
+        visitor: {
+            desiredItems: [
+                ItemProperty.Armor,
+                ItemProperty.Weapon,
+                ItemProperty.Potion,
+                ItemProperty.Food
+            ]
+        },
+        behaviorTree: {
+            tree: adventurerTree,
+        },
+        health: defaultHealthState
+    },
+
+    // Peasant visitor
+    {
+        agent: {
+            enum: Agent.Visitor,
+            genderEnabled: true,
+            gender: 'male',
+            nameType: 'human',
+            traits: [
+                AgentTrait.Human
+            ],
+            strength: 1,
+            speed: constants.BASE_SPEED
+        },
+        collision: agentCollisionState,
+        visitor: {
+            desiredItems: [
+                ItemProperty.Food,
+                ItemProperty.Resource
+            ],
+            recruitCost: [{
+                enum: Item.Wood,
+                count: 10
+            }, {
+                enum: Item.Berries,
+                count: 5
+            }]
+        },
+        inventory: {
+            gold: 10
+        },
+        health: defaultHealthState,
+        behaviorTree: {
+            tree: visitorTree,
+        },
+    },
+
+    // Villagers
     {
         agent: {
             enum: Agent.Villager,

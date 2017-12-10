@@ -9,7 +9,8 @@ export enum AssemblagesEnum {
     Corpse,
     Visitor,
     Town,
-    Adventurer
+    Adventurer,
+    Merchant
 };
 
 export type Assemblage = Component[];
@@ -46,6 +47,7 @@ export const assemblages: IAssemblagesMap = {
         Component.Sleep,
         Component.EquipsArmor
     ]),
+    [AssemblagesEnum.Merchant]: visitorComponents,
     [AssemblagesEnum.Visitor]: visitorComponents,
     [AssemblagesEnum.Adventurer]: visitorComponents,
     [AssemblagesEnum.Resource]: [

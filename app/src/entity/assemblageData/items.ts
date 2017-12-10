@@ -73,7 +73,8 @@ export const dataList: IEntityComponentData[] = [{
             enum: Item.Plank,
             name: 'plank',
             readableName: 'Plank',
-            description: 'A plank for crafting things made of wood.'
+            description: 'A plank for crafting things made of wood.',
+            properties: [ItemProperty.Resource]
         },
         craftable: {
             requiredResources: [{

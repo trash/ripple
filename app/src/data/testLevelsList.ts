@@ -344,6 +344,23 @@ let testLevelsData: ITestLevelGroup[]  = [
 				}]
 			},
 			{
+				name: 'Merchant buys items',
+				agents: [{
+					enum: Agent.Merchant
+				}],
+				buildings: [{
+					enum: Building.BlacksmithShop,
+					shop: [{
+						enum: Item.SwordWood,
+						count: 4
+					}],
+					isCompleted: true,
+					data: {
+						position: defaultBuildingPosition
+					}
+				}]
+			},
+			{
 				name: 'Adventurer hunts monsters',
 				agents: [{
 					enum: Agent.Adventurer,

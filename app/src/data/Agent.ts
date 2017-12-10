@@ -4,5 +4,6 @@ export enum Agent {
     Zombie,
     Adventurer,
     Visitor,
-    Villager
+    Villager,
+    Merchant
 }

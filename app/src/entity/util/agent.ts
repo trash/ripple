@@ -57,11 +57,12 @@ export class AgentUtil extends BaseUtil {
 
 	private getBaseSpriteName(
 		spriteType: string,
+		genderEnabled = false,
 		gender?: Gender,
 		spriteIndex?: number
 	): string {
 		let agentString = spriteType;
-        if (gender) {
+        if (genderEnabled) {
             agentString += `-${gender}`;
         }
         if (util.isNumberLike(spriteIndex)) {
@@ -80,6 +81,7 @@ export class AgentUtil extends BaseUtil {
 	getBaseSpriteNameFromState (agentState: IAgentState): string {
         return this.getBaseSpriteName(
 			agentState.spriteType,
+			agentState.genderEnabled,
 			agentState.gender,
 			agentState.spriteIndex
 		);
@@ -97,7 +99,8 @@ export class AgentUtil extends BaseUtil {
 		const agentName = assemblageEntry.spriteType || Agent[agent].toLowerCase();
 		const baseSpriteName = this.getBaseSpriteName(
 			agentName,
-			assemblageEntry.genderEnabled ? 'male' : null,
+			assemblageEntry.genderEnabled,
+			'male',
 			assemblageEntry.spriteCount ? 1 : null
 		);
 		const spriteName = this.getSpriteNameWithDirection(baseSpriteName, 'down');

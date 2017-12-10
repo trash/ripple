@@ -118,7 +118,8 @@ export class EntitySpawner {
 	static agentEnumToAssemblageMap = {
 		[Agent.Adventurer]: AssemblagesEnum.Adventurer,
 		[Agent.Visitor]: AssemblagesEnum.Visitor,
-		[Agent.Villager]: AssemblagesEnum.Villager
+		[Agent.Villager]: AssemblagesEnum.Villager,
+		[Agent.Merchant]: AssemblagesEnum.Merchant
 	}
 
     /**
