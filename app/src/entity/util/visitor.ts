@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {IItemSearchResult} from '../../interfaces';
+import {IItemSearchResult, ItemCountMap} from '../../interfaces';
 import {Component} from '../ComponentEnum';
 import {BaseUtil} from './base';
 import {IVisitorState} from '../components';
@@ -14,6 +14,15 @@ export class VisitorUtil extends BaseUtil {
 
     spawnVisitor(agentType: Agent): number {
         return this.entityManager.spawner.spawnAgent(agentType, this.entityManager.turn);
+    }
+
+    addBoughtItemToMap(map: ItemCountMap, item: Item): ItemCountMap {
+        const newMap = _.clone(map);
+        if (!newMap[item]) {
+            newMap[item] = 0;
+        }
+        newMap[item]++;
+        return newMap;
     }
 
     getItemToBuy(visitorId: number): IItemSearchResult {

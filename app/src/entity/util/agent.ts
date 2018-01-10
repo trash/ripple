@@ -1,17 +1,19 @@
 import {events} from '../../events';
 import * as _ from 'lodash';
 import {Component} from '../ComponentEnum';
-import {spriteUtil} from '../../util/sprite';
 import {BaseUtil} from './base';
-import {IAgentState} from '../../entity/components';
-import {buildingUtil, positionUtil, itemUtil, inventoryUtil, townUtil, shopUtil, storageUtil} from './index';
+import {buildingUtil, positionUtil, itemUtil, inventoryUtil, townUtil, shopUtil, storageUtil, visitorUtil} from './index';
 import {MapUtil} from '../../map/map-util';
+
+import {spriteUtil} from '../../util/sprite';
 import {PathUtil} from '../../util/path';
 import {util} from '../../util';
+
 import {constants} from '../../data/constants';
 import {ItemProperty} from '../../data/ItemProperty';
 import {Agent} from '../../data/Agent';
 import {StatusBubble} from '../../data/StatusBubble';
+
 import {
 	IAgentSearchOptions,
 	IRowColumnCoordinates,
@@ -20,8 +22,11 @@ import {
 	IItemSearchResult
 } from '../../interfaces';
 import {cacheService} from '../../services/cache';
-import {statusBubbleUtil} from './statusBubble';
+
+import {IAgentState} from '../../entity/components';
 import {assemblageData} from '../../entity/assemblageData/agents';
+
+import {statusBubbleUtil} from './statusBubble';
 
 export class AgentUtil extends BaseUtil {
     /**
@@ -341,6 +346,14 @@ export class AgentUtil extends BaseUtil {
 		townUtil.addGold(value);
 
 		itemUtil.itemBought(item);
+
+		const visitorState = this._getVisitorState(agent);
+		if (visitorState) {
+			visitorState.itemsBought = visitorUtil.addBoughtItemToMap(
+				visitorState.itemsBought,
+				itemState.enum
+			);
+		}
 
 		// Remove item from proper storage. This might need to be moved somewhere else
 		if (itemState.stored) {

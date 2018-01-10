@@ -1,16 +1,22 @@
 import * as Immutable from 'immutable';
 import {connect} from 'react-redux';
 import * as React from 'react';
+
 import {store, StoreState} from '../../redux/store';
 import {agentListSelect} from '../../redux/actions';
-import {IAgentState} from '../../entity/components';
+
 import {AgentListEntry} from '../../interfaces';
+
+import {IAgentState} from '../../entity/components';
+import {agentUtil, healthUtil} from '../../entity/util';
+
 import {Agent} from '../../data/Agent';
 import {VillagerJob} from '../../data/VillagerJob';
-import {agentUtil, healthUtil} from '../../entity/util';
+
+import {AutoUpdate} from '../higherOrder/AutoUpdate';
+
 import {AgentInfoCard} from './AgentInfoCard';
 import {EntityList} from './EntityList';
-import {AutoUpdate} from '../higherOrder/AutoUpdate';
 
 interface VillagerListProps {
     agents: Immutable.List<AgentListEntry>;

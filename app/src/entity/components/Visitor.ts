@@ -3,7 +3,7 @@ import {Component} from '../ComponentEnum';
 
 import {ItemProperty} from '../../data/ItemProperty';
 import {constants} from '../../data/constants';
-import {RequiredItems} from '../../interfaces';
+import {RequiredItems, ItemCountEntry, ItemCountMap} from '../../interfaces';
 import {ItemRequirementsMap} from '../../ItemRequirementsMap';
 
 export interface IVisitorState {
@@ -12,6 +12,7 @@ export interface IVisitorState {
     boughtItem?: boolean;
     recruitCost?: RequiredItems;
     recruitState?: ItemRequirementsMap;
+    itemsBought?: ItemCountMap;
 }
 
 export const Visitor: IComponent<IVisitorState> = {
@@ -23,7 +24,8 @@ export const Visitor: IComponent<IVisitorState> = {
             leaveTown: false,
             boughtItem: false,
             recruitCost: null,
-            recruitState: null
+            recruitState: null,
+            itemsBought: {}
         };
     }
 };

@@ -76,11 +76,15 @@ export interface XYCoordinates {
 	y: number;
 };
 
-export type RequiredItemEntry = {
+export type ItemCountMap = {
+	[index: number]: number;
+}
+
+export type ItemCountEntry = {
 	enum: Item;
 	count: number;
 }
-export type RequiredItems = RequiredItemEntry[];
+export type RequiredItems = ItemCountEntry[];
 
 export interface IItemRequirementsMapEntry {
 	gathered: number;
