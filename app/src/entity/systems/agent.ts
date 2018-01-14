@@ -22,17 +22,17 @@ export class AgentSystem extends EntitySystem {
     update (entityIds: number[]) {
         entityIds.forEach(id => {
             const renderableState = this.manager.getComponentDataForEntity(
-                    Component.Renderable, id) as IRenderableState;
+                Component.Renderable, id) as IRenderableState;
             const agentState = this.manager.getComponentDataForEntity(
-                    Component.Agent, id) as IAgentState;
+                Component.Agent, id) as IAgentState;
             const healthState = this.manager.getComponentDataForEntity(
-                    Component.Health, id) as IHealthState;
+                Component.Health, id) as IHealthState;
             const nameState = this.manager.getComponentDataForEntity(
-                    Component.Name, id) as INameState;
+                Component.Name, id) as INameState;
             const healthBarState = this.manager.getComponentDataForEntity(
-                    Component.HealthBar, id) as IHealthBarState;
+                Component.HealthBar, id) as IHealthBarState;
             const positionState = this.manager.getComponentDataForEntity(
-                    Component.Position, id) as IPositionState;
+                Component.Position, id) as IPositionState;
 
             this.handleInit(agentState, renderableState, positionState);
 

@@ -182,14 +182,17 @@ export function spawnAgent(
 export interface AgentListSelect {
     type: actionTypes.AGENT_LIST_SELECT;
     selected: number;
+    selectedPosition: IPositionState;
 }
 
 export function agentListSelect(
-    selected: number
+    selected: number,
+    selectedPosition: IPositionState
 ) {
     return {
+        selected,
+        selectedPosition,
         type: actionTypes.AGENT_LIST_SELECT,
-        selected: selected
     };
 }
 

@@ -26,9 +26,9 @@ interface VillagerListProps {
 export class VillagerListComponent extends React.Component<VillagerListProps, object> {
     entityList: EntityList;
 
-    selectEntity(id: number): void {
+    selectEntity(agent: AgentListEntry): void {
         this.entityList.toggleBottomOpen(true);
-        store.dispatch(agentListSelect(id));
+        store.dispatch(agentListSelect(agent.id, agent.position));
     }
 
     render() {
@@ -51,7 +51,7 @@ export class VillagerListComponent extends React.Component<VillagerListProps, ob
                 ...villagers.map(agentEntry => {
                     return (
                         <div className="entity-list-entry"
-                            onClick={() => this.selectEntity(agentEntry.id)}
+                            onClick={() => this.selectEntity(agentEntry)}
                             key={agentEntry.id}>
                             <div className="name-column">{agentEntry.name.name}</div>
                             <div className="sprite-column">

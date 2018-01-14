@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
 import * as Immutable from 'immutable';
 import {createStore} from 'redux';
+
+import {events} from '../events';
 import * as actionTypes from './actions/types';
 import {Item} from '../data/Item';
 import {
@@ -288,6 +290,10 @@ function mainReducer(
             break;
 
         case actionTypes.AGENT_LIST_SELECT:
+            if (newState.agentListSelected === action.selected) {
+                console.info('Agent double clicked. Focusing camera.');
+                events.emit('focusPosition', action.selectedPosition);
+            }
             newState.agentListSelected = action.selected;
             break;
 

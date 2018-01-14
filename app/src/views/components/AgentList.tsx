@@ -19,9 +19,9 @@ interface AgentListProps {
 export class AgentListComponent extends React.Component<AgentListProps, object> {
     entityList: EntityList;
 
-    selectEntity(id: number): void {
+    selectEntity(agent: AgentListEntry): void {
         this.entityList.toggleBottomOpen(true);
-        store.dispatch(agentListSelect(id));
+        store.dispatch(agentListSelect(agent.id, agent.position));
     }
 
     render() {
@@ -39,9 +39,11 @@ export class AgentListComponent extends React.Component<AgentListProps, object> 
                     </div>,
                     ...this.props.agents.map(agentEntry => {
                         return (
-                            <div className="entity-list-entry"
-                                onClick={() => this.selectEntity(agentEntry.id)}
-                                key={agentEntry.id}>
+                            <div
+                                className="entity-list-entry"
+                                onClick={() => this.selectEntity(agentEntry)}
+                                key={agentEntry.id}
+                            >
                                 <div className="id-column">{agentEntry.id}</div>
                                 <div className="sprite-column">
                                     <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>

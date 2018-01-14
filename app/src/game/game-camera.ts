@@ -1,7 +1,9 @@
+import * as TWEEN from 'tween.js';
+
 import {events} from '../events';
 import {keybindings} from '../services/keybindings';
-import * as TWEEN from 'tween.js';
 import {IRowColumnCoordinates} from '../interfaces';
+import {IPositionState} from '../entity/components';
 
 const minSpeed = 10;
 
@@ -45,6 +47,7 @@ export class GameCamera {
 		});
 
 		events.on('minimap-mount', () => this.emitUpdate());
+		events.on('focusPosition', (position: IPositionState) => this.setToTile(position.tile));
 	}
 
 	get x () {
@@ -62,8 +65,8 @@ export class GameCamera {
 		// Check for different direction keys and pass them to the camera when they're held down
 		Object.keys(keymap).forEach(key => {
 			if (keymap[key] in keysPressed &&
-				document.activeElement.nodeName !== 'INPUT')
-			{
+				document.activeElement.nodeName !== 'INPUT'
+			) {
 				this[key]();
 			}
 		});
@@ -78,8 +81,10 @@ export class GameCamera {
 	}
 
 	focusOn (sprite) {
-		this.setTo(sprite.parent.parent.position.x,
-			sprite.parent.parent.position.y);
+		this.setTo(
+			sprite.parent.parent.position.x,
+			sprite.parent.parent.position.y
+		);
 	}
 
 	getTileSize (): number {
@@ -105,13 +110,17 @@ export class GameCamera {
 	}
 
 	setToTile (tile: IRowColumnCoordinates, animate: boolean = false) {
-		this.setTo(tile.column * this.getTileSize(),
-			tile.row * this.getTileSize(), animate);
+		this.setTo(
+			tile.column * this.getTileSize(),
+			tile.row * this.getTileSize(), animate
+		);
 	}
 
 	setToFromMinimap (x: number, y: number) {
-		this.setTo(x * this.tilemap.getWidth(),
-			y * this.tilemap.getHeight());
+		this.setTo(
+			x * this.tilemap.getWidth(),
+			y * this.tilemap.getHeight()
+		);
 	}
 
 	setTo (x: number, y: number, animate: boolean = false) {

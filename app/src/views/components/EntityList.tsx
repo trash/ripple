@@ -2,7 +2,6 @@ import * as Immutable from 'immutable';
 import {connect} from 'react-redux';
 import * as React from 'react';
 import {store, StoreState} from '../../redux/store';
-import {agentListSelect} from '../../redux/actions';
 import {IAgentState} from '../../entity/components';
 import {AgentListEntry} from '../../interfaces';
 import {Agent} from '../../data/Agent';
