@@ -17,17 +17,22 @@ export class VisitorService {
     }
 
     private update(): void {
-        const visitors = visitorUtil.getAllVisitors();
-        // Right now just spawn a visitor when there are none
-        if (!visitors.length) {
+        if (this.shouldSpawnVisitor()) {
             this.spawnVisitor();
         }
+    }
+
+    private shouldSpawnVisitor(): boolean {
+        // Right now just spawn a visitor when there are none
+        const visitors = visitorUtil.getAllVisitors();
+        return !visitors.length;
     }
 
     /**
      * Decide on a visitor to spawn and spawn it
      */
-    private spawnVisitor(): void {
+    private spawnVisitor(): number {
         const visitorId = visitorUtil.spawnVisitor(Agent.Visitor);
+        return visitorId;
     }
 }

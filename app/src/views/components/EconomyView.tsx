@@ -22,7 +22,8 @@ export class EconomyView extends React.Component<EconomyViewProps, object> {
                     return (
                         <div className="entity-list-entry"
                             // onClick={() => this.selectEntity(agentEntry.id)}
-                            key={agentEntry.id}>
+                            key={agentEntry.id}
+                        >
                             <div className="name-column">{agentEntry.name.name}</div>
                             <div className="sprite-column">
                                 <img src={agentUtil.getImagePathFromAgentState(agentEntry.agent)}/>
@@ -31,7 +32,7 @@ export class EconomyView extends React.Component<EconomyViewProps, object> {
                             <div className="health-column">Desired items:</div>
                             <ul>
                                 {agentEntry.visitor.desiredItems.map(item => {
-                                    return <li>{ItemProperty[item]}</li>
+                                    return <li key={item}>{ItemProperty[item]}</li>
                                 })}
                             </ul>
                             <div className="health-column">Bought items:</div>
@@ -40,7 +41,7 @@ export class EconomyView extends React.Component<EconomyViewProps, object> {
                                     const itemEnum = parseInt(item);
                                     const count = agentEntry.visitor.itemsBought[item];
 
-                                    return <li>{Item[itemEnum]}: {count}</li>
+                                    return <li key={itemEnum}>{Item[itemEnum]}: {count}</li>
                                 })}
                             </ul>
                         </div>

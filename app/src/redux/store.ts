@@ -225,20 +225,12 @@ function mainReducer(
                     newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount + 1);
                 }
             } else if (action.type === actionTypes.REMOVE_FROM_ITEM_LIST) {
-                if (currentCount === 1) {
-                    newState.items = newState.items.remove(item);
-                } else {
-                    newState.items = newState.items.set(item, currentCount - 1);
-                }
+                newState.items = newState.items.set(item, currentCount - 1);
             }
             if (action.type === actionTypes.REMOVE_FROM_ITEM_LIST && action.claimed
                 || action.type === actionTypes.UNCLAIM_ITEM
             ) {
-                if (currentClaimedCount === 1) {
-                    newState.claimedItems = newState.claimedItems.remove(item);
-                } else {
-                    newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount - 1);
-                }
+                newState.claimedItems = newState.claimedItems.set(item, currentClaimedCount - 1);
             }
             break;
 

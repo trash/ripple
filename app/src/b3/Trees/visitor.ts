@@ -25,12 +25,9 @@ behaviorTree.root = new Core.Priority({
 				})
 			]
 		}),
-		// Go buy an item if they haven't already
+		// Go buy items if they have money left and there're items to buy
 		new Core.Sequence({
 			children: [
-				new Core.Inverter({
-					child: new Action.HasItemInInventory(itemToBuyKey)
-				}),
 				new Action.GoBuyItem(itemToBuyKey),
 				new Action.Simple(tick => {
 					tick.target.visitor.boughtItem = true;
