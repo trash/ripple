@@ -65,7 +65,8 @@ import {
     UnclaimItem,
     UpdateCraftableQueued,
     UpdateItemToBeSold,
-    ShowSpawnItemList
+    ShowSpawnItemList,
+    DestroyEntity
 } from './actions';
 
 type ReducerAction =
@@ -98,6 +99,7 @@ type ReducerAction =
     | ShowSpawnItemList
     | UpdateCraftableQueued
     | UpdateItemToBeSold
+    | DestroyEntity
     | AgentListSelect;
 
 export interface StoreState {
@@ -286,6 +288,21 @@ function mainReducer(
                 harvestable: action.harvestable,
                 position: action.position,
                 health: action.health,
+            });
+            break;
+
+        case actionTypes.DESTROY_ENTITY:
+            // Remove the entity from all entity lists
+            const listsToUpdate: [Immutable.List<{id: number;}>, Function][] = [
+                [newState.agentsList, value => newState.agentsList = value],
+                [newState.buildingsList, value => newState.buildingsList = value],
+                [newState.resourcesList, value => newState.resourcesList = value],
+            ];
+            listsToUpdate.forEach(([list, update]) => {
+                const index = list.findIndex(item => item.id === action.entity);
+                if (index !== -1) {
+                    update(list.remove(index));
+                }
             });
             break;
 

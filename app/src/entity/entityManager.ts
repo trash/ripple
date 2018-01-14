@@ -1,14 +1,18 @@
 declare function require(arg:string): any;
-import * as _ from 'lodash';;
+import * as _ from 'lodash';
+import {EventEmitter2} from 'eventemitter2';
+
 import {uniqueId} from '../uniqueId';
+import {GameClock} from '../game/GameClock';
+import {destroyEntity} from '../redux/actions';
+import {store} from '../redux/store';
+
 import {Component} from './ComponentEnum';
 import {componentsList} from './components/componentsList';
 import {utilList} from './util/utilList';
 import {Assemblage, assemblages, AssemblagesEnum} from './assemblages';
 import {systemsList as sysList} from './systems';
-import {EventEmitter2} from 'eventemitter2';
 import {EntitySpawner} from './entitySpawner';
-import {GameClock} from '../game/GameClock';
 
 export class EntitySystem extends EventEmitter2 {
     manager: EntityManager;
@@ -162,6 +166,7 @@ export class EntityManager {
         // Keep this for cache invalidation
         this.removedEntities[entityId] = true;
         console.info('Destroying entity', entityId);
+        store.dispatch(destroyEntity(entityId));
     }
 
     createNewComponentDataMapEntry (componentName: Component) {

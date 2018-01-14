@@ -391,3 +391,15 @@ export function showSpawnItemList(): ShowSpawnItemList {
         type: actionTypes.SHOW_SPAWN_ITEM_LIST
     };
 }
+
+export interface DestroyEntity {
+    type: actionTypes.DESTROY_ENTITY;
+    entity: number;
+}
+
+export function destroyEntity(entity: number): DestroyEntity {
+    return {
+        entity,
+        type: actionTypes.DESTROY_ENTITY
+    }
+}
